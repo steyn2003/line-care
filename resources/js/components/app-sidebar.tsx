@@ -15,10 +15,12 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     AlertTriangle,
-    BookOpen,
+    Calendar,
     ClipboardList,
-    Folder,
     LayoutGrid,
+    MapPin,
+    Settings,
+    Users,
     Wrench,
 } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -44,20 +46,36 @@ const mainNavItems: NavItem[] = [
         href: '/work-orders/report-breakdown',
         icon: AlertTriangle,
     },
+    {
+        title: 'Preventive Tasks',
+        href: '/preventive-tasks',
+        icon: Calendar,
+    },
+    {
+        title: 'Settings',
+        href: '#',
+        icon: Settings,
+        items: [
+            {
+                title: 'Locations',
+                href: '/locations',
+                icon: MapPin,
+            },
+            {
+                title: 'Cause Categories',
+                href: '/cause-categories',
+                icon: AlertTriangle,
+            },
+            {
+                title: 'Users',
+                href: '/users',
+                icon: Users,
+            },
+        ],
+    },
 ];
 
-const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
-    },
-];
+const footerNavItems: NavItem[] = [];
 
 export function AppSidebar() {
     return (

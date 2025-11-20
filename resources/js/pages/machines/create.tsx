@@ -25,27 +25,52 @@ interface Location {
     name: string;
 }
 
-interface Props {
-    locations: Location[];
+interface Machine {
+    id: number;
+    name: string;
+    code: string | null;
+    location_id: number | null;
+    criticality: 'low' | 'medium' | 'high';
+    status: 'active' | 'archived';
+    description: string | null;
 }
 
-export default function CreateMachine({ locations }: Props) {
-    const { data, setData, post, processing, errors } = useForm({
-        name: '',
-        code: '',
-        location_id: '',
-        criticality: 'medium' as 'low' | 'medium' | 'high',
-        status: 'active' as 'active' | 'archived',
-        description: '',
+interface Props {
+    locations: Location[];
+    machine?: Machine;
+}
+
+export default function CreateMachine({ locations, machine }: Props) {
+    const isEditing = !!machine;
+
+    const { data, setData, post, put, processing, errors } = useForm({
+        name: machine?.name || '',
+        code: machine?.code || '',
+        location_id: machine?.location_id?.toString() || '',
+        criticality: (machine?.criticality || 'medium') as
+            | 'low'
+            | 'medium'
+            | 'high',
+        status: (machine?.status || 'active') as 'active' | 'archived',
+        description: machine?.description || '',
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        post('/machines', {
-            onSuccess: () => {
-                router.visit('/machines');
-            },
-        });
+
+        if (isEditing) {
+            put(`/machines/${machine.id}`, {
+                onSuccess: () => {
+                    router.visit(`/machines/${machine.id}`);
+                },
+            });
+        } else {
+            post('/machines', {
+                onSuccess: () => {
+                    router.visit('/machines');
+                },
+            });
+        }
     };
 
     return (

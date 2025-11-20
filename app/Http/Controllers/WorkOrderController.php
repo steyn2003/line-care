@@ -134,4 +134,100 @@ class WorkOrderController extends Controller
         return redirect()->route('work-orders.index')
             ->with('success', 'Breakdown reported successfully');
     }
+
+    public function updateStatus(Request $request, WorkOrder $workOrder)
+    {
+        // Verify user can access this work order
+        if ($workOrder->company_id !== $request->user()->company_id) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'status' => 'required|in:open,in_progress,completed,cancelled',
+        ]);
+
+        // If changing to in_progress, set started_at
+        if ($validated['status'] === 'in_progress' && !$workOrder->started_at) {
+            $workOrder->started_at = now();
+        }
+
+        $workOrder->update(['status' => $validated['status']]);
+
+        return back()->with('success', 'Work order status updated successfully');
+    }
+
+    public function assign(Request $request, WorkOrder $workOrder)
+    {
+        // Verify user can access this work order
+        if ($workOrder->company_id !== $request->user()->company_id) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'assigned_to' => 'required|exists:users,id',
+        ]);
+
+        $workOrder->update(['assigned_to' => $validated['assigned_to']]);
+
+        return back()->with('success', 'Work order assigned successfully');
+    }
+
+    public function complete(Request $request, WorkOrder $workOrder)
+    {
+        // Verify user can access this work order
+        if ($workOrder->company_id !== $request->user()->company_id) {
+            abort(403);
+        }
+
+        $validated = $request->validate([
+            'completed_at' => 'required|date',
+            'cause_category_id' => 'nullable|exists:cause_categories,id',
+            'notes' => 'nullable|string',
+            'work_done' => 'nullable|string',
+            'parts_used' => 'nullable|string',
+        ]);
+
+        // Update work order
+        $workOrder->update([
+            'status' => \App\Enums\WorkOrderStatus::COMPLETED,
+            'completed_at' => $validated['completed_at'],
+            'cause_category_id' => $validated['cause_category_id'],
+        ]);
+
+        // Create maintenance log
+        $workOrder->maintenanceLogs()->create([
+            'user_id' => $request->user()->id,
+            'machine_id' => $workOrder->machine_id,
+            'notes' => $validated['notes'],
+            'work_done' => $validated['work_done'],
+            'parts_used' => $validated['parts_used'],
+        ]);
+
+        // If this is a preventive task work order, update the task
+        if ($workOrder->preventive_task_id) {
+            $preventiveTask = $workOrder->preventiveTask;
+            if ($preventiveTask) {
+                $preventiveTask->last_completed_at = $validated['completed_at'];
+
+                // Recalculate next due date
+                $interval = (int) $preventiveTask->schedule_interval_value;
+                $unit = $preventiveTask->schedule_interval_unit;
+                $nextDueDate = \Carbon\Carbon::parse($validated['completed_at']);
+
+                if ($unit === 'days') {
+                    $nextDueDate->addDays($interval);
+                } elseif ($unit === 'weeks') {
+                    $nextDueDate->addWeeks($interval);
+                } else {
+                    $nextDueDate->addMonths($interval);
+                }
+
+                $preventiveTask->next_due_date = $nextDueDate;
+                $preventiveTask->save();
+            }
+        }
+
+        return redirect()->route('work-orders.show', $workOrder)
+            ->with('success', 'Work order completed successfully');
+    }
 }

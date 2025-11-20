@@ -67,6 +67,14 @@ class PreventiveTask extends Model
     }
 
     /**
+     * Alias for assignee relationship.
+     */
+    public function assignedUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'assigned_to');
+    }
+
+    /**
      * Get the work orders generated from this preventive task.
      */
     public function workOrders(): HasMany

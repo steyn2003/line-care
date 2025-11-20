@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
-import { Inbox, MapPin, Plus } from 'lucide-react';
+import { FileUp, Inbox, MapPin, Plus } from 'lucide-react';
 import { useState } from 'react';
 
 interface Location {
@@ -101,12 +101,20 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
                             Manage your factory machines and equipment
                         </p>
                     </div>
-                    <Button asChild>
-                        <Link href="/machines/create">
-                            <Plus className="mr-2 h-4 w-4" />
-                            Add Machine
-                        </Link>
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" asChild>
+                            <Link href="/machines/import">
+                                <FileUp className="mr-2 h-4 w-4" />
+                                Import CSV
+                            </Link>
+                        </Button>
+                        <Button asChild>
+                            <Link href="/machines/create">
+                                <Plus className="mr-2 h-4 w-4" />
+                                Add Machine
+                            </Link>
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Filters */}
