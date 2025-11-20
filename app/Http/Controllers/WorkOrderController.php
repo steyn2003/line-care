@@ -190,6 +190,9 @@ class WorkOrderController extends Controller
             abort(403);
         }
 
+        // Check authorization to complete work orders
+        $this->authorize('complete', $workOrder);
+
         $validated = $request->validate([
             'completed_at' => 'required|date',
             'cause_category_id' => 'nullable|exists:cause_categories,id',
@@ -202,16 +205,16 @@ class WorkOrderController extends Controller
         $workOrder->update([
             'status' => \App\Enums\WorkOrderStatus::COMPLETED,
             'completed_at' => $validated['completed_at'],
-            'cause_category_id' => $validated['cause_category_id'],
+            'cause_category_id' => $validated['cause_category_id'] ?? null,
         ]);
 
         // Create maintenance log
         $workOrder->maintenanceLogs()->create([
             'user_id' => $request->user()->id,
             'machine_id' => $workOrder->machine_id,
-            'notes' => $validated['notes'],
-            'work_done' => $validated['work_done'],
-            'parts_used' => $validated['parts_used'],
+            'notes' => $validated['notes'] ?? null,
+            'work_done' => $validated['work_done'] ?? null,
+            'parts_used' => $validated['parts_used'] ?? null,
         ]);
 
         // If this is a preventive task work order, update the task

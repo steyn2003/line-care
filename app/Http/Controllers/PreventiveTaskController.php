@@ -32,6 +32,8 @@ class PreventiveTaskController extends Controller
 
     public function create(Request $request): Response
     {
+        $this->authorize('create', PreventiveTask::class);
+
         $machines = Machine::where('company_id', $request->user()->company_id)
             ->where('status', 'active')
             ->orderBy('name')
@@ -127,6 +129,8 @@ class PreventiveTaskController extends Controller
 
     public function update(Request $request, PreventiveTask $preventiveTask)
     {
+        $this->authorize('update', $preventiveTask);
+
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',

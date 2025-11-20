@@ -11,6 +11,8 @@ class CauseCategoryController extends Controller
 {
     public function index(Request $request): Response
     {
+        $this->authorize('viewAny', CauseCategory::class);
+
         $categories = CauseCategory::where('company_id', $request->user()->company_id)
             ->withCount('workOrders')
             ->orderBy('name')
@@ -23,6 +25,8 @@ class CauseCategoryController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', CauseCategory::class);
+
         $user = $request->user();
 
         if (!$user->company_id) {
@@ -46,6 +50,8 @@ class CauseCategoryController extends Controller
 
     public function update(Request $request, CauseCategory $causeCategory)
     {
+        $this->authorize('update', $causeCategory);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
@@ -59,6 +65,8 @@ class CauseCategoryController extends Controller
 
     public function destroy(CauseCategory $causeCategory)
     {
+        $this->authorize('delete', $causeCategory);
+
         $causeCategory->delete();
 
         return redirect()->route('cause-categories.index')

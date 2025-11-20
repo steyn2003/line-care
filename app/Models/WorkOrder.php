@@ -133,4 +133,17 @@ class WorkOrder extends Model
     {
         return $query->where('status', $status);
     }
+
+    /**
+     * Get the downtime in minutes.
+     * Calculated as the time between started_at and completed_at.
+     */
+    public function getDowntimeMinutesAttribute(): ?int
+    {
+        if (!$this->started_at || !$this->completed_at) {
+            return null;
+        }
+
+        return (int) $this->started_at->diffInMinutes($this->completed_at);
+    }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\Role;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,19 +16,20 @@ class EnsureUserHasRole
      */
     public function handle(Request $request, Closure $next, string ...$roles): Response
     {
-        if (!$request->user()) {
-            return response()->json(['message' => 'Unauthenticated.'], 401);
+        $user = $request->user();
+
+        if (!$user) {
+            abort(401, 'Unauthenticated.');
         }
 
-        $userRole = $request->user()->role;
+        if (!$user->role) {
+            abort(403, 'No role assigned. Contact your administrator.');
+        }
 
-        // Convert string roles to Role enum
-        $allowedRoles = array_map(fn($role) => Role::from($role), $roles);
+        $userRole = $user->role->value;
 
-        if (!in_array($userRole, $allowedRoles)) {
-            return response()->json([
-                'message' => 'Forbidden. You do not have permission to access this resource.',
-            ], 403);
+        if (!in_array($userRole, $roles)) {
+            abort(403, 'Unauthorized action. This action requires: ' . implode(' or ', $roles));
         }
 
         return $next($request);

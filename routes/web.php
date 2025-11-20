@@ -24,6 +24,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('machines/{machine}', [\App\Http\Controllers\MachineController::class, 'show'])->name('machines.show');
     Route::get('machines/{machine}/edit', [\App\Http\Controllers\MachineController::class, 'edit'])->name('machines.edit');
     Route::put('machines/{machine}', [\App\Http\Controllers\MachineController::class, 'update'])->name('machines.update');
+    Route::delete('machines/{machine}', [\App\Http\Controllers\MachineController::class, 'destroy'])->name('machines.destroy');
 
     // Work Order routes
     Route::get('work-orders', [\App\Http\Controllers\WorkOrderController::class, 'index'])->name('work-orders.index');

@@ -13,6 +13,8 @@ class UserController extends Controller
 {
     public function index(Request $request): Response
     {
+        $this->authorize('viewAny', User::class);
+
         $users = User::where('company_id', $request->user()->company_id)
             ->orderBy('name')
             ->get();

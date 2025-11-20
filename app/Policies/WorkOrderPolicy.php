@@ -13,9 +13,10 @@ class WorkOrderPolicy
      */
     public function viewAny(User $user): bool
     {
-        // Technicians and Managers can view all work orders
-        // Operators can only view their own created work orders (handled in controller)
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        // All authenticated users can access the work orders list
+        // Operators see only their own work orders (filtered in controller)
+        // Technicians and Managers see all work orders for their company
+        return true;
     }
 
     /**

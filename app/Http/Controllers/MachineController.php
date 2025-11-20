@@ -123,6 +123,8 @@ class MachineController extends Controller
 
     public function create(Request $request): Response
     {
+        $this->authorize('create', Machine::class);
+
         $locations = Location::where('company_id', $request->user()->company_id)
             ->orderBy('name')
             ->get(['id', 'name']);
@@ -365,6 +367,8 @@ class MachineController extends Controller
             abort(403);
         }
 
+        $this->authorize('update', $machine);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'code' => 'nullable|string|max:255',
@@ -378,5 +382,20 @@ class MachineController extends Controller
 
         return redirect()->route('machines.show', $machine)
             ->with('success', 'Machine updated successfully');
+    }
+
+    public function destroy(Machine $machine)
+    {
+        // Verify user can access this machine
+        if ($machine->company_id !== request()->user()->company_id) {
+            abort(403);
+        }
+
+        $this->authorize('delete', $machine);
+
+        $machine->delete();
+
+        return redirect()->route('machines.index')
+            ->with('success', 'Machine deleted successfully');
     }
 }

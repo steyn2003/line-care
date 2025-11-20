@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Enums\Role;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,13 +10,19 @@ class EnsureUserIsManager
 {
     /**
      * Handle an incoming request.
+     *
+     * Ensures the authenticated user has the 'manager' role.
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user() || $request->user()->role !== Role::MANAGER) {
-            return response()->json([
-                'message' => 'Forbidden. Manager access required.',
-            ], 403);
+        $user = $request->user();
+
+        if (!$user) {
+            abort(401, 'Unauthenticated.');
+        }
+
+        if (!$user->role || $user->role->value !== 'manager') {
+            abort(403, 'This action requires manager privileges.');
         }
 
         return $next($request);

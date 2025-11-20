@@ -11,6 +11,8 @@ class LocationController extends Controller
 {
     public function index(Request $request): Response
     {
+        $this->authorize('viewAny', Location::class);
+
         $locations = Location::where('company_id', $request->user()->company_id)
             ->withCount('machines')
             ->orderBy('name')
@@ -23,6 +25,8 @@ class LocationController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Location::class);
+
         $user = $request->user();
 
         if (!$user->company_id) {
@@ -45,6 +49,8 @@ class LocationController extends Controller
 
     public function update(Request $request, Location $location)
     {
+        $this->authorize('update', $location);
+
         $validated = $request->validate([
             'name' => 'required|string|max:255',
         ]);
@@ -57,6 +63,8 @@ class LocationController extends Controller
 
     public function destroy(Location $location)
     {
+        $this->authorize('delete', $location);
+
         $location->delete();
 
         return redirect()->route('locations.index')
