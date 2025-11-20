@@ -136,6 +136,8 @@ class MachineController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', Machine::class);
+
         $user = $request->user();
 
         // Check if user has a company assigned
@@ -147,7 +149,14 @@ class MachineController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255',
+            'code' => [
+                'nullable',
+                'string',
+                'max:255',
+                \Illuminate\Validation\Rule::unique('machines')->where(function ($query) use ($user) {
+                    return $query->where('company_id', $user->company_id);
+                }),
+            ],
             'location_id' => 'nullable|exists:locations,id',
             'criticality' => 'required|in:low,medium,high',
             'status' => 'required|in:active,archived',
@@ -371,7 +380,14 @@ class MachineController extends Controller
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'code' => 'nullable|string|max:255',
+            'code' => [
+                'nullable',
+                'string',
+                'max:255',
+                \Illuminate\Validation\Rule::unique('machines')->where(function ($query) use ($request) {
+                    return $query->where('company_id', $request->user()->company_id);
+                })->ignore($machine->id),
+            ],
             'location_id' => 'nullable|exists:locations,id',
             'criticality' => 'required|in:low,medium,high',
             'status' => 'required|in:active,archived',

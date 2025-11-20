@@ -111,8 +111,11 @@ test('technicians can start a work order', function () {
         'status' => WorkOrderStatus::OPEN,
     ]);
 
-    $response = $this->put(route('work-orders.update', $workOrder), [
+    $response = $this->post(route('work-orders.update-status', $workOrder), [
         'status' => WorkOrderStatus::IN_PROGRESS->value,
+    ]);
+
+    $this->post(route('work-orders.assign', $workOrder), [
         'assigned_to' => $this->technician->id,
     ]);
 

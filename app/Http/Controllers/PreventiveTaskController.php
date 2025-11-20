@@ -52,6 +52,8 @@ class PreventiveTaskController extends Controller
 
     public function store(Request $request)
     {
+        $this->authorize('create', PreventiveTask::class);
+
         $user = $request->user();
 
         if (!$user->company_id) {
@@ -95,6 +97,8 @@ class PreventiveTaskController extends Controller
 
     public function show(Request $request, PreventiveTask $preventiveTask): Response
     {
+        $this->authorize('view', $preventiveTask);
+
         $preventiveTask->load(['machine', 'assignee']);
 
         $workOrders = WorkOrder::where('preventive_task_id', $preventiveTask->id)

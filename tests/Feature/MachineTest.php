@@ -167,6 +167,7 @@ test('operators cannot create machines', function () {
         'code' => 'TEST-001',
         'location_id' => $this->location->id,
         'criticality' => 'low',
+        'status' => 'active',
     ]);
 
     $response->assertForbidden();
