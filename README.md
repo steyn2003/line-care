@@ -1,6 +1,6 @@
-# CMMS MVP - Computerized Maintenance Management System
+# LineCare - Simple Maintenance Management for Small Factories
 
-> A simple, powerful maintenance management system for small to medium-sized factories.
+> **LineCare** is a simple, powerful CMMS (Computerized Maintenance Management System) designed specifically for small to medium-sized factories.
 
 [![Status](https://img.shields.io/badge/status-production--ready-brightgreen)]()
 [![Laravel](https://img.shields.io/badge/Laravel-12.39-red)]()

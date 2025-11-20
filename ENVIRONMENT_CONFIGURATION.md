@@ -65,9 +65,9 @@ php artisan tinker
 
 **Values**:
 ```env
-APP_NAME="CMMS"
-APP_NAME="Factory Maintenance System"
-APP_NAME="Acme Manufacturing CMMS"
+APP_NAME="LineCare"
+APP_NAME="LineCare - Factory Maintenance"
+APP_NAME="Acme Manufacturing - LineCare"
 ```
 
 **Impact**: 
@@ -599,12 +599,12 @@ php artisan storage:link
 
 ```env
 # === Core Settings ===
-APP_NAME="Your CMMS"
+APP_NAME="LineCare"
 APP_ENV=production
 APP_KEY=base64:GENERATE_NEW_KEY_HERE
 APP_DEBUG=false
 APP_TIMEZONE=UTC
-APP_URL=https://cmms.yourcompany.com
+APP_URL=https://linecare.yourcompany.com
 APP_LOCALE=en
 
 # === Database ===
@@ -654,12 +654,12 @@ FILESYSTEM_DISK=local
 ### Local Development (Laravel Herd / Valet)
 
 ```env
-APP_NAME=CMMS
+APP_NAME=LineCare
 APP_ENV=local
 APP_KEY=base64:YOUR_KEY_HERE
 APP_DEBUG=true
 APP_TIMEZONE=UTC
-APP_URL=http://cmms.test
+APP_URL=http://linecare.test
 APP_LOCALE=en
 
 DB_CONNECTION=sqlite
@@ -685,12 +685,12 @@ FILESYSTEM_DISK=local
 ### Staging Server
 
 ```env
-APP_NAME="CMMS Staging"
+APP_NAME="LineCare Staging"
 APP_ENV=staging
 APP_KEY=base64:STAGING_KEY_HERE
 APP_DEBUG=true  # Can keep debug on for staging
 APP_TIMEZONE=UTC
-APP_URL=https://staging.cmms.com
+APP_URL=https://staging.linecare.com
 APP_LOCALE=en
 
 DB_CONNECTION=mysql
@@ -727,12 +727,12 @@ FILESYSTEM_DISK=local
 ### Production Server
 
 ```env
-APP_NAME="Factory CMMS"
+APP_NAME="LineCare"
 APP_ENV=production
 APP_KEY=base64:PRODUCTION_KEY_HERE
 APP_DEBUG=false  # CRITICAL: Always false in production
 APP_TIMEZONE=America/New_York
-APP_URL=https://cmms.factory.com
+APP_URL=https://linecare.factory.com
 APP_LOCALE=en
 
 DB_CONNECTION=mysql

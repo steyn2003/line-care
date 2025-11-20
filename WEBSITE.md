@@ -1,4 +1,4 @@
-# Website To-Do List: [Merknaam] - Onderhoudssoftware voor Kleine Fabrieken
+# Website To-Do List: LineCare - Onderhoudssoftware voor Kleine Fabrieken
 
 ## 1. Site Structure Setup
 - [ ] Set up domain and hosting
@@ -42,7 +42,7 @@
   - [ ] Snel starten (Excel import, paar dagen live)
 
 ### Section 4: Hoe het werkt
-- [ ] Write H2: "Hoe [Merknaam] werkt in jouw fabriek"
+- [ ] Write H2: "Hoe LineCare werkt in jouw fabriek"
 - [ ] Create 4-step flow:
   - [ ] Step 1: Machines aanmaken/importeren
   - [ ] Step 2: Operators melden storingen via mobiel
@@ -77,7 +77,7 @@
 ### Section 8: FAQ
 - [ ] Write H2: "Veelgestelde vragen over onderhoudssoftware (CMMS)"
 - [ ] Create 5 Q&A pairs (H3 for questions):
-  - [ ] "Wat is het verschil tussen [Merknaam] en een groot CMMS-pakket?"
+  - [ ] "Wat is het verschil tussen LineCare en een groot CMMS-pakket?"
   - [ ] "Hoe snel kunnen we live gaan?"
   - [ ] "Werkt dit op telefoon en tablet?"
   - [ ] "Kunnen we onze huidige Excel-lijst met machines importeren?"
@@ -109,7 +109,7 @@
 - [ ] Explain why built for small factories (niet multinationals)
 
 ### `/functionaliteiten` - Functionaliteiten
-- [ ] Write H1: "Functionaliteiten van [Merknaam]"
+- [ ] Write H1: "Functionaliteiten van LineCare"
 - [ ] Create detailed sections (each with H2 + 2-3 paragraphs):
   - [ ] Storingsregistratie / werkorders
   - [ ] Periodiek onderhoud
@@ -188,7 +188,7 @@ Use this prompt when ready to write copy:
 
 ```
 I'm building a Dutch landing page for a simple CMMS for small factories.
-Product placeholder name: [Merknaam].
+Product name: LineCare.
 Target: maintenance managers / TD / plant managers at small Dutch factories (10–150 employees) that currently use Excel, whiteboards, and WhatsApp for maintenance.
 
 Please write the copy for the homepage using this structure:

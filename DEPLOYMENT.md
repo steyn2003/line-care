@@ -1,4 +1,4 @@
-# CMMS MVP - Deployment Guide
+# LineCare - Deployment Guide
 
 ## Table of Contents
 1. [Server Requirements](#server-requirements)
@@ -99,7 +99,7 @@ nano .env
 
 ```env
 # Application
-APP_NAME="CMMS"
+APP_NAME="LineCare"
 APP_ENV=production
 APP_KEY=base64:GENERATED_KEY_HERE
 APP_DEBUG=false
@@ -109,8 +109,8 @@ APP_URL=https://your-domain.com
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_DATABASE=cmms_production
-DB_USERNAME=cmms_user
+DB_DATABASE=linecare_production
+DB_USERNAME=linecare_user
 DB_PASSWORD=secure_password_here
 
 # Session & Cache
@@ -158,17 +158,17 @@ SESSION_SAME_SITE=lax             # CSRF protection
 
 **MySQL:**
 ```sql
-CREATE DATABASE cmms_production CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-CREATE USER 'cmms_user'@'localhost' IDENTIFIED BY 'secure_password_here';
-GRANT ALL PRIVILEGES ON cmms_production.* TO 'cmms_user'@'localhost';
+CREATE DATABASE linecare_production CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'linecare_user'@'localhost' IDENTIFIED BY 'secure_password_here';
+GRANT ALL PRIVILEGES ON linecare_production.* TO 'linecare_user'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
 **PostgreSQL:**
 ```sql
-CREATE DATABASE cmms_production;
-CREATE USER cmms_user WITH PASSWORD 'secure_password_here';
-GRANT ALL PRIVILEGES ON DATABASE cmms_production TO cmms_user;
+CREATE DATABASE linecare_production;
+CREATE USER linecare_user WITH PASSWORD 'secure_password_here';
+GRANT ALL PRIVILEGES ON DATABASE linecare_production TO linecare_user;
 ```
 
 ### 2. Run Migrations
@@ -274,7 +274,7 @@ opcache.fast_shutdown=1
 
 ### 3. Web Server Configuration
 
-**Nginx Example (`/etc/nginx/sites-available/cmms`):**
+**Nginx Example (`/etc/nginx/sites-available/linecare`):**
 
 ```nginx
 server {
@@ -490,12 +490,12 @@ php artisan queue:failed
 **Daily Backup Script:**
 ```bash
 #!/bin/bash
-# /usr/local/bin/backup-cmms.sh
+# /usr/local/bin/backup-linecare.sh
 
 DATE=$(date +%Y%m%d_%H%M%S)
-BACKUP_DIR="/var/backups/cmms"
-DB_NAME="cmms_production"
-DB_USER="cmms_user"
+BACKUP_DIR="/var/backups/linecare"
+DB_NAME="linecare_production"
+DB_USER="linecare_user"
 DB_PASS="password"
 
 mkdir -p $BACKUP_DIR
@@ -514,7 +514,7 @@ echo "Backup completed: $DATE"
 
 **Add to crontab:**
 ```cron
-0 2 * * * /usr/local/bin/backup-cmms.sh >> /var/log/cmms-backup.log 2>&1
+0 2 * * * /usr/local/bin/backup-linecare.sh >> /var/log/linecare-backup.log 2>&1
 ```
 
 ---
