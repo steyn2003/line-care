@@ -15,11 +15,13 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     AlertTriangle,
+    BarChart3,
     Calendar,
     ClipboardList,
     LayoutGrid,
     MapPin,
     Settings,
+    TrendingDown,
     Users,
     Wrench,
 } from 'lucide-react';
@@ -50,6 +52,18 @@ const mainNavItems: NavItem[] = [
         title: 'Preventive Tasks',
         href: '/preventive-tasks',
         icon: Calendar,
+    },
+    {
+        title: 'Reports',
+        href: '#',
+        icon: BarChart3,
+        items: [
+            {
+                title: 'Downtime Report',
+                href: '/reports/downtime',
+                icon: TrendingDown,
+            },
+        ],
     },
     {
         title: 'Settings',

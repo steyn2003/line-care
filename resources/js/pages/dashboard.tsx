@@ -7,6 +7,8 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -20,6 +22,7 @@ import {
     AlertTriangle,
     ArrowRight,
     BookOpen,
+    Calendar,
     CalendarX,
     ClipboardList,
     Cpu,
@@ -44,6 +47,7 @@ interface TopMachine {
 interface DashboardMetrics {
     open_work_orders_count: number;
     overdue_preventive_tasks_count: number;
+    breakdowns_in_range: number;
     breakdowns_last_7_days: number;
     breakdowns_last_30_days: number;
     top_machines: TopMachine[];
@@ -52,26 +56,70 @@ interface DashboardMetrics {
 interface Props {
     metrics: DashboardMetrics;
     locations: Location[];
+    filters: {
+        location_id?: number;
+        date_from: string;
+        date_to: string;
+    };
     user: {
         name: string;
         role: 'operator' | 'technician' | 'manager';
     };
 }
 
-export default function Dashboard({ metrics, locations, user }: Props) {
-    const [locationFilter, setLocationFilter] = useState<string>('all');
+export default function Dashboard({
+    metrics,
+    locations,
+    filters,
+    user,
+}: Props) {
+    const [locationFilter, setLocationFilter] = useState<string>(
+        filters.location_id?.toString() || 'all',
+    );
+    const [dateFrom, setDateFrom] = useState<string>(filters.date_from);
+    const [dateTo, setDateTo] = useState<string>(filters.date_to);
 
-    const handleLocationChange = (value: string) => {
-        setLocationFilter(value);
+    const handleFilterChange = (params: {
+        location?: string;
+        date_from?: string;
+        date_to?: string;
+    }) => {
         router.get(
             '/dashboard',
             {
-                location_id: value !== 'all' ? value : undefined,
+                location_id:
+                    params.location !== undefined
+                        ? params.location !== 'all'
+                            ? params.location
+                            : undefined
+                        : locationFilter !== 'all'
+                          ? locationFilter
+                          : undefined,
+                date_from: params.date_from ?? dateFrom,
+                date_to: params.date_to ?? dateTo,
             },
             {
                 preserveState: true,
+                preserveScroll: true,
             },
         );
+    };
+
+    const handleLocationChange = (value: string) => {
+        setLocationFilter(value);
+        handleFilterChange({ location: value });
+    };
+
+    const handleDateFromChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newDate = e.target.value;
+        setDateFrom(newDate);
+        handleFilterChange({ date_from: newDate });
+    };
+
+    const handleDateToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newDate = e.target.value;
+        setDateTo(newDate);
+        handleFilterChange({ date_to: newDate });
     };
 
     const isManager = user.role === 'manager';
@@ -83,40 +131,104 @@ export default function Dashboard({ metrics, locations, user }: Props) {
 
             <div className="container mx-auto space-y-6 py-6">
                 {/* Header */}
-                <div className="flex items-center justify-between">
-                    <div>
-                        <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                            Welcome back, {user.name}!
-                        </h1>
-                        <p className="mt-1 text-muted-foreground">
-                            Here's what's happening with your operations
-                        </p>
+                <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                        <div>
+                            <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                                Welcome back, {user.name}!
+                            </h1>
+                            <p className="mt-1 text-muted-foreground">
+                                Here's what's happening with your operations
+                            </p>
+                        </div>
                     </div>
 
-                    {locations.length > 0 && (isManager || isTechnician) && (
-                        <div className="w-64">
-                            <Select
-                                value={locationFilter}
-                                onValueChange={handleLocationChange}
-                            >
-                                <SelectTrigger className="bg-background">
-                                    <SelectValue placeholder="All locations" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="all">
-                                        All locations
-                                    </SelectItem>
-                                    {locations.map((location) => (
-                                        <SelectItem
-                                            key={location.id}
-                                            value={location.id.toString()}
+                    {/* Filters */}
+                    {(isManager || isTechnician) && (
+                        <Card className="border-border">
+                            <CardContent className="pt-6">
+                                <div className="flex flex-wrap items-end gap-4">
+                                    <div className="min-w-[200px] flex-1">
+                                        <Label
+                                            htmlFor="date-from"
+                                            className="text-sm font-medium"
                                         >
-                                            {location.name}
-                                        </SelectItem>
-                                    ))}
-                                </SelectContent>
-                            </Select>
-                        </div>
+                                            Date From
+                                        </Label>
+                                        <div className="relative mt-1.5">
+                                            <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                            <Input
+                                                id="date-from"
+                                                type="date"
+                                                value={dateFrom}
+                                                onChange={handleDateFromChange}
+                                                className="pl-10"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="min-w-[200px] flex-1">
+                                        <Label
+                                            htmlFor="date-to"
+                                            className="text-sm font-medium"
+                                        >
+                                            Date To
+                                        </Label>
+                                        <div className="relative mt-1.5">
+                                            <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                            <Input
+                                                id="date-to"
+                                                type="date"
+                                                value={dateTo}
+                                                onChange={handleDateToChange}
+                                                className="pl-10"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    {locations.length > 0 && (
+                                        <div className="min-w-[200px] flex-1">
+                                            <Label
+                                                htmlFor="location-filter"
+                                                className="text-sm font-medium"
+                                            >
+                                                Location
+                                            </Label>
+                                            <Select
+                                                value={locationFilter}
+                                                onValueChange={
+                                                    handleLocationChange
+                                                }
+                                            >
+                                                <SelectTrigger
+                                                    id="location-filter"
+                                                    className="mt-1.5 bg-background"
+                                                >
+                                                    <SelectValue placeholder="All locations" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectItem value="all">
+                                                        All locations
+                                                    </SelectItem>
+                                                    {locations.map(
+                                                        (location) => (
+                                                            <SelectItem
+                                                                key={
+                                                                    location.id
+                                                                }
+                                                                value={location.id.toString()}
+                                                            >
+                                                                {location.name}
+                                                            </SelectItem>
+                                                        ),
+                                                    )}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    )}
+                                </div>
+                            </CardContent>
+                        </Card>
                     )}
                 </div>
 
@@ -243,13 +355,31 @@ export default function Dashboard({ metrics, locations, user }: Props) {
                                 </CardContent>
                             </Card>
 
+                            {/* Breakdowns in Selected Range */}
+                            <Card className="border-border">
+                                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                                    <CardTitle className="text-sm font-medium text-muted-foreground">
+                                        Breakdowns (Range)
+                                    </CardTitle>
+                                    <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="text-3xl font-bold text-foreground">
+                                        {metrics.breakdowns_in_range}
+                                    </div>
+                                    <p className="mt-1 text-xs text-muted-foreground">
+                                        In selected period
+                                    </p>
+                                </CardContent>
+                            </Card>
+
                             {/* Breakdowns Last 7 Days */}
                             <Card className="border-border">
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                                     <CardTitle className="text-sm font-medium text-muted-foreground">
                                         Breakdowns (7d)
                                     </CardTitle>
-                                    <AlertTriangle className="h-4 w-4 text-muted-foreground" />
+                                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
                                 <CardContent>
                                     <div className="text-3xl font-bold text-foreground">
@@ -257,24 +387,6 @@ export default function Dashboard({ metrics, locations, user }: Props) {
                                     </div>
                                     <p className="mt-1 text-xs text-muted-foreground">
                                         Last week
-                                    </p>
-                                </CardContent>
-                            </Card>
-
-                            {/* Breakdowns Last 30 Days */}
-                            <Card className="border-border">
-                                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                                    <CardTitle className="text-sm font-medium text-muted-foreground">
-                                        Breakdowns (30d)
-                                    </CardTitle>
-                                    <TrendingUp className="h-4 w-4 text-muted-foreground" />
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="text-3xl font-bold text-foreground">
-                                        {metrics.breakdowns_last_30_days}
-                                    </div>
-                                    <p className="mt-1 text-xs text-muted-foreground">
-                                        Last month
                                     </p>
                                 </CardContent>
                             </Card>

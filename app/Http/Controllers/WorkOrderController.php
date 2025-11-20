@@ -36,6 +36,15 @@ class WorkOrderController extends Controller
             $query->where('machine_id', $request->machine_id);
         }
 
+        // Date range filter
+        if ($request->date_from) {
+            $query->where('created_at', '>=', \Carbon\Carbon::parse($request->date_from)->startOfDay());
+        }
+
+        if ($request->date_to) {
+            $query->where('created_at', '<=', \Carbon\Carbon::parse($request->date_to)->endOfDay());
+        }
+
         $workOrders = $query->latest()->paginate(20);
 
         $machines = Machine::where('company_id', $user->company_id)
@@ -50,6 +59,8 @@ class WorkOrderController extends Controller
                 'status' => $request->status,
                 'type' => $request->type,
                 'machine_id' => $request->machine_id,
+                'date_from' => $request->date_from,
+                'date_to' => $request->date_to,
             ],
             'user' => [
                 'role' => $user->role ? $user->role->value : 'operator',

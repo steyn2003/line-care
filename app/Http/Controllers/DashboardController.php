@@ -19,6 +19,10 @@ class DashboardController extends Controller
         $user = $request->user();
         $locationId = $request->location_id;
 
+        // Parse date range (default to last 30 days)
+        $dateFrom = $request->date_from ? \Carbon\Carbon::parse($request->date_from)->startOfDay() : now()->subDays(30)->startOfDay();
+        $dateTo = $request->date_to ? \Carbon\Carbon::parse($request->date_to)->endOfDay() : now()->endOfDay();
+
         // Get locations for filter
         $locations = Location::where('company_id', $user->company_id)
             ->orderBy('name')
@@ -39,10 +43,16 @@ class DashboardController extends Controller
             ->count();
 
         $overduePreventiveTasksCount = (clone $preventiveTaskQuery)
-            ->where('status', 'active')
+            ->where('is_active', true)
             ->where('next_due_date', '<=', now())
             ->count();
 
+        $breakdownsInRange = (clone $workOrderQuery)
+            ->where('type', WorkOrderType::BREAKDOWN)
+            ->whereBetween('created_at', [$dateFrom, $dateTo])
+            ->count();
+
+        // Calculate quick stats for last 7 and 30 days for comparison
         $breakdownsLast7Days = (clone $workOrderQuery)
             ->where('type', WorkOrderType::BREAKDOWN)
             ->where('created_at', '>=', now()->subDays(7))
@@ -53,12 +63,12 @@ class DashboardController extends Controller
             ->where('created_at', '>=', now()->subDays(30))
             ->count();
 
-        // Top 5 machines by breakdown count (last 30 days)
+        // Top 5 machines by breakdown count (using date range)
         $topMachinesQuery = DB::table('work_orders')
             ->join('machines', 'work_orders.machine_id', '=', 'machines.id')
             ->where('work_orders.company_id', $user->company_id)
             ->where('work_orders.type', WorkOrderType::BREAKDOWN->value)
-            ->where('work_orders.created_at', '>=', now()->subDays(30));
+            ->whereBetween('work_orders.created_at', [$dateFrom, $dateTo]);
 
         if ($locationId) {
             $topMachinesQuery->where('machines.location_id', $locationId);
@@ -79,6 +89,7 @@ class DashboardController extends Controller
         $metrics = [
             'open_work_orders_count' => $openWorkOrdersCount,
             'overdue_preventive_tasks_count' => $overduePreventiveTasksCount,
+            'breakdowns_in_range' => $breakdownsInRange,
             'breakdowns_last_7_days' => $breakdownsLast7Days,
             'breakdowns_last_30_days' => $breakdownsLast30Days,
             'top_machines' => $topMachines,
@@ -87,6 +98,11 @@ class DashboardController extends Controller
         return Inertia::render('dashboard', [
             'metrics' => $metrics,
             'locations' => $locations,
+            'filters' => [
+                'location_id' => $locationId,
+                'date_from' => $dateFrom->format('Y-m-d'),
+                'date_to' => $dateTo->format('Y-m-d'),
+            ],
             'user' => [
                 'name' => $user->name,
                 'role' => $user->role ? $user->role->value : 'operator',

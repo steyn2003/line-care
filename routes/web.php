@@ -60,6 +60,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('users', [\App\Http\Controllers\UserController::class, 'store'])->name('users.store');
     Route::put('users/{user}', [\App\Http\Controllers\UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [\App\Http\Controllers\UserController::class, 'destroy'])->name('users.destroy');
+
+    // Reports routes
+    Route::get('reports/downtime', [\App\Http\Controllers\ReportsController::class, 'downtime'])->name('reports.downtime');
 });
 
 require __DIR__.'/settings.php';

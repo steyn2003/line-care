@@ -2,6 +2,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import {
     Select,
     SelectContent,
@@ -57,6 +58,8 @@ interface Props {
         status?: string;
         type?: string;
         machine_id?: number;
+        date_from?: string;
+        date_to?: string;
     };
     user: {
         role: 'operator' | 'technician' | 'manager';
@@ -93,14 +96,33 @@ export default function WorkOrdersIndex({
     const [machineFilter, setMachineFilter] = useState<string>(
         filters.machine_id?.toString() || 'all',
     );
+    const [dateFrom, setDateFrom] = useState<string>(filters.date_from || '');
+    const [dateTo, setDateTo] = useState<string>(filters.date_to || '');
 
-    const handleFilterChange = () => {
+    const handleFilterChange = (params?: {
+        status?: string;
+        type?: string;
+        machine?: string;
+        date_from?: string;
+        date_to?: string;
+    }) => {
         router.get(
             '/work-orders',
             {
-                status: statusFilter !== 'all' ? statusFilter : undefined,
-                type: typeFilter !== 'all' ? typeFilter : undefined,
-                machine_id: machineFilter !== 'all' ? machineFilter : undefined,
+                status:
+                    (params?.status ?? statusFilter) !== 'all'
+                        ? (params?.status ?? statusFilter)
+                        : undefined,
+                type:
+                    (params?.type ?? typeFilter) !== 'all'
+                        ? (params?.type ?? typeFilter)
+                        : undefined,
+                machine_id:
+                    (params?.machine ?? machineFilter) !== 'all'
+                        ? (params?.machine ?? machineFilter)
+                        : undefined,
+                date_from: params?.date_from ?? (dateFrom || undefined),
+                date_to: params?.date_to ?? (dateTo || undefined),
             },
             {
                 preserveState: true,
@@ -168,110 +190,221 @@ export default function WorkOrdersIndex({
                         <CardTitle>Filters</CardTitle>
                     </CardHeader>
                     <CardContent>
-                        <div className="grid gap-4 md:grid-cols-5">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-foreground">
-                                    Search
-                                </label>
-                                <Input
-                                    placeholder="Search work orders..."
-                                    value={search}
-                                    onChange={(e) => setSearch(e.target.value)}
-                                    className="bg-background"
-                                />
-                            </div>
+                        <div className="space-y-4">
+                            <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-6">
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="search"
+                                        className="text-sm font-medium"
+                                    >
+                                        Search
+                                    </Label>
+                                    <Input
+                                        id="search"
+                                        placeholder="Search work orders..."
+                                        value={search}
+                                        onChange={(e) =>
+                                            setSearch(e.target.value)
+                                        }
+                                        className="bg-background"
+                                    />
+                                </div>
 
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-foreground">
-                                    Status
-                                </label>
-                                <Select
-                                    value={statusFilter}
-                                    onValueChange={setStatusFilter}
-                                >
-                                    <SelectTrigger className="bg-background">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">
-                                            All Status
-                                        </SelectItem>
-                                        <SelectItem value="open">
-                                            Open
-                                        </SelectItem>
-                                        <SelectItem value="in_progress">
-                                            In Progress
-                                        </SelectItem>
-                                        <SelectItem value="completed">
-                                            Completed
-                                        </SelectItem>
-                                        <SelectItem value="cancelled">
-                                            Cancelled
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-foreground">
-                                    Type
-                                </label>
-                                <Select
-                                    value={typeFilter}
-                                    onValueChange={setTypeFilter}
-                                >
-                                    <SelectTrigger className="bg-background">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">
-                                            All Types
-                                        </SelectItem>
-                                        <SelectItem value="breakdown">
-                                            Breakdown
-                                        </SelectItem>
-                                        <SelectItem value="preventive">
-                                            Preventive
-                                        </SelectItem>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium text-foreground">
-                                    Machine
-                                </label>
-                                <Select
-                                    value={machineFilter}
-                                    onValueChange={setMachineFilter}
-                                >
-                                    <SelectTrigger className="bg-background">
-                                        <SelectValue />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                        <SelectItem value="all">
-                                            All Machines
-                                        </SelectItem>
-                                        {machines.map((machine) => (
-                                            <SelectItem
-                                                key={machine.id}
-                                                value={machine.id.toString()}
-                                            >
-                                                {machine.name}
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="status-filter"
+                                        className="text-sm font-medium"
+                                    >
+                                        Status
+                                    </Label>
+                                    <Select
+                                        value={statusFilter}
+                                        onValueChange={(value) => {
+                                            setStatusFilter(value);
+                                            handleFilterChange({
+                                                status: value,
+                                            });
+                                        }}
+                                    >
+                                        <SelectTrigger
+                                            id="status-filter"
+                                            className="bg-background"
+                                        >
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">
+                                                All Status
                                             </SelectItem>
-                                        ))}
-                                    </SelectContent>
-                                </Select>
+                                            <SelectItem value="open">
+                                                Open
+                                            </SelectItem>
+                                            <SelectItem value="in_progress">
+                                                In Progress
+                                            </SelectItem>
+                                            <SelectItem value="completed">
+                                                Completed
+                                            </SelectItem>
+                                            <SelectItem value="cancelled">
+                                                Cancelled
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="type-filter"
+                                        className="text-sm font-medium"
+                                    >
+                                        Type
+                                    </Label>
+                                    <Select
+                                        value={typeFilter}
+                                        onValueChange={(value) => {
+                                            setTypeFilter(value);
+                                            handleFilterChange({ type: value });
+                                        }}
+                                    >
+                                        <SelectTrigger
+                                            id="type-filter"
+                                            className="bg-background"
+                                        >
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">
+                                                All Types
+                                            </SelectItem>
+                                            <SelectItem value="breakdown">
+                                                Breakdown
+                                            </SelectItem>
+                                            <SelectItem value="preventive">
+                                                Preventive
+                                            </SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="machine-filter"
+                                        className="text-sm font-medium"
+                                    >
+                                        Machine
+                                    </Label>
+                                    <Select
+                                        value={machineFilter}
+                                        onValueChange={(value) => {
+                                            setMachineFilter(value);
+                                            handleFilterChange({
+                                                machine: value,
+                                            });
+                                        }}
+                                    >
+                                        <SelectTrigger
+                                            id="machine-filter"
+                                            className="bg-background"
+                                        >
+                                            <SelectValue />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="all">
+                                                All Machines
+                                            </SelectItem>
+                                            {machines.map((machine) => (
+                                                <SelectItem
+                                                    key={machine.id}
+                                                    value={machine.id.toString()}
+                                                >
+                                                    {machine.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="date-from"
+                                        className="text-sm font-medium"
+                                    >
+                                        Date From
+                                    </Label>
+                                    <div className="relative">
+                                        <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                        <Input
+                                            id="date-from"
+                                            type="date"
+                                            value={dateFrom}
+                                            onChange={(e) => {
+                                                setDateFrom(e.target.value);
+                                                handleFilterChange({
+                                                    date_from: e.target.value,
+                                                });
+                                            }}
+                                            className="bg-background pl-10"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label
+                                        htmlFor="date-to"
+                                        className="text-sm font-medium"
+                                    >
+                                        Date To
+                                    </Label>
+                                    <div className="relative">
+                                        <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                        <Input
+                                            id="date-to"
+                                            type="date"
+                                            value={dateTo}
+                                            onChange={(e) => {
+                                                setDateTo(e.target.value);
+                                                handleFilterChange({
+                                                    date_to: e.target.value,
+                                                });
+                                            }}
+                                            className="bg-background pl-10"
+                                        />
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="flex items-end">
-                                <Button
-                                    onClick={handleFilterChange}
-                                    className="w-full"
-                                >
-                                    Apply Filters
-                                </Button>
-                            </div>
+                            {(statusFilter !== 'all' ||
+                                typeFilter !== 'all' ||
+                                machineFilter !== 'all' ||
+                                dateFrom ||
+                                dateTo) && (
+                                <div className="flex items-center justify-between border-t pt-4">
+                                    <p className="text-sm text-muted-foreground">
+                                        Filters applied
+                                    </p>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => {
+                                            setStatusFilter('all');
+                                            setTypeFilter('all');
+                                            setMachineFilter('all');
+                                            setDateFrom('');
+                                            setDateTo('');
+                                            router.get(
+                                                '/work-orders',
+                                                {},
+                                                {
+                                                    preserveState: true,
+                                                    preserveScroll: true,
+                                                },
+                                            );
+                                        }}
+                                    >
+                                        Clear All Filters
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     </CardContent>
                 </Card>
