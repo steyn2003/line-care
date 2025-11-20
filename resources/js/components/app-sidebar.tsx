@@ -13,7 +13,14 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
+import {
+    AlertTriangle,
+    BookOpen,
+    ClipboardList,
+    Folder,
+    LayoutGrid,
+    Wrench,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -21,6 +28,21 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Machines',
+        href: '/machines',
+        icon: Wrench,
+    },
+    {
+        title: 'Work Orders',
+        href: '/work-orders',
+        icon: ClipboardList,
+    },
+    {
+        title: 'Report Breakdown',
+        href: '/work-orders/report-breakdown',
+        icon: AlertTriangle,
     },
 ];
 
