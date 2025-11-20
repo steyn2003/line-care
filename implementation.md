@@ -1,6 +1,6 @@
 # CMMS MVP - Implementation Plan
 
-This document breaks down the tasks from `claude.md` into actionable implementation items.
+This document breaks down the tasks from `claude.md` into actionable implementation items with concrete API endpoints, frontend flows, and technical details based on `PROMPTS.md`.
 
 ## Current Status
 - [ ] Phase 1 - Foundations
@@ -13,183 +13,624 @@ This document breaks down the tasks from `claude.md` into actionable implementat
 ## Phase 1: Foundations
 
 ### 1.1 Database Schema & Models
-- [ ] Create Company model and migration
-- [ ] Create User model with company relationship
-- [ ] Create Role enum/table (operator, technician, manager)
-- [ ] Create Location model with company relationship
-- [ ] Set up foreign keys and indexes
+
+**Models to create:**
+- [x] Company model and migration
+  - Fields: name, created_at, updated_at
+- [x] User model with company relationship
+  - Fields: name, email, password, company_id, role, created_at, updated_at
+- [x] Role enum (operator, technician, manager)
+- [x] Location model with company relationship
+  - Fields: name, company_id, created_at, updated_at
+- [x] Set up foreign keys and indexes
 
 ### 1.2 Authentication & Authorization
-- [ ] Implement user registration (with company creation)
-- [ ] Implement user login
-- [ ] Set up role-based middleware/guards
-- [ ] Create authorization policies for roles
+
+**API Endpoints:**
+- [x] POST `/api/auth/register` - Register new user + company
+  - Input: name, email, password, company_name
+  - Output: user object + token
+- [x] POST `/api/auth/login` - User login
+  - Input: email, password
+  - Output: user object + token
+- [x] GET `/api/auth/me` - Get current user
+  - Output: user with company and role
+- [x] POST `/api/auth/logout` - Logout
+
+**Authorization Rules:**
+- [x] Set up role-based middleware/guards
+- [x] Create authorization policies:
+  - Operators: create breakdown work orders, view own machine work orders
+  - Technicians: view/update all work orders, create maintenance logs
+  - Managers: full access to all resources
 - [ ] Test authentication flow
 
 ### 1.3 User Management UI
-- [ ] Create login page
-- [ ] Create registration page
-- [ ] Create user profile page
-- [ ] Create user list page (manager only)
-- [ ] Create add/edit user form (manager only)
+
+**Screens:**
+- [ ] Login page
+  - Email and password fields
+  - Remember me checkbox
+  - Error handling for invalid credentials
+- [ ] Registration page (first-time company setup)
+  - User name, email, password
+  - Company name
+  - Auto-assign manager role to first user
+- [ ] User profile page
+  - View/edit own details
+- [ ] User list page (manager only)
+  - Table with name, email, role
+  - Filter by role
+- [ ] Add/edit user form (manager only)
+  - Name, email, role selector
+  - Assign to company automatically
 
 ---
 
 ## Phase 2: Maintenance Flow
 
 ### 2.1 Machine Management
-- [ ] Create Machine model and migration
-  - Fields: name, code, location_id, company_id, criticality
-- [ ] Machine list page with filters (location)
+
+**Models:**
+- [x] Create Machine model and migration
+  - Fields: name, code, location_id, company_id, criticality, status (active/archived), created_at, updated_at
+
+**API Endpoints:**
+- [x] GET `/api/machines` - List machines
+  - Query params: location_id, status
+  - Output: list of machines with location name
+- [x] POST `/api/machines` - Create machine (manager/technician)
+  - Input: name, code, location_id, criticality
+  - Output: created machine object
+- [x] GET `/api/machines/{id}` - Get machine detail
+  - Output: machine with location, recent work orders, statistics
+- [x] PUT `/api/machines/{id}` - Update machine (manager/technician)
+  - Input: name, code, location_id, criticality, status
+- [x] DELETE `/api/machines/{id}` - Archive machine (manager)
+
+**Frontend Screens:**
+- [ ] Machine list page
+  - Cards/table view with name, code, location
+  - Filter by location dropdown
+  - Filter by status (active/archived)
+  - Click to view detail
 - [ ] Add/edit machine form
-- [ ] Machine detail page (basic info)
-- [ ] API endpoints for CRUD operations
+  - Name (required)
+  - Code/ID (optional)
+  - Location dropdown
+  - Criticality selector (low/medium/high)
+- [ ] Machine detail page
+  - Machine info card
+  - Quick link to "Report breakdown" (prefilled machine)
+  - Link to filtered work order list
+  - Statistics section (added in Phase 3)
 
 ### 2.2 Work Order System - Core
-- [ ] Create WorkOrder model and migration
-  - Fields: company_id, machine_id, created_by, assigned_to, type, status, description, started_at, completed_at
-- [ ] Create WorkOrderType enum (breakdown, corrective, preventive)
-- [ ] Create Status enum (open, in_progress, completed, cancelled)
-- [ ] Create MaintenanceLog model and migration
-- [ ] Create CauseCategory model and migration
+
+**Models:**
+- [x] Create WorkOrder model and migration
+  - Fields: company_id, machine_id, created_by, assigned_to, type (breakdown/preventive), status (open/in_progress/completed/cancelled), title, description, cause_category_id, preventive_task_id, started_at, completed_at, created_at, updated_at
+- [x] Create WorkOrderType enum (breakdown, corrective, preventive)
+- [x] Create Status enum (open, in_progress, completed, cancelled)
+- [x] Create MaintenanceLog model and migration
+  - Fields: work_order_id, user_id, notes, work_done, parts_used, created_at
+- [x] Create CauseCategory model and migration
+  - Fields: company_id, name, description
+
+**API Endpoints:**
+- [x] GET `/api/work-orders` - List work orders
+  - Query params: status, type, machine_id, assigned_to, date_from, date_to
+  - Output: list with machine name, creator name, assignee name, status, type
+- [x] POST `/api/work-orders` - Create work order
+  - Input: machine_id, type, title, description, cause_category_id, started_at
+  - Output: created work order
+- [x] GET `/api/work-orders/{id}` - Get work order detail
+  - Output: work order with machine, logs, creator, assignee
+- [x] PUT `/api/work-orders/{id}` - Update work order (status, assignment)
+  - Input: status, assigned_to, completed_at, cause_category_id
+- [x] POST `/api/work-orders/{id}/complete` - Complete work order
+  - Input: completed_at, cause_category_id, notes, work_done
+  - Output: updated work order + created maintenance log
+- [x] GET `/api/cause-categories` - List cause categories
+- [x] POST `/api/cause-categories` - Create category (manager)
 
 ### 2.3 Breakdown Reporting (Operator View)
-- [ ] "Report breakdown" form
-  - Machine selection
-  - Description field
-  - Optional: cause category, photo upload, breakdown start time
-- [ ] Create breakdown WorkOrder endpoint
-- [ ] Operator work order list (own machines only)
+
+**Mobile-optimized "Report Breakdown" Flow:**
+- [ ] Simple breakdown report screen
+  - Step 1: Machine selection (large touch-friendly dropdown or machine cards)
+  - Step 2: Short description (textarea, optional voice input later)
+  - Step 3: Optional fields (collapsible):
+    - Cause category dropdown
+    - Photo upload
+    - Breakdown start time (defaults to now)
+  - "Submit" button (large, prominent)
+  - Loading state during submission
+  - Success confirmation with WO number
+  - Offline handling: store locally, submit when online
+- [ ] POST `/api/work-orders` endpoint (operator creates breakdown type)
+  - Auto-set type=breakdown, status=open, created_by=current_user
+- [ ] Operator work order list
+  - Filter to show only work orders for machines operator reported
+  - Simple card view with status badge
+  - No edit capability, read-only
+
+**Visual Distinction:**
+- Breakdown: red/orange badge
+- Preventive: blue/green badge
+- Status colors: open (gray), in_progress (yellow), completed (green), cancelled (red)
 
 ### 2.4 Work Order Management (Technician View)
-- [ ] Work order list page with filters
-  - Status filter
-  - Type filter (breakdown/preventive)
-  - Machine filter
-  - Date range filter
-- [ ] Work order detail page
-  - View all work order info
-  - Update status (open → in_progress → completed)
-  - Add completion details (actual times, cause, notes)
-- [ ] Create/update MaintenanceLog when completing work order
-- [ ] Work order assignment functionality
+
+**Work Order List Screen:**
+- [ ] Responsive table/card view
+- [ ] Filters (collapsible on mobile):
+  - Status multi-select
+  - Type (breakdown/preventive)
+  - Machine dropdown
+  - Date range picker
+  - Assigned to me toggle
+- [ ] Sorting: newest first, priority (future)
+- [ ] Click row to open detail
+- [ ] Quick action: "Assign to me" button
+
+**Work Order Detail Screen:**
+- [ ] Header with status badge and type
+- [ ] Machine info card (name, location, link to machine detail)
+- [ ] Work order details (title, description, timestamps)
+- [ ] Status change section:
+  - Buttons: "Start Work" (open → in_progress), "Complete" (in_progress → completed), "Cancel"
+  - If completing: show completion form
+- [ ] Completion form (shown when status → completed):
+  - Actual completion time (defaults to now)
+  - Cause category dropdown
+  - Work done (textarea)
+  - Notes (textarea)
+  - Parts used (text field)
+- [ ] Maintenance logs section (read-only list of past logs)
+- [ ] Assignment section (technicians can assign to self, managers can assign to anyone)
+
+**Backend Logic:**
+- [ ] When status changes to completed:
+  - Create MaintenanceLog entry
+  - Set completed_at timestamp
+  - If linked to PreventiveTask, update task's last_completed_at
 
 ### 2.5 Preventive Maintenance
-- [ ] Create PreventiveTask model and migration
-  - Fields: company_id, machine_id, title, description, schedule_type, schedule_value, assigned_to, next_due_date
+
+**Model:**
+- [x] Create PreventiveTask model and migration
+  - Fields: company_id, machine_id, title, description, schedule_interval_value (number), schedule_interval_unit (days/weeks/months), assigned_to, next_due_date, last_completed_at, is_active, created_at, updated_at
+
+**Scheduling Logic:**
+- [x] Time-based interval storage:
+  - Store interval value (e.g., 3) and unit (e.g., months)
+  - Calculate next_due_date = last_completed_at + interval (or created_at if never completed)
+- [x] Daily scheduled job (Laravel command):
+  - Find all active PreventiveTasks where next_due_date <= today + 3 days
+  - For each task, check if WorkOrder already exists for this due date (prevent duplicates)
+  - Create WorkOrder with type=preventive, status=open, preventive_task_id=task.id
+  - Set WorkOrder.assigned_to from task.assigned_to
+- [x] When WorkOrder (linked to PreventiveTask) is completed:
+  - Update PreventiveTask.last_completed_at = WorkOrder.completed_at
+  - Recalculate PreventiveTask.next_due_date = last_completed_at + interval
+- [x] Handle edge cases:
+  - If WorkOrder is cancelled: don't update last_completed_at
+  - If task schedule is changed: recalculate next_due_date immediately
+  - If machine is archived: set task.is_active = false
+
+**API Endpoints:**
+- [x] GET `/api/preventive-tasks` - List preventive tasks
+  - Query params: machine_id, is_active, overdue
+  - Output: list with machine name, next due date, overdue flag
+- [x] POST `/api/preventive-tasks` - Create task (manager)
+  - Input: machine_id, title, description, schedule_interval_value, schedule_interval_unit, assigned_to
+  - Output: created task with calculated next_due_date
+- [x] GET `/api/preventive-tasks/{id}` - Get task detail
+  - Output: task with machine, generated work orders, completion history
+- [x] PUT `/api/preventive-tasks/{id}` - Update task (manager)
+  - Input: title, description, schedule, assigned_to, is_active
+  - Recalculate next_due_date if schedule changed
+- [x] DELETE `/api/preventive-tasks/{id}` - Deactivate task (manager)
+
+**Frontend Screens:**
 - [ ] Preventive task list page (manager)
+  - Table with machine, task title, interval, next due date
+  - Badge for overdue tasks (next_due_date < today)
+  - Filter: show active/inactive, filter by machine
+  - "Add Task" button
 - [ ] Add/edit preventive task form
-- [ ] Schedule logic for generating WorkOrders
-  - Background job/scheduler to create WorkOrders from PreventiveTasks
-  - Generate work orders when due date is near (e.g., 3 days before)
-- [ ] Link generated WorkOrders to PreventiveTask
-- [ ] Show upcoming and overdue preventive tasks
+  - Machine dropdown (required)
+  - Task title and description
+  - Schedule inputs: interval value (number) + unit (dropdown: days/weeks/months)
+  - Assign to technician (dropdown)
+  - Active toggle
+- [ ] Preventive task detail page
+  - Task info
+  - Upcoming and overdue work orders generated from this task
+  - Completion history (list of completed WOs)
+  - Edit/deactivate buttons
 
 ---
 
 ## Phase 3: Insights
 
 ### 3.1 Dashboard - Manager View
-- [ ] Dashboard layout/page structure
-- [ ] Card: Open work orders count
-- [ ] Card: Overdue preventive tasks count
-- [ ] Card: Breakdowns in last 7 days
-- [ ] Card: Breakdowns in last 30 days
-- [ ] Top 5 machines by breakdown count (with date range filter)
-- [ ] Date range filter component
-- [ ] Location filter component
+
+**Analytics Queries:**
+- [x] Open work orders count: COUNT(work_orders WHERE status IN (open, in_progress) AND company_id = X)
+- [x] Overdue preventive tasks: COUNT(preventive_tasks WHERE next_due_date < today AND is_active = true AND company_id = X)
+- [x] Breakdowns in date range: COUNT(work_orders WHERE type = breakdown AND created_at BETWEEN date_from AND date_to AND company_id = X)
+- [x] Top machines by breakdown count: GROUP BY machine_id, COUNT, ORDER BY count DESC, LIMIT 5
+- [x] Downtime approximation: SUM(completed_at - started_at) per machine (if timestamps exist)
+
+**API Endpoint:**
+- [x] GET `/api/dashboard/metrics` - Single endpoint returning all dashboard data
+  - Query params: date_from, date_to, location_id
+  - Output JSON:
+    ```json
+    {
+      "open_work_orders_count": 12,
+      "overdue_preventive_tasks_count": 3,
+      "breakdowns_last_7_days": 8,
+      "breakdowns_last_30_days": 25,
+      "top_machines": [
+        {"machine_id": 1, "machine_name": "CNC Mill 1", "breakdown_count": 5},
+        ...
+      ]
+    }
+    ```
+
+**Dashboard Screen:**
+- [ ] Layout with metric cards (responsive grid)
+- [ ] Card: Open Work Orders (with link to filtered work order list)
+- [ ] Card: Overdue Preventive Tasks (with link to overdue task list)
+- [ ] Card: Breakdowns Last 7 Days
+- [ ] Card: Breakdowns Last 30 Days
+- [ ] Section: Top 5 Machines by Breakdown Count
+  - Bar chart or sorted list
+  - Click to view machine detail
+- [ ] Global filters (affect all metrics):
+  - Date range picker
+  - Location filter dropdown
 
 ### 3.2 Machine Analytics
-- [ ] Enhanced machine detail page
-  - Latest work orders list
-  - Breakdown vs preventive count (last 90 days)
-  - Total downtime calculation
-- [ ] Breakdowns by cause category report/chart
-- [ ] Machine comparison view (optional)
+
+**Enhanced Machine Detail Page:**
+- [ ] Machine info card (name, code, location, criticality)
+- [ ] Latest work orders section
+  - List of 10 most recent work orders (all types)
+  - Click to view work order detail
+- [ ] Statistics section (last 90 days):
+  - Breakdown count vs preventive count (simple counters or pie chart)
+  - Total estimated downtime (sum of completed_at - started_at for breakdowns)
+  - Average resolution time
+- [ ] Breakdowns by cause category
+  - Simple bar chart or table
+  - Group work orders by cause_category_id, count
+- [ ] Action buttons:
+  - "Report Breakdown" (prefill machine)
+  - "View All Work Orders" (filtered by this machine)
+
+**API Endpoint:**
+- [x] GET `/api/machines/{id}/analytics` - Machine-specific analytics
+  - Query params: date_from, date_to (default last 90 days)
+  - Output: breakdown_count, preventive_count, total_downtime, avg_resolution_time, breakdowns_by_cause
 
 ### 3.3 Work Order Reporting
-- [ ] Work order list with advanced filtering
-- [ ] Export work orders to CSV/PDF (optional for MVP)
-- [ ] Downtime per machine report
-- [ ] Work order completion time metrics
+
+**Work Order List Enhancements:**
+- [x] Advanced filtering (already in 2.4, ensure it's comprehensive):
+  - Status, type, machine, date range, assigned user
+- [x] Sorting options: newest, oldest, longest open
+- [x] Pagination or infinite scroll
+- [ ] Export to CSV (optional for MVP):
+  - Button: "Export to CSV"
+  - Generate CSV with all filtered work orders
+  - Columns: ID, machine, type, status, created_at, completed_at, downtime, cause
+
+**Reporting Endpoints:**
+- [x] GET `/api/reports/downtime-by-machine` - Downtime per machine
+  - Query params: date_from, date_to, location_id
+  - Output: list of machines with total_downtime, breakdown_count
+- [x] GET `/api/reports/completion-time-metrics` - Work order completion metrics
+  - Query params: date_from, date_to, type
+  - Output: avg_completion_time, median_completion_time, longest_open
 
 ---
 
 ## Phase 4: Pilot-Ready
 
-### 4.1 Data Import
-- [ ] CSV import page/modal
-- [ ] CSV parser for machines
-- [ ] Column mapping UI
-- [ ] Import preview functionality
-- [ ] Validation during import
-- [ ] Bulk insert machines from CSV
-- [ ] Error handling and reporting for failed imports
+### 4.1 Data Import & Onboarding
+
+**Onboarding Flow (First-Time Manager):**
+- [ ] Step 1: Create company account (registration page)
+  - Auto-create first user as manager
+- [ ] Step 2: Welcome screen with onboarding checklist
+  - Add locations (optional, can skip)
+  - Import machines from CSV
+  - Invite team members
+- [ ] Step 3: Location setup (optional)
+  - Simple form to add 1-3 locations
+  - "Skip" button
+- [ ] Step 4: CSV import wizard
+
+**CSV Import UI Flow:**
+- [ ] Upload step
+  - Drag-and-drop or file picker
+  - Accept .csv files only
+  - Sample CSV template download link
+- [ ] Column mapping step
+  - Show preview of first 5 rows
+  - Map CSV columns to fields: name (required), code, location
+  - Auto-detect if column names match
+  - Handle unknown locations:
+    - Option 1: Create new locations from CSV
+    - Option 2: Map to existing locations
+    - Option 3: Leave location blank
+- [ ] Validation step
+  - Show validation errors (missing name, duplicate codes)
+  - Option to skip invalid rows or fix inline
+  - Preview: "X valid, Y invalid"
+- [ ] Confirmation step
+  - "Import X machines?" prompt
+  - Progress bar during import
+- [ ] Results step
+  - Success message: "Imported X machines, created Y locations, skipped Z invalid rows"
+  - Download error report (CSV of skipped rows with reasons)
+  - "View Machines" button
+
+**API Endpoints:**
+- [ ] POST `/api/machines/import/upload` - Upload CSV file
+  - Input: file
+  - Output: file_id, preview (first 5 rows), detected_columns
+- [ ] POST `/api/machines/import/validate` - Validate with column mapping
+  - Input: file_id, column_mapping {csv_column: field_name}
+  - Output: valid_count, invalid_count, errors [{row, reason}]
+- [ ] POST `/api/machines/import/confirm` - Execute import
+  - Input: file_id, column_mapping, location_handling (create/map/skip)
+  - Output: created_count, locations_created, skipped_rows
+
+**Edge Cases:**
+- [ ] Duplicate machines (same code): skip or update existing
+- [ ] Unknown locations: auto-create or require mapping
+- [ ] Invalid rows: collect errors, allow download of error CSV
 
 ### 4.2 UX Polish & Validation
-- [ ] Form validation on all input forms
-- [ ] Error messages and user feedback
-- [ ] Loading states and spinners
-- [ ] Success/confirmation messages
-- [ ] Mobile-responsive layout for key screens:
-  - Breakdown reporting
-  - Work order list
-  - Work order detail
-  - Dashboard
-- [ ] Consistent styling across application
-- [ ] Help text/tooltips for complex fields
+
+**Form Validation:**
+- [ ] Client-side validation on all forms (required fields, email format, etc.)
+- [ ] Server-side validation with clear error messages
+- [ ] Display validation errors inline below fields
+- [ ] Disable submit button while processing
+
+**User Feedback:**
+- [ ] Toast/snackbar notifications for success actions
+- [ ] Error messages for failed operations
+- [ ] Loading spinners on buttons during API calls
+- [ ] Confirmation modals for destructive actions (delete, cancel)
+
+**Mobile-Responsive Layout:**
+- [ ] Breakdown reporting screen: large touch targets, minimal fields
+- [ ] Work order list: card view on mobile, table on desktop
+- [ ] Work order detail: stacked layout on mobile
+- [ ] Dashboard: single column on mobile, grid on desktop
+- [ ] Navigation: hamburger menu on mobile, sidebar on desktop
+
+**Styling Consistency:**
+- [ ] Color scheme for statuses (open, in_progress, completed, cancelled)
+- [ ] Color scheme for types (breakdown, preventive)
+- [ ] Typography scale (headings, body, labels)
+- [ ] Button styles (primary, secondary, danger)
+- [ ] Card/panel styles
+
+**Help & Guidance:**
+- [ ] Tooltips on complex fields (e.g., schedule interval)
+- [ ] Placeholder text in inputs
+- [ ] Empty states with helpful messages ("No machines yet. Add your first machine!")
 
 ### 4.3 Permissions & Security
-- [ ] Verify role-based access on all endpoints
-- [ ] Test operator can only see/create breakdowns
-- [ ] Test technician can manage work orders
-- [ ] Test manager has full access
-- [ ] Company data isolation (users can only see their company's data)
-- [ ] Prevent unauthorized access to other companies' data
+
+**Authorization Testing:**
+- [ ] Operator permissions:
+  - CAN: create breakdown work orders, view own work orders
+  - CANNOT: edit/delete work orders, manage machines, manage preventive tasks
+- [ ] Technician permissions:
+  - CAN: view all work orders, update work order status, create maintenance logs, assign work orders to self
+  - CANNOT: delete work orders, manage preventive tasks, manage users
+- [ ] Manager permissions:
+  - CAN: all actions (full CRUD on all resources)
+
+**Multi-Tenancy Security:**
+- [ ] Verify all queries filter by company_id
+- [ ] Test: User from Company A cannot access Company B's data
+- [ ] Test: API endpoints reject cross-company access
+- [ ] Middleware: automatically scope queries to current user's company
+
+**API Security:**
+- [ ] All endpoints require authentication (except register/login)
+- [ ] Token-based auth (Laravel Sanctum or JWT)
+- [ ] Rate limiting on auth endpoints
+- [ ] CSRF protection on state-changing endpoints
 
 ### 4.4 Testing & Deployment Prep
-- [ ] Write unit tests for key models and business logic
-- [ ] Write integration tests for critical flows
-- [ ] Manual QA testing checklist
-- [ ] Seed database with sample data
-- [ ] Environment configuration (.env setup)
-- [ ] Deployment documentation
-- [ ] User documentation/guide
+
+**Unit Tests:**
+- [ ] User model and authentication
+- [ ] WorkOrder status transitions
+- [ ] PreventiveTask scheduling logic
+- [ ] Dashboard metrics calculations
+- [ ] CSV import validation
+
+**Integration Tests:**
+- [ ] Create breakdown flow (operator creates, technician completes)
+- [ ] Preventive task generates work order
+- [ ] Machine import from CSV
+- [ ] Authorization rules (each role)
+
+**Manual QA Checklist:**
+- [ ] Register new company, create first user
+- [ ] Add locations and machines
+- [ ] Import machines from CSV
+- [ ] Operator reports breakdown
+- [ ] Technician completes work order
+- [ ] Manager creates preventive task
+- [ ] Daily job generates preventive work orders
+- [ ] Dashboard shows correct metrics
+- [ ] Test on mobile device (responsive)
+
+**Deployment:**
+- [ ] Seed database with sample data (for demo)
+  - Sample company, users (one of each role)
+  - 10 machines, 5 locations
+  - 20 work orders (mix of breakdown/preventive, various statuses)
+  - 3 preventive tasks
+- [ ] Environment configuration:
+  - .env.example with all required variables
+  - Database connection
+  - Queue driver setup (for scheduled jobs)
+  - Mail driver (for future notifications)
+- [ ] Scheduled job setup:
+  - Laravel scheduler configured (cron job)
+  - Daily command to generate preventive work orders
+- [ ] Deployment documentation:
+  - Server requirements
+  - Installation steps
+  - Database migration steps
+  - Scheduler setup
+- [ ] User documentation:
+  - Getting started guide
+  - How to report a breakdown
+  - How to complete a work order
+  - How to set up preventive maintenance
 
 ---
 
-## Additional Considerations
+## Technical Stack Summary
 
-### Future Enhancements (Post-MVP)
-- Photo attachments for work orders
-- Priority levels for work orders
-- Spare parts tracking
-- Time tracking for technicians
-- Email notifications
-- Advanced analytics and OEE
-- Mobile native apps
-- ERP integrations
+**Backend:**
+- Laravel (PHP)
+- MySQL/PostgreSQL
+- Laravel Sanctum for API auth
+- Laravel Queue for background jobs
+- Laravel Scheduler for daily tasks
 
-### Technical Stack Notes
-Based on the Laravel project structure:
-- Backend: Laravel (PHP)
-- Frontend: Blade templates or Vue.js/React
-- Database: MySQL/PostgreSQL
-- Queue system: Laravel Queue for scheduled task generation
+**Frontend:**
+- Blade templates + Alpine.js (lightweight option)
+- OR Vue.js/React (SPA option)
+- Tailwind CSS for styling
+- Chart.js for simple charts
+
+**Development Tools:**
+- Laravel Sail (Docker for local dev)
+- PHPUnit for testing
+- Laravel Pint for code style
+
+---
+
+## API Reference Summary
+
+### Authentication
+- POST `/api/auth/register` - Register user + company
+- POST `/api/auth/login` - Login
+- GET `/api/auth/me` - Current user
+- POST `/api/auth/logout` - Logout
+
+### Machines
+- GET `/api/machines` - List (filter: location_id, status)
+- POST `/api/machines` - Create
+- GET `/api/machines/{id}` - Detail
+- PUT `/api/machines/{id}` - Update
+- DELETE `/api/machines/{id}` - Archive
+- GET `/api/machines/{id}/analytics` - Machine analytics
+
+### Work Orders
+- GET `/api/work-orders` - List (filter: status, type, machine_id, date_from, date_to)
+- POST `/api/work-orders` - Create
+- GET `/api/work-orders/{id}` - Detail
+- PUT `/api/work-orders/{id}` - Update status/assignment
+- POST `/api/work-orders/{id}/complete` - Complete with log
+
+### Preventive Tasks
+- GET `/api/preventive-tasks` - List (filter: machine_id, overdue)
+- POST `/api/preventive-tasks` - Create
+- GET `/api/preventive-tasks/{id}` - Detail
+- PUT `/api/preventive-tasks/{id}` - Update
+- DELETE `/api/preventive-tasks/{id}` - Deactivate
+
+### Dashboard & Reports
+- GET `/api/dashboard/metrics` - All dashboard data (filter: date_from, date_to, location_id)
+- GET `/api/reports/downtime-by-machine` - Downtime per machine
+- GET `/api/reports/completion-time-metrics` - WO completion metrics
+
+### Import
+- POST `/api/machines/import/upload` - Upload CSV
+- POST `/api/machines/import/validate` - Validate with mapping
+- POST `/api/machines/import/confirm` - Execute import
+
+### Utility
+- GET `/api/locations` - List locations
+- POST `/api/locations` - Create location
+- GET `/api/cause-categories` - List cause categories
+- POST `/api/cause-categories` - Create category
+- GET `/api/users` - List users (manager only)
+- POST `/api/users` - Create user (manager only)
+
+---
+
+## Frontend Screens Summary
+
+### Public
+- Login
+- Register (company + first user)
+
+### Operator
+- Dashboard (simplified: my open WOs)
+- Report Breakdown (mobile-optimized)
+- My Work Orders (read-only list)
+
+### Technician
+- Dashboard (my assigned WOs + open WOs)
+- Work Order List (filters, sorting)
+- Work Order Detail (status updates, completion form)
+- Machine List
+- Machine Detail
+
+### Manager
+- Dashboard (metrics, top machines)
+- Machines (list, add/edit, detail, analytics, import)
+- Work Orders (full list with filters)
+- Preventive Tasks (list, add/edit, detail)
+- Locations (list, add/edit)
+- Cause Categories (list, add/edit)
+- Users (list, add/edit)
+- Settings (company profile, preferences)
 
 ---
 
 ## Getting Started
 
-To begin implementation:
-1. Review this plan and confirm scope with stakeholders
-2. Start with Phase 1, Task 1.1 (Database Schema)
-3. Work through tasks sequentially within each phase
-4. Test each feature before moving to the next
-5. Regularly commit code and document changes
+1. Review this implementation plan
+2. Set up development environment (Laravel + database)
+3. Start with **Phase 1, Task 1.1** (Database models)
+4. Work sequentially through each phase
+5. Test thoroughly after each section
+6. Update checkboxes as tasks are completed
+
+**Recommended Order:**
+1. Models & migrations → API endpoints → Frontend screens
+2. Test each feature end-to-end before moving to next
+3. Use Postman/Insomnia to test API endpoints
+4. Build mobile-responsive from the start (don't retrofit later)
 
 ---
 
 ## Progress Tracking
 
-Update the checkboxes above as tasks are completed. Move completed phases to a "Completed" section at the bottom of this document.
+Mark tasks as completed by changing `[ ]` to `[x]`.
+
+Track completed phases here:
+- Phase 1 completed: ___________
+- Phase 2 completed: ___________
+- Phase 3 completed: ___________
+- Phase 4 completed: ___________
