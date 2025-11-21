@@ -192,7 +192,7 @@ export default function Welcome({
 
                         {/* Dashboard Screenshot Placeholder */}
                         <div className="mb-16">
-                            <div className="mx-auto aspect-video w-full max-w-5xl rounded-xl bg-accent shadow-2xl" />
+                            <div className="mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent shadow-2xl" />
                         </div>
 
                         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -347,7 +347,7 @@ export default function Welcome({
 
                         {/* Factory Photo Placeholder */}
                         <div className="mb-16">
-                            <div className="mx-auto aspect-[21/9] w-full max-w-6xl rounded-xl bg-accent shadow-xl" />
+                            <div className="mx-auto aspect-[21/9] w-full max-w-7xl rounded-xl bg-accent shadow-xl" />
                         </div>
 
                         <div className="grid gap-6 md:grid-cols-3">
@@ -452,11 +452,11 @@ export default function Welcome({
 
                 {/* FAQ Section */}
                 <section className="py-20">
-                    <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <h2 className="mb-12 text-center text-3xl font-bold">
                             Veelgestelde vragen over onderhoudssoftware (CMMS)
                         </h2>
-                        <Accordion type="single" collapsible className="w-full">
+                        <Accordion type="single" collapsible className="mx-auto w-full max-w-3xl">
                             <AccordionItem value="item-1">
                                 <AccordionTrigger className="text-left">
                                     Wat is het verschil tussen LineCare en een groot
@@ -527,7 +527,7 @@ export default function Welcome({
 
                 {/* Contact/Demo Section */}
                 <section id="demo" className="bg-muted/50 py-20">
-                    <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <div className="mb-12 text-center">
                             <h2 className="mb-4 text-3xl font-bold">
                                 Plan een korte online demo
@@ -538,7 +538,7 @@ export default function Welcome({
                                 voor een vrijblijvende demo.
                             </p>
                         </div>
-                        <Card>
+                        <Card className="mx-auto max-w-3xl">
                             <CardContent className="pt-6">
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="grid gap-4 sm:grid-cols-2">

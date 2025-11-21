@@ -250,11 +250,11 @@ export default function Prijzen({
 
                 {/* FAQ Section */}
                 <section className="bg-muted/50 py-20">
-                    <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <h2 className="mb-12 text-center text-3xl font-bold">
                             Veelgestelde vragen over prijzen
                         </h2>
-                        <div className="space-y-8">
+                        <div className="mx-auto max-w-3xl space-y-8">
                             <div>
                                 <div className="mb-2 flex items-start gap-2">
                                     <HelpCircle className="mt-1 h-5 w-5 text-primary" />
@@ -343,7 +343,7 @@ export default function Prijzen({
 
                 {/* CTA Section */}
                 <section className="py-20">
-                    <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                         <h2 className="mb-4 text-3xl font-bold">
                             Klaar om te starten?
                         </h2>

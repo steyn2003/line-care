@@ -314,7 +314,7 @@ export default function Oplossing({
 
                 {/* CTA Section */}
                 <section className="py-20">
-                    <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                         <h2 className="mb-4 text-3xl font-bold">
                             Klaar om LineCare te proberen?
                         </h2>

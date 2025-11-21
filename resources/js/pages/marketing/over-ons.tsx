@@ -45,11 +45,11 @@ export default function OverOns({
 
                 {/* Story */}
                 <section className="bg-muted/50 py-20">
-                    <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                         <h2 className="mb-8 text-center text-3xl font-bold">
                             Ons verhaal
                         </h2>
-                        <div className="space-y-6 text-lg text-muted-foreground">
+                        <div className="mx-auto max-w-4xl space-y-6 text-lg text-muted-foreground">
                             <p>
                                 LineCare ontstond uit frustratie. Frustratie over
                                 onderhoudssoftware die te complex is, te duur is, en te
@@ -291,7 +291,7 @@ export default function OverOns({
 
                 {/* CTA Section */}
                 <section className="bg-muted/50 py-20">
-                    <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                         <h2 className="mb-4 text-3xl font-bold">
                             Wil je kennismaken?
                         </h2>

@@ -438,7 +438,7 @@ export default function VoorWie({
 
                 {/* CTA Section */}
                 <section className="bg-muted/50 py-20">
-                    <div className="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+                    <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
                         <h2 className="mb-4 text-3xl font-bold">
                             Klinkt dit als jouw fabriek?
                         </h2>
