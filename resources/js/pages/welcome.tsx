@@ -88,16 +88,14 @@ export default function Welcome({
                             </Button>
                         </a>
                     </div>
-                    {/* Hero Image: Screenshot of LineCare dashboard or product demo video */}
-                    <div className="relative mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                            <p className="text-center text-sm text-muted-foreground">
-                                Screenshot van LineCare dashboard
-                                <br />
-                                of product demo video
-                            </p>
-                        </div>
-                    </div>
+                </div>
+                {/* Hero Image: Screenshot of LineCare dashboard or product demo video */}
+                <div className="mx-auto aspect-video w-full max-w-7xl overflow-hidden rounded-xl">
+                    <img
+                        src="/images/marketing/line-care-dashbaord.png"
+                        alt="LineCare dashboard - overzicht van machines, storingen en onderhoud"
+                        className="h-full w-full object-cover"
+                    />
                 </div>
             </section>
 
@@ -197,14 +195,12 @@ export default function Welcome({
 
                     {/* Dashboard Screenshot: Main dashboard showing work orders and machine overview */}
                     <div className="mb-16">
-                        <div className="relative mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent shadow-2xl">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <p className="text-center text-sm text-muted-foreground">
-                                    Dashboard screenshot:
-                                    <br />
-                                    werk orders overzicht & machine status
-                                </p>
-                            </div>
+                        <div className="mx-auto aspect-video w-full max-w-7xl overflow-hidden rounded-xl shadow-2xl">
+                            <img
+                                src="/images/marketing/work-order-dashboard.png"
+                                alt="LineCare werk orders overzicht en machine status dashboard"
+                                className="h-full w-full object-cover"
+                            />
                         </div>
                     </div>
 
@@ -286,14 +282,12 @@ export default function Welcome({
                                 </p>
                             </div>
                             {/* Screenshot: Machine import/add form or CSV upload interface */}
-                            <div className="relative order-1 aspect-video rounded-lg bg-accent md:order-2">
-                                <div className="absolute inset-0 flex items-center justify-center p-4">
-                                    <p className="text-center text-xs text-muted-foreground">
-                                        Screenshot: machine toevoegen formulier
-                                        <br />
-                                        of CSV import interface
-                                    </p>
-                                </div>
+                            <div className="order-1 aspect-video overflow-hidden rounded-lg shadow-lg md:order-2">
+                                <img
+                                    src="/images/marketing/import-machine-data.png"
+                                    alt="Machine import - CSV upload interface voor het snel importeren van machines"
+                                    className="h-full w-full object-cover"
+                                />
                             </div>
                         </div>
 
