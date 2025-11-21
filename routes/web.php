@@ -10,6 +10,25 @@ Route::get('/', function () {
     ]);
 })->name('home');
 
+// Marketing pages (public)
+Route::get('/oplossing', function () {
+    return Inertia::render('marketing/oplossing', [
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('marketing.oplossing');
+
+Route::get('/functionaliteiten', function () {
+    return Inertia::render('marketing/functionaliteiten', [
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('marketing.functionaliteiten');
+
+Route::get('/prijzen', function () {
+    return Inertia::render('marketing/prijzen', [
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('marketing.prijzen');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
