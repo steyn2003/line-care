@@ -15,24 +15,25 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     AlertTriangle,
-    BarChart3,
     Calendar,
     ClipboardList,
     LayoutGrid,
     MapPin,
-    Settings,
     TrendingDown,
     Users,
     Wrench,
 } from 'lucide-react';
 import AppLogo from './app-logo';
 
-const mainNavItems: NavItem[] = [
+const overviewNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
     },
+];
+
+const maintenanceNavItems: NavItem[] = [
     {
         title: 'Machines',
         href: '/machines',
@@ -53,39 +54,31 @@ const mainNavItems: NavItem[] = [
         href: '/preventive-tasks',
         icon: Calendar,
     },
+];
+
+const reportsNavItems: NavItem[] = [
     {
-        title: 'Reports',
-        href: '#',
-        icon: BarChart3,
-        items: [
-            {
-                title: 'Downtime Report',
-                href: '/reports/downtime',
-                icon: TrendingDown,
-            },
-        ],
+        title: 'Downtime Report',
+        href: '/reports/downtime',
+        icon: TrendingDown,
+    },
+];
+
+const settingsNavItems: NavItem[] = [
+    {
+        title: 'Locations',
+        href: '/locations',
+        icon: MapPin,
     },
     {
-        title: 'Settings',
-        href: '#',
-        icon: Settings,
-        items: [
-            {
-                title: 'Locations',
-                href: '/locations',
-                icon: MapPin,
-            },
-            {
-                title: 'Cause Categories',
-                href: '/cause-categories',
-                icon: AlertTriangle,
-            },
-            {
-                title: 'Users',
-                href: '/users',
-                icon: Users,
-            },
-        ],
+        title: 'Cause Categories',
+        href: '/cause-categories',
+        icon: AlertTriangle,
+    },
+    {
+        title: 'Users',
+        href: '/users',
+        icon: Users,
     },
 ];
 
@@ -107,7 +100,10 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain label="Overview" items={overviewNavItems} />
+                <NavMain label="Maintenance" items={maintenanceNavItems} />
+                <NavMain label="Reports" items={reportsNavItems} />
+                <NavMain label="Settings" items={settingsNavItems} />
             </SidebarContent>
 
             <SidebarFooter>
