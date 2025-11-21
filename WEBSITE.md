@@ -27,8 +27,8 @@ The application itself is complete and production-ready.
 
 ## 1. Site Structure Setup
 - [ ] Set up domain and hosting
-- [ ] Create URL structure:
-  - [ ] `/` – Home
+- [x] Create URL structure:
+  - [x] `/` – Home (LIVE - Marketing homepage with all sections)
   - [ ] `/oplossing` – Oplossing/Product
   - [ ] `/voor-wie/kleine-fabrieken` – Voor wie
   - [ ] `/functionaliteiten` – Functionaliteiten
@@ -41,77 +41,74 @@ The application itself is complete and production-ready.
 
 ## 2. Homepage Sections
 
-### Hero Section
-- [ ] Write H1: "Eenvoudige onderhoudssoftware (CMMS) voor kleine fabrieken"
-- [ ] Write subtext (1-2 zinnen over Excel/WhatsApp/whiteboard probleem)
-- [ ] Create primary CTA button: "Plan een demo"
-- [ ] Create secondary CTA button: "Bekijk hoe het werkt"
-- [ ] Add hero image or screenshot
+### Hero Section ✅ COMPLETE
+- [x] Write H1: "Eenvoudige onderhoudssoftware (CMMS) voor kleine fabrieken"
+- [x] Write subtext (1-2 zinnen over Excel/WhatsApp/whiteboard probleem)
+- [x] Create primary CTA button: "Plan een demo"
+- [x] Create secondary CTA button: "Bekijk hoe het werkt"
+- [ ] Add hero image or screenshot (can be added later)
 
-### Section 2: Probleem
-- [ ] Write H2: "Herkenbaar? Onderhoud versnipperd in Excel, WhatsApp en op het whiteboard"
-- [ ] Create 4 bullet points:
-  - [ ] Storingen via WhatsApp verdwijnen
-  - [ ] Periodiek onderhoud in Excel of iemands hoofd
-  - [ ] Geen overzicht welke machines meeste stilstand veroorzaken
-  - [ ] Moeilijk kosten te tonen aan directie
-- [ ] Write short paragraph about "Hoofd TD, manusje-van-alles, brandjes blussen"
+### Section 2: Probleem ✅ COMPLETE
+- [x] Write H2: "Herkenbaar? Onderhoud versnipperd in Excel, WhatsApp en op het whiteboard"
+- [x] Create 4 bullet points:
+  - [x] Storingen via WhatsApp verdwijnen
+  - [x] Periodiek onderhoud in Excel of iemands hoofd
+  - [x] Geen overzicht welke machines meeste stilstand veroorzaken
+  - [x] Moeilijk kosten te tonen aan directie
+- [x] Write short paragraph about "Hoofd TD, manusje-van-alles, brandjes blussen"
 
-### Section 3: Oplossing in één zin
-- [ ] Write H2: "Alles rond onderhoud op één plek"
-- [ ] Write intro paragraph (CMMS voor kleine fabrieken)
-- [ ] Create 4 icon blocks:
-  - [ ] Storingen melden (30 seconden via mobiel)
-  - [ ] Periodiek onderhoud (taken + herinneringen)
-  - [ ] Overzicht per machine (storingen, stilstand, laatste onderhoud)
-  - [ ] Snel starten (Excel import, paar dagen live)
+### Section 3: Oplossing in één zin ✅ COMPLETE
+- [x] Write H2: "Alles rond onderhoud op één plek"
+- [x] Write intro paragraph (CMMS voor kleine fabrieken)
+- [x] Create 4 icon blocks:
+  - [x] Storingen melden (30 seconden via mobiel)
+  - [x] Periodiek onderhoud (taken + herinneringen)
+  - [x] Overzicht per machine (storingen, stilstand, laatste onderhoud)
+  - [x] Snel starten (Excel import, paar dagen live)
 
-### Section 4: Hoe het werkt
-- [ ] Write H2: "Hoe LineCare werkt in jouw fabriek"
-- [ ] Create 4-step flow:
-  - [ ] Step 1: Machines aanmaken/importeren
-  - [ ] Step 2: Operators melden storingen via mobiel
-  - [ ] Step 3: TD plant en voert werk uit
-  - [ ] Step 4: Inzicht in stilstand per machine
+### Section 4: Hoe het werkt ✅ COMPLETE
+- [x] Write H2: "Hoe LineCare werkt in jouw fabriek"
+- [x] Create 4-step flow:
+  - [x] Step 1: Machines aanmaken/importeren
+  - [x] Step 2: Operators melden storingen via mobiel
+  - [x] Step 3: TD plant en voert werk uit
+  - [x] Step 4: Inzicht in stilstand per machine
 
-### Section 5: Belangrijkste functionaliteiten
-- [ ] Write H2: "Belangrijkste functionaliteiten"
-- [ ] Create 3 feature blocks:
-  - [ ] **Storingsregistratie**: melden, status, foto's/notities
-  - [ ] **Periodiek onderhoud**: terugkerende taken, overzicht, meldingen
-  - [ ] **Inzicht & rapportage**: storingen per machine, stilstand, Excel export
+### Section 5: Belangrijkste functionaliteiten ✅ COMPLETE
+(Merged with Section 3 - 4 feature blocks cover the key functionality)
+- [x] Covered in Solution section with 4 comprehensive feature cards
 
-### Section 6: Voor wie is dit?
-- [ ] Write H2: "Voor kleine productiebedrijven met serieuze machines, maar geen logge IT"
-- [ ] Write description (10-150 medewerkers, metaal/kunststof/food/hout)
-- [ ] Create 3 bullets:
-  - [ ] Hoofd technische dienst / TD
-  - [ ] Productie- of operations manager
-  - [ ] Eigenaar maakbedrijf
-- [ ] Link to `/voor-wie` page
+### Section 6: Voor wie is dit? ✅ COMPLETE
+- [x] Write H2: "Voor kleine productiebedrijven met serieuze machines, maar geen logge IT"
+- [x] Write description (10-150 medewerkers, metaal/kunststof/food/hout)
+- [x] Create 3 bullets:
+  - [x] Hoofd technische dienst / TD
+  - [x] Productie- of operations manager
+  - [x] Eigenaar maakbedrijf
+- [ ] Link to `/voor-wie` page (page needs to be created first)
 
-### Section 7: Pilot/Proof
-- [ ] Write H2: "Start met een kleine pilot, niet met een groot IT-project"
-- [ ] Write intro text (klein starten, 3 maanden)
-- [ ] Create 3 bullets:
-  - [ ] Setup in een paar dagen
-  - [ ] Training voor operators en TD
-  - [ ] Maandelijkse check-in en rapportje
-- [ ] Add CTA: "Plan een pilot-gesprek"
+### Section 7: Pilot/Proof ✅ COMPLETE
+- [x] Write H2: "Start met een kleine pilot, niet met een groot IT-project"
+- [x] Write intro text (klein starten, 3 maanden)
+- [x] Create 3 bullets:
+  - [x] Setup in een paar dagen
+  - [x] Training voor operators en TD
+  - [x] Maandelijkse check-in en rapportje
+- [x] Add CTA: "Plan een pilot-gesprek"
 
-### Section 8: FAQ
-- [ ] Write H2: "Veelgestelde vragen over onderhoudssoftware (CMMS)"
-- [ ] Create 5 Q&A pairs (H3 for questions):
-  - [ ] "Wat is het verschil tussen LineCare en een groot CMMS-pakket?"
-  - [ ] "Hoe snel kunnen we live gaan?"
-  - [ ] "Werkt dit op telefoon en tablet?"
-  - [ ] "Kunnen we onze huidige Excel-lijst met machines importeren?"
-  - [ ] "Hoeveel kost het per maand?"
+### Section 8: FAQ ✅ COMPLETE
+- [x] Write H2: "Veelgestelde vragen over onderhoudssoftware (CMMS)"
+- [x] Create 5 Q&A pairs (H3 for questions):
+  - [x] "Wat is het verschil tussen LineCare en een groot CMMS-pakket?"
+  - [x] "Hoe snel kunnen we live gaan?"
+  - [x] "Werkt dit op telefoon en tablet?"
+  - [x] "Kunnen we onze huidige Excel-lijst met machines importeren?"
+  - [x] "Hoeveel kost het per maand?"
 
-### Section 9: Footer/Contact
-- [ ] Create mini CTA: "Plan een korte online demo"
-- [ ] Build contact form (naam, bedrijf, email, aantal medewerkers, tekst)
-- [ ] Add footer links: Over ons, Blog, Privacy
+### Section 9: Footer/Contact ✅ COMPLETE
+- [x] Create mini CTA: "Plan een korte online demo"
+- [x] Build contact form (naam, bedrijf, email, aantal medewerkers, tekst)
+- [x] Add footer links: Over ons, Blog, Privacy
 
 ---
 
