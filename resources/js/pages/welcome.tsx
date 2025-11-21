@@ -189,6 +189,12 @@ export default function Welcome({
                                 gebruikt, maar precies wat je nodig hebt.
                             </p>
                         </div>
+
+                        {/* Dashboard Screenshot Placeholder */}
+                        <div className="mb-16">
+                            <div className="mx-auto aspect-video w-full max-w-5xl rounded-xl bg-accent shadow-2xl" />
+                        </div>
+
                         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                             <Card>
                                 <CardHeader>
@@ -249,62 +255,77 @@ export default function Welcome({
                         <h2 className="mb-12 text-center text-3xl font-bold">
                             Hoe LineCare werkt in jouw fabriek
                         </h2>
-                        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
-                            <div className="text-center">
-                                <div className="mb-4 flex justify-center">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
+                        <div className="grid gap-12 md:gap-16">
+                            {/* Step 1 */}
+                            <div className="grid items-center gap-8 md:grid-cols-2">
+                                <div className="order-2 md:order-1">
+                                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
                                         1
                                     </div>
+                                    <h3 className="mb-3 text-2xl font-semibold">
+                                        Machines aanmaken/importeren
+                                    </h3>
+                                    <p className="text-muted-foreground">
+                                        Voeg je machines toe via een simpel formulier of
+                                        importeer je bestaande Excel-lijst. Binnen enkele
+                                        minuten heb je alle machines in het systeem staan.
+                                    </p>
                                 </div>
-                                <h3 className="mb-2 text-lg font-semibold">
-                                    Machines aanmaken/importeren
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Voeg je machines toe via een simpel formulier of
-                                    importeer je bestaande Excel-lijst.
-                                </p>
+                                <div className="order-1 aspect-video rounded-lg bg-accent md:order-2" />
                             </div>
-                            <div className="text-center">
-                                <div className="mb-4 flex justify-center">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
+
+                            {/* Step 2 */}
+                            <div className="grid items-center gap-8 md:grid-cols-2">
+                                <div className="order-1 aspect-video rounded-lg bg-accent" />
+                                <div className="order-2">
+                                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
                                         2
                                     </div>
+                                    <h3 className="mb-3 text-2xl font-semibold">
+                                        Operators melden storingen via mobiel
+                                    </h3>
+                                    <p className="text-muted-foreground">
+                                        Storing? Selecteer machine, beschrijf probleem,
+                                        voeg eventueel foto toe. Klaar in 30 seconden. Geen
+                                        gedoe met WhatsApp of papieren formulieren meer.
+                                    </p>
                                 </div>
-                                <h3 className="mb-2 text-lg font-semibold">
-                                    Operators melden storingen via mobiel
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Storing? Selecteer machine, beschrijf probleem,
-                                    voeg eventueel foto toe. Klaar in 30 seconden.
-                                </p>
                             </div>
-                            <div className="text-center">
-                                <div className="mb-4 flex justify-center">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
+
+                            {/* Step 3 */}
+                            <div className="grid items-center gap-8 md:grid-cols-2">
+                                <div className="order-2 md:order-1">
+                                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
                                         3
                                     </div>
+                                    <h3 className="mb-3 text-2xl font-semibold">
+                                        TD plant en voert werk uit
+                                    </h3>
+                                    <p className="text-muted-foreground">
+                                        Technische dienst ziet alle openstaande taken in één
+                                        overzicht, pakt werk op en registreert wat gedaan is.
+                                        Alle informatie op één plek.
+                                    </p>
                                 </div>
-                                <h3 className="mb-2 text-lg font-semibold">
-                                    TD plant en voert werk uit
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Technische dienst ziet alle openstaande taken,
-                                    pakt werk op en registreert wat gedaan is.
-                                </p>
+                                <div className="order-1 aspect-video rounded-lg bg-accent md:order-2" />
                             </div>
-                            <div className="text-center">
-                                <div className="mb-4 flex justify-center">
-                                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-primary text-2xl font-bold text-primary-foreground">
+
+                            {/* Step 4 */}
+                            <div className="grid items-center gap-8 md:grid-cols-2">
+                                <div className="order-1 aspect-video rounded-lg bg-accent" />
+                                <div className="order-2">
+                                    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
                                         4
                                     </div>
+                                    <h3 className="mb-3 text-2xl font-semibold">
+                                        Inzicht in stilstand per machine
+                                    </h3>
+                                    <p className="text-muted-foreground">
+                                        Dashboard toont direct welke machines het vaakst
+                                        uitvallen en hoeveel stilstand ze veroorzaken. Eindelijk
+                                        data om beslissingen op te baseren.
+                                    </p>
                                 </div>
-                                <h3 className="mb-2 text-lg font-semibold">
-                                    Inzicht in stilstand per machine
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Dashboard toont direct welke machines het vaakst
-                                    uitvallen en hoeveel stilstand ze veroorzaken.
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -323,6 +344,12 @@ export default function Welcome({
                             spuit, voedsel verpakt of hout zaagt - als je machines
                             hebt die onderhoud nodig hebben, is LineCare voor jou.
                         </p>
+
+                        {/* Factory Photo Placeholder */}
+                        <div className="mb-16">
+                            <div className="mx-auto aspect-[21/9] w-full max-w-6xl rounded-xl bg-accent shadow-xl" />
+                        </div>
+
                         <div className="grid gap-6 md:grid-cols-3">
                             <Card>
                                 <CardHeader>
