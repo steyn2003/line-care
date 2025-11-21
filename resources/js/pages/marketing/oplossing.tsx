@@ -2,16 +2,13 @@ import { Button } from '@/components/ui/button';
 import {
     Card,
     CardContent,
-    CardDescription,
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
-import { dashboard, login, register } from '@/routes';
-import { type SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { MarketingLayout } from '@/layouts/marketing-layout';
+import { Link } from '@inertiajs/react';
 import {
     AlertCircle,
-    ArrowRight,
     CheckCircle2,
     Clock,
     FileText,
@@ -25,80 +22,12 @@ export default function Oplossing({
 }: {
     canRegister?: boolean;
 }) {
-    const { auth } = usePage<SharedData>().props;
-
     return (
-        <>
-            <Head title="De oplossing - LineCare" />
-
-            {/* Navigation */}
-            <nav className="sticky top-0 z-50 border-b bg-white">
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                    <div className="flex h-16 items-center justify-between">
-                        <div className="flex items-center gap-8">
-                            <Link href="/">
-                                <h2 className="text-2xl font-bold text-primary">
-                                    LineCare
-                                </h2>
-                            </Link>
-                            <div className="hidden items-center gap-6 md:flex">
-                                <Link
-                                    href="/oplossing"
-                                    className="text-sm font-medium text-primary"
-                                >
-                                    Oplossing
-                                </Link>
-                                <Link
-                                    href="/functionaliteiten"
-                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                                >
-                                    Functionaliteiten
-                                </Link>
-                                <Link
-                                    href="/prijzen"
-                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                                >
-                                    Prijzen
-                                </Link>
-                                <Link
-                                    href="/voor-wie"
-                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                                >
-                                    Voor wie
-                                </Link>
-                                <Link
-                                    href="/over-ons"
-                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
-                                >
-                                    Over ons
-                                </Link>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            {auth.user ? (
-                                <Link href={dashboard()}>
-                                    <Button variant="default">Dashboard</Button>
-                                </Link>
-                            ) : (
-                                <>
-                                    <Link href={login()}>
-                                        <Button variant="ghost" size="sm">
-                                            Inloggen
-                                        </Button>
-                                    </Link>
-                                    {canRegister && (
-                                        <Link href={register()}>
-                                            <Button size="sm">Probeer gratis</Button>
-                                        </Link>
-                                    )}
-                                </>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </nav>
-
-            <div className="bg-background">
+        <MarketingLayout
+            title="De oplossing - LineCare"
+            canRegister={canRegister}
+            currentPath="/oplossing"
+        >
                 {/* Hero Section */}
                 <section className="py-20">
                     <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -412,59 +341,6 @@ export default function Oplossing({
                     </div>
                 </section>
 
-                {/* Footer */}
-                <footer className="border-t bg-background py-12">
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="grid gap-8 md:grid-cols-4">
-                            <div>
-                                <h3 className="mb-4 text-lg font-semibold">
-                                    LineCare
-                                </h3>
-                                <p className="text-sm text-muted-foreground">
-                                    Eenvoudige onderhoudssoftware voor kleine
-                                    fabrieken.
-                                </p>
-                            </div>
-                            <div>
-                                <h4 className="mb-4 text-sm font-semibold">
-                                    Product
-                                </h4>
-                                <ul className="space-y-2 text-sm text-muted-foreground">
-                                    <li>
-                                        <Link href="/#hoe-het-werkt">
-                                            Hoe het werkt
-                                        </Link>
-                                    </li>
-                                    <li>
-                                        <Link href="/#demo">Demo aanvragen</Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 className="mb-4 text-sm font-semibold">
-                                    Bedrijf
-                                </h4>
-                                <ul className="space-y-2 text-sm text-muted-foreground">
-                                    <li>
-                                        <Link href="/#demo">Contact</Link>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div>
-                                <h4 className="mb-4 text-sm font-semibold">Legal</h4>
-                                <ul className="space-y-2 text-sm text-muted-foreground">
-                                    <li>
-                                        <a href="#">Privacy</a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div className="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-                            © 2025 LineCare. Alle rechten voorbehouden.
-                        </div>
-                    </div>
-                </footer>
-            </div>
-        </>
+        </MarketingLayout>
     );
 }
