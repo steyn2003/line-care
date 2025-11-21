@@ -400,15 +400,11 @@ export default function Welcome({
 
                     {/* Factory Photo: Wide shot of real manufacturing floor with machines */}
                     <div className="mb-16">
-                        <div className="relative mx-auto aspect-[21/9] w-full max-w-7xl rounded-xl bg-accent shadow-xl">
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <p className="text-center text-sm text-muted-foreground">
-                                    Foto: productiehallen met machines
-                                    <br />
-                                    (breed formaat, sfeerbeeld kleine fabriek)
-                                </p>
-                            </div>
-                        </div>
+                        <img
+                            src="/images/marketing/small-factory.jpg"
+                            alt="Kleine fabriek met productielijn en machines"
+                            className="mx-auto aspect-[21/9] w-full max-w-7xl rounded-xl object-cover shadow-xl"
+                        />
                     </div>
 
                     <div className="grid gap-6 md:grid-cols-3">
