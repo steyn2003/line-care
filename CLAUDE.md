@@ -1,4 +1,4 @@
-# CMMS MVP - Product Requirements Document
+# LineCare - Product Requirements Document
 
 ## 1. MVP Scope & Phases
 

@@ -1,11 +1,13 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
-    "name": "laravel/react-starter-kit",
+    "name": "linecare/cmms",
     "type": "project",
-    "description": "The skeleton application for the Laravel framework.",
+    "description": "LineCare - Simple maintenance management system (CMMS) for small factories.",
     "keywords": [
-        "laravel",
-        "framework"
+        "cmms",
+        "maintenance",
+        "manufacturing",
+        "laravel"
     ],
     "license": "MIT",
     "require": {

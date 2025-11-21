@@ -1,8 +1,8 @@
-# CMMS MVP - User Guide
+# LineCare - User Guide
 
 ## Quick Start Guide
 
-Welcome to the CMMS (Computerized Maintenance Management System)! This guide will help you get started based on your role.
+Welcome to **LineCare**! This simple CMMS (Computerized Maintenance Management System) helps you manage maintenance operations in your factory. This guide will help you get started based on your role.
 
 ---
 

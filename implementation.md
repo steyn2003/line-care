@@ -1,4 +1,4 @@
-# CMMS MVP - Implementation Plan
+# LineCare - Implementation Plan
 
 This document breaks down the tasks from `claude.md` into actionable implementation items with concrete API endpoints, frontend flows, and technical details based on `PROMPTS.md`.
 

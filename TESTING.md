@@ -1,8 +1,8 @@
-# CMMS MVP - Testing Guide
+# LineCare - Testing Guide
 
 ## Overview
 
-This document describes the testing approach for the CMMS MVP and provides instructions for running the test suite.
+This document describes the testing approach for LineCare and provides instructions for running the test suite.
 
 ---
 
