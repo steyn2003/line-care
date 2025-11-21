@@ -29,10 +29,10 @@ The application itself is complete and production-ready.
 - [ ] Set up domain and hosting
 - [x] Create URL structure:
   - [x] `/` – Home (LIVE - Marketing homepage with all sections)
-  - [ ] `/oplossing` – Oplossing/Product
+  - [x] `/oplossing` – Oplossing/Product (LIVE)
   - [ ] `/voor-wie/kleine-fabrieken` – Voor wie
-  - [ ] `/functionaliteiten` – Functionaliteiten
-  - [ ] `/prijzen` – Prijzen
+  - [x] `/functionaliteiten` – Functionaliteiten (LIVE)
+  - [x] `/prijzen` – Prijzen (LIVE)
   - [ ] `/over-ons` – Over ons
   - [ ] `/blog` – Blog/Kennisbank
   - [ ] `/contact` – Contact/Demo aanvragen
@@ -114,13 +114,13 @@ The application itself is complete and production-ready.
 
 ## 3. Subpages
 
-### `/oplossing` - Oplossing/Product
-- [ ] Write H1: "De oplossing: één plek voor al je onderhoud in de fabriek"
-- [ ] Add detailed explanation with screenshots
-- [ ] Create 2 scenario sections:
-  - [ ] "Machine valt stil" → wat gebeurt er
-  - [ ] "Periodiek onderhoud komt eraan" → hoe zichtbaar
-- [ ] Add CTA: "Bekijk demo"
+### `/oplossing` - Oplossing/Product ✅ COMPLETE
+- [x] Write H1: "De oplossing: één plek voor al je onderhoud in de fabriek"
+- [x] Add detailed explanation with benefits section (6 key benefits)
+- [x] Create 2 scenario sections:
+  - [x] "Machine valt stil" → 4-step breakdown flow
+  - [x] "Periodiek onderhoud komt eraan" → 4-step preventive flow
+- [x] Add CTA: "Plan een demo"
 
 ### `/voor-wie/kleine-fabrieken` - Voor wie
 - [ ] Write H1: "Onderhoudssoftware voor kleine fabrieken in Nederland"
@@ -130,19 +130,21 @@ The application itself is complete and production-ready.
   - [ ] Familiebedrijf met 2 lijnen
 - [ ] Explain why built for small factories (niet multinationals)
 
-### `/functionaliteiten` - Functionaliteiten
-- [ ] Write H1: "Functionaliteiten van LineCare"
-- [ ] Create detailed sections (each with H2 + 2-3 paragraphs):
-  - [ ] Storingsregistratie / werkorders
-  - [ ] Periodiek onderhoud
-  - [ ] Dashboards & rapportage
-  - [ ] Mobiele toegang
-  - [ ] CSV-import
+### `/functionaliteiten` - Functionaliteiten ✅ COMPLETE
+- [x] Write H1: "Functionaliteiten van LineCare"
+- [x] Create detailed sections (each with H2 + feature cards):
+  - [x] Storingsregistratie / werkorders (6 detailed features)
+  - [x] Periodiek onderhoud (6 detailed features)
+  - [x] Dashboards & rapportage (6 detailed features)
+  - [x] Mobiele toegang (3 detailed features)
+  - [x] CSV-import (3 detailed features)
 
-### `/prijzen` - Prijzen
-- [ ] Create pricing structure
-- [ ] Add pricing tiers/options
-- [ ] Include pilot pricing if applicable
+### `/prijzen` - Prijzen ✅ COMPLETE
+- [x] Create pricing structure (3 tiers)
+- [x] Add pricing tiers: Starter (€49), Professional (€99), Enterprise (custom)
+- [x] Include pilot pricing mention in FAQ
+- [x] Add 6 pricing FAQs
+- [x] Feature comparison between tiers
 
 ### `/over-ons` - Over ons
 - [ ] Write company story
