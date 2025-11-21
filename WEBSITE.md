@@ -30,10 +30,10 @@ The application itself is complete and production-ready.
 - [x] Create URL structure:
   - [x] `/` – Home (LIVE - Marketing homepage with all sections)
   - [x] `/oplossing` – Oplossing/Product (LIVE)
-  - [ ] `/voor-wie/kleine-fabrieken` – Voor wie
+  - [x] `/voor-wie` – Voor wie (LIVE)
   - [x] `/functionaliteiten` – Functionaliteiten (LIVE)
   - [x] `/prijzen` – Prijzen (LIVE)
-  - [ ] `/over-ons` – Over ons
+  - [x] `/over-ons` – Over ons (LIVE)
   - [ ] `/blog` – Blog/Kennisbank
   - [ ] `/contact` – Contact/Demo aanvragen
 
@@ -122,13 +122,13 @@ The application itself is complete and production-ready.
   - [x] "Periodiek onderhoud komt eraan" → 4-step preventive flow
 - [x] Add CTA: "Plan een demo"
 
-### `/voor-wie/kleine-fabrieken` - Voor wie
-- [ ] Write H1: "Onderhoudssoftware voor kleine fabrieken in Nederland"
-- [ ] Explain typical situation (Excel/whiteboard/WhatsApp)
-- [ ] Create 2-3 mini-cases:
-  - [ ] Fabriek met 40 man
-  - [ ] Familiebedrijf met 2 lijnen
-- [ ] Explain why built for small factories (niet multinationals)
+### `/voor-wie` - Voor wie ✅ COMPLETE
+- [x] Write H1: "Onderhoudssoftware voor kleine fabrieken in Nederland"
+- [x] Explain typical situation (Excel/whiteboard/WhatsApp) - 4 pain point cards
+- [x] Create 2 detailed mini-cases:
+  - [x] Fabriek met 40 medewerkers (metaalbewerking)
+  - [x] Familiebedrijf met 2 lijnen (kunststof spuitgieten)
+- [x] Explain why built for small factories (6 reasons)
 
 ### `/functionaliteiten` - Functionaliteiten ✅ COMPLETE
 - [x] Write H1: "Functionaliteiten van LineCare"
@@ -146,10 +146,12 @@ The application itself is complete and production-ready.
 - [x] Add 6 pricing FAQs
 - [x] Feature comparison between tiers
 
-### `/over-ons` - Over ons
-- [ ] Write company story
-- [ ] Explain mission/vision
-- [ ] Add team info (optional)
+### `/over-ons` - Over ons ✅ COMPLETE
+- [x] Write company story (origin and frustration that led to LineCare)
+- [x] Explain mission ("Help small factories professionalize")
+- [x] Explain vision ("Every factory knows which machines are problematic")
+- [x] Add 6 core values
+- [x] Add "How we work" section (3-step process)
 
 ### `/blog` - Kennisbank (SEO machine)
 - [ ] Set up blog structure
