@@ -29,6 +29,18 @@ Route::get('/prijzen', function () {
     ]);
 })->name('marketing.prijzen');
 
+Route::get('/voor-wie', function () {
+    return Inertia::render('marketing/voor-wie', [
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('marketing.voor-wie');
+
+Route::get('/over-ons', function () {
+    return Inertia::render('marketing/over-ons', [
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('marketing.over-ons');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
