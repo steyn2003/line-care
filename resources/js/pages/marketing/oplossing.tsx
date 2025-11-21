@@ -32,15 +32,47 @@ export default function Oplossing({
             <Head title="De oplossing - LineCare" />
 
             {/* Navigation */}
-            <nav className="border-b bg-white">
+            <nav className="sticky top-0 z-50 border-b bg-white">
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex h-16 items-center justify-between">
-                        <div className="flex items-center">
+                        <div className="flex items-center gap-8">
                             <Link href="/">
                                 <h2 className="text-2xl font-bold text-primary">
                                     LineCare
                                 </h2>
                             </Link>
+                            <div className="hidden items-center gap-6 md:flex">
+                                <Link
+                                    href="/oplossing"
+                                    className="text-sm font-medium text-primary"
+                                >
+                                    Oplossing
+                                </Link>
+                                <Link
+                                    href="/functionaliteiten"
+                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                                >
+                                    Functionaliteiten
+                                </Link>
+                                <Link
+                                    href="/prijzen"
+                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                                >
+                                    Prijzen
+                                </Link>
+                                <Link
+                                    href="/voor-wie"
+                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                                >
+                                    Voor wie
+                                </Link>
+                                <Link
+                                    href="/over-ons"
+                                    className="text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+                                >
+                                    Over ons
+                                </Link>
+                            </div>
                         </div>
                         <div className="flex items-center gap-4">
                             {auth.user ? (
@@ -50,11 +82,13 @@ export default function Oplossing({
                             ) : (
                                 <>
                                     <Link href={login()}>
-                                        <Button variant="ghost">Inloggen</Button>
+                                        <Button variant="ghost" size="sm">
+                                            Inloggen
+                                        </Button>
                                     </Link>
                                     {canRegister && (
                                         <Link href={register()}>
-                                            <Button>Probeer gratis</Button>
+                                            <Button size="sm">Probeer gratis</Button>
                                         </Link>
                                     )}
                                 </>
