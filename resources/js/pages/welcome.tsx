@@ -94,7 +94,16 @@ export default function Welcome({
                             </a>
                         </div>
                     </div>
-                    <div className="mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent" />
+                    {/* Hero Image: Screenshot of LineCare dashboard or product demo video */}
+                    <div className="relative mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent">
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <p className="text-center text-sm text-muted-foreground">
+                                Screenshot van LineCare dashboard
+                                <br />
+                                of product demo video
+                            </p>
+                        </div>
+                    </div>
                 </section>
 
                 {/* Problem Section */}
@@ -190,9 +199,17 @@ export default function Welcome({
                             </p>
                         </div>
 
-                        {/* Dashboard Screenshot Placeholder */}
+                        {/* Dashboard Screenshot: Main dashboard showing work orders and machine overview */}
                         <div className="mb-16">
-                            <div className="mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent shadow-2xl" />
+                            <div className="relative mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent shadow-2xl">
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <p className="text-center text-sm text-muted-foreground">
+                                        Dashboard screenshot:
+                                        <br />
+                                        werk orders overzicht & machine status
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
@@ -271,12 +288,30 @@ export default function Welcome({
                                         minuten heb je alle machines in het systeem staan.
                                     </p>
                                 </div>
-                                <div className="order-1 aspect-video rounded-lg bg-accent md:order-2" />
+                                {/* Screenshot: Machine import/add form or CSV upload interface */}
+                                <div className="relative order-1 aspect-video rounded-lg bg-accent md:order-2">
+                                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                                        <p className="text-center text-xs text-muted-foreground">
+                                            Screenshot: machine toevoegen formulier
+                                            <br />
+                                            of CSV import interface
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Step 2 */}
                             <div className="grid items-center gap-8 md:grid-cols-2">
-                                <div className="order-1 aspect-video rounded-lg bg-accent" />
+                                {/* Screenshot: Mobile view of breakdown reporting form */}
+                                <div className="relative order-1 aspect-video rounded-lg bg-accent">
+                                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                                        <p className="text-center text-xs text-muted-foreground">
+                                            Screenshot: mobiele weergave
+                                            <br />
+                                            storing melden formulier op telefoon
+                                        </p>
+                                    </div>
+                                </div>
                                 <div className="order-2">
                                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
                                         2
@@ -307,12 +342,30 @@ export default function Welcome({
                                         Alle informatie op één plek.
                                     </p>
                                 </div>
-                                <div className="order-1 aspect-video rounded-lg bg-accent md:order-2" />
+                                {/* Screenshot: Work order list view for technicians */}
+                                <div className="relative order-1 aspect-video rounded-lg bg-accent md:order-2">
+                                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                                        <p className="text-center text-xs text-muted-foreground">
+                                            Screenshot: werk order lijst
+                                            <br />
+                                            voor technici met filters & status
+                                        </p>
+                                    </div>
+                                </div>
                             </div>
 
                             {/* Step 4 */}
                             <div className="grid items-center gap-8 md:grid-cols-2">
-                                <div className="order-1 aspect-video rounded-lg bg-accent" />
+                                {/* Screenshot: Analytics dashboard with machine downtime charts */}
+                                <div className="relative order-1 aspect-video rounded-lg bg-accent">
+                                    <div className="absolute inset-0 flex items-center justify-center p-4">
+                                        <p className="text-center text-xs text-muted-foreground">
+                                            Screenshot: analytics dashboard
+                                            <br />
+                                            met grafieken stilstand per machine
+                                        </p>
+                                    </div>
+                                </div>
                                 <div className="order-2">
                                     <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-primary text-xl font-bold text-primary-foreground">
                                         4
@@ -345,9 +398,17 @@ export default function Welcome({
                             hebt die onderhoud nodig hebben, is LineCare voor jou.
                         </p>
 
-                        {/* Factory Photo Placeholder */}
+                        {/* Factory Photo: Wide shot of real manufacturing floor with machines */}
                         <div className="mb-16">
-                            <div className="mx-auto aspect-[21/9] w-full max-w-7xl rounded-xl bg-accent shadow-xl" />
+                            <div className="relative mx-auto aspect-[21/9] w-full max-w-7xl rounded-xl bg-accent shadow-xl">
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <p className="text-center text-sm text-muted-foreground">
+                                        Foto: productiehallen met machines
+                                        <br />
+                                        (breed formaat, sfeerbeeld kleine fabriek)
+                                    </p>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="grid gap-6 md:grid-cols-3">
