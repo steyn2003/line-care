@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
     Card,
     CardContent,
@@ -16,10 +17,12 @@ import {
 } from '@/components/ui/accordion';
 import { MarketingLayout } from '@/layouts/marketing-layout';
 import {
+    ArrowUpRight,
     CheckCircle2,
     Clock,
     FileSpreadsheet,
     MessageSquare,
+    PlayCircle,
     Settings,
     Smartphone,
     TrendingUp,
@@ -55,37 +58,43 @@ export default function Welcome({
             currentPath="/"
         >
                 {/* Hero Section */}
-                <section className="py-20">
-                    <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                        <div className="text-center">
-                            <h1 className="mb-6 text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
-                                Eenvoudige onderhoudssoftware (CMMS) voor kleine
-                                fabrieken
-                            </h1>
-                            <p className="mx-auto mb-8 max-w-2xl text-lg text-muted-foreground">
-                                Stop met Excel, WhatsApp en whiteboards. LineCare
-                                helpt je storingen registreren, periodiek onderhoud
-                                plannen, en inzicht krijgen in welke machines de
-                                meeste stilstand veroorzaken.
-                            </p>
-                            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-                                <a href="#demo">
-                                    <Button size="lg" className="w-full sm:w-auto">
-                                        Plan een demo
-                                    </Button>
-                                </a>
-                                <a href="#hoe-het-werkt">
-                                    <Button
-                                        size="lg"
-                                        variant="outline"
-                                        className="w-full sm:w-auto"
-                                    >
-                                        Bekijk hoe het werkt
-                                    </Button>
-                                </a>
-                            </div>
+                <section className="flex min-h-screen w-full flex-col items-center justify-center gap-16 px-6 py-16">
+                    <div className="max-w-3xl text-center">
+                        <Badge
+                            variant="secondary"
+                            className="rounded-full border-border py-1"
+                        >
+                            Speciaal voor kleine fabrieken 🏭
+                        </Badge>
+                        <h1 className="mt-6 text-4xl font-semibold tracking-tighter sm:text-5xl md:text-6xl md:leading-[1.2] lg:text-7xl">
+                            Eenvoudige onderhoudssoftware voor kleine fabrieken
+                        </h1>
+                        <p className="mt-6 text-foreground/80 md:text-lg">
+                            Stop met Excel, WhatsApp en whiteboards. LineCare helpt je
+                            storingen registreren, periodiek onderhoud plannen, en
+                            inzicht krijgen in welke machines de meeste stilstand
+                            veroorzaken.
+                        </p>
+                        <div className="mt-10 flex items-center justify-center gap-4">
+                            <a href="#demo">
+                                <Button size="lg" className="rounded-full text-base">
+                                    Plan een demo{' '}
+                                    <ArrowUpRight className="ml-1 h-5 w-5" />
+                                </Button>
+                            </a>
+                            <a href="#hoe-het-werkt">
+                                <Button
+                                    variant="outline"
+                                    size="lg"
+                                    className="rounded-full text-base shadow-none"
+                                >
+                                    <PlayCircle className="mr-2 h-5 w-5" /> Bekijk hoe
+                                    het werkt
+                                </Button>
+                            </a>
                         </div>
                     </div>
+                    <div className="mx-auto aspect-video w-full max-w-7xl rounded-xl bg-accent" />
                 </section>
 
                 {/* Problem Section */}
