@@ -42,6 +42,15 @@ class ReportsController extends Controller
             $downtimeQuery->where('machines.location_id', $locationId);
         }
 
+        // Use database-agnostic time difference calculation
+        $driver = DB::connection()->getDriverName();
+        $minutesDiff = match ($driver) {
+            'sqlite' => 'CAST((julianday(work_orders.completed_at) - julianday(work_orders.started_at)) * 24 * 60 AS INTEGER)',
+            'mysql', 'mariadb' => 'TIMESTAMPDIFF(MINUTE, work_orders.started_at, work_orders.completed_at)',
+            'pgsql' => 'EXTRACT(EPOCH FROM (work_orders.completed_at - work_orders.started_at)) / 60',
+            default => 'TIMESTAMPDIFF(MINUTE, work_orders.started_at, work_orders.completed_at)',
+        };
+
         $machineDowntime = $downtimeQuery
             ->select(
                 'machines.id as machine_id',
@@ -50,10 +59,10 @@ class ReportsController extends Controller
                 'machines.criticality',
                 'locations.name as location_name',
                 DB::raw('COUNT(*) as breakdown_count'),
-                DB::raw('SUM(CAST((julianday(work_orders.completed_at) - julianday(work_orders.started_at)) * 24 * 60 AS INTEGER)) as total_downtime_minutes'),
-                DB::raw('AVG(CAST((julianday(work_orders.completed_at) - julianday(work_orders.started_at)) * 24 * 60 AS INTEGER)) as avg_downtime_minutes'),
-                DB::raw('MIN(CAST((julianday(work_orders.completed_at) - julianday(work_orders.started_at)) * 24 * 60 AS INTEGER)) as min_downtime_minutes'),
-                DB::raw('MAX(CAST((julianday(work_orders.completed_at) - julianday(work_orders.started_at)) * 24 * 60 AS INTEGER)) as max_downtime_minutes')
+                DB::raw("SUM({$minutesDiff}) as total_downtime_minutes"),
+                DB::raw("AVG({$minutesDiff}) as avg_downtime_minutes"),
+                DB::raw("MIN({$minutesDiff}) as min_downtime_minutes"),
+                DB::raw("MAX({$minutesDiff}) as max_downtime_minutes")
             )
             ->groupBy('machines.id', 'machines.name', 'machines.code', 'machines.criticality', 'locations.name')
             ->orderByDesc('total_downtime_minutes')
