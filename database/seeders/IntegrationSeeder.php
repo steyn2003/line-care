@@ -144,7 +144,7 @@ class IntegrationSeeder extends Seeder
             'integration_type' => 'iot',
             'provider' => 'REST Webhook',
             'config' => [
-                'webhook_url' => route('api.webhooks.sensor-reading'),
+                'webhook_url' => '/webhooks/sensors/reading',
                 'authentication_type' => 'none', // Public endpoint
                 'accepted_sensor_ids' => [], // Empty means accept all
                 'auto_create_sensors' => true,
