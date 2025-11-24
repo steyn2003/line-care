@@ -3,6 +3,8 @@
 To check if the typescript is right please do 
 npm run lint
 
+IN THE UI FULLY UTILIZE INERTIA
+
 
 ## 1. V2 Vision & Scope
 

@@ -19,10 +19,13 @@ import {
     Calendar,
     ClipboardList,
     Clock,
+    DollarSign,
     Factory,
+    FileText,
     LayoutGrid,
     MapPin,
     Package,
+    PiggyBank,
     ShoppingCart,
     TrendingDown,
     TrendingUp,
@@ -114,6 +117,29 @@ const productionNavItems: NavItem[] = [
     },
 ];
 
+const costNavItems: NavItem[] = [
+    {
+        title: 'Cost Dashboard',
+        href: '/costs/dashboard',
+        icon: DollarSign,
+    },
+    {
+        title: 'Cost Report',
+        href: '/costs/report',
+        icon: FileText,
+    },
+    {
+        title: 'Budget Management',
+        href: '/costs/budget',
+        icon: PiggyBank,
+    },
+    {
+        title: 'Labor Rates',
+        href: '/costs/labor-rates',
+        icon: Clock,
+    },
+];
+
 const reportsNavItems: NavItem[] = [
     {
         title: 'Downtime Report',
@@ -162,6 +188,7 @@ export function AppSidebar() {
                 <NavMain label="Maintenance" items={maintenanceNavItems} />
                 <NavMain label="Production & OEE" items={productionNavItems} />
                 <NavMain label="Inventory" items={inventoryNavItems} />
+                <NavMain label="Cost Management" items={costNavItems} />
                 <NavMain label="Reports" items={reportsNavItems} />
                 <NavMain label="Settings" items={settingsNavItems} />
             </SidebarContent>

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class WorkOrder extends Model
 {
@@ -128,6 +129,22 @@ class WorkOrder extends Model
     {
         return $this->hasMany(InventoryTransaction::class, 'reference_id')
             ->where('reference_type', 'work_order');
+    }
+
+    /**
+     * Get the cost breakdown for this work order.
+     */
+    public function cost(): HasOne
+    {
+        return $this->hasOne(WorkOrderCost::class);
+    }
+
+    /**
+     * Get the external services for this work order.
+     */
+    public function externalServices(): HasMany
+    {
+        return $this->hasMany(ExternalService::class);
     }
 
     /**

@@ -23,6 +23,7 @@ class Machine extends Model
         'location_id',
         'criticality',
         'status',
+        'hourly_production_value',
     ];
 
     /**
@@ -33,6 +34,7 @@ class Machine extends Model
         return [
             'status' => 'string',
             'criticality' => 'string',
+            'hourly_production_value' => 'decimal:2',
         ];
     }
 

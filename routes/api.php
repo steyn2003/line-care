@@ -2,13 +2,17 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CauseCategoryController;
+use App\Http\Controllers\Api\CostController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\DowntimeCategoryController;
 use App\Http\Controllers\Api\DowntimeController;
+use App\Http\Controllers\Api\ExternalServiceController;
 use App\Http\Controllers\Api\InventoryController;
+use App\Http\Controllers\Api\LaborRateController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\MachineController;
 use App\Http\Controllers\Api\MachineImportController;
+use App\Http\Controllers\Api\MaintenanceBudgetController;
 use App\Http\Controllers\Api\NotificationController;
 use App\Http\Controllers\Api\OEEController;
 use App\Http\Controllers\Api\PartCategoryController;
@@ -222,5 +226,49 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('comparison', [OEEController::class, 'comparison'])->name('comparison');
         Route::get('current', [OEEController::class, 'current'])->name('current');
         Route::get('loss-analysis', [OEEController::class, 'lossAnalysis'])->name('loss-analysis');
+    });
+
+    // ========== Cost Management (Phase 7) ==========
+
+    // Labor Rate routes
+    Route::apiResource('labor-rates', LaborRateController::class)->names([
+        'index' => 'api.labor-rates.index',
+        'store' => 'api.labor-rates.store',
+        'show' => 'api.labor-rates.show',
+        'update' => 'api.labor-rates.update',
+        'destroy' => 'api.labor-rates.destroy',
+    ]);
+    Route::get('labor-rates/current/rate', [LaborRateController::class, 'getCurrent'])->name('api.labor-rates.current');
+
+    // Work Order Time Logging
+    Route::post('work-orders/{workOrder}/log-time', [WorkOrderController::class, 'logTime'])->name('api.work-orders.log-time');
+
+    // External Service routes
+    Route::apiResource('external-services', ExternalServiceController::class)->names([
+        'index' => 'api.external-services.index',
+        'store' => 'api.external-services.store',
+        'show' => 'api.external-services.show',
+        'update' => 'api.external-services.update',
+        'destroy' => 'api.external-services.destroy',
+    ]);
+
+    // Maintenance Budget routes
+    Route::apiResource('maintenance-budgets', MaintenanceBudgetController::class)->names([
+        'index' => 'api.maintenance-budgets.index',
+        'store' => 'api.maintenance-budgets.store',
+        'show' => 'api.maintenance-budgets.show',
+        'update' => 'api.maintenance-budgets.update',
+        'destroy' => 'api.maintenance-budgets.destroy',
+    ]);
+    Route::get('maintenance-budgets/comparison/current', [MaintenanceBudgetController::class, 'comparison'])->name('api.maintenance-budgets.comparison');
+    Route::post('maintenance-budgets/update/actuals', [MaintenanceBudgetController::class, 'updateActuals'])->name('api.maintenance-budgets.update-actuals');
+
+    // Cost Analytics routes
+    Route::prefix('costs')->name('api.costs.')->group(function () {
+        Route::get('summary', [CostController::class, 'summary'])->name('summary');
+        Route::get('by-machine', [CostController::class, 'byMachine'])->name('by-machine');
+        Route::get('by-category', [CostController::class, 'byCategory'])->name('by-category');
+        Route::get('trends', [CostController::class, 'trends'])->name('trends');
+        Route::get('downtime', [CostController::class, 'downtime'])->name('downtime');
     });
 });

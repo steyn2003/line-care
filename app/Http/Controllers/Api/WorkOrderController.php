@@ -499,4 +499,100 @@ class WorkOrderController extends Controller
             ], 500);
         }
     }
+
+    /**
+     * Log time spent on a work order.
+     */
+    public function logTime(Request $request, $id): JsonResponse
+    {
+        $workOrder = WorkOrder::forCompany($request->user()->company_id)
+            ->with(['machine', 'assignee'])
+            ->findOrFail($id);
+
+        Gate::authorize('update', $workOrder);
+
+        $request->validate([
+            'time_started' => 'required|date',
+            'time_completed' => 'required|date|after:time_started',
+            'break_time' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string',
+            'work_done' => 'nullable|string',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            $timeStarted = \Carbon\Carbon::parse($request->time_started);
+            $timeCompleted = \Carbon\Carbon::parse($request->time_completed);
+            $breakTime = $request->break_time ?? 0;
+
+            // Calculate hours worked
+            $totalMinutes = $timeStarted->diffInMinutes($timeCompleted);
+            $breakMinutes = $breakTime * 60; // Convert hours to minutes
+            $workedMinutes = $totalMinutes - $breakMinutes;
+            $hoursWorked = $workedMinutes / 60;
+
+            // Get technician's labor rate
+            $userId = $request->user()->id;
+            $laborRate = \App\Models\LaborRate::getCurrentRate(
+                $request->user()->company_id,
+                $userId,
+                $request->user()->role->value
+            );
+
+            $laborCost = 0;
+            if ($laborRate) {
+                // Check if it's overtime (basic check - can be enhanced)
+                $rate = $laborRate->hourly_rate;
+                if ($laborRate->overtime_rate && $timeCompleted->hour >= 18) {
+                    $rate = $laborRate->overtime_rate;
+                }
+                $laborCost = $hoursWorked * $rate;
+            }
+
+            // Create maintenance log with time tracking
+            $maintenanceLog = MaintenanceLog::create([
+                'work_order_id' => $workOrder->id,
+                'machine_id' => $workOrder->machine_id,
+                'user_id' => $userId,
+                'notes' => $request->notes,
+                'work_done' => $request->work_done,
+                'time_started' => $timeStarted,
+                'time_completed' => $timeCompleted,
+                'hours_worked' => round($hoursWorked, 2),
+                'break_time' => $breakTime,
+                'labor_cost' => round($laborCost, 2),
+            ]);
+
+            // Update or create work order cost record
+            $workOrderCost = $workOrder->cost ?? new \App\Models\WorkOrderCost(['work_order_id' => $workOrder->id]);
+
+            // Sum all labor costs from maintenance logs
+            $totalLaborCost = $workOrder->maintenanceLogs()->sum('labor_cost') + $laborCost;
+            $workOrderCost->labor_cost = $totalLaborCost;
+
+            // Calculate downtime cost if not already set
+            if ($workOrderCost->downtime_cost == 0 && $workOrder->started_at && $workOrder->completed_at) {
+                $downtimeHours = $workOrder->started_at->diffInHours($workOrder->completed_at, true);
+                $hourlyProductionValue = $workOrder->machine->hourly_production_value ?? 0;
+                $workOrderCost->downtime_cost = $downtimeHours * $hourlyProductionValue;
+            }
+
+            $workOrderCost->calculateTotal();
+            $workOrderCost->save();
+
+            DB::commit();
+
+            return response()->json([
+                'maintenance_log' => $maintenanceLog->load('user'),
+                'work_order_cost' => $workOrderCost,
+                'message' => 'Time logged successfully',
+            ], 201);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Failed to log time: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
 }

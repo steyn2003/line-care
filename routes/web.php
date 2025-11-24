@@ -156,6 +156,24 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // OEE Dashboard routes
     Route::get('oee/dashboard', [\App\Http\Controllers\OEEController::class, 'dashboard'])->name('oee.dashboard');
     Route::get('oee/trends', [\App\Http\Controllers\OEEController::class, 'trends'])->name('oee.trends');
+
+    // ========== Cost Management (Phase 7) ==========
+
+    // Cost Dashboard routes
+    Route::get('costs/dashboard', [\App\Http\Controllers\CostController::class, 'dashboard'])->name('costs.dashboard');
+    Route::get('costs/report', [\App\Http\Controllers\CostController::class, 'report'])->name('costs.report');
+    Route::get('costs/budget', [\App\Http\Controllers\CostController::class, 'budget'])->name('costs.budget');
+
+    // Budget CRUD routes
+    Route::post('costs/budget', [\App\Http\Controllers\CostController::class, 'storeBudget'])->name('costs.budget.store');
+    Route::put('costs/budget/{budget}', [\App\Http\Controllers\CostController::class, 'updateBudget'])->name('costs.budget.update');
+    Route::delete('costs/budget/{budget}', [\App\Http\Controllers\CostController::class, 'destroyBudget'])->name('costs.budget.destroy');
+
+    // Labor Rate routes
+    Route::get('costs/labor-rates', [\App\Http\Controllers\LaborRateController::class, 'index'])->name('costs.labor-rates');
+    Route::post('costs/labor-rates', [\App\Http\Controllers\LaborRateController::class, 'store'])->name('costs.labor-rates.store');
+    Route::put('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'update'])->name('costs.labor-rates.update');
+    Route::delete('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'destroy'])->name('costs.labor-rates.destroy');
 });
 
 require __DIR__.'/settings.php';

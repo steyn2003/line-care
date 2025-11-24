@@ -22,6 +22,24 @@ class MaintenanceLog extends Model
         'notes',
         'work_done',
         'parts_used',
+        'time_started',
+        'time_completed',
+        'hours_worked',
+        'break_time',
+        'labor_cost',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'time_started' => 'datetime',
+        'time_completed' => 'datetime',
+        'hours_worked' => 'decimal:2',
+        'break_time' => 'decimal:2',
+        'labor_cost' => 'decimal:2',
     ];
 
     /**
