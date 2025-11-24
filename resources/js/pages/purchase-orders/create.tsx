@@ -120,7 +120,7 @@ export default function CreatePurchaseOrder({
     const handleLineItemChange = (
         index: number,
         field: keyof LineItem,
-        value: any,
+        value: string | number,
     ) => {
         const updated = [...lineItems];
 

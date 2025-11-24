@@ -57,7 +57,7 @@ interface Props {
     preview?: PreviewData;
 }
 
-export default function ImportMachines({ locations, preview }: Props) {
+export default function ImportMachines({ preview }: Props) {
     const [step, setStep] = useState<'upload' | 'preview' | 'complete'>(
         preview ? 'preview' : 'upload',
     );
@@ -322,7 +322,9 @@ export default function ImportMachines({ locations, preview }: Props) {
                                         </Label>
                                         <Select
                                             value={data.location_handling}
-                                            onValueChange={(value: any) =>
+                                            onValueChange={(
+                                                value: 'create' | 'skip',
+                                            ) =>
                                                 setData(
                                                     'location_handling',
                                                     value,

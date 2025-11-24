@@ -46,18 +46,15 @@ interface Props {
     };
 }
 
-export default function CreatePreventiveTask({
-    machines,
-    users,
-    task,
-}: Props) {
+export default function CreatePreventiveTask({ machines, users, task }: Props) {
     const isEditing = !!task;
 
     const { data, setData, post, put, processing, errors } = useForm({
         title: task?.title || '',
         description: task?.description || '',
         machine_id: task?.machine_id.toString() || '',
-        schedule_interval_value: task?.schedule_interval_value.toString() || '1',
+        schedule_interval_value:
+            task?.schedule_interval_value.toString() || '1',
         schedule_interval_unit: task?.schedule_interval_unit || 'months',
         assigned_to: task?.assigned_to?.toString() || '',
         is_active: task?.is_active ?? true,
@@ -254,7 +251,7 @@ export default function CreatePreventiveTask({
                                         </Label>
                                         <Select
                                             value={data.schedule_interval_unit}
-                                            onValueChange={(value: any) =>
+                                            onValueChange={(value: string) =>
                                                 setData(
                                                     'schedule_interval_unit',
                                                     value,
@@ -338,9 +335,14 @@ export default function CreatePreventiveTask({
                                 <div className="space-y-2">
                                     <Label htmlFor="is_active">Status</Label>
                                     <Select
-                                        value={data.is_active ? 'true' : 'false'}
+                                        value={
+                                            data.is_active ? 'true' : 'false'
+                                        }
                                         onValueChange={(value) =>
-                                            setData('is_active', value === 'true')
+                                            setData(
+                                                'is_active',
+                                                value === 'true',
+                                            )
                                         }
                                     >
                                         <SelectTrigger

@@ -195,7 +195,7 @@ export default function CreateMachine({ locations, machine }: Props) {
                                 </Label>
                                 <Select
                                     value={data.criticality}
-                                    onValueChange={(value: any) =>
+                                    onValueChange={(value: string) =>
                                         setData('criticality', value)
                                     }
                                 >
@@ -230,7 +230,7 @@ export default function CreateMachine({ locations, machine }: Props) {
                                 <Label htmlFor="status">Status</Label>
                                 <Select
                                     value={data.status}
-                                    onValueChange={(value: any) =>
+                                    onValueChange={(value: string) =>
                                         setData('status', value)
                                     }
                                 >

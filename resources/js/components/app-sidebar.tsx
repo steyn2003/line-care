@@ -15,13 +15,17 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     AlertTriangle,
+    BarChart3,
     Calendar,
     ClipboardList,
+    Clock,
+    Factory,
     LayoutGrid,
     MapPin,
     Package,
     ShoppingCart,
     TrendingDown,
+    TrendingUp,
     Users,
     Warehouse,
     Wrench,
@@ -82,6 +86,34 @@ const inventoryNavItems: NavItem[] = [
     },
 ];
 
+const productionNavItems: NavItem[] = [
+    {
+        title: 'OEE Dashboard',
+        href: '/oee/dashboard',
+        icon: TrendingUp,
+    },
+    {
+        title: 'Production Runs',
+        href: '/production/runs',
+        icon: Factory,
+    },
+    {
+        title: 'OEE Trends',
+        href: '/oee/trends',
+        icon: BarChart3,
+    },
+    {
+        title: 'Products',
+        href: '/products',
+        icon: Package,
+    },
+    {
+        title: 'Shifts',
+        href: '/shifts',
+        icon: Clock,
+    },
+];
+
 const reportsNavItems: NavItem[] = [
     {
         title: 'Downtime Report',
@@ -128,6 +160,7 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain label="Overview" items={overviewNavItems} />
                 <NavMain label="Maintenance" items={maintenanceNavItems} />
+                <NavMain label="Production & OEE" items={productionNavItems} />
                 <NavMain label="Inventory" items={inventoryNavItems} />
                 <NavMain label="Reports" items={reportsNavItems} />
                 <NavMain label="Settings" items={settingsNavItems} />

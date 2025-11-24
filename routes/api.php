@@ -3,14 +3,20 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CauseCategoryController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\DowntimeCategoryController;
+use App\Http\Controllers\Api\DowntimeController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\MachineController;
 use App\Http\Controllers\Api\MachineImportController;
 use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\OEEController;
 use App\Http\Controllers\Api\PartCategoryController;
 use App\Http\Controllers\Api\PreventiveTaskController;
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ProductionRunController;
 use App\Http\Controllers\Api\PurchaseOrderController;
+use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\SparePartController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\UserController;
@@ -158,4 +164,63 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('api.notifications.mark-all-read');
     Route::post('notifications/{notification}/mark-read', [NotificationController::class, 'markAsRead'])->name('api.notifications.mark-read');
     Route::delete('notifications/{notification}', [NotificationController::class, 'destroy'])->name('api.notifications.destroy');
+
+    // ========== OEE & Production Tracking (Phase 6) ==========
+
+    // Product routes
+    Route::apiResource('products', ProductController::class)->names([
+        'index' => 'api.products.index',
+        'store' => 'api.products.store',
+        'show' => 'api.products.show',
+        'update' => 'api.products.update',
+        'destroy' => 'api.products.destroy',
+    ]);
+
+    // Shift routes
+    Route::apiResource('shifts', ShiftController::class)->names([
+        'index' => 'api.shifts.index',
+        'store' => 'api.shifts.store',
+        'show' => 'api.shifts.show',
+        'update' => 'api.shifts.update',
+        'destroy' => 'api.shifts.destroy',
+    ]);
+
+    // Production Run routes
+    Route::apiResource('production-runs', ProductionRunController::class)->names([
+        'index' => 'api.production-runs.index',
+        'store' => 'api.production-runs.store',
+        'show' => 'api.production-runs.show',
+        'update' => 'api.production-runs.update',
+        'destroy' => 'api.production-runs.destroy',
+    ]);
+    Route::put('production-runs/{productionRun}/end', [ProductionRunController::class, 'end'])->name('api.production-runs.end');
+
+    // Downtime routes
+    Route::apiResource('downtime', DowntimeController::class)->names([
+        'index' => 'api.downtime.index',
+        'store' => 'api.downtime.store',
+        'show' => 'api.downtime.show',
+        'update' => 'api.downtime.update',
+        'destroy' => 'api.downtime.destroy',
+    ]);
+    Route::put('downtime/{downtime}/end', [DowntimeController::class, 'end'])->name('api.downtime.end');
+    Route::get('downtime-categories', [DowntimeController::class, 'categories'])->name('api.downtime.categories');
+
+    // Downtime Category routes
+    Route::apiResource('downtime-categories', DowntimeCategoryController::class)->names([
+        'index' => 'api.downtime-categories.index',
+        'store' => 'api.downtime-categories.store',
+        'show' => 'api.downtime-categories.show',
+        'update' => 'api.downtime-categories.update',
+        'destroy' => 'api.downtime-categories.destroy',
+    ]);
+
+    // OEE Analytics routes
+    Route::prefix('oee')->name('api.oee.')->group(function () {
+        Route::get('metrics', [OEEController::class, 'metrics'])->name('metrics');
+        Route::get('trends', [OEEController::class, 'trends'])->name('trends');
+        Route::get('comparison', [OEEController::class, 'comparison'])->name('comparison');
+        Route::get('current', [OEEController::class, 'current'])->name('current');
+        Route::get('loss-analysis', [OEEController::class, 'lossAnalysis'])->name('loss-analysis');
+    });
 });

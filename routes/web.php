@@ -122,6 +122,40 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('spare-parts', [\App\Http\Controllers\SparePartController::class, 'store'])->name('spare-parts.store');
     Route::put('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'update'])->name('spare-parts.update');
     Route::delete('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'destroy'])->name('spare-parts.destroy');
+
+    // ========== OEE & Production Tracking (Phase 6) ==========
+
+    // Products routes
+    Route::get('products', [\App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+    Route::post('products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
+    Route::put('products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
+    Route::delete('products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
+
+    // Shifts routes
+    Route::get('shifts', [\App\Http\Controllers\ShiftController::class, 'index'])->name('shifts.index');
+    Route::post('shifts', [\App\Http\Controllers\ShiftController::class, 'store'])->name('shifts.store');
+    Route::put('shifts/{shift}', [\App\Http\Controllers\ShiftController::class, 'update'])->name('shifts.update');
+    Route::delete('shifts/{shift}', [\App\Http\Controllers\ShiftController::class, 'destroy'])->name('shifts.destroy');
+
+    // Downtime Categories routes
+    Route::get('downtime-categories', [\App\Http\Controllers\DowntimeCategoryController::class, 'index'])->name('downtime-categories.index');
+    Route::post('downtime-categories', [\App\Http\Controllers\DowntimeCategoryController::class, 'store'])->name('downtime-categories.store');
+    Route::put('downtime-categories/{downtimeCategory}', [\App\Http\Controllers\DowntimeCategoryController::class, 'update'])->name('downtime-categories.update');
+    Route::delete('downtime-categories/{downtimeCategory}', [\App\Http\Controllers\DowntimeCategoryController::class, 'destroy'])->name('downtime-categories.destroy');
+
+    // Production Runs routes
+    Route::get('production/runs', [\App\Http\Controllers\ProductionRunController::class, 'index'])->name('production-runs.index');
+    Route::post('production-runs', [\App\Http\Controllers\ProductionRunController::class, 'store'])->name('production-runs.store');
+    Route::get('production/runs/{productionRun}', [\App\Http\Controllers\ProductionRunController::class, 'show'])->name('production.runs.show');
+    Route::put('production-runs/{productionRun}/end', [\App\Http\Controllers\ProductionRunController::class, 'end'])->name('production-runs.end');
+
+    // Downtime routes
+    Route::post('downtime', [\App\Http\Controllers\DowntimeController::class, 'store'])->name('downtime.store');
+    Route::put('downtime/{downtime}/end', [\App\Http\Controllers\DowntimeController::class, 'end'])->name('downtime.end');
+
+    // OEE Dashboard routes
+    Route::get('oee/dashboard', [\App\Http\Controllers\OEEController::class, 'dashboard'])->name('oee.dashboard');
+    Route::get('oee/trends', [\App\Http\Controllers\OEEController::class, 'trends'])->name('oee.trends');
 });
 
 require __DIR__.'/settings.php';

@@ -1,12 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -25,7 +19,7 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
-import { Head, router, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import {
     AlertCircle,
     Edit,
@@ -33,7 +27,6 @@ import {
     Mail,
     Plus,
     Save,
-    Shield,
     Trash2,
     User,
 } from 'lucide-react';
@@ -124,7 +117,11 @@ export default function UsersIndex({ users }: Props) {
     const getRoleBadge = (role: string) => {
         const variants: Record<
             string,
-            { variant: any; label: string; color: string }
+            {
+                variant: 'default' | 'secondary' | 'destructive' | 'outline';
+                label: string;
+                color: string;
+            }
         > = {
             manager: {
                 variant: 'default',
@@ -239,7 +236,9 @@ export default function UsersIndex({ users }: Props) {
                                         <Button
                                             variant="destructive"
                                             size="sm"
-                                            onClick={() => openDeleteDialog(user)}
+                                            onClick={() =>
+                                                openDeleteDialog(user)
+                                            }
                                         >
                                             <Trash2 className="h-4 w-4" />
                                         </Button>
@@ -322,9 +321,12 @@ export default function UsersIndex({ users }: Props) {
                                 </Label>
                                 <Select
                                     value={data.role}
-                                    onValueChange={(value: any) =>
-                                        setData('role', value)
-                                    }
+                                    onValueChange={(
+                                        value:
+                                            | 'operator'
+                                            | 'technician'
+                                            | 'manager',
+                                    ) => setData('role', value)}
                                 >
                                     <SelectTrigger
                                         id="role"
@@ -445,10 +447,11 @@ export default function UsersIndex({ users }: Props) {
                     <DialogHeader>
                         <DialogTitle>Delete User?</DialogTitle>
                         <DialogDescription>
-                            Are you sure you want to delete "{deletingUser?.name}
+                            Are you sure you want to delete "
+                            {deletingUser?.name}
                             "? This action cannot be undone. All work orders
-                            created or assigned to this user will remain but will
-                            show as unassigned.
+                            created or assigned to this user will remain but
+                            will show as unassigned.
                         </DialogDescription>
                     </DialogHeader>
                     <DialogFooter>

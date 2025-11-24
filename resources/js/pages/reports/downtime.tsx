@@ -91,10 +91,9 @@ export default function DowntimeReport({
     breakdowns_by_criticality,
     locations,
     filters,
-    user,
 }: Props) {
     const [locationFilter, setLocationFilter] = useState<string>(
-        filters.location_id?.toString() || 'all'
+        filters.location_id?.toString() || 'all',
     );
     const [dateFrom, setDateFrom] = useState<string>(filters.date_from);
     const [dateTo, setDateTo] = useState<string>(filters.date_to);
@@ -121,7 +120,7 @@ export default function DowntimeReport({
             {
                 preserveState: true,
                 preserveScroll: true,
-            }
+            },
         );
     };
 
@@ -162,7 +161,7 @@ export default function DowntimeReport({
                         <div className="flex items-center gap-2">
                             <Button variant="ghost" size="sm" asChild>
                                 <Link href="/dashboard">
-                                    <ArrowLeft className="h-4 w-4 mr-1" />
+                                    <ArrowLeft className="mr-1 h-4 w-4" />
                                     Back
                                 </Link>
                             </Button>
@@ -180,12 +179,15 @@ export default function DowntimeReport({
                 <Card className="border-border">
                     <CardContent className="pt-6">
                         <div className="flex flex-wrap items-end gap-4">
-                            <div className="flex-1 min-w-[200px]">
-                                <Label htmlFor="date-from" className="text-sm font-medium">
+                            <div className="min-w-[200px] flex-1">
+                                <Label
+                                    htmlFor="date-from"
+                                    className="text-sm font-medium"
+                                >
                                     Date From
                                 </Label>
                                 <div className="relative mt-1.5">
-                                    <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                    <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                     <Input
                                         id="date-from"
                                         type="date"
@@ -196,12 +198,15 @@ export default function DowntimeReport({
                                 </div>
                             </div>
 
-                            <div className="flex-1 min-w-[200px]">
-                                <Label htmlFor="date-to" className="text-sm font-medium">
+                            <div className="min-w-[200px] flex-1">
+                                <Label
+                                    htmlFor="date-to"
+                                    className="text-sm font-medium"
+                                >
                                     Date To
                                 </Label>
                                 <div className="relative mt-1.5">
-                                    <Calendar className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                                    <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                     <Input
                                         id="date-to"
                                         type="date"
@@ -213,15 +218,21 @@ export default function DowntimeReport({
                             </div>
 
                             {locations.length > 0 && (
-                                <div className="flex-1 min-w-[200px]">
-                                    <Label htmlFor="location-filter" className="text-sm font-medium">
+                                <div className="min-w-[200px] flex-1">
+                                    <Label
+                                        htmlFor="location-filter"
+                                        className="text-sm font-medium"
+                                    >
                                         Location
                                     </Label>
                                     <Select
                                         value={locationFilter}
                                         onValueChange={handleLocationChange}
                                     >
-                                        <SelectTrigger id="location-filter" className="mt-1.5 bg-background">
+                                        <SelectTrigger
+                                            id="location-filter"
+                                            className="mt-1.5 bg-background"
+                                        >
                                             <SelectValue placeholder="All locations" />
                                         </SelectTrigger>
                                         <SelectContent>
@@ -306,7 +317,9 @@ export default function DowntimeReport({
                         </CardHeader>
                         <CardContent>
                             <div className="text-3xl font-bold text-foreground">
-                                {formatMinutes(summary.avg_downtime_per_breakdown)}
+                                {formatMinutes(
+                                    summary.avg_downtime_per_breakdown,
+                                )}
                             </div>
                             <p className="mt-1 text-xs text-muted-foreground">
                                 Per breakdown
@@ -319,54 +332,65 @@ export default function DowntimeReport({
                 {Object.keys(breakdowns_by_criticality).length > 0 && (
                     <Card className="border-border">
                         <CardHeader>
-                            <CardTitle>Breakdowns by Machine Criticality</CardTitle>
+                            <CardTitle>
+                                Breakdowns by Machine Criticality
+                            </CardTitle>
                             <CardDescription>
-                                Distribution of breakdowns across different criticality levels
+                                Distribution of breakdowns across different
+                                criticality levels
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="grid gap-4 md:grid-cols-3">
-                                {breakdowns_by_criticality.high !== undefined && (
+                                {breakdowns_by_criticality.high !==
+                                    undefined && (
                                     <div className="flex items-center justify-between rounded-lg border border-border p-4">
                                         <div>
                                             <p className="text-sm font-medium text-muted-foreground">
                                                 High Criticality
                                             </p>
-                                            <p className="text-2xl font-bold text-foreground mt-1">
+                                            <p className="mt-1 text-2xl font-bold text-foreground">
                                                 {breakdowns_by_criticality.high}
                                             </p>
                                         </div>
-                                        <Badge variant="destructive" className="text-base">
+                                        <Badge
+                                            variant="destructive"
+                                            className="text-base"
+                                        >
                                             High
                                         </Badge>
                                     </div>
                                 )}
-                                {breakdowns_by_criticality.medium !== undefined && (
+                                {breakdowns_by_criticality.medium !==
+                                    undefined && (
                                     <div className="flex items-center justify-between rounded-lg border border-border p-4">
                                         <div>
                                             <p className="text-sm font-medium text-muted-foreground">
                                                 Medium Criticality
                                             </p>
-                                            <p className="text-2xl font-bold text-foreground mt-1">
-                                                {breakdowns_by_criticality.medium}
+                                            <p className="mt-1 text-2xl font-bold text-foreground">
+                                                {
+                                                    breakdowns_by_criticality.medium
+                                                }
                                             </p>
                                         </div>
-                                        <Badge className="bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-300 text-base">
+                                        <Badge className="bg-amber-100 text-base text-amber-800 dark:bg-amber-900 dark:text-amber-300">
                                             Medium
                                         </Badge>
                                     </div>
                                 )}
-                                {breakdowns_by_criticality.low !== undefined && (
+                                {breakdowns_by_criticality.low !==
+                                    undefined && (
                                     <div className="flex items-center justify-between rounded-lg border border-border p-4">
                                         <div>
                                             <p className="text-sm font-medium text-muted-foreground">
                                                 Low Criticality
                                             </p>
-                                            <p className="text-2xl font-bold text-foreground mt-1">
+                                            <p className="mt-1 text-2xl font-bold text-foreground">
                                                 {breakdowns_by_criticality.low}
                                             </p>
                                         </div>
-                                        <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300 text-base">
+                                        <Badge className="bg-green-100 text-base text-green-800 dark:bg-green-900 dark:text-green-300">
                                             Low
                                         </Badge>
                                     </div>
@@ -387,12 +411,13 @@ export default function DowntimeReport({
                     <CardContent>
                         {machine_downtime.length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-12 text-center">
-                                <Clock className="h-12 w-12 text-muted-foreground mb-4" />
+                                <Clock className="mb-4 h-12 w-12 text-muted-foreground" />
                                 <h3 className="text-lg font-semibold text-foreground">
                                     No downtime data
                                 </h3>
                                 <p className="mt-2 text-sm text-muted-foreground">
-                                    No completed breakdowns found for the selected period.
+                                    No completed breakdowns found for the
+                                    selected period.
                                 </p>
                             </div>
                         ) : (
@@ -426,30 +451,36 @@ export default function DowntimeReport({
                                                 className="cursor-pointer hover:bg-accent"
                                                 onClick={() =>
                                                     router.visit(
-                                                        `/machines/${machine.machine_id}`
+                                                        `/machines/${machine.machine_id}`,
                                                     )
                                                 }
                                             >
                                                 <TableCell>
                                                     <div>
                                                         <p className="font-medium text-foreground">
-                                                            {machine.machine_name}
+                                                            {
+                                                                machine.machine_name
+                                                            }
                                                         </p>
                                                         {machine.machine_code && (
-                                                            <p className="text-sm text-muted-foreground font-mono">
-                                                                {machine.machine_code}
+                                                            <p className="font-mono text-sm text-muted-foreground">
+                                                                {
+                                                                    machine.machine_code
+                                                                }
                                                             </p>
                                                         )}
                                                     </div>
                                                 </TableCell>
                                                 <TableCell className="text-muted-foreground">
-                                                    {machine.location_name || '-'}
+                                                    {machine.location_name ||
+                                                        '-'}
                                                 </TableCell>
                                                 <TableCell className="text-center">
                                                     <Badge
                                                         className={
                                                             criticalityColors[
-                                                                machine.criticality
+                                                                machine
+                                                                    .criticality
                                                             ]
                                                         }
                                                     >
@@ -461,21 +492,21 @@ export default function DowntimeReport({
                                                 </TableCell>
                                                 <TableCell className="text-right font-medium">
                                                     {formatMinutes(
-                                                        machine.total_downtime_minutes
+                                                        machine.total_downtime_minutes,
                                                     )}
                                                 </TableCell>
                                                 <TableCell className="text-right text-muted-foreground">
                                                     {formatMinutes(
-                                                        machine.avg_downtime_minutes
+                                                        machine.avg_downtime_minutes,
                                                     )}
                                                 </TableCell>
-                                                <TableCell className="text-right text-muted-foreground text-sm">
+                                                <TableCell className="text-right text-sm text-muted-foreground">
                                                     {formatMinutes(
-                                                        machine.min_downtime_minutes
+                                                        machine.min_downtime_minutes,
                                                     )}{' '}
                                                     /{' '}
                                                     {formatMinutes(
-                                                        machine.max_downtime_minutes
+                                                        machine.max_downtime_minutes,
                                                     )}
                                                 </TableCell>
                                             </TableRow>

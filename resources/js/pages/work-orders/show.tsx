@@ -207,7 +207,11 @@ export default function WorkOrderShow({
         setSelectedParts(selectedParts.filter((_, i) => i !== index));
     };
 
-    const handlePartChange = (index: number, field: string, value: any) => {
+    const handlePartChange = (
+        index: number,
+        field: string,
+        value: string | number,
+    ) => {
         const updated = [...selectedParts];
         updated[index] = { ...updated[index], [field]: value };
         setSelectedParts(updated);

@@ -114,6 +114,14 @@ class WorkOrder extends Model
     }
 
     /**
+     * Get the production runs linked to this work order.
+     */
+    public function productionRuns(): HasMany
+    {
+        return $this->hasMany(ProductionRun::class);
+    }
+
+    /**
      * Get the inventory transactions for this work order.
      */
     public function inventoryTransactions(): HasMany

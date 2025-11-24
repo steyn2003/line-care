@@ -1,5 +1,9 @@
 # LineCare V2 - Product Requirements Document
 
+To check if the typescript is right please do 
+npm run lint
+
+
 ## 1. V2 Vision & Scope
 
 ### Goal of V2

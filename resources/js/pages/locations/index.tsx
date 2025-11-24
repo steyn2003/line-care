@@ -1,12 +1,5 @@
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-    Card,
-    CardContent,
-    CardDescription,
-    CardHeader,
-    CardTitle,
-} from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
     Dialog,
     DialogContent,
@@ -18,7 +11,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/app-layout';
-import { Head, router, useForm } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import {
     AlertCircle,
     Edit,
@@ -137,7 +130,8 @@ export default function LocationsIndex({ locations }: Props) {
                                 No locations yet
                             </h3>
                             <p className="mb-4 text-center text-sm text-muted-foreground">
-                                Add your first location to organize your machines
+                                Add your first location to organize your
+                                machines
                             </p>
                             <Button onClick={openCreateDialog}>
                                 <Plus className="mr-2 h-4 w-4" />
@@ -169,7 +163,9 @@ export default function LocationsIndex({ locations }: Props) {
                                 <CardContent>
                                     <div className="mb-4 text-sm text-muted-foreground">
                                         {location.machines_count || 0} machine
-                                        {location.machines_count !== 1 ? 's' : ''}
+                                        {location.machines_count !== 1
+                                            ? 's'
+                                            : ''}
                                     </div>
                                     <div className="flex gap-2">
                                         <Button
@@ -205,9 +201,7 @@ export default function LocationsIndex({ locations }: Props) {
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>
-                            {editingLocation
-                                ? 'Edit Location'
-                                : 'Add Location'}
+                            {editingLocation ? 'Edit Location' : 'Add Location'}
                         </DialogTitle>
                         <DialogDescription>
                             {editingLocation
@@ -277,7 +271,8 @@ export default function LocationsIndex({ locations }: Props) {
                                 deletingLocation.machines_count > 0 && (
                                     <span className="mt-2 block font-medium text-destructive">
                                         Warning: This location has{' '}
-                                        {deletingLocation.machines_count} machine
+                                        {deletingLocation.machines_count}{' '}
+                                        machine
                                         {deletingLocation.machines_count !== 1
                                             ? 's'
                                             : ''}{' '}

@@ -113,7 +113,13 @@ export default function PreventiveTaskShow({ task, work_orders }: Props) {
     };
 
     const getStatusBadge = (status: string) => {
-        const variants: Record<string, { variant: any; label: string }> = {
+        const variants: Record<
+            string,
+            {
+                variant: 'default' | 'secondary' | 'destructive' | 'outline';
+                label: string;
+            }
+        > = {
             open: { variant: 'secondary', label: 'Open' },
             in_progress: { variant: 'default', label: 'In Progress' },
             completed: { variant: 'outline', label: 'Completed' },
