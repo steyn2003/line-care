@@ -16,6 +16,7 @@ import { Link, usePage } from '@inertiajs/react';
 import {
     AlertTriangle,
     BarChart3,
+    Bell,
     Building2,
     Calendar,
     ClipboardList,
@@ -27,12 +28,14 @@ import {
     MapPin,
     Package,
     PiggyBank,
+    Settings,
     Shield,
     ShoppingCart,
     TrendingDown,
     TrendingUp,
     Users,
     Warehouse,
+    Wifi,
     Wrench,
 } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -42,6 +45,11 @@ const overviewNavItems: NavItem[] = [
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Notifications',
+        href: '/notifications',
+        icon: Bell,
     },
 ];
 
@@ -150,6 +158,32 @@ const reportsNavItems: NavItem[] = [
     },
 ];
 
+const iotNavItems: NavItem[] = [
+    {
+        title: 'IoT Dashboard',
+        href: '/iot/dashboard',
+        icon: Wifi,
+    },
+    {
+        title: 'Sensors',
+        href: '/iot/sensors',
+        icon: Wifi,
+    },
+    {
+        title: 'Sensor Alerts',
+        href: '/iot/alerts',
+        icon: AlertTriangle,
+    },
+];
+
+const integrationsNavItems: NavItem[] = [
+    {
+        title: 'Integrations',
+        href: '/settings/integrations',
+        icon: Settings,
+    },
+];
+
 const settingsNavItems: NavItem[] = [
     {
         title: 'Locations',
@@ -215,6 +249,8 @@ export function AppSidebar() {
                 <NavMain label="Production & OEE" items={productionNavItems} />
                 <NavMain label="Inventory" items={inventoryNavItems} />
                 <NavMain label="Cost Management" items={costNavItems} />
+                <NavMain label="IoT & Sensors" items={iotNavItems} />
+                <NavMain label="Integrations" items={integrationsNavItems} />
                 <NavMain label="Reports" items={reportsNavItems} />
                 <NavMain label="Settings" items={settingsNavItems} />
             </SidebarContent>

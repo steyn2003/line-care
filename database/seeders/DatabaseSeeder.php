@@ -14,6 +14,11 @@ class DatabaseSeeder extends Seeder
         // Seed comprehensive demo data with 20-30 records per entity
         $this->call([
             ComprehensiveDemoSeeder::class,
+
+            // Phase 8: Integrations & Automation seeders
+            IntegrationSeeder::class,
+            SensorSeeder::class,
+            NotificationPreferenceSeeder::class,
         ]);
     }
 }

@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Notification;
+use App\Models\NotificationPreference;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class NotificationController extends Controller
 {
@@ -89,6 +91,69 @@ class NotificationController extends Controller
 
         return response()->json([
             'message' => 'Notification deleted',
+        ]);
+    }
+
+    /**
+     * Get notification preferences for the authenticated user.
+     */
+    public function getPreferences(Request $request): JsonResponse
+    {
+        $preferences = NotificationPreference::where('user_id', $request->user()->id)->get();
+
+        // If no preferences exist, return defaults
+        if ($preferences->isEmpty()) {
+            $defaults = [];
+            foreach (NotificationPreference::getAvailableTypes() as $type) {
+                $defaults[] = [
+                    'notification_type' => $type,
+                    'email_enabled' => true,
+                    'sms_enabled' => false,
+                    'push_enabled' => true,
+                ];
+            }
+            return response()->json($defaults);
+        }
+
+        return response()->json($preferences);
+    }
+
+    /**
+     * Update notification preferences for the authenticated user.
+     */
+    public function updatePreferences(Request $request): JsonResponse
+    {
+        $validator = Validator::make($request->all(), [
+            'preferences' => 'required|array',
+            'preferences.*.notification_type' => 'required|string',
+            'preferences.*.email_enabled' => 'required|boolean',
+            'preferences.*.sms_enabled' => 'required|boolean',
+            'preferences.*.push_enabled' => 'required|boolean',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Validation failed',
+                'errors' => $validator->errors(),
+            ], 422);
+        }
+
+        foreach ($request->preferences as $pref) {
+            NotificationPreference::updateOrCreate(
+                [
+                    'user_id' => $request->user()->id,
+                    'notification_type' => $pref['notification_type'],
+                ],
+                [
+                    'email_enabled' => $pref['email_enabled'],
+                    'sms_enabled' => $pref['sms_enabled'],
+                    'push_enabled' => $pref['push_enabled'],
+                ]
+            );
+        }
+
+        return response()->json([
+            'message' => 'Preferences updated successfully',
         ]);
     }
 }

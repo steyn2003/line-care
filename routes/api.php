@@ -271,4 +271,56 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('trends', [CostController::class, 'trends'])->name('trends');
         Route::get('downtime', [CostController::class, 'downtime'])->name('downtime');
     });
+
+    // ========== Integrations & Automation (Phase 8) ==========
+
+    // Integration routes
+    Route::apiResource('integrations', \App\Http\Controllers\Api\IntegrationController::class)->names([
+        'index' => 'api.integrations.index',
+        'store' => 'api.integrations.store',
+        'show' => 'api.integrations.show',
+        'update' => 'api.integrations.update',
+        'destroy' => 'api.integrations.destroy',
+    ]);
+    Route::post('integrations/{integration}/test', [\App\Http\Controllers\Api\IntegrationController::class, 'testConnection'])->name('api.integrations.test');
+    Route::post('integrations/{integration}/sync', [\App\Http\Controllers\Api\IntegrationController::class, 'sync'])->name('api.integrations.sync');
+    Route::get('integrations/{integration}/logs', [\App\Http\Controllers\Api\IntegrationController::class, 'logs'])->name('api.integrations.logs');
+
+    // Sensor routes
+    Route::apiResource('sensors', \App\Http\Controllers\Api\SensorController::class)->names([
+        'index' => 'api.sensors.index',
+        'store' => 'api.sensors.store',
+        'show' => 'api.sensors.show',
+        'update' => 'api.sensors.update',
+        'destroy' => 'api.sensors.destroy',
+    ]);
+    Route::get('sensors/{sensor}/readings', [\App\Http\Controllers\Api\SensorController::class, 'readings'])->name('api.sensors.readings');
+    Route::get('sensors/{sensor}/statistics', [\App\Http\Controllers\Api\SensorController::class, 'statistics'])->name('api.sensors.statistics');
+    Route::get('sensors/{sensor}/alerts', [\App\Http\Controllers\Api\SensorController::class, 'alerts'])->name('api.sensors.alerts');
+
+    // Sensor Alert routes
+    Route::get('sensor-alerts', [\App\Http\Controllers\Api\SensorAlertController::class, 'index'])->name('api.sensor-alerts.index');
+    Route::get('sensor-alerts/{alert}', [\App\Http\Controllers\Api\SensorAlertController::class, 'show'])->name('api.sensor-alerts.show');
+    Route::put('sensor-alerts/{alert}/acknowledge', [\App\Http\Controllers\Api\SensorAlertController::class, 'acknowledge'])->name('api.sensor-alerts.acknowledge');
+
+    // Notification Preferences routes
+    Route::get('notifications/preferences', [NotificationController::class, 'getPreferences'])->name('api.notifications.preferences');
+    Route::put('notifications/preferences', [NotificationController::class, 'updatePreferences'])->name('api.notifications.update-preferences');
+});
+
+// ========== Vendor Portal (Phase 8) - API Key Authentication ==========
+Route::prefix('vendor')->middleware(\App\Http\Middleware\AuthenticateVendorApiKey::class)->name('api.vendor.')->group(function () {
+    Route::get('purchase-orders', [\App\Http\Controllers\Api\VendorPortalController::class, 'index'])->name('purchase-orders.index');
+    Route::get('purchase-orders/{purchaseOrder}', [\App\Http\Controllers\Api\VendorPortalController::class, 'show'])->name('purchase-orders.show');
+    Route::put('purchase-orders/{purchaseOrder}/acknowledge', [\App\Http\Controllers\Api\VendorPortalController::class, 'acknowledge'])->name('purchase-orders.acknowledge');
+    Route::put('purchase-orders/{purchaseOrder}/shipped', [\App\Http\Controllers\Api\VendorPortalController::class, 'markShipped'])->name('purchase-orders.shipped');
+    Route::post('purchase-orders/{purchaseOrder}/tracking', [\App\Http\Controllers\Api\VendorPortalController::class, 'addTracking'])->name('purchase-orders.tracking');
+    Route::post('purchase-orders/{purchaseOrder}/documents', [\App\Http\Controllers\Api\VendorPortalController::class, 'uploadDocument'])->name('purchase-orders.documents');
+});
+
+// ========== Public Webhooks (Phase 8) - No Authentication ==========
+Route::prefix('webhooks')->name('webhooks.')->group(function () {
+    Route::post('sensors/reading', [\App\Http\Controllers\Api\WebhookController::class, 'sensorReading'])->name('sensors.reading');
+    Route::post('sensors/readings/batch', [\App\Http\Controllers\Api\WebhookController::class, 'sensorReadingBatch'])->name('sensors.readings.batch');
+    Route::post('erp/purchase-order-update', [\App\Http\Controllers\Api\WebhookController::class, 'erpPurchaseOrderUpdate'])->name('erp.purchase-order-update');
 });

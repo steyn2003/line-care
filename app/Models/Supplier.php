@@ -63,6 +63,22 @@ class Supplier extends Model
     }
 
     /**
+     * Get the vendor API keys for this supplier.
+     */
+    public function vendorApiKeys(): HasMany
+    {
+        return $this->hasMany(VendorApiKey::class);
+    }
+
+    /**
+     * Get the active vendor API keys for this supplier.
+     */
+    public function activeVendorApiKeys(): HasMany
+    {
+        return $this->hasMany(VendorApiKey::class)->where('is_active', true);
+    }
+
+    /**
      * Scope a query to only include suppliers for a specific company.
      */
     public function scopeForCompany($query, int $companyId)

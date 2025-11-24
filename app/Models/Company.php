@@ -58,4 +58,20 @@ class Company extends Model
     {
         return $this->hasMany(PreventiveTask::class);
     }
+
+    /**
+     * Get the integrations for the company.
+     */
+    public function integrations(): HasMany
+    {
+        return $this->hasMany(Integration::class);
+    }
+
+    /**
+     * Get the sensors for the company.
+     */
+    public function sensors(): HasMany
+    {
+        return $this->hasMany(Sensor::class);
+    }
 }

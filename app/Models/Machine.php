@@ -79,6 +79,30 @@ class Machine extends Model
     }
 
     /**
+     * Get the sensors for the machine.
+     */
+    public function sensors(): HasMany
+    {
+        return $this->hasMany(Sensor::class);
+    }
+
+    /**
+     * Get the active sensors for the machine.
+     */
+    public function activeSensors(): HasMany
+    {
+        return $this->hasMany(Sensor::class)->where('is_active', true);
+    }
+
+    /**
+     * Get the sensor alerts for the machine.
+     */
+    public function sensorAlerts(): HasMany
+    {
+        return $this->hasMany(SensorAlert::class);
+    }
+
+    /**
      * Scope a query to only include active machines.
      */
     public function scopeActive($query)

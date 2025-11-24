@@ -174,6 +174,42 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('costs/labor-rates', [\App\Http\Controllers\LaborRateController::class, 'store'])->name('costs.labor-rates.store');
     Route::put('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'update'])->name('costs.labor-rates.update');
     Route::delete('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'destroy'])->name('costs.labor-rates.destroy');
+
+    // ========== Phase 8: Integrations & Automation ==========
+
+    // Integration Management routes
+    Route::get('settings/integrations', [\App\Http\Controllers\IntegrationController::class, 'index'])->name('integrations.index');
+    Route::get('settings/integrations/create', [\App\Http\Controllers\IntegrationController::class, 'create'])->name('integrations.create');
+    Route::post('settings/integrations', [\App\Http\Controllers\IntegrationController::class, 'store'])->name('integrations.store');
+    Route::get('settings/integrations/{integration}/edit', [\App\Http\Controllers\IntegrationController::class, 'edit'])->name('integrations.edit');
+    Route::put('settings/integrations/{integration}', [\App\Http\Controllers\IntegrationController::class, 'update'])->name('integrations.update');
+    Route::delete('settings/integrations/{integration}', [\App\Http\Controllers\IntegrationController::class, 'destroy'])->name('integrations.destroy');
+
+    // IoT Dashboard routes
+    Route::get('iot/dashboard', [\App\Http\Controllers\IoTDashboardController::class, 'index'])->name('iot.dashboard');
+    Route::get('machines/{machine}/sensors', [\App\Http\Controllers\IoTDashboardController::class, 'machineSensors'])->name('machines.sensors');
+
+    // Sensor Management routes
+    Route::get('iot/sensors', [\App\Http\Controllers\SensorManagementController::class, 'index'])->name('sensors.index');
+    Route::get('iot/sensors/create', [\App\Http\Controllers\SensorManagementController::class, 'create'])->name('sensors.create');
+    Route::post('iot/sensors', [\App\Http\Controllers\SensorManagementController::class, 'store'])->name('sensors.store');
+    Route::get('iot/sensors/{sensor}/edit', [\App\Http\Controllers\SensorManagementController::class, 'edit'])->name('sensors.edit');
+    Route::put('iot/sensors/{sensor}', [\App\Http\Controllers\SensorManagementController::class, 'update'])->name('sensors.update');
+    Route::delete('iot/sensors/{sensor}', [\App\Http\Controllers\SensorManagementController::class, 'destroy'])->name('sensors.destroy');
+
+    // Sensor Alerts routes
+    Route::get('iot/alerts', [\App\Http\Controllers\SensorAlertManagementController::class, 'index'])->name('sensor-alerts.index');
+    Route::post('iot/alerts/{sensorAlert}/acknowledge', [\App\Http\Controllers\SensorAlertManagementController::class, 'acknowledge'])->name('sensor-alerts.acknowledge');
+
+    // Notification Center routes
+    Route::get('notifications', [\App\Http\Controllers\NotificationCenterController::class, 'index'])->name('notifications.index');
+    Route::post('notifications/{notification}/read', [\App\Http\Controllers\NotificationCenterController::class, 'markAsRead'])->name('notifications.read');
+    Route::post('notifications/mark-all-read', [\App\Http\Controllers\NotificationCenterController::class, 'markAllAsRead'])->name('notifications.mark-all-read');
+    Route::delete('notifications/{notification}', [\App\Http\Controllers\NotificationCenterController::class, 'destroy'])->name('notifications.destroy');
+
+    // Notification Preferences routes
+    Route::get('settings/notifications', [\App\Http\Controllers\NotificationPreferencesController::class, 'index'])->name('notification-preferences.index');
+    Route::put('settings/notifications', [\App\Http\Controllers\NotificationPreferencesController::class, 'update'])->name('notification-preferences.update');
 });
 
 // ========== Admin Routes (Super Admin Only) ==========
