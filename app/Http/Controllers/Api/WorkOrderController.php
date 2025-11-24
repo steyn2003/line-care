@@ -6,7 +6,10 @@ use App\Enums\Role;
 use App\Enums\WorkOrderStatus;
 use App\Enums\WorkOrderType;
 use App\Http\Controllers\Controller;
+use App\Models\InventoryTransaction;
 use App\Models\MaintenanceLog;
+use App\Models\SparePart;
+use App\Models\Stock;
 use App\Models\WorkOrder;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -118,6 +121,7 @@ class WorkOrderController extends Controller
             'causeCategory',
             'preventiveTask',
             'maintenanceLogs.user:id,name',
+            'spareParts.category',
         ]);
 
         return response()->json([
@@ -282,5 +286,217 @@ class WorkOrderController extends Controller
             'work_order' => $workOrder,
             'message' => 'Status updated successfully',
         ]);
+    }
+
+    /**
+     * Add spare parts to a work order (reserve stock).
+     */
+    public function addParts(Request $request, WorkOrder $workOrder): JsonResponse
+    {
+        Gate::authorize('update', $workOrder);
+
+        $validated = $request->validate([
+            'parts' => ['required', 'array', 'min:1'],
+            'parts.*.spare_part_id' => ['required', 'exists:spare_parts,id'],
+            'parts.*.quantity' => ['required', 'integer', 'min:1'],
+            'parts.*.location_id' => ['required', 'exists:locations,id'],
+        ]);
+
+        DB::beginTransaction();
+        try {
+            foreach ($validated['parts'] as $partData) {
+                $sparePart = SparePart::findOrFail($partData['spare_part_id']);
+
+                // Verify spare part belongs to same company
+                if ($sparePart->company_id !== $request->user()->company_id) {
+                    throw new \Exception('Spare part not found');
+                }
+
+                // Get or create stock for this location
+                $stock = Stock::firstOrCreate(
+                    [
+                        'spare_part_id' => $partData['spare_part_id'],
+                        'location_id' => $partData['location_id'],
+                    ],
+                    [
+                        'company_id' => $request->user()->company_id,
+                        'quantity_on_hand' => 0,
+                        'quantity_reserved' => 0,
+                    ]
+                );
+
+                // Check if sufficient stock is available
+                if (!$stock->hasSufficientStock($partData['quantity'])) {
+                    throw new \Exception("Insufficient stock for {$sparePart->name}. Available: {$stock->quantity_available}, Requested: {$partData['quantity']}");
+                }
+
+                // Reserve the stock
+                $stock->reserve($partData['quantity']);
+
+                // Check if this part is already attached to the work order
+                $existingPart = $workOrder->spareParts()->where('spare_part_id', $partData['spare_part_id'])->first();
+
+                if ($existingPart) {
+                    // Update existing quantity
+                    $newQuantity = $existingPart->pivot->quantity_used + $partData['quantity'];
+                    $workOrder->spareParts()->updateExistingPivot($partData['spare_part_id'], [
+                        'quantity_used' => $newQuantity,
+                    ]);
+                } else {
+                    // Attach new part
+                    $workOrder->spareParts()->attach($partData['spare_part_id'], [
+                        'quantity_used' => $partData['quantity'],
+                        'unit_cost' => $sparePart->unit_cost,
+                        'location_id' => $partData['location_id'],
+                    ]);
+                }
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Parts added successfully',
+                'work_order' => $workOrder->fresh()->load('spareParts'),
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    /**
+     * Remove spare parts from a work order (release reservation).
+     */
+    public function removeParts(Request $request, WorkOrder $workOrder): JsonResponse
+    {
+        Gate::authorize('update', $workOrder);
+
+        $validated = $request->validate([
+            'spare_part_id' => ['required', 'exists:spare_parts,id'],
+        ]);
+
+        DB::beginTransaction();
+        try {
+            $pivot = $workOrder->spareParts()
+                ->where('spare_part_id', $validated['spare_part_id'])
+                ->first();
+
+            if (!$pivot) {
+                throw new \Exception('Part not found in this work order');
+            }
+
+            // Release the reserved stock
+            $stock = Stock::where('spare_part_id', $validated['spare_part_id'])
+                ->where('location_id', $pivot->pivot->location_id)
+                ->first();
+
+            if ($stock) {
+                $stock->releaseReservation($pivot->pivot->quantity_used);
+            }
+
+            // Detach the part
+            $workOrder->spareParts()->detach($validated['spare_part_id']);
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Part removed successfully',
+                'work_order' => $workOrder->fresh()->load('spareParts'),
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => $e->getMessage(),
+            ], 422);
+        }
+    }
+
+    /**
+     * Complete work order with parts consumption.
+     */
+    public function completeWithParts(Request $request, WorkOrder $workOrder): JsonResponse
+    {
+        Gate::authorize('complete', $workOrder);
+
+        $validated = $request->validate([
+            'completed_at' => ['nullable', 'date'],
+            'cause_category_id' => ['nullable', 'exists:cause_categories,id'],
+            'notes' => ['nullable', 'string'],
+            'work_done' => ['nullable', 'string'],
+        ]);
+
+        DB::beginTransaction();
+        try {
+            // Process each spare part - consume reserved stock and create transactions
+            foreach ($workOrder->spareParts as $sparePart) {
+                $pivot = $sparePart->pivot;
+
+                $stock = Stock::where('spare_part_id', $sparePart->id)
+                    ->where('location_id', $pivot->location_id)
+                    ->first();
+
+                if ($stock) {
+                    // Consume the reserved stock
+                    $stock->consumeReserved($pivot->quantity_used);
+
+                    // Create inventory transaction
+                    InventoryTransaction::create([
+                        'company_id' => $request->user()->company_id,
+                        'spare_part_id' => $sparePart->id,
+                        'transaction_type' => 'out',
+                        'quantity' => -$pivot->quantity_used, // negative for out
+                        'unit_cost' => $pivot->unit_cost,
+                        'reference_type' => 'work_order',
+                        'reference_id' => $workOrder->id,
+                        'user_id' => $request->user()->id,
+                        'notes' => "Used in work order #{$workOrder->id}: {$workOrder->title}",
+                        'transaction_date' => now(),
+                    ]);
+                }
+            }
+
+            // Update work order
+            $workOrder->update([
+                'status' => WorkOrderStatus::COMPLETED,
+                'completed_at' => $validated['completed_at'] ?? now(),
+                'cause_category_id' => $validated['cause_category_id'] ?? $workOrder->cause_category_id,
+            ]);
+
+            // Create maintenance log
+            $partsUsedSummary = $workOrder->spareParts->map(function ($part) {
+                return "{$part->name} (Qty: {$part->pivot->quantity_used})";
+            })->join(', ');
+
+            MaintenanceLog::create([
+                'work_order_id' => $workOrder->id,
+                'machine_id' => $workOrder->machine_id,
+                'user_id' => $request->user()->id,
+                'notes' => $validated['notes'] ?? null,
+                'work_done' => $validated['work_done'] ?? null,
+                'parts_used' => $partsUsedSummary,
+            ]);
+
+            // Update preventive task if linked
+            if ($workOrder->preventive_task_id) {
+                $preventiveTask = $workOrder->preventiveTask;
+                $preventiveTask->last_completed_at = $workOrder->completed_at;
+                $preventiveTask->calculateNextDueDate();
+                $preventiveTask->save();
+            }
+
+            DB::commit();
+
+            return response()->json([
+                'work_order' => $workOrder->fresh()->load(['machine', 'maintenanceLogs', 'spareParts']),
+                'message' => 'Work order completed successfully',
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'message' => 'Failed to complete work order: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 }

@@ -82,15 +82,38 @@ class WorkOrderController extends Controller
             'causeCategory',
             'preventiveTask',
             'maintenanceLogs.user:id,name',
+            'spareParts.category',
+            'spareParts.stocks.location',
         ]);
 
         $causeCategories = CauseCategory::where('company_id', $request->user()->company_id)
             ->orderBy('name')
             ->get(['id', 'name']);
 
+        // Get available spare parts for selection
+        $spareParts = \App\Models\SparePart::query()
+            ->with(['category', 'stocks.location'])
+            ->where('company_id', $request->user()->company_id)
+            ->where('status', 'active')
+            ->orderBy('name')
+            ->get()
+            ->map(function ($part) {
+                $part->total_quantity_available = $part->stocks->sum(function ($stock) {
+                    return max(0, $stock->quantity_on_hand - $stock->quantity_reserved);
+                });
+                return $part;
+            });
+
+        // Get locations for the company
+        $locations = \App\Models\Location::where('company_id', $request->user()->company_id)
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
         return Inertia::render('work-orders/show', [
             'work_order' => $workOrder,
             'cause_categories' => $causeCategories,
+            'spare_parts' => $spareParts,
+            'locations' => $locations,
             'user' => [
                 'id' => $request->user()->id,
                 'role' => $request->user()->role ? $request->user()->role->value : 'operator',
@@ -199,6 +222,10 @@ class WorkOrderController extends Controller
             'notes' => 'nullable|string',
             'work_done' => 'nullable|string',
             'parts_used' => 'nullable|string',
+            'spare_parts' => 'nullable|array',
+            'spare_parts.*.spare_part_id' => 'required|exists:spare_parts,id',
+            'spare_parts.*.quantity' => 'required|integer|min:1',
+            'spare_parts.*.location_id' => 'required|exists:locations,id',
         ]);
 
         // Update work order
@@ -207,6 +234,42 @@ class WorkOrderController extends Controller
             'completed_at' => $validated['completed_at'],
             'cause_category_id' => $validated['cause_category_id'] ?? null,
         ]);
+
+        // Handle spare parts if provided
+        if (!empty($validated['spare_parts'])) {
+            foreach ($validated['spare_parts'] as $partData) {
+                $sparePart = \App\Models\SparePart::find($partData['spare_part_id']);
+
+                // Find the stock for this location
+                $stock = $sparePart->stocks()->where('location_id', $partData['location_id'])->first();
+
+                if ($stock && $stock->quantity_on_hand >= $partData['quantity']) {
+                    // Consume the stock
+                    $stock->decrement('quantity_on_hand', $partData['quantity']);
+
+                    // Attach to work order
+                    $workOrder->spareParts()->attach($partData['spare_part_id'], [
+                        'quantity_used' => $partData['quantity'],
+                        'unit_cost' => $sparePart->unit_cost,
+                        'location_id' => $partData['location_id'],
+                    ]);
+
+                    // Create inventory transaction
+                    \App\Models\InventoryTransaction::create([
+                        'company_id' => $request->user()->company_id,
+                        'spare_part_id' => $partData['spare_part_id'],
+                        'location_id' => $partData['location_id'],
+                        'transaction_type' => 'consumption',
+                        'quantity' => -$partData['quantity'],
+                        'reference_type' => 'App\Models\WorkOrder',
+                        'reference_id' => $workOrder->id,
+                        'user_id' => $request->user()->id,
+                        'notes' => 'Used in work order #' . $workOrder->id,
+                        'transaction_date' => $validated['completed_at'],
+                    ]);
+                }
+            }
+        }
 
         // Create maintenance log
         $workOrder->maintenanceLogs()->create([

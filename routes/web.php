@@ -95,6 +95,33 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Reports routes
     Route::get('reports/downtime', [\App\Http\Controllers\ReportsController::class, 'downtime'])->name('reports.downtime');
+
+    // Spare Parts routes
+    Route::get('spare-parts', [\App\Http\Controllers\SparePartController::class, 'index'])->name('spare-parts.index');
+    Route::get('spare-parts/create', [\App\Http\Controllers\SparePartController::class, 'create'])->name('spare-parts.create');
+    Route::get('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'show'])->name('spare-parts.show');
+    Route::get('spare-parts/{sparePart}/edit', [\App\Http\Controllers\SparePartController::class, 'edit'])->name('spare-parts.edit');
+
+    // Inventory routes
+    Route::get('inventory/low-stock', [\App\Http\Controllers\InventoryController::class, 'lowStock'])->name('inventory.low-stock');
+
+    // Purchase Orders routes
+    Route::get('purchase-orders', [\App\Http\Controllers\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
+    Route::get('purchase-orders/create', [\App\Http\Controllers\PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
+    Route::post('purchase-orders', [\App\Http\Controllers\PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
+    Route::get('purchase-orders/{purchaseOrder}', [\App\Http\Controllers\PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
+    Route::delete('purchase-orders/{purchaseOrder}', [\App\Http\Controllers\PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
+
+    // Suppliers routes
+    Route::get('suppliers', [\App\Http\Controllers\SupplierController::class, 'index'])->name('suppliers.index');
+    Route::post('suppliers', [\App\Http\Controllers\SupplierController::class, 'store'])->name('suppliers.store');
+    Route::put('suppliers/{supplier}', [\App\Http\Controllers\SupplierController::class, 'update'])->name('suppliers.update');
+    Route::delete('suppliers/{supplier}', [\App\Http\Controllers\SupplierController::class, 'destroy'])->name('suppliers.destroy');
+
+    // Spare Parts routes (store, update, destroy)
+    Route::post('spare-parts', [\App\Http\Controllers\SparePartController::class, 'store'])->name('spare-parts.store');
+    Route::put('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'update'])->name('spare-parts.update');
+    Route::delete('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'destroy'])->name('spare-parts.destroy');
 });
 
 require __DIR__.'/settings.php';

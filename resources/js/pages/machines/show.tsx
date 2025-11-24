@@ -90,7 +90,7 @@ export default function MachineShow({
     };
 
     const handleReportBreakdown = () => {
-        router.visit(`/work-orders/create?machine_id=${machine.id}`);
+        router.visit(`/work-orders/report-breakdown?machine_id=${machine.id}`);
     };
 
     return (

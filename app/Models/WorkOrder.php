@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class WorkOrder extends Model
 {
@@ -103,6 +104,25 @@ class WorkOrder extends Model
     }
 
     /**
+     * Get the spare parts used in this work order.
+     */
+    public function spareParts(): BelongsToMany
+    {
+        return $this->belongsToMany(SparePart::class, 'work_order_spare_parts')
+            ->withPivot('quantity_used', 'unit_cost', 'location_id')
+            ->withTimestamps();
+    }
+
+    /**
+     * Get the inventory transactions for this work order.
+     */
+    public function inventoryTransactions(): HasMany
+    {
+        return $this->hasMany(InventoryTransaction::class, 'reference_id')
+            ->where('reference_type', 'work_order');
+    }
+
+    /**
      * Scope a query to only include work orders for a specific company.
      */
     public function scopeForCompany($query, int $companyId)
@@ -145,5 +165,15 @@ class WorkOrder extends Model
         }
 
         return (int) $this->started_at->diffInMinutes($this->completed_at);
+    }
+
+    /**
+     * Get the total parts cost for this work order.
+     */
+    public function getTotalPartsCostAttribute(): float
+    {
+        return $this->spareParts->sum(function ($part) {
+            return $part->pivot->quantity_used * $part->pivot->unit_cost;
+        });
     }
 }

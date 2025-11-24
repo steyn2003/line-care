@@ -3,10 +3,16 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CauseCategoryController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\MachineController;
 use App\Http\Controllers\Api\MachineImportController;
+use App\Http\Controllers\Api\NotificationController;
+use App\Http\Controllers\Api\PartCategoryController;
 use App\Http\Controllers\Api\PreventiveTaskController;
+use App\Http\Controllers\Api\PurchaseOrderController;
+use App\Http\Controllers\Api\SparePartController;
+use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WorkOrderController;
 use Illuminate\Support\Facades\Route;
@@ -51,6 +57,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('work-orders/{workOrder}/complete', [WorkOrderController::class, 'complete'])->name('api.work-orders.complete');
     Route::post('work-orders/{workOrder}/assign', [WorkOrderController::class, 'assign'])->name('api.work-orders.assign');
     Route::patch('work-orders/{workOrder}/status', [WorkOrderController::class, 'updateStatus'])->name('api.work-orders.update-status');
+    Route::post('work-orders/{workOrder}/add-parts', [WorkOrderController::class, 'addParts'])->name('api.work-orders.add-parts');
+    Route::post('work-orders/{workOrder}/remove-parts', [WorkOrderController::class, 'removeParts'])->name('api.work-orders.remove-parts');
+    Route::post('work-orders/{workOrder}/complete-with-parts', [WorkOrderController::class, 'completeWithParts'])->name('api.work-orders.complete-with-parts');
 
     // Preventive Task routes
     Route::apiResource('preventive-tasks', PreventiveTaskController::class)->names([
@@ -94,4 +103,59 @@ Route::middleware('auth:sanctum')->group(function () {
         'update' => 'api.users.update',
         'destroy' => 'api.users.destroy',
     ]);
+
+    // Spare Parts routes
+    Route::apiResource('spare-parts', SparePartController::class)->names([
+        'index' => 'api.spare-parts.index',
+        'store' => 'api.spare-parts.store',
+        'show' => 'api.spare-parts.show',
+        'update' => 'api.spare-parts.update',
+        'destroy' => 'api.spare-parts.destroy',
+    ]);
+    Route::get('spare-parts/{sparePart}/transactions', [SparePartController::class, 'transactions'])->name('api.spare-parts.transactions');
+    Route::post('spare-parts/{sparePart}/adjust-stock', [SparePartController::class, 'adjustStock'])->name('api.spare-parts.adjust-stock');
+
+    // Inventory Management routes
+    Route::get('inventory/low-stock', [InventoryController::class, 'lowStock'])->name('api.inventory.low-stock');
+    Route::get('inventory/stock-levels', [InventoryController::class, 'stockLevels'])->name('api.inventory.stock-levels');
+    Route::post('inventory/stock-count', [InventoryController::class, 'stockCount'])->name('api.inventory.stock-count');
+    Route::get('inventory/valuation', [InventoryController::class, 'valuation'])->name('api.inventory.valuation');
+    Route::get('inventory/movements', [InventoryController::class, 'movements'])->name('api.inventory.movements');
+    Route::get('inventory/usage-report', [InventoryController::class, 'usageReport'])->name('api.inventory.usage-report');
+
+    // Purchase Order routes
+    Route::apiResource('purchase-orders', PurchaseOrderController::class)->names([
+        'index' => 'api.purchase-orders.index',
+        'store' => 'api.purchase-orders.store',
+        'show' => 'api.purchase-orders.show',
+        'update' => 'api.purchase-orders.update',
+    ]);
+    Route::post('purchase-orders/{purchaseOrder}/send', [PurchaseOrderController::class, 'send'])->name('api.purchase-orders.send');
+    Route::post('purchase-orders/{purchaseOrder}/receive', [PurchaseOrderController::class, 'receive'])->name('api.purchase-orders.receive');
+    Route::post('purchase-orders/{purchaseOrder}/cancel', [PurchaseOrderController::class, 'cancel'])->name('api.purchase-orders.cancel');
+
+    // Supplier routes
+    Route::apiResource('suppliers', SupplierController::class)->names([
+        'index' => 'api.suppliers.index',
+        'store' => 'api.suppliers.store',
+        'show' => 'api.suppliers.show',
+        'update' => 'api.suppliers.update',
+        'destroy' => 'api.suppliers.destroy',
+    ]);
+
+    // Part Category routes
+    Route::apiResource('part-categories', PartCategoryController::class)->names([
+        'index' => 'api.part-categories.index',
+        'store' => 'api.part-categories.store',
+        'show' => 'api.part-categories.show',
+        'update' => 'api.part-categories.update',
+        'destroy' => 'api.part-categories.destroy',
+    ]);
+
+    // Notification routes
+    Route::get('notifications', [NotificationController::class, 'index'])->name('api.notifications.index');
+    Route::get('notifications/unread-count', [NotificationController::class, 'unreadCount'])->name('api.notifications.unread-count');
+    Route::post('notifications/mark-all-read', [NotificationController::class, 'markAllAsRead'])->name('api.notifications.mark-all-read');
+    Route::post('notifications/{notification}/mark-read', [NotificationController::class, 'markAsRead'])->name('api.notifications.mark-read');
+    Route::delete('notifications/{notification}', [NotificationController::class, 'destroy'])->name('api.notifications.destroy');
 });

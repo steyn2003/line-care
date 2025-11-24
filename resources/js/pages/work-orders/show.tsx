@@ -24,6 +24,14 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableHeader,
+    TableRow,
+} from '@/components/ui/table';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router, useForm } from '@inertiajs/react';
@@ -34,8 +42,10 @@ import {
     Check,
     ExternalLink,
     MapPin,
+    Package,
     Play,
     Plus,
+    Trash2,
     User,
     UserPlus,
 } from 'lucide-react';
@@ -67,6 +77,41 @@ interface MaintenanceLog {
     created_at: string;
 }
 
+interface Stock {
+    location_id: number;
+    quantity_on_hand: number;
+    quantity_reserved: number;
+    location?: {
+        id: number;
+        name: string;
+    };
+}
+
+interface PartCategory {
+    id: number;
+    name: string;
+}
+
+interface SparePart {
+    id: number;
+    part_number: string;
+    name: string;
+    unit_cost: number;
+    category?: PartCategory;
+    stocks: Stock[];
+    total_quantity_available: number;
+    pivot?: {
+        quantity_used: number;
+        unit_cost: number;
+        location_id: number;
+    };
+}
+
+interface Location {
+    id: number;
+    name: string;
+}
+
 interface WorkOrder {
     id: number;
     title: string;
@@ -81,11 +126,14 @@ interface WorkOrder {
     completed_at: string | null;
     created_at: string;
     maintenance_logs: MaintenanceLog[];
+    spare_parts: SparePart[];
 }
 
 interface Props {
     work_order: WorkOrder;
     cause_categories: CauseCategory[];
+    spare_parts: SparePart[];
+    locations: Location[];
     user: {
         id: number;
         role: 'operator' | 'technician' | 'manager';
@@ -111,9 +159,17 @@ const statusColors = {
 export default function WorkOrderShow({
     work_order,
     cause_categories,
+    spare_parts,
     user,
 }: Props) {
     const [showCompleteModal, setShowCompleteModal] = useState(false);
+    const [selectedParts, setSelectedParts] = useState<
+        Array<{
+            spare_part_id: number;
+            quantity: number;
+            location_id: number;
+        }>
+    >([]);
 
     const { data, setData, post, processing, errors } = useForm({
         completed_at: new Date().toISOString().slice(0, 16),
@@ -121,6 +177,11 @@ export default function WorkOrderShow({
         notes: '',
         work_done: '',
         parts_used: '',
+        spare_parts: [] as Array<{
+            spare_part_id: number;
+            quantity: number;
+            location_id: number;
+        }>,
     });
 
     const canEdit = user.role !== 'operator';
@@ -133,10 +194,55 @@ export default function WorkOrderShow({
         });
     };
 
+    const handleAddPart = () => {
+        const newPart = {
+            spare_part_id: 0,
+            quantity: 1,
+            location_id: 0,
+        };
+        setSelectedParts([...selectedParts, newPart]);
+    };
+
+    const handleRemovePart = (index: number) => {
+        setSelectedParts(selectedParts.filter((_, i) => i !== index));
+    };
+
+    const handlePartChange = (index: number, field: string, value: any) => {
+        const updated = [...selectedParts];
+        updated[index] = { ...updated[index], [field]: value };
+        setSelectedParts(updated);
+    };
+
+    const getAvailableQuantity = (sparePartId: number, locationId: number) => {
+        const part = spare_parts.find((p) => p.id === sparePartId);
+        if (!part) return 0;
+
+        const stock = part.stocks.find((s) => s.location_id === locationId);
+        if (!stock) return 0;
+
+        return Math.max(0, stock.quantity_on_hand - stock.quantity_reserved);
+    };
+
     const handleComplete = () => {
+        // Filter out empty parts and update form data
+        const validParts = selectedParts.filter(
+            (part) =>
+                part.spare_part_id > 0 &&
+                part.quantity > 0 &&
+                part.location_id > 0,
+        );
+
+        setData('spare_parts', validParts);
+
+        // Submit with updated spare_parts
         post(`/work-orders/${work_order.id}/complete`, {
+            data: {
+                ...data,
+                spare_parts: validParts,
+            },
             onSuccess: () => {
                 setShowCompleteModal(false);
+                setSelectedParts([]);
             },
         });
     };
@@ -452,6 +558,81 @@ export default function WorkOrderShow({
                                 </CardContent>
                             </Card>
                         )}
+
+                        {/* Spare Parts Used */}
+                        {work_order.spare_parts &&
+                            work_order.spare_parts.length > 0 && (
+                                <Card className="border-border">
+                                    <CardHeader>
+                                        <CardTitle>Spare Parts Used</CardTitle>
+                                        <CardDescription>
+                                            Parts consumed during this work
+                                            order
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <Table>
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableHead>
+                                                        Part Number
+                                                    </TableHead>
+                                                    <TableHead>Name</TableHead>
+                                                    <TableHead className="text-right">
+                                                        Quantity
+                                                    </TableHead>
+                                                    <TableHead className="text-right">
+                                                        Unit Cost
+                                                    </TableHead>
+                                                    <TableHead className="text-right">
+                                                        Total
+                                                    </TableHead>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {work_order.spare_parts.map(
+                                                    (part) => (
+                                                        <TableRow key={part.id}>
+                                                            <TableCell className="font-mono">
+                                                                {
+                                                                    part.part_number
+                                                                }
+                                                            </TableCell>
+                                                            <TableCell>
+                                                                {part.name}
+                                                            </TableCell>
+                                                            <TableCell className="text-right">
+                                                                {part.pivot
+                                                                    ?.quantity_used ||
+                                                                    0}
+                                                            </TableCell>
+                                                            <TableCell className="text-right">
+                                                                $
+                                                                {(
+                                                                    part.pivot
+                                                                        ?.unit_cost ||
+                                                                    0
+                                                                ).toFixed(2)}
+                                                            </TableCell>
+                                                            <TableCell className="text-right">
+                                                                $
+                                                                {(
+                                                                    (part.pivot
+                                                                        ?.quantity_used ||
+                                                                        0) *
+                                                                    (part.pivot
+                                                                        ?.unit_cost ||
+                                                                        0)
+                                                                ).toFixed(2)}
+                                                            </TableCell>
+                                                        </TableRow>
+                                                    ),
+                                                )}
+                                            </TableBody>
+                                        </Table>
+                                    </CardContent>
+                                </Card>
+                            )}
                     </div>
 
                     {/* Sidebar */}
@@ -587,7 +768,9 @@ export default function WorkOrderShow({
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="parts_used">Parts Used</Label>
+                            <Label htmlFor="parts_used">
+                                Parts Used (Legacy)
+                            </Label>
                             <Input
                                 id="parts_used"
                                 placeholder="List any parts replaced..."
@@ -596,6 +779,10 @@ export default function WorkOrderShow({
                                     setData('parts_used', e.target.value)
                                 }
                             />
+                            <p className="text-xs text-muted-foreground">
+                                Use the spare parts section below for tracked
+                                inventory
+                            </p>
                         </div>
 
                         <div className="space-y-2">
@@ -610,12 +797,181 @@ export default function WorkOrderShow({
                                 rows={2}
                             />
                         </div>
+
+                        {/* Spare Parts Selection */}
+                        <div className="space-y-2">
+                            <div className="flex items-center justify-between">
+                                <Label>Spare Parts Used</Label>
+                                <Button
+                                    type="button"
+                                    variant="outline"
+                                    size="sm"
+                                    onClick={handleAddPart}
+                                >
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Add Part
+                                </Button>
+                            </div>
+
+                            {selectedParts.length > 0 && (
+                                <div className="space-y-3 rounded-md border p-3">
+                                    {selectedParts.map((part, index) => {
+                                        const selectedPart = spare_parts.find(
+                                            (p) => p.id === part.spare_part_id,
+                                        );
+                                        const availableQty =
+                                            getAvailableQuantity(
+                                                part.spare_part_id,
+                                                part.location_id,
+                                            );
+
+                                        return (
+                                            <div
+                                                key={index}
+                                                className="grid grid-cols-12 items-start gap-2"
+                                            >
+                                                <div className="col-span-5">
+                                                    <Select
+                                                        value={part.spare_part_id.toString()}
+                                                        onValueChange={(
+                                                            value,
+                                                        ) =>
+                                                            handlePartChange(
+                                                                index,
+                                                                'spare_part_id',
+                                                                parseInt(value),
+                                                            )
+                                                        }
+                                                    >
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Select part" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {spare_parts.map(
+                                                                (sp) => (
+                                                                    <SelectItem
+                                                                        key={
+                                                                            sp.id
+                                                                        }
+                                                                        value={sp.id.toString()}
+                                                                    >
+                                                                        {
+                                                                            sp.part_number
+                                                                        }{' '}
+                                                                        -{' '}
+                                                                        {
+                                                                            sp.name
+                                                                        }
+                                                                    </SelectItem>
+                                                                ),
+                                                            )}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                                <div className="col-span-3">
+                                                    <Select
+                                                        value={part.location_id.toString()}
+                                                        onValueChange={(
+                                                            value,
+                                                        ) =>
+                                                            handlePartChange(
+                                                                index,
+                                                                'location_id',
+                                                                parseInt(value),
+                                                            )
+                                                        }
+                                                    >
+                                                        <SelectTrigger>
+                                                            <SelectValue placeholder="Location" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {selectedPart?.stocks.map(
+                                                                (stock) => (
+                                                                    <SelectItem
+                                                                        key={
+                                                                            stock.location_id
+                                                                        }
+                                                                        value={stock.location_id.toString()}
+                                                                    >
+                                                                        {
+                                                                            stock
+                                                                                .location
+                                                                                ?.name
+                                                                        }{' '}
+                                                                        (
+                                                                        {Math.max(
+                                                                            0,
+                                                                            stock.quantity_on_hand -
+                                                                                stock.quantity_reserved,
+                                                                        )}{' '}
+                                                                        avail)
+                                                                    </SelectItem>
+                                                                ),
+                                                            )}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+                                                <div className="col-span-3">
+                                                    <Input
+                                                        type="number"
+                                                        min="1"
+                                                        max={availableQty}
+                                                        value={part.quantity}
+                                                        onChange={(e) =>
+                                                            handlePartChange(
+                                                                index,
+                                                                'quantity',
+                                                                parseInt(
+                                                                    e.target
+                                                                        .value,
+                                                                ) || 1,
+                                                            )
+                                                        }
+                                                        placeholder="Qty"
+                                                    />
+                                                    {part.location_id > 0 && (
+                                                        <p className="mt-1 text-xs text-muted-foreground">
+                                                            Max: {availableQty}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                                <div className="col-span-1 flex items-center justify-center">
+                                                    <Button
+                                                        type="button"
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            handleRemovePart(
+                                                                index,
+                                                            )
+                                                        }
+                                                    >
+                                                        <Trash2 className="h-4 w-4 text-destructive" />
+                                                    </Button>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            )}
+
+                            {selectedParts.length === 0 && (
+                                <p className="rounded-md border py-4 text-center text-sm text-muted-foreground">
+                                    <Package className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />
+                                    No spare parts added. Click "Add Part" to
+                                    track parts used.
+                                </p>
+                            )}
+                        </div>
                     </div>
 
                     <DialogFooter>
                         <Button
                             variant="outline"
-                            onClick={() => setShowCompleteModal(false)}
+                            onClick={() => {
+                                setShowCompleteModal(false);
+                                setSelectedParts([]);
+                            }}
                             disabled={processing}
                         >
                             Cancel

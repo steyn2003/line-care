@@ -19,8 +19,11 @@ import {
     ClipboardList,
     LayoutGrid,
     MapPin,
+    Package,
+    ShoppingCart,
     TrendingDown,
     Users,
+    Warehouse,
     Wrench,
 } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -53,6 +56,29 @@ const maintenanceNavItems: NavItem[] = [
         title: 'Preventive Tasks',
         href: '/preventive-tasks',
         icon: Calendar,
+    },
+];
+
+const inventoryNavItems: NavItem[] = [
+    {
+        title: 'Spare Parts',
+        href: '/spare-parts',
+        icon: Package,
+    },
+    {
+        title: 'Low Stock Alerts',
+        href: '/inventory/low-stock',
+        icon: AlertTriangle,
+    },
+    {
+        title: 'Purchase Orders',
+        href: '/purchase-orders',
+        icon: ShoppingCart,
+    },
+    {
+        title: 'Suppliers',
+        href: '/suppliers',
+        icon: Warehouse,
     },
 ];
 
@@ -102,6 +128,7 @@ export function AppSidebar() {
             <SidebarContent>
                 <NavMain label="Overview" items={overviewNavItems} />
                 <NavMain label="Maintenance" items={maintenanceNavItems} />
+                <NavMain label="Inventory" items={inventoryNavItems} />
                 <NavMain label="Reports" items={reportsNavItems} />
                 <NavMain label="Settings" items={settingsNavItems} />
             </SidebarContent>
