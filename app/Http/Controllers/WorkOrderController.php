@@ -84,6 +84,7 @@ class WorkOrderController extends Controller
             'maintenanceLogs.user:id,name',
             'spareParts.category',
             'spareParts.stocks.location',
+            'cost',
         ]);
 
         $causeCategories = CauseCategory::where('company_id', $request->user()->company_id)
@@ -218,6 +219,9 @@ class WorkOrderController extends Controller
 
         $validated = $request->validate([
             'completed_at' => 'required|date',
+            'time_started' => 'nullable|date',
+            'time_completed' => 'nullable|date|after:time_started',
+            'break_time' => 'nullable|numeric|min:0',
             'cause_category_id' => 'nullable|exists:cause_categories,id',
             'notes' => 'nullable|string',
             'work_done' => 'nullable|string',
@@ -271,14 +275,83 @@ class WorkOrderController extends Controller
             }
         }
 
-        // Create maintenance log
+        // Calculate labor cost if time tracking provided
+        $hoursWorked = 0;
+        $laborCost = 0;
+
+        if (!empty($validated['time_started']) && !empty($validated['time_completed'])) {
+            $timeStarted = \Carbon\Carbon::parse($validated['time_started']);
+            $timeCompleted = \Carbon\Carbon::parse($validated['time_completed']);
+            $breakTime = $validated['break_time'] ?? 0;
+
+            // Calculate hours worked
+            $totalMinutes = $timeStarted->diffInMinutes($timeCompleted);
+            $breakMinutes = $breakTime * 60;
+            $workedMinutes = $totalMinutes - $breakMinutes;
+            $hoursWorked = $workedMinutes / 60;
+
+            // Get user's labor rate
+            $userId = $request->user()->id;
+            $laborRate = \App\Models\LaborRate::getCurrentRate(
+                $request->user()->company_id,
+                $userId,
+                $request->user()->role->value
+            );
+
+            if ($laborRate) {
+                // Check if overtime (basic check - after 6 PM)
+                $rate = $laborRate->hourly_rate;
+                if ($laborRate->overtime_rate && $timeCompleted->hour >= 18) {
+                    $rate = $laborRate->overtime_rate;
+                }
+                $laborCost = $hoursWorked * $rate;
+            }
+        }
+
+        // Create maintenance log with time tracking
         $workOrder->maintenanceLogs()->create([
             'user_id' => $request->user()->id,
             'machine_id' => $workOrder->machine_id,
             'notes' => $validated['notes'] ?? null,
             'work_done' => $validated['work_done'] ?? null,
             'parts_used' => $validated['parts_used'] ?? null,
+            'time_started' => $validated['time_started'] ?? null,
+            'time_completed' => $validated['time_completed'] ?? null,
+            'hours_worked' => $hoursWorked > 0 ? round($hoursWorked, 2) : null,
+            'break_time' => $validated['break_time'] ?? null,
+            'labor_cost' => $laborCost > 0 ? round($laborCost, 2) : null,
         ]);
+
+        // Calculate and update work order costs
+        $workOrderCost = $workOrder->cost ?? new \App\Models\WorkOrderCost(['work_order_id' => $workOrder->id]);
+
+        // Labor cost (sum all maintenance logs)
+        $totalLaborCost = $workOrder->maintenanceLogs()->sum('labor_cost') + $laborCost;
+        $workOrderCost->labor_cost = $totalLaborCost;
+
+        // Parts cost (sum all spare parts used)
+        $partsCost = $workOrder->spareParts()->sum(\DB::raw('work_order_spare_parts.quantity_used * work_order_spare_parts.unit_cost'));
+        $workOrderCost->parts_cost = $partsCost;
+
+        // Downtime cost
+        if ($workOrder->started_at && $workOrder->completed_at) {
+            $downtimeHours = \Carbon\Carbon::parse($workOrder->started_at)
+                ->diffInHours(\Carbon\Carbon::parse($workOrder->completed_at), true);
+            $hourlyProductionValue = $workOrder->machine->hourly_production_value ?? 0;
+            $workOrderCost->downtime_cost = $downtimeHours * $hourlyProductionValue;
+        }
+
+        // External service cost (if any - default 0)
+        $externalServiceCost = \App\Models\ExternalService::where('work_order_id', $workOrder->id)->sum('cost');
+        $workOrderCost->external_service_cost = $externalServiceCost;
+
+        // Calculate total
+        $workOrderCost->total_cost = $workOrderCost->labor_cost
+            + $workOrderCost->parts_cost
+            + $workOrderCost->downtime_cost
+            + $workOrderCost->external_service_cost;
+
+        $workOrderCost->save();
 
         // If this is a preventive task work order, update the task
         if ($workOrder->preventive_task_id) {

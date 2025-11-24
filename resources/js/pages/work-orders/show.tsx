@@ -40,6 +40,7 @@ import {
     ArrowLeft,
     Calendar,
     Check,
+    DollarSign,
     ExternalLink,
     MapPin,
     Package,
@@ -112,6 +113,16 @@ interface Location {
     name: string;
 }
 
+interface WorkOrderCost {
+    id: number;
+    work_order_id: number;
+    labor_cost: number;
+    parts_cost: number;
+    external_service_cost: number;
+    downtime_cost: number;
+    total_cost: number;
+}
+
 interface WorkOrder {
     id: number;
     title: string;
@@ -127,6 +138,7 @@ interface WorkOrder {
     created_at: string;
     maintenance_logs: MaintenanceLog[];
     spare_parts: SparePart[];
+    cost: WorkOrderCost | null;
 }
 
 interface Props {
@@ -173,6 +185,11 @@ export default function WorkOrderShow({
 
     const { data, setData, post, processing, errors } = useForm({
         completed_at: new Date().toISOString().slice(0, 16),
+        time_started: work_order.started_at
+            ? new Date(work_order.started_at).toISOString().slice(0, 16)
+            : new Date().toISOString().slice(0, 16),
+        time_completed: new Date().toISOString().slice(0, 16),
+        break_time: '0',
         cause_category_id: work_order.cause_category?.id || '',
         notes: '',
         work_done: '',
@@ -669,6 +686,99 @@ export default function WorkOrderShow({
                             </CardContent>
                         </Card>
 
+                        {/* Cost Breakdown */}
+                        {work_order.cost &&
+                            work_order.status === 'completed' && (
+                                <Card className="border-border">
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center gap-2">
+                                            <DollarSign className="h-5 w-5 text-primary" />
+                                            Cost Breakdown
+                                        </CardTitle>
+                                        <CardDescription>
+                                            Total maintenance costs
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-3">
+                                        <div className="space-y-2">
+                                            <div className="flex items-center justify-between text-sm">
+                                                <span className="text-muted-foreground">
+                                                    Labor Cost
+                                                </span>
+                                                <span className="font-medium">
+                                                    $
+                                                    {Number(
+                                                        work_order.cost
+                                                            .labor_cost,
+                                                    ).toFixed(2)}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-sm">
+                                                <span className="text-muted-foreground">
+                                                    Parts Cost
+                                                </span>
+                                                <span className="font-medium">
+                                                    $
+                                                    {Number(
+                                                        work_order.cost
+                                                            .parts_cost,
+                                                    ).toFixed(2)}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between text-sm">
+                                                <span className="text-muted-foreground">
+                                                    Downtime Cost
+                                                </span>
+                                                <span className="font-medium">
+                                                    $
+                                                    {Number(
+                                                        work_order.cost
+                                                            .downtime_cost,
+                                                    ).toFixed(2)}
+                                                </span>
+                                            </div>
+                                            {Number(
+                                                work_order.cost
+                                                    .external_service_cost,
+                                            ) > 0 && (
+                                                <div className="flex items-center justify-between text-sm">
+                                                    <span className="text-muted-foreground">
+                                                        External Services
+                                                    </span>
+                                                    <span className="font-medium">
+                                                        $
+                                                        {Number(
+                                                            work_order.cost
+                                                                .external_service_cost,
+                                                        ).toFixed(2)}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="border-t pt-2">
+                                            <div className="flex items-center justify-between">
+                                                <span className="font-semibold text-foreground">
+                                                    Total Cost
+                                                </span>
+                                                <span className="text-lg font-bold text-primary">
+                                                    $
+                                                    {Number(
+                                                        work_order.cost
+                                                            .total_cost,
+                                                    ).toFixed(2)}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <Link
+                                            href="/costs/report"
+                                            className="block text-center text-sm text-primary hover:underline"
+                                        >
+                                            View detailed cost report →
+                                        </Link>
+                                    </CardContent>
+                                </Card>
+                            )}
+
                         {/* Created By */}
                         <Card className="border-border">
                             <CardHeader>
@@ -725,6 +835,69 @@ export default function WorkOrderShow({
                                     {errors.completed_at}
                                 </p>
                             )}
+                        </div>
+
+                        {/* Time Tracking Section */}
+                        <div className="space-y-3 rounded-md border bg-muted/30 p-3">
+                            <p className="text-sm font-medium">
+                                Time Tracking (for cost calculation)
+                            </p>
+
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="space-y-2">
+                                    <Label htmlFor="time_started">
+                                        Time Started
+                                    </Label>
+                                    <Input
+                                        id="time_started"
+                                        type="datetime-local"
+                                        value={data.time_started}
+                                        onChange={(e) =>
+                                            setData(
+                                                'time_started',
+                                                e.target.value,
+                                            )
+                                        }
+                                    />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="time_completed">
+                                        Time Completed
+                                    </Label>
+                                    <Input
+                                        id="time_completed"
+                                        type="datetime-local"
+                                        value={data.time_completed}
+                                        onChange={(e) =>
+                                            setData(
+                                                'time_completed',
+                                                e.target.value,
+                                            )
+                                        }
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="space-y-2">
+                                <Label htmlFor="break_time">
+                                    Break Time (hours)
+                                </Label>
+                                <Input
+                                    id="break_time"
+                                    type="number"
+                                    step="0.25"
+                                    min="0"
+                                    value={data.break_time}
+                                    onChange={(e) =>
+                                        setData('break_time', e.target.value)
+                                    }
+                                    placeholder="e.g., 0.5 for 30 minutes"
+                                />
+                                <p className="text-xs text-muted-foreground">
+                                    Labor cost will be calculated automatically
+                                    based on your hourly rate
+                                </p>
+                            </div>
                         </div>
 
                         <div className="space-y-2">
