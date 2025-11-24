@@ -1,4 +1,3 @@
-import { Pagination } from '@/components/pagination';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -431,25 +430,66 @@ export default function Index({
 
                 {/* Pagination */}
                 {alerts.last_page > 1 && (
-                    <Pagination
-                        currentPage={alerts.current_page}
-                        lastPage={alerts.last_page}
-                        total={alerts.total}
-                        perPage={alerts.per_page}
-                        onPageChange={(page) => {
-                            router.get(
-                                '/sensor-alerts',
-                                {
-                                    ...filters,
-                                    page,
-                                },
-                                {
-                                    preserveState: true,
-                                    preserveScroll: true,
-                                },
-                            );
-                        }}
-                    />
+                    <div className="flex items-center justify-between">
+                        <p className="text-sm text-muted-foreground">
+                            Showing{' '}
+                            {(alerts.current_page - 1) * alerts.per_page + 1} to{' '}
+                            {Math.min(
+                                alerts.current_page * alerts.per_page,
+                                alerts.total,
+                            )}{' '}
+                            of {alerts.total} alerts
+                        </p>
+                        <div className="flex items-center gap-2">
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                disabled={alerts.current_page === 1}
+                                onClick={() => {
+                                    router.get(
+                                        '/sensor-alerts',
+                                        {
+                                            ...filters,
+                                            page: alerts.current_page - 1,
+                                        },
+                                        {
+                                            preserveState: true,
+                                            preserveScroll: true,
+                                        },
+                                    );
+                                }}
+                            >
+                                <ChevronLeft className="mr-1 h-4 w-4" />
+                                Previous
+                            </Button>
+                            <span className="px-2 text-sm text-muted-foreground">
+                                Page {alerts.current_page} of {alerts.last_page}
+                            </span>
+                            <Button
+                                variant="outline"
+                                size="sm"
+                                disabled={
+                                    alerts.current_page === alerts.last_page
+                                }
+                                onClick={() => {
+                                    router.get(
+                                        '/sensor-alerts',
+                                        {
+                                            ...filters,
+                                            page: alerts.current_page + 1,
+                                        },
+                                        {
+                                            preserveState: true,
+                                            preserveScroll: true,
+                                        },
+                                    );
+                                }}
+                            >
+                                Next
+                                <ChevronRight className="ml-1 h-4 w-4" />
+                            </Button>
+                        </div>
+                    </div>
                 )}
             </div>
         </AppLayout>

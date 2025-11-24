@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import AuthenticatedLayout from '@/layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
 import { Mail, MessageSquare, Smartphone } from 'lucide-react';
 import { FormEventHandler } from 'react';
@@ -82,17 +81,20 @@ export default function NotificationPreferences({
     };
 
     return (
-        <AuthenticatedLayout
-            header={
-                <h2 className="text-xl leading-tight font-semibold text-gray-800">
-                    Notification Preferences
-                </h2>
-            }
-        >
+        <AppLayout>
             <Head title="Notification Preferences" />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-4xl sm:px-6 lg:px-8">
+            <div className="container mx-auto space-y-6 py-6">
+                <div>
+                    <h1 className="text-3xl font-bold tracking-tight text-foreground">
+                        Notification Preferences
+                    </h1>
+                    <p className="mt-1 text-muted-foreground">
+                        Manage how you receive notifications
+                    </p>
+                </div>
+
+                <div className="mx-auto max-w-4xl">
                     <form onSubmit={submit}>
                         <div className="space-y-6">
                             {/* Info Card */}
@@ -264,6 +266,6 @@ export default function NotificationPreferences({
                     </form>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </AppLayout>
     );
 }

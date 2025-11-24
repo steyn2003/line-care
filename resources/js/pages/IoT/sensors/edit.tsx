@@ -27,7 +27,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
-import AuthenticatedLayout from '@/layouts/AuthenticatedLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import {
     Activity,
@@ -143,20 +142,22 @@ export default function EditSensor({
         Activity;
 
     return (
-        <AuthenticatedLayout
-            header={
-                <div className="flex items-center justify-between">
+        <AppLayout>
+            <Head title={`Edit ${sensor.name}`} />
+
+            <div className="container mx-auto py-6">
+                <div className="mb-6 flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                        <Link href="/sensors">
+                        <Link href="/iot/sensors">
                             <Button variant="ghost" size="icon">
                                 <ChevronLeft className="h-5 w-5" />
                             </Button>
                         </Link>
                         <div>
-                            <h2 className="text-xl leading-tight font-semibold text-gray-800">
+                            <h1 className="text-2xl font-bold tracking-tight text-foreground">
                                 Edit Sensor
-                            </h2>
-                            <p className="text-sm text-gray-600">
+                            </h1>
+                            <p className="text-sm text-muted-foreground">
                                 {sensor.name}
                             </p>
                         </div>
@@ -194,362 +195,374 @@ export default function EditSensor({
                         </AlertDialogContent>
                     </AlertDialog>
                 </div>
-            }
-        >
-            <Head title={`Edit ${sensor.name}`} />
 
-            <div className="py-12">
-                <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
-                    <form onSubmit={submit}>
-                        <div className="space-y-6">
-                            {/* Current Status */}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle className="flex items-center gap-2">
-                                        <Icon className="h-5 w-5" />
-                                        Current Status
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-3">
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">
-                                                Sensor ID:
-                                            </span>
-                                            <span className="font-mono text-sm">
-                                                {sensor.sensor_id}
-                                            </span>
+                <div className="py-12">
+                    <div className="mx-auto max-w-3xl sm:px-6 lg:px-8">
+                        <form onSubmit={submit}>
+                            <div className="space-y-6">
+                                {/* Current Status */}
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle className="flex items-center gap-2">
+                                            <Icon className="h-5 w-5" />
+                                            Current Status
+                                        </CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-3">
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-gray-600">
+                                                    Sensor ID:
+                                                </span>
+                                                <span className="font-mono text-sm">
+                                                    {sensor.sensor_id}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-gray-600">
+                                                    Last Reading:
+                                                </span>
+                                                <span className="font-semibold">
+                                                    {sensor.last_reading !==
+                                                    null
+                                                        ? `${sensor.last_reading.toFixed(1)} ${sensor.unit}`
+                                                        : 'No reading'}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-gray-600">
+                                                    Last Update:
+                                                </span>
+                                                <span className="text-sm">
+                                                    {formatTimestamp(
+                                                        sensor.last_reading_at,
+                                                    )}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-gray-600">
+                                                    Type:
+                                                </span>
+                                                <span className="text-sm capitalize">
+                                                    {sensor.sensor_type}
+                                                </span>
+                                            </div>
+                                            <div className="flex items-center justify-between">
+                                                <span className="text-sm text-gray-600">
+                                                    Protocol:
+                                                </span>
+                                                <span className="text-sm uppercase">
+                                                    {sensor.protocol}
+                                                </span>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">
-                                                Last Reading:
-                                            </span>
-                                            <span className="font-semibold">
-                                                {sensor.last_reading !== null
-                                                    ? `${sensor.last_reading.toFixed(1)} ${sensor.unit}`
-                                                    : 'No reading'}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">
-                                                Last Update:
-                                            </span>
-                                            <span className="text-sm">
-                                                {formatTimestamp(
-                                                    sensor.last_reading_at,
-                                                )}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">
-                                                Type:
-                                            </span>
-                                            <span className="text-sm capitalize">
-                                                {sensor.sensor_type}
-                                            </span>
-                                        </div>
-                                        <div className="flex items-center justify-between">
-                                            <span className="text-sm text-gray-600">
-                                                Protocol:
-                                            </span>
-                                            <span className="text-sm uppercase">
-                                                {sensor.protocol}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                    </CardContent>
+                                </Card>
 
-                            {/* Machine */}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Machine</CardTitle>
-                                    <CardDescription>
-                                        The machine this sensor monitors
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="machine_id">
-                                            Machine
-                                        </Label>
-                                        <Select
-                                            value={data.machine_id}
-                                            onValueChange={(value) =>
-                                                setData('machine_id', value)
-                                            }
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {machines.map((machine) => (
-                                                    <SelectItem
-                                                        key={machine.id}
-                                                        value={machine.id.toString()}
-                                                    >
-                                                        {machine.name}
-                                                    </SelectItem>
-                                                ))}
-                                            </SelectContent>
-                                        </Select>
-                                        {errors.machine_id && (
-                                            <p className="text-sm text-red-600">
-                                                {errors.machine_id}
-                                            </p>
-                                        )}
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            {/* Sensor Details */}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Sensor Details</CardTitle>
-                                    <CardDescription>
-                                        Update sensor name and configuration
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
+                                {/* Machine */}
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Machine</CardTitle>
+                                        <CardDescription>
+                                            The machine this sensor monitors
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
                                         <div className="space-y-2">
-                                            <Label htmlFor="name">
-                                                Sensor Name
-                                            </Label>
-                                            <Input
-                                                id="name"
-                                                value={data.name}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        'name',
-                                                        e.target.value,
-                                                    )
-                                                }
-                                            />
-                                            {errors.name && (
-                                                <p className="text-sm text-red-600">
-                                                    {errors.name}
-                                                </p>
-                                            )}
-                                        </div>
-
-                                        <div className="space-y-2">
-                                            <Label htmlFor="unit">Unit</Label>
-                                            <Input
-                                                id="unit"
-                                                value={data.unit}
-                                                onChange={(e) =>
-                                                    setData(
-                                                        'unit',
-                                                        e.target.value,
-                                                    )
-                                                }
-                                            />
-                                            {errors.unit && (
-                                                <p className="text-sm text-red-600">
-                                                    {errors.unit}
-                                                </p>
-                                            )}
-                                        </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
-
-                            {/* Protocol Configuration */}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>
-                                        Protocol Configuration
-                                    </CardTitle>
-                                    <CardDescription>
-                                        Communication protocol settings
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        <div className="space-y-2">
-                                            <Label htmlFor="protocol">
-                                                Protocol
+                                            <Label htmlFor="machine_id">
+                                                Machine
                                             </Label>
                                             <Select
-                                                value={data.protocol}
+                                                value={data.machine_id}
                                                 onValueChange={(value) =>
-                                                    setData('protocol', value)
+                                                    setData('machine_id', value)
                                                 }
                                             >
                                                 <SelectTrigger>
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    {protocols.map(
-                                                        (protocol) => (
-                                                            <SelectItem
-                                                                key={
-                                                                    protocol.value
-                                                                }
-                                                                value={
-                                                                    protocol.value
-                                                                }
-                                                            >
-                                                                {protocol.label}
-                                                            </SelectItem>
-                                                        ),
-                                                    )}
+                                                    {machines.map((machine) => (
+                                                        <SelectItem
+                                                            key={machine.id}
+                                                            value={machine.id.toString()}
+                                                        >
+                                                            {machine.name}
+                                                        </SelectItem>
+                                                    ))}
                                                 </SelectContent>
                                             </Select>
-                                            {errors.protocol && (
+                                            {errors.machine_id && (
                                                 <p className="text-sm text-red-600">
-                                                    {errors.protocol}
+                                                    {errors.machine_id}
                                                 </p>
                                             )}
                                         </div>
+                                    </CardContent>
+                                </Card>
 
-                                        {data.protocol === 'mqtt' && (
+                                {/* Sensor Details */}
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Sensor Details</CardTitle>
+                                        <CardDescription>
+                                            Update sensor name and configuration
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-4">
                                             <div className="space-y-2">
-                                                <Label htmlFor="mqtt_topic">
-                                                    MQTT Topic
+                                                <Label htmlFor="name">
+                                                    Sensor Name
                                                 </Label>
                                                 <Input
-                                                    id="mqtt_topic"
-                                                    value={data.mqtt_topic}
+                                                    id="name"
+                                                    value={data.name}
                                                     onChange={(e) =>
                                                         setData(
-                                                            'mqtt_topic',
+                                                            'name',
                                                             e.target.value,
                                                         )
                                                     }
-                                                    placeholder="sensors/vibration/machine-1"
                                                 />
-                                                {errors.mqtt_topic && (
+                                                {errors.name && (
                                                     <p className="text-sm text-red-600">
-                                                        {errors.mqtt_topic}
+                                                        {errors.name}
                                                     </p>
                                                 )}
                                             </div>
-                                        )}
-                                    </div>
-                                </CardContent>
-                            </Card>
 
-                            {/* Thresholds */}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Alert Thresholds</CardTitle>
-                                    <CardDescription>
-                                        Update warning and critical thresholds
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="space-y-4">
-                                        <div className="grid gap-4 md:grid-cols-2">
                                             <div className="space-y-2">
-                                                <Label htmlFor="warning_threshold">
-                                                    Warning Threshold
+                                                <Label htmlFor="unit">
+                                                    Unit
                                                 </Label>
                                                 <Input
-                                                    id="warning_threshold"
-                                                    type="number"
-                                                    step="0.1"
-                                                    value={
-                                                        data.warning_threshold
-                                                    }
+                                                    id="unit"
+                                                    value={data.unit}
                                                     onChange={(e) =>
                                                         setData(
-                                                            'warning_threshold',
+                                                            'unit',
                                                             e.target.value,
                                                         )
                                                     }
                                                 />
-                                                {errors.warning_threshold && (
+                                                {errors.unit && (
                                                     <p className="text-sm text-red-600">
-                                                        {
-                                                            errors.warning_threshold
-                                                        }
+                                                        {errors.unit}
                                                     </p>
                                                 )}
-                                                <p className="text-xs text-gray-600">
-                                                    Alert when reading exceeds
-                                                    this value
-                                                </p>
-                                            </div>
-
-                                            <div className="space-y-2">
-                                                <Label htmlFor="critical_threshold">
-                                                    Critical Threshold
-                                                </Label>
-                                                <Input
-                                                    id="critical_threshold"
-                                                    type="number"
-                                                    step="0.1"
-                                                    value={
-                                                        data.critical_threshold
-                                                    }
-                                                    onChange={(e) =>
-                                                        setData(
-                                                            'critical_threshold',
-                                                            e.target.value,
-                                                        )
-                                                    }
-                                                />
-                                                {errors.critical_threshold && (
-                                                    <p className="text-sm text-red-600">
-                                                        {
-                                                            errors.critical_threshold
-                                                        }
-                                                    </p>
-                                                )}
-                                                <p className="text-xs text-gray-600">
-                                                    Create work order when
-                                                    exceeded
-                                                </p>
                                             </div>
                                         </div>
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                    </CardContent>
+                                </Card>
 
-                            {/* Settings */}
-                            <Card>
-                                <CardHeader>
-                                    <CardTitle>Settings</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <Label htmlFor="is_active">
-                                                Active
-                                            </Label>
-                                            <p className="text-sm text-gray-600">
-                                                Enable or disable monitoring for
-                                                this sensor
-                                            </p>
+                                {/* Protocol Configuration */}
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>
+                                            Protocol Configuration
+                                        </CardTitle>
+                                        <CardDescription>
+                                            Communication protocol settings
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-4">
+                                            <div className="space-y-2">
+                                                <Label htmlFor="protocol">
+                                                    Protocol
+                                                </Label>
+                                                <Select
+                                                    value={data.protocol}
+                                                    onValueChange={(value) =>
+                                                        setData(
+                                                            'protocol',
+                                                            value,
+                                                        )
+                                                    }
+                                                >
+                                                    <SelectTrigger>
+                                                        <SelectValue />
+                                                    </SelectTrigger>
+                                                    <SelectContent>
+                                                        {protocols.map(
+                                                            (protocol) => (
+                                                                <SelectItem
+                                                                    key={
+                                                                        protocol.value
+                                                                    }
+                                                                    value={
+                                                                        protocol.value
+                                                                    }
+                                                                >
+                                                                    {
+                                                                        protocol.label
+                                                                    }
+                                                                </SelectItem>
+                                                            ),
+                                                        )}
+                                                    </SelectContent>
+                                                </Select>
+                                                {errors.protocol && (
+                                                    <p className="text-sm text-red-600">
+                                                        {errors.protocol}
+                                                    </p>
+                                                )}
+                                            </div>
+
+                                            {data.protocol === 'mqtt' && (
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="mqtt_topic">
+                                                        MQTT Topic
+                                                    </Label>
+                                                    <Input
+                                                        id="mqtt_topic"
+                                                        value={data.mqtt_topic}
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                'mqtt_topic',
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                        placeholder="sensors/vibration/machine-1"
+                                                    />
+                                                    {errors.mqtt_topic && (
+                                                        <p className="text-sm text-red-600">
+                                                            {errors.mqtt_topic}
+                                                        </p>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
-                                        <Switch
-                                            id="is_active"
-                                            checked={data.is_active}
-                                            onCheckedChange={(checked) =>
-                                                setData('is_active', checked)
-                                            }
-                                        />
-                                    </div>
-                                </CardContent>
-                            </Card>
+                                    </CardContent>
+                                </Card>
 
-                            {/* Actions */}
-                            <div className="flex items-center justify-end gap-4">
-                                <Link href="/sensors">
-                                    <Button type="button" variant="outline">
-                                        Cancel
+                                {/* Thresholds */}
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Alert Thresholds</CardTitle>
+                                        <CardDescription>
+                                            Update warning and critical
+                                            thresholds
+                                        </CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="space-y-4">
+                                            <div className="grid gap-4 md:grid-cols-2">
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="warning_threshold">
+                                                        Warning Threshold
+                                                    </Label>
+                                                    <Input
+                                                        id="warning_threshold"
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={
+                                                            data.warning_threshold
+                                                        }
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                'warning_threshold',
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                    />
+                                                    {errors.warning_threshold && (
+                                                        <p className="text-sm text-red-600">
+                                                            {
+                                                                errors.warning_threshold
+                                                            }
+                                                        </p>
+                                                    )}
+                                                    <p className="text-xs text-gray-600">
+                                                        Alert when reading
+                                                        exceeds this value
+                                                    </p>
+                                                </div>
+
+                                                <div className="space-y-2">
+                                                    <Label htmlFor="critical_threshold">
+                                                        Critical Threshold
+                                                    </Label>
+                                                    <Input
+                                                        id="critical_threshold"
+                                                        type="number"
+                                                        step="0.1"
+                                                        value={
+                                                            data.critical_threshold
+                                                        }
+                                                        onChange={(e) =>
+                                                            setData(
+                                                                'critical_threshold',
+                                                                e.target.value,
+                                                            )
+                                                        }
+                                                    />
+                                                    {errors.critical_threshold && (
+                                                        <p className="text-sm text-red-600">
+                                                            {
+                                                                errors.critical_threshold
+                                                            }
+                                                        </p>
+                                                    )}
+                                                    <p className="text-xs text-gray-600">
+                                                        Create work order when
+                                                        exceeded
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                {/* Settings */}
+                                <Card>
+                                    <CardHeader>
+                                        <CardTitle>Settings</CardTitle>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <Label htmlFor="is_active">
+                                                    Active
+                                                </Label>
+                                                <p className="text-sm text-gray-600">
+                                                    Enable or disable monitoring
+                                                    for this sensor
+                                                </p>
+                                            </div>
+                                            <Switch
+                                                id="is_active"
+                                                checked={data.is_active}
+                                                onCheckedChange={(checked) =>
+                                                    setData(
+                                                        'is_active',
+                                                        checked,
+                                                    )
+                                                }
+                                            />
+                                        </div>
+                                    </CardContent>
+                                </Card>
+
+                                {/* Actions */}
+                                <div className="flex items-center justify-end gap-4">
+                                    <Link href="/sensors">
+                                        <Button type="button" variant="outline">
+                                            Cancel
+                                        </Button>
+                                    </Link>
+                                    <Button type="submit" disabled={processing}>
+                                        {processing
+                                            ? 'Saving...'
+                                            : 'Save Changes'}
                                     </Button>
-                                </Link>
-                                <Button type="submit" disabled={processing}>
-                                    {processing ? 'Saving...' : 'Save Changes'}
-                                </Button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </AuthenticatedLayout>
+        </AppLayout>
     );
 }
