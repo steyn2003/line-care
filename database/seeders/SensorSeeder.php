@@ -48,10 +48,10 @@ class SensorSeeder extends Seeder
                 'name' => "Vibration Sensor - {$machine->name}",
                 'unit' => 'mm/s',
                 'protocol' => 'mqtt',
-                'mqtt_topic' => "sensors/vibration/{$machine->id}",
+                'config' => ['mqtt_topic' => "sensors/vibration/{$machine->id}"],
                 'warning_threshold' => 8.0,
                 'critical_threshold' => 12.0,
-                'last_reading' => rand(20, 70) / 10, // 2.0 - 7.0
+                'last_reading_value' => rand(20, 70) / 10, // 2.0 - 7.0
                 'last_reading_at' => now()->subMinutes(rand(1, 30)),
                 'is_active' => true,
             ]);
@@ -70,10 +70,10 @@ class SensorSeeder extends Seeder
                 'name' => "Temperature Sensor - {$machine->name}",
                 'unit' => '°C',
                 'protocol' => 'mqtt',
-                'mqtt_topic' => "sensors/temperature/{$machine->id}",
+                'config' => ['mqtt_topic' => "sensors/temperature/{$machine->id}"],
                 'warning_threshold' => 75.0,
                 'critical_threshold' => 85.0,
-                'last_reading' => rand(450, 700) / 10, // 45.0 - 70.0
+                'last_reading_value' => rand(450, 700) / 10, // 45.0 - 70.0
                 'last_reading_at' => now()->subMinutes(rand(1, 30)),
                 'is_active' => true,
             ]);
@@ -93,9 +93,10 @@ class SensorSeeder extends Seeder
                     'name' => "Hydraulic Pressure - {$machine->name}",
                     'unit' => 'bar',
                     'protocol' => 'rest_webhook',
+                    'config' => null,
                     'warning_threshold' => 180.0,
                     'critical_threshold' => 200.0,
-                    'last_reading' => rand(1400, 1700) / 10, // 140.0 - 170.0
+                    'last_reading_value' => rand(1400, 1700) / 10, // 140.0 - 170.0
                     'last_reading_at' => now()->subMinutes(rand(1, 30)),
                     'is_active' => true,
                 ]);
@@ -116,10 +117,10 @@ class SensorSeeder extends Seeder
                     'name' => "Current Monitor - {$machine->name}",
                     'unit' => 'A',
                     'protocol' => 'mqtt',
-                    'mqtt_topic' => "sensors/current/{$machine->id}",
+                    'config' => ['mqtt_topic' => "sensors/current/{$machine->id}"],
                     'warning_threshold' => 45.0,
                     'critical_threshold' => 50.0,
-                    'last_reading' => rand(200, 400) / 10, // 20.0 - 40.0
+                    'last_reading_value' => rand(200, 400) / 10, // 20.0 - 40.0
                     'last_reading_at' => now()->subMinutes(rand(1, 30)),
                     'is_active' => true,
                 ]);
@@ -141,10 +142,10 @@ class SensorSeeder extends Seeder
             'name' => "Bearing Vibration Monitor - {$firstMachine->name}",
             'unit' => 'mm/s',
             'protocol' => 'mqtt',
-            'mqtt_topic' => "sensors/vibration/{$firstMachine->id}/bearing",
+            'config' => ['mqtt_topic' => "sensors/vibration/{$firstMachine->id}/bearing"],
             'warning_threshold' => 8.0,
             'critical_threshold' => 12.0,
-            'last_reading' => 13.5, // Above critical threshold
+            'last_reading_value' => 13.5, // Above critical threshold
             'last_reading_at' => now()->subMinutes(5),
             'is_active' => true,
         ]);
