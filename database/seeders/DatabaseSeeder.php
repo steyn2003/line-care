@@ -11,9 +11,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed demo data for development/testing
+        // Seed comprehensive demo data with 20-30 records per entity
         $this->call([
-            DemoDataSeeder::class,
+            ComprehensiveDemoSeeder::class,
         ]);
     }
 }

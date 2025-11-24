@@ -176,4 +176,23 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'destroy'])->name('costs.labor-rates.destroy');
 });
 
+// ========== Admin Routes (Super Admin Only) ==========
+
+Route::middleware(['auth', 'verified', 'super.admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Admin Dashboard
+    Route::get('/', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Company Management
+    Route::get('companies', [\App\Http\Controllers\Admin\CompanyController::class, 'index'])->name('companies.index');
+    Route::post('companies', [\App\Http\Controllers\Admin\CompanyController::class, 'store'])->name('companies.store');
+    Route::put('companies/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'update'])->name('companies.update');
+    Route::delete('companies/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'destroy'])->name('companies.destroy');
+
+    // User Management
+    Route::get('users', [\App\Http\Controllers\Admin\UserController::class, 'index'])->name('users.index');
+    Route::post('users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
+    Route::put('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
+    Route::delete('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+});
+
 require __DIR__.'/settings.php';

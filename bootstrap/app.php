@@ -28,6 +28,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'role' => \App\Http\Middleware\EnsureUserHasRole::class,
             'manager' => \App\Http\Middleware\EnsureUserIsManager::class,
             'tech.manager' => \App\Http\Middleware\EnsureUserIsTechnicianOrManager::class,
+            'super.admin' => \App\Http\Middleware\EnsureSuperAdmin::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

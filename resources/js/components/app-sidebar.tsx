@@ -12,10 +12,11 @@ import {
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import {
     AlertTriangle,
     BarChart3,
+    Building2,
     Calendar,
     ClipboardList,
     Clock,
@@ -26,6 +27,7 @@ import {
     MapPin,
     Package,
     PiggyBank,
+    Shield,
     ShoppingCart,
     TrendingDown,
     TrendingUp,
@@ -168,7 +170,28 @@ const settingsNavItems: NavItem[] = [
 
 const footerNavItems: NavItem[] = [];
 
+const adminNavItems: NavItem[] = [
+    {
+        title: 'Admin Dashboard',
+        href: '/admin',
+        icon: Shield,
+    },
+    {
+        title: 'Companies',
+        href: '/admin/companies',
+        icon: Building2,
+    },
+    {
+        title: 'All Users',
+        href: '/admin/users',
+        icon: Users,
+    },
+];
+
 export function AppSidebar() {
+    const { auth } = usePage().props;
+    const isSuperAdmin = auth.user.role === 'super_admin';
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>
@@ -184,6 +207,9 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
+                {isSuperAdmin && (
+                    <NavMain label="System Admin" items={adminNavItems} />
+                )}
                 <NavMain label="Overview" items={overviewNavItems} />
                 <NavMain label="Maintenance" items={maintenanceNavItems} />
                 <NavMain label="Production & OEE" items={productionNavItems} />
