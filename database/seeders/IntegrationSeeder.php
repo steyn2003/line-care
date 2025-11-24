@@ -26,6 +26,7 @@ class IntegrationSeeder extends Seeder
         // 1. SAP ERP Integration (disabled by default for demo)
         Integration::create([
             'company_id' => $company->id,
+            'name' => 'SAP ERP Integration',
             'integration_type' => 'erp',
             'provider' => 'SAP',
             'config' => [
@@ -51,6 +52,7 @@ class IntegrationSeeder extends Seeder
         // 2. Oracle NetSuite Integration (disabled by default for demo)
         Integration::create([
             'company_id' => $company->id,
+            'name' => 'Oracle NetSuite Integration',
             'integration_type' => 'erp',
             'provider' => 'Oracle NetSuite',
             'config' => [
@@ -73,6 +75,7 @@ class IntegrationSeeder extends Seeder
         // 3. Email Notification Integration (enabled for demo)
         Integration::create([
             'company_id' => $company->id,
+            'name' => 'Email Notifications',
             'integration_type' => 'email',
             'provider' => 'SMTP',
             'config' => [
@@ -94,6 +97,7 @@ class IntegrationSeeder extends Seeder
         // 4. SMS Integration (disabled, ready for activation)
         Integration::create([
             'company_id' => $company->id,
+            'name' => 'SMS Notifications (Twilio)',
             'integration_type' => 'sms',
             'provider' => 'Twilio',
             'config' => [
@@ -111,6 +115,7 @@ class IntegrationSeeder extends Seeder
         // 5. IoT MQTT Integration (enabled for demo)
         Integration::create([
             'company_id' => $company->id,
+            'name' => 'IoT MQTT Broker',
             'integration_type' => 'iot',
             'provider' => 'MQTT',
             'config' => [
@@ -135,6 +140,7 @@ class IntegrationSeeder extends Seeder
         // 6. IoT REST Webhook Integration (enabled for demo)
         Integration::create([
             'company_id' => $company->id,
+            'name' => 'IoT REST Webhook',
             'integration_type' => 'iot',
             'provider' => 'REST Webhook',
             'config' => [
@@ -153,6 +159,7 @@ class IntegrationSeeder extends Seeder
         // 7. Custom ERP Integration Example (disabled)
         Integration::create([
             'company_id' => $company->id,
+            'name' => 'Custom ERP API',
             'integration_type' => 'erp',
             'provider' => 'Custom REST API',
             'config' => [
