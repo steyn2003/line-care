@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import AppLayout from '@/layouts/app-layout';
 import { Head, useForm } from '@inertiajs/react';
 import { Mail, MessageSquare, Smartphone } from 'lucide-react';
 import { FormEventHandler } from 'react';
