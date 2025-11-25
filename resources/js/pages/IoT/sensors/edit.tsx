@@ -225,8 +225,10 @@ export default function EditSensor({
                                                 </span>
                                                 <span className="font-semibold">
                                                     {sensor.last_reading !==
-                                                    null
-                                                        ? `${sensor.last_reading.toFixed(1)} ${sensor.unit}`
+                                                        null &&
+                                                    sensor.last_reading !==
+                                                        undefined
+                                                        ? `${Number(sensor.last_reading).toFixed(1)} ${sensor.unit}`
                                                         : 'No reading'}
                                                 </span>
                                             </div>

@@ -222,10 +222,14 @@ export default function SensorsIndex({ sensors }: SensorsIndexProps) {
                                                                     </TableCell>
                                                                     <TableCell>
                                                                         {sensor.last_reading !==
-                                                                        null ? (
+                                                                            null &&
+                                                                        sensor.last_reading !==
+                                                                            undefined ? (
                                                                             <div>
                                                                                 <p className="font-medium">
-                                                                                    {sensor.last_reading.toFixed(
+                                                                                    {Number(
+                                                                                        sensor.last_reading,
+                                                                                    ).toFixed(
                                                                                         1,
                                                                                     )}{' '}
                                                                                     {

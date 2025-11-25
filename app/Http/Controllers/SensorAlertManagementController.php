@@ -14,7 +14,12 @@ class SensorAlertManagementController extends Controller
      */
     public function index(Request $request): Response
     {
-        $query = SensorAlert::where('company_id', $request->user()->company_id)
+        $companyId = $request->user()->company_id;
+
+        // Filter by company through sensor relationship (sensor_alerts doesn't have company_id)
+        $query = SensorAlert::whereHas('sensor', function ($q) use ($companyId) {
+                $q->where('company_id', $companyId);
+            })
             ->with(['sensor', 'machine', 'workOrder']);
 
         // Filter by status
@@ -51,8 +56,9 @@ class SensorAlertManagementController extends Controller
      */
     public function acknowledge(Request $request, SensorAlert $sensorAlert)
     {
-        // Ensure user can only acknowledge their company's alerts
-        if ($sensorAlert->company_id !== $request->user()->company_id) {
+        // Ensure user can only acknowledge their company's alerts (check through sensor)
+        $sensorAlert->load('sensor');
+        if (!$sensorAlert->sensor || $sensorAlert->sensor->company_id !== $request->user()->company_id) {
             abort(403);
         }
 
@@ -60,7 +66,7 @@ class SensorAlertManagementController extends Controller
             return back()->with('info', 'Alert was already acknowledged');
         }
 
-        $sensorAlert->acknowledge($request->user()->id);
+        $sensorAlert->acknowledge($request->user());
 
         return back()->with('success', 'Alert acknowledged successfully');
     }
