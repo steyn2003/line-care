@@ -1,0 +1,60 @@
+{
+    "title": "Dashboard",
+    "welcome": "Welkom terug, {{name}}",
+    "overview": "Overzicht",
+    "stats": {
+        "total_machines": "Totaal machines",
+        "active_work_orders": "Actieve werkorders",
+        "pending_tasks": "Openstaande taken",
+        "completed_today": "Vandaag voltooid",
+        "overdue": "Achterstallig",
+        "due_soon": "Binnenkort",
+        "open": "Open",
+        "in_progress": "In uitvoering"
+    },
+    "cards": {
+        "work_orders": "Werkorders",
+        "work_orders_description": "Actieve onderhoudsverzoeken",
+        "machines": "Machines",
+        "machines_description": "Apparatuur onder beheer",
+        "preventive_tasks": "Preventieve taken",
+        "preventive_tasks_description": "Gepland onderhoud",
+        "oee": "OEE Score",
+        "oee_description": "Overall Equipment Effectiveness",
+        "mtbf": "MTBF",
+        "mtbf_description": "Gemiddelde tijd tussen storingen",
+        "mttr": "MTTR",
+        "mttr_description": "Gemiddelde reparatietijd"
+    },
+    "recent_activity": {
+        "title": "Recente activiteit",
+        "no_activity": "Geen recente activiteit",
+        "view_all": "Alle activiteit bekijken"
+    },
+    "work_orders_chart": {
+        "title": "Werkorders per status",
+        "open": "Open",
+        "in_progress": "In uitvoering",
+        "completed": "Voltooid"
+    },
+    "upcoming_tasks": {
+        "title": "Aankomende preventieve taken",
+        "no_tasks": "Geen aankomende taken",
+        "view_all": "Alle taken bekijken",
+        "due": "Vervalt"
+    },
+    "low_stock_alerts": {
+        "title": "Lage voorraad waarschuwingen",
+        "no_alerts": "Geen lage voorraad waarschuwingen",
+        "view_all": "Voorraad bekijken",
+        "in_stock": "op voorraad",
+        "reorder_point": "Bestelpunt"
+    },
+    "quick_actions": {
+        "title": "Snelle acties",
+        "report_breakdown": "Storing melden",
+        "create_work_order": "Werkorder aanmaken",
+        "add_machine": "Machine toevoegen",
+        "view_reports": "Rapporten bekijken"
+    }
+}

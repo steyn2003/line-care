@@ -1,0 +1,153 @@
+{
+    "title": "Spare Parts",
+    "list": {
+        "title": "Spare Parts",
+        "empty": "No spare parts found",
+        "create": "Add Spare Part",
+        "filter_by_category": "Filter by category",
+        "filter_by_supplier": "Filter by supplier",
+        "all_categories": "All categories",
+        "all_suppliers": "All suppliers",
+        "low_stock_only": "Low stock only"
+    },
+    "form": {
+        "name_label": "Part name",
+        "name_placeholder": "Enter part name",
+        "part_number_label": "Part number",
+        "part_number_placeholder": "Enter part number",
+        "description_label": "Description",
+        "description_placeholder": "Enter description",
+        "category_label": "Category",
+        "category_placeholder": "Select category",
+        "supplier_label": "Supplier",
+        "supplier_placeholder": "Select supplier",
+        "unit_cost_label": "Unit cost",
+        "unit_cost_placeholder": "Enter cost per unit",
+        "unit_of_measure_label": "Unit of measure",
+        "unit_of_measure_placeholder": "e.g., piece, kg, liter",
+        "reorder_point_label": "Reorder point",
+        "reorder_point_placeholder": "Minimum quantity before reorder",
+        "reorder_quantity_label": "Reorder quantity",
+        "reorder_quantity_placeholder": "Quantity to order",
+        "lead_time_days_label": "Lead time (days)",
+        "lead_time_days_placeholder": "Days until delivery",
+        "is_critical_label": "Critical part",
+        "is_critical_help": "Critical parts affect production if out of stock",
+        "location_label": "Storage location",
+        "location_placeholder": "Select location"
+    },
+    "detail": {
+        "overview": "Overview",
+        "stock_levels": "Stock Levels",
+        "transactions": "Transactions",
+        "purchase_orders": "Purchase Orders",
+        "part_number": "Part Number",
+        "category": "Category",
+        "supplier": "Supplier",
+        "unit_cost": "Unit Cost",
+        "unit_of_measure": "Unit of Measure",
+        "reorder_point": "Reorder Point",
+        "reorder_quantity": "Reorder Quantity",
+        "lead_time": "Lead Time",
+        "is_critical": "Critical Part",
+        "total_stock": "Total Stock",
+        "reserved": "Reserved",
+        "available": "Available",
+        "last_purchase": "Last Purchase",
+        "total_value": "Total Value"
+    },
+    "stock": {
+        "in_stock": "In Stock",
+        "low_stock": "Low Stock",
+        "out_of_stock": "Out of Stock",
+        "quantity_on_hand": "Quantity on Hand",
+        "quantity_reserved": "Quantity Reserved",
+        "quantity_available": "Quantity Available"
+    },
+    "transactions": {
+        "title": "Inventory Transactions",
+        "type_in": "Received",
+        "type_out": "Used",
+        "type_adjustment": "Adjustment",
+        "quantity": "Quantity",
+        "date": "Date",
+        "reference": "Reference",
+        "notes": "Notes",
+        "performed_by": "Performed by"
+    },
+    "categories": {
+        "title": "Part Categories",
+        "create": "Add Category",
+        "edit": "Edit Category",
+        "name_label": "Category name",
+        "parent_label": "Parent category",
+        "no_parent": "No parent (top level)"
+    },
+    "suppliers": {
+        "title": "Suppliers",
+        "create": "Add Supplier",
+        "edit": "Edit Supplier",
+        "name_label": "Supplier name",
+        "contact_name_label": "Contact name",
+        "email_label": "Email",
+        "phone_label": "Phone",
+        "address_label": "Address",
+        "website_label": "Website"
+    },
+    "purchase_orders": {
+        "title": "Purchase Orders",
+        "list_title": "Purchase Orders",
+        "create": "Create Purchase Order",
+        "empty": "No purchase orders found",
+        "status": {
+            "draft": "Draft",
+            "sent": "Sent",
+            "processing": "Processing",
+            "shipped": "Shipped",
+            "received": "Received",
+            "cancelled": "Cancelled"
+        },
+        "form": {
+            "supplier_label": "Supplier",
+            "items_label": "Items",
+            "add_item": "Add Item",
+            "part_label": "Part",
+            "quantity_label": "Quantity",
+            "unit_cost_label": "Unit Cost",
+            "total_label": "Total",
+            "notes_label": "Notes",
+            "expected_delivery_label": "Expected Delivery"
+        },
+        "detail": {
+            "order_number": "Order Number",
+            "supplier": "Supplier",
+            "status": "Status",
+            "created": "Created",
+            "expected_delivery": "Expected Delivery",
+            "items": "Items",
+            "subtotal": "Subtotal",
+            "total": "Total"
+        },
+        "actions": {
+            "send": "Send to Supplier",
+            "receive": "Receive Shipment",
+            "cancel": "Cancel Order"
+        }
+    },
+    "low_stock": {
+        "title": "Low Stock Items",
+        "empty": "No items are low on stock",
+        "create_po": "Create Purchase Order",
+        "current_stock": "Current Stock",
+        "reorder_point": "Reorder Point"
+    },
+    "messages": {
+        "created": "Spare part created successfully",
+        "updated": "Spare part updated successfully",
+        "deleted": "Spare part deleted successfully",
+        "stock_adjusted": "Stock adjusted successfully",
+        "po_created": "Purchase order created successfully",
+        "po_sent": "Purchase order sent to supplier",
+        "po_received": "Purchase order received"
+    }
+}

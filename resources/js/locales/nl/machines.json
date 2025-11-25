@@ -1,0 +1,89 @@
+{
+    "title": "Machines",
+    "list": {
+        "title": "Machines",
+        "empty": "Geen machines gevonden",
+        "create": "Machine toevoegen",
+        "import": "Machines importeren",
+        "filter_by_location": "Filteren op locatie",
+        "filter_by_status": "Filteren op status",
+        "all_locations": "Alle locaties",
+        "all_statuses": "Alle statussen"
+    },
+    "status": {
+        "operational": "Operationeel",
+        "maintenance": "In onderhoud",
+        "breakdown": "Storing",
+        "inactive": "Inactief"
+    },
+    "form": {
+        "name_label": "Machinenaam",
+        "name_placeholder": "Voer machinenaam in",
+        "code_label": "Machinecode",
+        "code_placeholder": "Voer unieke code in",
+        "location_label": "Locatie",
+        "location_placeholder": "Selecteer locatie",
+        "description_label": "Beschrijving",
+        "description_placeholder": "Voer machinebeschrijving in",
+        "manufacturer_label": "Fabrikant",
+        "manufacturer_placeholder": "Voer fabrikantnaam in",
+        "model_label": "Model",
+        "model_placeholder": "Voer modelnummer in",
+        "serial_number_label": "Serienummer",
+        "serial_number_placeholder": "Voer serienummer in",
+        "installation_date_label": "Installatiedatum",
+        "installation_date_placeholder": "Selecteer datum",
+        "hourly_production_value_label": "Productiewaarde per uur",
+        "hourly_production_value_placeholder": "Voer waarde per uur in",
+        "status_label": "Status",
+        "status_placeholder": "Selecteer status"
+    },
+    "detail": {
+        "overview": "Overzicht",
+        "work_orders": "Werkorders",
+        "preventive_tasks": "Preventieve taken",
+        "maintenance_history": "Onderhoudshistorie",
+        "documents": "Documenten",
+        "sensors": "Sensoren",
+        "location": "Locatie",
+        "manufacturer": "Fabrikant",
+        "model": "Model",
+        "serial_number": "Serienummer",
+        "installation_date": "Installatiedatum",
+        "status": "Status",
+        "hourly_value": "Productiewaarde per uur",
+        "total_work_orders": "Totaal werkorders",
+        "open_work_orders": "Open werkorders",
+        "mtbf": "MTBF",
+        "mttr": "MTTR",
+        "oee": "OEE",
+        "last_maintenance": "Laatste onderhoud",
+        "next_maintenance": "Volgend gepland onderhoud"
+    },
+    "actions": {
+        "edit": "Machine bewerken",
+        "delete": "Machine verwijderen",
+        "create_work_order": "Werkorder aanmaken",
+        "view_history": "Historie bekijken",
+        "add_sensor": "Sensor toevoegen"
+    },
+    "import": {
+        "title": "Machines importeren",
+        "subtitle": "Upload een CSV-bestand om meerdere machines tegelijk te importeren",
+        "download_template": "Sjabloon downloaden",
+        "upload_file": "CSV-bestand uploaden",
+        "drop_file": "Sleep uw bestand hier of klik om te bladeren",
+        "supported_formats": "Ondersteund formaat: CSV",
+        "validate": "Valideren",
+        "confirm_import": "Import bevestigen",
+        "rows_found": "{{count}} rijen gevonden",
+        "valid_rows": "{{count}} geldige rijen",
+        "invalid_rows": "{{count}} rijen met fouten",
+        "success": "{{count}} machines succesvol geïmporteerd"
+    },
+    "messages": {
+        "created": "Machine succesvol aangemaakt",
+        "updated": "Machine succesvol bijgewerkt",
+        "deleted": "Machine succesvol verwijderd"
+    }
+}

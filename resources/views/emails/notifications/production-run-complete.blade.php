@@ -1,91 +1,91 @@
 @extends('emails.layout')
 
-@section('title', 'Production Run Complete')
+@section('title', __('emails.production_run_complete.title'))
 
 @section('content')
-<h2>✅ Production Run Complete</h2>
+<h2>✅ {{ __('emails.production_run_complete.title') }}</h2>
 
-<p>Hello {{ $user_name ?? 'there' }},</p>
+<p>{{ $user_name ? __('emails.common.greeting', ['name' => $user_name]) : __('emails.common.greeting_default') }}</p>
 
-<p>A production run has been completed. Here is the summary:</p>
+<p>{{ __('emails.production_run_complete.intro') }}</p>
 
 <div class="notification-card {{ isset($oee) && $oee >= 85 ? 'success' : (isset($oee) && $oee >= 60 ? '' : 'warning') }}">
     <div class="info-row">
-        <span class="info-label">Machine:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.machine') }}:</span>
         <span class="info-value"><strong>{{ $machine_name ?? 'N/A' }}</strong></span>
     </div>
     @if(isset($product_name))
     <div class="info-row">
-        <span class="info-label">Product:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.product') }}:</span>
         <span class="info-value">{{ $product_name }}</span>
     </div>
     @endif
     @if(isset($shift_name))
     <div class="info-row">
-        <span class="info-label">Shift:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.shift') }}:</span>
         <span class="info-value">{{ $shift_name }}</span>
     </div>
     @endif
     <div class="info-row">
-        <span class="info-label">Duration:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.duration') }}:</span>
         <span class="info-value">{{ $duration ?? 'N/A' }}</span>
     </div>
 </div>
 
-<h3 style="color: #667eea; margin-top: 25px;">Production Results</h3>
+<h3 style="color: #667eea; margin-top: 25px;">{{ __('emails.production_run_complete.output') }}</h3>
 
 <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin: 15px 0;">
     @if(isset($target_quantity))
     <div class="info-row">
-        <span class="info-label">Target Quantity:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.target') }}:</span>
         <span class="info-value">{{ $target_quantity }} units</span>
     </div>
     @endif
     @if(isset($actual_output))
     <div class="info-row">
-        <span class="info-label">Actual Output:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.actual') }}:</span>
         <span class="info-value">{{ $actual_output }} units</span>
     </div>
     @endif
     @if(isset($good_output))
     <div class="info-row">
-        <span class="info-label">Good Output:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.good_units') }}:</span>
         <span class="info-value">{{ $good_output }} units</span>
     </div>
     @endif
     @if(isset($defects))
     <div class="info-row">
-        <span class="info-label">Defects:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.defects') }}:</span>
         <span class="info-value">{{ $defects }} units</span>
     </div>
     @endif
 </div>
 
 @if(isset($oee) || isset($availability) || isset($performance) || isset($quality))
-<h3 style="color: #667eea; margin-top: 25px;">OEE Metrics</h3>
+<h3 style="color: #667eea; margin-top: 25px;">{{ __('emails.production_run_complete.oee_metrics') }}</h3>
 
 <div style="background-color: #f8f9fa; padding: 15px; border-radius: 4px; margin: 15px 0;">
     @if(isset($availability))
     <div class="info-row">
-        <span class="info-label">Availability:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.availability') }}:</span>
         <span class="info-value">{{ number_format($availability, 1) }}%</span>
     </div>
     @endif
     @if(isset($performance))
     <div class="info-row">
-        <span class="info-label">Performance:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.performance') }}:</span>
         <span class="info-value">{{ number_format($performance, 1) }}%</span>
     </div>
     @endif
     @if(isset($quality))
     <div class="info-row">
-        <span class="info-label">Quality:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.quality') }}:</span>
         <span class="info-value">{{ number_format($quality, 1) }}%</span>
     </div>
     @endif
     @if(isset($oee))
     <div class="info-row" style="margin-top: 10px; padding-top: 10px; border-top: 1px solid #ddd;">
-        <span class="info-label">Overall OEE:</span>
+        <span class="info-label">{{ __('emails.production_run_complete.oee') }}:</span>
         <span class="info-value" style="font-size: 18px; font-weight: 600; color: {{ $oee >= 85 ? '#10b981' : ($oee >= 60 ? '#f59e0b' : '#ef4444') }}">
             {{ number_format($oee, 1) }}%
         </span>
@@ -101,16 +101,6 @@
 @endif
 
 <a href="{{ config('app.url') }}/oee/production-runs/{{ $production_run_id ?? '' }}" class="button">
-    View Full Report
+    {{ __('emails.production_run_complete.action') }}
 </a>
-
-@if(isset($oee))
-    @if($oee >= 85)
-        <p style="color: #10b981; font-weight: 600;">🎉 Excellent performance! This run achieved world-class OEE.</p>
-    @elseif($oee >= 60)
-        <p>Good performance with room for improvement.</p>
-    @else
-        <p style="color: #ef4444;">Performance below target. Please review for improvement opportunities.</p>
-    @endif
-@endif
 @endsection

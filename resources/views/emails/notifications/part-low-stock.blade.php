@@ -1,36 +1,36 @@
 @extends('emails.layout')
 
-@section('title', 'Low Stock Alert')
+@section('title', __('emails.part_low_stock.title'))
 
 @section('content')
-<h2>📦 Low Stock Alert</h2>
+<h2>📦 {{ __('emails.part_low_stock.title') }}</h2>
 
-<p>Hello {{ $user_name ?? 'there' }},</p>
+<p>{{ $user_name ? __('emails.common.greeting', ['name' => $user_name]) : __('emails.common.greeting_default') }}</p>
 
-<p>The following spare part is running low on stock and requires attention:</p>
+<p>{{ __('emails.part_low_stock.intro') }}</p>
 
 <div class="notification-card {{ $is_critical ? 'critical' : 'warning' }}">
     <div class="info-row">
-        <span class="info-label">Part Name:</span>
+        <span class="info-label">{{ __('emails.part_low_stock.part_name') }}:</span>
         <span class="info-value"><strong>{{ $part_name ?? 'N/A' }}</strong></span>
     </div>
     <div class="info-row">
-        <span class="info-label">Part Number:</span>
+        <span class="info-label">{{ __('emails.part_low_stock.part_number') }}:</span>
         <span class="info-value">{{ $part_number ?? 'N/A' }}</span>
     </div>
     <div class="info-row">
-        <span class="info-label">Current Stock:</span>
+        <span class="info-label">{{ __('emails.part_low_stock.current_stock') }}:</span>
         <span class="info-value" style="color: {{ $is_critical ? '#ef4444' : '#f59e0b' }}; font-weight: 600;">
             {{ $quantity_available ?? '0' }} {{ $unit_of_measure ?? 'units' }}
         </span>
     </div>
     <div class="info-row">
-        <span class="info-label">Reorder Point:</span>
+        <span class="info-label">{{ __('emails.part_low_stock.reorder_point') }}:</span>
         <span class="info-value">{{ $reorder_point ?? 'N/A' }}</span>
     </div>
     @if(isset($reorder_quantity))
     <div class="info-row">
-        <span class="info-label">Suggested Order:</span>
+        <span class="info-label">{{ __('emails.part_low_stock.reorder_quantity') }}:</span>
         <span class="info-value">{{ $reorder_quantity }} {{ $unit_of_measure ?? 'units' }}</span>
     </div>
     @endif
@@ -59,8 +59,6 @@
 @endif
 
 <a href="{{ config('app.url') }}/spare-parts/{{ $part_id ?? '' }}" class="button">
-    View Part Details
+    {{ __('emails.part_low_stock.action') }}
 </a>
-
-<p>Please review stock levels and create a purchase order if necessary.</p>
 @endsection

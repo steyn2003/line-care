@@ -1,0 +1,89 @@
+{
+    "title": "Machines",
+    "list": {
+        "title": "Machines",
+        "empty": "No machines found",
+        "create": "Add Machine",
+        "import": "Import Machines",
+        "filter_by_location": "Filter by location",
+        "filter_by_status": "Filter by status",
+        "all_locations": "All locations",
+        "all_statuses": "All statuses"
+    },
+    "status": {
+        "operational": "Operational",
+        "maintenance": "Under Maintenance",
+        "breakdown": "Breakdown",
+        "inactive": "Inactive"
+    },
+    "form": {
+        "name_label": "Machine name",
+        "name_placeholder": "Enter machine name",
+        "code_label": "Machine code",
+        "code_placeholder": "Enter unique code",
+        "location_label": "Location",
+        "location_placeholder": "Select location",
+        "description_label": "Description",
+        "description_placeholder": "Enter machine description",
+        "manufacturer_label": "Manufacturer",
+        "manufacturer_placeholder": "Enter manufacturer name",
+        "model_label": "Model",
+        "model_placeholder": "Enter model number",
+        "serial_number_label": "Serial number",
+        "serial_number_placeholder": "Enter serial number",
+        "installation_date_label": "Installation date",
+        "installation_date_placeholder": "Select date",
+        "hourly_production_value_label": "Hourly production value",
+        "hourly_production_value_placeholder": "Enter value per hour",
+        "status_label": "Status",
+        "status_placeholder": "Select status"
+    },
+    "detail": {
+        "overview": "Overview",
+        "work_orders": "Work Orders",
+        "preventive_tasks": "Preventive Tasks",
+        "maintenance_history": "Maintenance History",
+        "documents": "Documents",
+        "sensors": "Sensors",
+        "location": "Location",
+        "manufacturer": "Manufacturer",
+        "model": "Model",
+        "serial_number": "Serial Number",
+        "installation_date": "Installation Date",
+        "status": "Status",
+        "hourly_value": "Hourly Production Value",
+        "total_work_orders": "Total Work Orders",
+        "open_work_orders": "Open Work Orders",
+        "mtbf": "MTBF",
+        "mttr": "MTTR",
+        "oee": "OEE",
+        "last_maintenance": "Last Maintenance",
+        "next_maintenance": "Next Scheduled Maintenance"
+    },
+    "actions": {
+        "edit": "Edit Machine",
+        "delete": "Delete Machine",
+        "create_work_order": "Create Work Order",
+        "view_history": "View History",
+        "add_sensor": "Add Sensor"
+    },
+    "import": {
+        "title": "Import Machines",
+        "subtitle": "Upload a CSV file to import multiple machines at once",
+        "download_template": "Download Template",
+        "upload_file": "Upload CSV File",
+        "drop_file": "Drop your file here or click to browse",
+        "supported_formats": "Supported format: CSV",
+        "validate": "Validate",
+        "confirm_import": "Confirm Import",
+        "rows_found": "{{count}} rows found",
+        "valid_rows": "{{count}} valid rows",
+        "invalid_rows": "{{count}} rows with errors",
+        "success": "Successfully imported {{count}} machines"
+    },
+    "messages": {
+        "created": "Machine created successfully",
+        "updated": "Machine updated successfully",
+        "deleted": "Machine deleted successfully"
+    }
+}

@@ -1,5 +1,6 @@
 import { Breadcrumbs } from '@/components/breadcrumbs';
 import { GlobalSearch } from '@/components/global-search';
+import { LanguageSwitcher } from '@/components/language-switcher';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 
@@ -16,6 +17,7 @@ export function AppSidebarHeader({
             </div>
             <div className="flex items-center gap-2">
                 <GlobalSearch />
+                <LanguageSwitcher variant="icon" />
             </div>
         </header>
     );

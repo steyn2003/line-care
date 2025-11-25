@@ -1,0 +1,98 @@
+{
+    "title": "Cost Management",
+    "dashboard": {
+        "title": "Cost Dashboard",
+        "total_costs": "Total Costs",
+        "labor_costs": "Labor Costs",
+        "parts_costs": "Parts Costs",
+        "downtime_costs": "Downtime Costs",
+        "external_costs": "External Service Costs",
+        "this_month": "This Month",
+        "last_month": "Last Month",
+        "this_year": "This Year",
+        "year_to_date": "Year to Date",
+        "vs_last_month": "vs Last Month",
+        "vs_last_year": "vs Last Year",
+        "vs_budget": "vs Budget"
+    },
+    "breakdown": {
+        "title": "Cost Breakdown",
+        "by_type": "By Type",
+        "by_machine": "By Machine",
+        "by_category": "By Category",
+        "by_month": "By Month"
+    },
+    "labor": {
+        "title": "Labor Costs",
+        "rates_title": "Labor Rates",
+        "create_rate": "Add Labor Rate",
+        "edit_rate": "Edit Labor Rate",
+        "user_label": "User",
+        "role_label": "Role",
+        "hourly_rate_label": "Hourly Rate",
+        "overtime_rate_label": "Overtime Rate",
+        "effective_from_label": "Effective From",
+        "effective_to_label": "Effective To",
+        "all_users": "All users (default)",
+        "hours_logged": "Hours Logged",
+        "total_labor_cost": "Total Labor Cost"
+    },
+    "budget": {
+        "title": "Budget Management",
+        "create": "Create Budget",
+        "edit": "Edit Budget",
+        "year_label": "Year",
+        "month_label": "Month",
+        "labor_budget_label": "Labor Budget",
+        "parts_budget_label": "Parts Budget",
+        "external_budget_label": "External Services Budget",
+        "total_budget": "Total Budget",
+        "budgeted": "Budgeted",
+        "actual": "Actual",
+        "variance": "Variance",
+        "remaining": "Remaining",
+        "over_budget": "Over Budget",
+        "under_budget": "Under Budget",
+        "on_track": "On Track",
+        "spent": "Spent",
+        "utilization": "Budget Utilization"
+    },
+    "reports": {
+        "title": "Cost Reports",
+        "generate": "Generate Report",
+        "date_range": "Date Range",
+        "group_by": "Group By",
+        "export": "Export Report",
+        "cost_per_machine": "Cost per Machine",
+        "cost_per_work_order": "Cost per Work Order",
+        "cost_trends": "Cost Trends",
+        "breakdown_vs_preventive": "Breakdown vs Preventive Costs"
+    },
+    "work_order_costs": {
+        "title": "Work Order Cost Summary",
+        "labor": "Labor",
+        "parts": "Parts",
+        "downtime": "Downtime",
+        "external": "External Services",
+        "total": "Total Cost",
+        "hours": "Hours",
+        "rate": "Rate"
+    },
+    "external_services": {
+        "title": "External Services",
+        "add": "Add External Service",
+        "vendor_label": "Vendor/Contractor",
+        "description_label": "Description",
+        "cost_label": "Cost",
+        "invoice_number_label": "Invoice Number",
+        "date_label": "Date"
+    },
+    "messages": {
+        "budget_created": "Budget created successfully",
+        "budget_updated": "Budget updated successfully",
+        "budget_deleted": "Budget deleted successfully",
+        "rate_created": "Labor rate created successfully",
+        "rate_updated": "Labor rate updated successfully",
+        "rate_deleted": "Labor rate deleted successfully"
+    }
+}

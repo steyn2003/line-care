@@ -1,0 +1,153 @@
+{
+    "title": "Reserveonderdelen",
+    "list": {
+        "title": "Reserveonderdelen",
+        "empty": "Geen reserveonderdelen gevonden",
+        "create": "Reserveonderdeel toevoegen",
+        "filter_by_category": "Filteren op categorie",
+        "filter_by_supplier": "Filteren op leverancier",
+        "all_categories": "Alle categorieën",
+        "all_suppliers": "Alle leveranciers",
+        "low_stock_only": "Alleen lage voorraad"
+    },
+    "form": {
+        "name_label": "Onderdeelnaam",
+        "name_placeholder": "Voer onderdeelnaam in",
+        "part_number_label": "Onderdeelnummer",
+        "part_number_placeholder": "Voer onderdeelnummer in",
+        "description_label": "Beschrijving",
+        "description_placeholder": "Voer beschrijving in",
+        "category_label": "Categorie",
+        "category_placeholder": "Selecteer categorie",
+        "supplier_label": "Leverancier",
+        "supplier_placeholder": "Selecteer leverancier",
+        "unit_cost_label": "Eenheidsprijs",
+        "unit_cost_placeholder": "Voer prijs per eenheid in",
+        "unit_of_measure_label": "Eenheid",
+        "unit_of_measure_placeholder": "bijv. stuk, kg, liter",
+        "reorder_point_label": "Bestelpunt",
+        "reorder_point_placeholder": "Minimum hoeveelheid voor bestelling",
+        "reorder_quantity_label": "Bestelhoeveelheid",
+        "reorder_quantity_placeholder": "Te bestellen hoeveelheid",
+        "lead_time_days_label": "Levertijd (dagen)",
+        "lead_time_days_placeholder": "Dagen tot levering",
+        "is_critical_label": "Kritiek onderdeel",
+        "is_critical_help": "Kritieke onderdelen beïnvloeden productie bij tekort",
+        "location_label": "Opslaglocatie",
+        "location_placeholder": "Selecteer locatie"
+    },
+    "detail": {
+        "overview": "Overzicht",
+        "stock_levels": "Voorraadniveaus",
+        "transactions": "Transacties",
+        "purchase_orders": "Inkooporders",
+        "part_number": "Onderdeelnummer",
+        "category": "Categorie",
+        "supplier": "Leverancier",
+        "unit_cost": "Eenheidsprijs",
+        "unit_of_measure": "Eenheid",
+        "reorder_point": "Bestelpunt",
+        "reorder_quantity": "Bestelhoeveelheid",
+        "lead_time": "Levertijd",
+        "is_critical": "Kritiek onderdeel",
+        "total_stock": "Totale voorraad",
+        "reserved": "Gereserveerd",
+        "available": "Beschikbaar",
+        "last_purchase": "Laatste aankoop",
+        "total_value": "Totale waarde"
+    },
+    "stock": {
+        "in_stock": "Op voorraad",
+        "low_stock": "Lage voorraad",
+        "out_of_stock": "Niet op voorraad",
+        "quantity_on_hand": "Voorraad",
+        "quantity_reserved": "Gereserveerd",
+        "quantity_available": "Beschikbaar"
+    },
+    "transactions": {
+        "title": "Voorraadtransacties",
+        "type_in": "Ontvangen",
+        "type_out": "Gebruikt",
+        "type_adjustment": "Correctie",
+        "quantity": "Hoeveelheid",
+        "date": "Datum",
+        "reference": "Referentie",
+        "notes": "Notities",
+        "performed_by": "Uitgevoerd door"
+    },
+    "categories": {
+        "title": "Onderdeelcategorieën",
+        "create": "Categorie toevoegen",
+        "edit": "Categorie bewerken",
+        "name_label": "Categorienaam",
+        "parent_label": "Bovenliggende categorie",
+        "no_parent": "Geen bovenliggende (hoofdniveau)"
+    },
+    "suppliers": {
+        "title": "Leveranciers",
+        "create": "Leverancier toevoegen",
+        "edit": "Leverancier bewerken",
+        "name_label": "Leveranciersnaam",
+        "contact_name_label": "Contactpersoon",
+        "email_label": "E-mail",
+        "phone_label": "Telefoon",
+        "address_label": "Adres",
+        "website_label": "Website"
+    },
+    "purchase_orders": {
+        "title": "Inkooporders",
+        "list_title": "Inkooporders",
+        "create": "Inkooporder aanmaken",
+        "empty": "Geen inkooporders gevonden",
+        "status": {
+            "draft": "Concept",
+            "sent": "Verzonden",
+            "processing": "In behandeling",
+            "shipped": "Verzonden",
+            "received": "Ontvangen",
+            "cancelled": "Geannuleerd"
+        },
+        "form": {
+            "supplier_label": "Leverancier",
+            "items_label": "Artikelen",
+            "add_item": "Artikel toevoegen",
+            "part_label": "Onderdeel",
+            "quantity_label": "Hoeveelheid",
+            "unit_cost_label": "Eenheidsprijs",
+            "total_label": "Totaal",
+            "notes_label": "Notities",
+            "expected_delivery_label": "Verwachte levering"
+        },
+        "detail": {
+            "order_number": "Ordernummer",
+            "supplier": "Leverancier",
+            "status": "Status",
+            "created": "Aangemaakt",
+            "expected_delivery": "Verwachte levering",
+            "items": "Artikelen",
+            "subtotal": "Subtotaal",
+            "total": "Totaal"
+        },
+        "actions": {
+            "send": "Versturen naar leverancier",
+            "receive": "Zending ontvangen",
+            "cancel": "Order annuleren"
+        }
+    },
+    "low_stock": {
+        "title": "Artikelen met lage voorraad",
+        "empty": "Geen artikelen met lage voorraad",
+        "create_po": "Inkooporder aanmaken",
+        "current_stock": "Huidige voorraad",
+        "reorder_point": "Bestelpunt"
+    },
+    "messages": {
+        "created": "Reserveonderdeel succesvol aangemaakt",
+        "updated": "Reserveonderdeel succesvol bijgewerkt",
+        "deleted": "Reserveonderdeel succesvol verwijderd",
+        "stock_adjusted": "Voorraad succesvol aangepast",
+        "po_created": "Inkooporder succesvol aangemaakt",
+        "po_sent": "Inkooporder verzonden naar leverancier",
+        "po_received": "Inkooporder ontvangen"
+    }
+}

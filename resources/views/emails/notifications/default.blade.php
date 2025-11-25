@@ -5,7 +5,7 @@
 @section('content')
 <h2>{{ $title ?? 'Notification' }}</h2>
 
-<p>Hello {{ $user_name ?? 'there' }},</p>
+<p>{{ $user_name ? __('emails.common.greeting', ['name' => $user_name]) : __('emails.common.greeting_default') }}</p>
 
 @if(isset($message))
 <p>{{ $message }}</p>
@@ -26,9 +26,9 @@
 
 @if(isset($action_url))
 <a href="{{ $action_url }}" class="button">
-    {{ $action_text ?? 'View Details' }}
+    {{ $action_text ?? __('emails.common.view_button') }}
 </a>
 @endif
 
-<p>Thank you for using LineCare.</p>
+<p>{{ __('emails.common.regards') }}<br>{{ __('emails.common.team', ['app' => config('app.name', 'LineCare')]) }}</p>
 @endsection

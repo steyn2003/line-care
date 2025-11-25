@@ -1,0 +1,98 @@
+{
+    "title": "Kostenbeheer",
+    "dashboard": {
+        "title": "Kosten Dashboard",
+        "total_costs": "Totale kosten",
+        "labor_costs": "Arbeidskosten",
+        "parts_costs": "Onderdelenkosten",
+        "downtime_costs": "Stilstandkosten",
+        "external_costs": "Externe servicekosten",
+        "this_month": "Deze maand",
+        "last_month": "Vorige maand",
+        "this_year": "Dit jaar",
+        "year_to_date": "Jaar tot nu toe",
+        "vs_last_month": "t.o.v. vorige maand",
+        "vs_last_year": "t.o.v. vorig jaar",
+        "vs_budget": "t.o.v. budget"
+    },
+    "breakdown": {
+        "title": "Kostenoverzicht",
+        "by_type": "Per type",
+        "by_machine": "Per machine",
+        "by_category": "Per categorie",
+        "by_month": "Per maand"
+    },
+    "labor": {
+        "title": "Arbeidskosten",
+        "rates_title": "Uurtarieven",
+        "create_rate": "Uurtarief toevoegen",
+        "edit_rate": "Uurtarief bewerken",
+        "user_label": "Gebruiker",
+        "role_label": "Rol",
+        "hourly_rate_label": "Uurtarief",
+        "overtime_rate_label": "Overwerktarief",
+        "effective_from_label": "Geldig vanaf",
+        "effective_to_label": "Geldig tot",
+        "all_users": "Alle gebruikers (standaard)",
+        "hours_logged": "Geregistreerde uren",
+        "total_labor_cost": "Totale arbeidskosten"
+    },
+    "budget": {
+        "title": "Budgetbeheer",
+        "create": "Budget aanmaken",
+        "edit": "Budget bewerken",
+        "year_label": "Jaar",
+        "month_label": "Maand",
+        "labor_budget_label": "Arbeidsbudget",
+        "parts_budget_label": "Onderdelenbudget",
+        "external_budget_label": "Extern servicebudget",
+        "total_budget": "Totaal budget",
+        "budgeted": "Begroot",
+        "actual": "Werkelijk",
+        "variance": "Afwijking",
+        "remaining": "Resterend",
+        "over_budget": "Over budget",
+        "under_budget": "Onder budget",
+        "on_track": "Op schema",
+        "spent": "Besteed",
+        "utilization": "Budgetbenutting"
+    },
+    "reports": {
+        "title": "Kostenrapporten",
+        "generate": "Rapport genereren",
+        "date_range": "Datumbereik",
+        "group_by": "Groeperen op",
+        "export": "Rapport exporteren",
+        "cost_per_machine": "Kosten per machine",
+        "cost_per_work_order": "Kosten per werkorder",
+        "cost_trends": "Kostentrends",
+        "breakdown_vs_preventive": "Storing- vs preventieve kosten"
+    },
+    "work_order_costs": {
+        "title": "Werkorder kostenoverzicht",
+        "labor": "Arbeid",
+        "parts": "Onderdelen",
+        "downtime": "Stilstand",
+        "external": "Externe services",
+        "total": "Totale kosten",
+        "hours": "Uren",
+        "rate": "Tarief"
+    },
+    "external_services": {
+        "title": "Externe services",
+        "add": "Externe service toevoegen",
+        "vendor_label": "Leverancier/Aannemer",
+        "description_label": "Beschrijving",
+        "cost_label": "Kosten",
+        "invoice_number_label": "Factuurnummer",
+        "date_label": "Datum"
+    },
+    "messages": {
+        "budget_created": "Budget succesvol aangemaakt",
+        "budget_updated": "Budget succesvol bijgewerkt",
+        "budget_deleted": "Budget succesvol verwijderd",
+        "rate_created": "Uurtarief succesvol aangemaakt",
+        "rate_updated": "Uurtarief succesvol bijgewerkt",
+        "rate_deleted": "Uurtarief succesvol verwijderd"
+    }
+}

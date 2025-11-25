@@ -1,0 +1,73 @@
+{
+    "main": {
+        "dashboard": "Dashboard",
+        "machines": "Machines",
+        "work_orders": "Work Orders",
+        "preventive_tasks": "Preventive Tasks",
+        "spare_parts": "Spare Parts",
+        "inventory": "Inventory",
+        "purchase_orders": "Purchase Orders",
+        "suppliers": "Suppliers",
+        "oee": "OEE",
+        "production": "Production",
+        "costs": "Costs",
+        "analytics": "Analytics",
+        "reports": "Reports",
+        "settings": "Settings",
+        "admin": "Admin"
+    },
+    "sections": {
+        "maintenance": "Maintenance",
+        "inventory_management": "Inventory",
+        "production": "Production",
+        "financial": "Financial",
+        "analytics_reports": "Analytics & Reports",
+        "system": "System",
+        "integrations": "Integrations"
+    },
+    "user_menu": {
+        "profile": "Profile",
+        "settings": "Settings",
+        "notifications": "Notifications",
+        "help": "Help & Support",
+        "logout": "Log out"
+    },
+    "sub_menus": {
+        "report_breakdown": "Report Breakdown",
+        "all_work_orders": "All Work Orders",
+        "open_work_orders": "Open",
+        "in_progress": "In Progress",
+        "completed": "Completed",
+        "low_stock": "Low Stock",
+        "all_parts": "All Parts",
+        "oee_dashboard": "OEE Dashboard",
+        "oee_trends": "OEE Trends",
+        "production_runs": "Production Runs",
+        "downtime": "Downtime",
+        "cost_dashboard": "Cost Dashboard",
+        "cost_reports": "Cost Reports",
+        "budget": "Budget",
+        "labor_rates": "Labor Rates",
+        "reliability": "Reliability",
+        "pareto": "Pareto Analysis",
+        "predictions": "Predictions",
+        "custom_dashboards": "Custom Dashboards",
+        "downtime_report": "Downtime Report",
+        "locations": "Locations",
+        "users": "Users",
+        "cause_categories": "Cause Categories",
+        "products": "Products",
+        "shifts": "Shifts",
+        "downtime_categories": "Downtime Categories",
+        "integrations": "Integrations",
+        "iot_dashboard": "IoT Dashboard",
+        "sensors": "Sensors",
+        "sensor_alerts": "Sensor Alerts",
+        "notification_preferences": "Notification Preferences",
+        "vendor_api_keys": "Vendor API Keys"
+    },
+    "breadcrumbs": {
+        "home": "Home",
+        "back": "Back"
+    }
+}

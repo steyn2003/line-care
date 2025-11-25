@@ -1,0 +1,159 @@
+{
+    "title": "Settings",
+    "profile": {
+        "title": "Profile Settings",
+        "subtitle": "Manage your account settings and preferences",
+        "name_label": "Full name",
+        "email_label": "Email address",
+        "phone_label": "Phone number",
+        "language_label": "Language",
+        "timezone_label": "Timezone",
+        "save": "Save Changes",
+        "saved": "Profile updated successfully"
+    },
+    "password": {
+        "title": "Change Password",
+        "subtitle": "Ensure your account is using a strong password",
+        "current_password_label": "Current password",
+        "new_password_label": "New password",
+        "confirm_password_label": "Confirm new password",
+        "save": "Update Password",
+        "saved": "Password updated successfully"
+    },
+    "two_factor": {
+        "title": "Two-Factor Authentication",
+        "subtitle": "Add additional security to your account",
+        "enabled": "Two-factor authentication is enabled",
+        "disabled": "Two-factor authentication is not enabled",
+        "enable": "Enable",
+        "disable": "Disable",
+        "setup_instructions": "Scan the QR code with your authenticator app",
+        "manual_entry": "Or enter this code manually",
+        "verify_code": "Enter the code from your app to verify",
+        "recovery_codes_title": "Recovery Codes",
+        "recovery_codes_description": "Store these recovery codes in a secure location. They can be used to recover access if you lose your device.",
+        "regenerate_codes": "Regenerate Recovery Codes",
+        "show_codes": "Show Recovery Codes"
+    },
+    "notifications": {
+        "title": "Notification Preferences",
+        "subtitle": "Choose how you want to be notified",
+        "email_notifications": "Email Notifications",
+        "sms_notifications": "SMS Notifications",
+        "push_notifications": "Push Notifications",
+        "types": {
+            "work_order_assigned": "Work order assigned to me",
+            "work_order_completed": "Work order completed",
+            "work_order_overdue": "Work order overdue",
+            "preventive_task_due": "Preventive task due soon",
+            "low_stock_alert": "Low stock alert",
+            "sensor_alert": "Sensor alert",
+            "budget_alert": "Budget threshold reached",
+            "production_complete": "Production run complete"
+        },
+        "save": "Save Preferences",
+        "saved": "Notification preferences updated"
+    },
+    "appearance": {
+        "title": "Appearance",
+        "subtitle": "Customize how LineCare looks",
+        "theme_label": "Theme",
+        "theme_light": "Light",
+        "theme_dark": "Dark",
+        "theme_system": "System"
+    },
+    "company": {
+        "title": "Company Settings",
+        "subtitle": "Manage your company information",
+        "name_label": "Company name",
+        "address_label": "Address",
+        "phone_label": "Phone",
+        "email_label": "Email",
+        "website_label": "Website",
+        "logo_label": "Company logo",
+        "currency_label": "Currency",
+        "save": "Save Settings"
+    },
+    "locations": {
+        "title": "Locations",
+        "subtitle": "Manage your facility locations",
+        "create": "Add Location",
+        "edit": "Edit Location",
+        "name_label": "Location name",
+        "address_label": "Address",
+        "description_label": "Description",
+        "empty": "No locations configured"
+    },
+    "users": {
+        "title": "User Management",
+        "subtitle": "Manage users in your company",
+        "create": "Add User",
+        "edit": "Edit User",
+        "name_label": "Name",
+        "email_label": "Email",
+        "role_label": "Role",
+        "roles": {
+            "operator": "Operator",
+            "technician": "Technician",
+            "manager": "Manager"
+        },
+        "status_label": "Status",
+        "active": "Active",
+        "inactive": "Inactive",
+        "empty": "No users found",
+        "invite": "Invite User",
+        "resend_invite": "Resend Invitation"
+    },
+    "cause_categories": {
+        "title": "Cause Categories",
+        "subtitle": "Configure root cause categories for work orders",
+        "create": "Add Category",
+        "edit": "Edit Category",
+        "name_label": "Category name",
+        "description_label": "Description",
+        "empty": "No cause categories configured"
+    },
+    "integrations": {
+        "title": "Integrations",
+        "subtitle": "Connect LineCare to other systems",
+        "create": "Add Integration",
+        "edit": "Edit Integration",
+        "types": {
+            "erp": "ERP System",
+            "iot": "IoT Platform",
+            "email": "Email Service",
+            "sms": "SMS Service"
+        },
+        "status": {
+            "active": "Active",
+            "inactive": "Inactive",
+            "error": "Error"
+        },
+        "last_sync": "Last Sync",
+        "test_connection": "Test Connection",
+        "sync_now": "Sync Now"
+    },
+    "vendor_api_keys": {
+        "title": "Vendor API Keys",
+        "subtitle": "Manage API keys for vendor portal access",
+        "create": "Create API Key",
+        "supplier_label": "Supplier",
+        "key_label": "API Key",
+        "created": "Created",
+        "last_used": "Last Used",
+        "status": "Status",
+        "active": "Active",
+        "revoked": "Revoked",
+        "revoke": "Revoke",
+        "copy_key": "Copy API Key",
+        "key_copied": "API key copied to clipboard",
+        "warning": "This key will only be shown once. Make sure to copy it now."
+    },
+    "danger_zone": {
+        "title": "Danger Zone",
+        "delete_account": "Delete Account",
+        "delete_account_description": "Permanently delete your account and all associated data",
+        "delete_account_button": "Delete Account",
+        "delete_account_confirm": "Are you sure you want to delete your account? This action cannot be undone."
+    }
+}

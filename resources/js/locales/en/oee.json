@@ -1,0 +1,126 @@
+{
+    "title": "OEE",
+    "dashboard": {
+        "title": "OEE Dashboard",
+        "current_shift": "Current Shift",
+        "overall_oee": "Overall OEE",
+        "availability": "Availability",
+        "performance": "Performance",
+        "quality": "Quality",
+        "target": "Target",
+        "actual": "Actual",
+        "world_class": "World Class (85%+)",
+        "good": "Good (60-85%)",
+        "needs_improvement": "Needs Improvement (<60%)"
+    },
+    "metrics": {
+        "oee_score": "OEE Score",
+        "availability_rate": "Availability Rate",
+        "performance_rate": "Performance Rate",
+        "quality_rate": "Quality Rate",
+        "planned_production_time": "Planned Production Time",
+        "operating_time": "Operating Time",
+        "downtime": "Downtime",
+        "ideal_cycle_time": "Ideal Cycle Time",
+        "actual_cycle_time": "Actual Cycle Time",
+        "total_output": "Total Output",
+        "good_output": "Good Output",
+        "defects": "Defects"
+    },
+    "production_runs": {
+        "title": "Production Runs",
+        "create": "Start Production Run",
+        "end": "End Production Run",
+        "active": "Active Runs",
+        "completed": "Completed Runs",
+        "empty": "No production runs found",
+        "form": {
+            "machine_label": "Machine",
+            "product_label": "Product",
+            "shift_label": "Shift",
+            "target_quantity_label": "Target Quantity",
+            "start": "Start Run"
+        },
+        "end_form": {
+            "actual_output_label": "Actual Output",
+            "good_output_label": "Good Output",
+            "defects_label": "Defects",
+            "notes_label": "Notes",
+            "submit": "End Run"
+        },
+        "detail": {
+            "machine": "Machine",
+            "product": "Product",
+            "shift": "Shift",
+            "started": "Started",
+            "ended": "Ended",
+            "duration": "Duration",
+            "target": "Target",
+            "actual": "Actual",
+            "good": "Good",
+            "defects": "Defects",
+            "oee": "OEE",
+            "downtime_events": "Downtime Events"
+        }
+    },
+    "downtime": {
+        "title": "Downtime",
+        "log": "Log Downtime",
+        "start": "Start Downtime",
+        "end": "End Downtime",
+        "active": "Active Downtime",
+        "duration": "Duration",
+        "category": "Category",
+        "planned": "Planned",
+        "unplanned": "Unplanned",
+        "form": {
+            "machine_label": "Machine",
+            "category_label": "Category",
+            "description_label": "Description",
+            "description_placeholder": "What caused the downtime?"
+        }
+    },
+    "categories": {
+        "title": "Downtime Categories",
+        "create": "Add Category",
+        "edit": "Edit Category",
+        "name_label": "Category name",
+        "type_label": "Type",
+        "is_planned_label": "Planned downtime",
+        "is_included_in_oee_label": "Include in OEE calculation"
+    },
+    "products": {
+        "title": "Products",
+        "create": "Add Product",
+        "edit": "Edit Product",
+        "name_label": "Product name",
+        "code_label": "Product code",
+        "theoretical_cycle_time_label": "Theoretical cycle time (seconds)",
+        "target_output_per_hour_label": "Target output per hour"
+    },
+    "shifts": {
+        "title": "Shifts",
+        "create": "Add Shift",
+        "edit": "Edit Shift",
+        "name_label": "Shift name",
+        "start_time_label": "Start time",
+        "end_time_label": "End time"
+    },
+    "trends": {
+        "title": "OEE Trends",
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "monthly": "Monthly",
+        "by_machine": "By Machine",
+        "by_product": "By Product",
+        "by_shift": "By Shift",
+        "date_range": "Date Range"
+    },
+    "losses": {
+        "title": "Loss Analysis",
+        "availability_losses": "Availability Losses",
+        "performance_losses": "Performance Losses",
+        "quality_losses": "Quality Losses",
+        "top_causes": "Top Causes"
+    }
+}

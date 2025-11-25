@@ -1,0 +1,115 @@
+{
+    "title": "Werkorders",
+    "list": {
+        "title": "Werkorders",
+        "empty": "Geen werkorders gevonden",
+        "create": "Werkorder aanmaken",
+        "filter_by_status": "Filteren op status",
+        "filter_by_priority": "Filteren op prioriteit",
+        "filter_by_machine": "Filteren op machine",
+        "all_statuses": "Alle statussen",
+        "all_priorities": "Alle prioriteiten",
+        "all_machines": "Alle machines"
+    },
+    "status": {
+        "open": "Open",
+        "in_progress": "In uitvoering",
+        "completed": "Voltooid",
+        "cancelled": "Geannuleerd"
+    },
+    "priority": {
+        "low": "Laag",
+        "medium": "Gemiddeld",
+        "high": "Hoog",
+        "critical": "Kritiek"
+    },
+    "type": {
+        "breakdown": "Storing",
+        "preventive": "Preventief",
+        "corrective": "Correctief",
+        "inspection": "Inspectie"
+    },
+    "form": {
+        "title_label": "Titel",
+        "title_placeholder": "Voer titel werkorder in",
+        "description_label": "Beschrijving",
+        "description_placeholder": "Beschrijf het probleem of de taak",
+        "machine_label": "Machine",
+        "machine_placeholder": "Selecteer een machine",
+        "type_label": "Type",
+        "type_placeholder": "Selecteer type",
+        "priority_label": "Prioriteit",
+        "priority_placeholder": "Selecteer prioriteit",
+        "assigned_to_label": "Toegewezen aan",
+        "assigned_to_placeholder": "Selecteer monteur",
+        "due_date_label": "Vervaldatum",
+        "due_date_placeholder": "Selecteer vervaldatum",
+        "cause_category_label": "Oorzaakcategorie",
+        "cause_category_placeholder": "Selecteer oorzaakcategorie",
+        "notes_label": "Notities",
+        "notes_placeholder": "Aanvullende notities..."
+    },
+    "detail": {
+        "created": "Aangemaakt",
+        "updated": "Laatst bijgewerkt",
+        "assigned_to": "Toegewezen aan",
+        "unassigned": "Niet toegewezen",
+        "machine": "Machine",
+        "location": "Locatie",
+        "due_date": "Vervaldatum",
+        "no_due_date": "Geen vervaldatum",
+        "priority": "Prioriteit",
+        "status": "Status",
+        "type": "Type",
+        "cause_category": "Oorzaakcategorie",
+        "description": "Beschrijving",
+        "no_description": "Geen beschrijving opgegeven",
+        "maintenance_logs": "Onderhoudslogboek",
+        "no_logs": "Nog geen onderhoudslogboek",
+        "parts_used": "Gebruikte onderdelen",
+        "no_parts": "Geen onderdelen geregistreerd",
+        "time_spent": "Bestede tijd",
+        "labor_cost": "Arbeidskosten",
+        "parts_cost": "Onderdelenkosten",
+        "total_cost": "Totale kosten"
+    },
+    "actions": {
+        "start_work": "Start werk",
+        "complete": "Voltooien",
+        "reopen": "Heropenen",
+        "cancel": "Annuleren",
+        "assign": "Toewijzen",
+        "edit": "Bewerken",
+        "delete": "Verwijderen",
+        "add_log": "Log toevoegen",
+        "add_parts": "Onderdelen toevoegen"
+    },
+    "complete_form": {
+        "title": "Werkorder voltooien",
+        "resolution_label": "Oplossingsnotities",
+        "resolution_placeholder": "Beschrijf wat is gedaan om het probleem op te lossen",
+        "cause_category_label": "Hoofdoorzaak categorie",
+        "parts_used_label": "Gebruikte onderdelen",
+        "time_spent_label": "Bestede tijd (uren)",
+        "submit": "Markeer als voltooid"
+    },
+    "report_breakdown": {
+        "title": "Storing melden",
+        "subtitle": "Meld een machinestoring of probleem",
+        "machine_label": "Welke machine heeft het probleem?",
+        "description_label": "Wat is er gebeurd?",
+        "description_placeholder": "Beschrijf het probleem in detail...",
+        "priority_label": "Hoe urgent is dit?",
+        "submit": "Storing melden",
+        "success": "Storing succesvol gemeld"
+    },
+    "messages": {
+        "created": "Werkorder succesvol aangemaakt",
+        "updated": "Werkorder succesvol bijgewerkt",
+        "deleted": "Werkorder succesvol verwijderd",
+        "started": "Werkorder gestart",
+        "completed": "Werkorder voltooid",
+        "assigned": "Werkorder succesvol toegewezen",
+        "cancelled": "Werkorder geannuleerd"
+    }
+}

@@ -1,0 +1,159 @@
+{
+    "title": "Instellingen",
+    "profile": {
+        "title": "Profielinstellingen",
+        "subtitle": "Beheer uw accountinstellingen en voorkeuren",
+        "name_label": "Volledige naam",
+        "email_label": "E-mailadres",
+        "phone_label": "Telefoonnummer",
+        "language_label": "Taal",
+        "timezone_label": "Tijdzone",
+        "save": "Wijzigingen opslaan",
+        "saved": "Profiel succesvol bijgewerkt"
+    },
+    "password": {
+        "title": "Wachtwoord wijzigen",
+        "subtitle": "Zorg ervoor dat uw account een sterk wachtwoord gebruikt",
+        "current_password_label": "Huidig wachtwoord",
+        "new_password_label": "Nieuw wachtwoord",
+        "confirm_password_label": "Bevestig nieuw wachtwoord",
+        "save": "Wachtwoord bijwerken",
+        "saved": "Wachtwoord succesvol bijgewerkt"
+    },
+    "two_factor": {
+        "title": "Tweestapsverificatie",
+        "subtitle": "Voeg extra beveiliging toe aan uw account",
+        "enabled": "Tweestapsverificatie is ingeschakeld",
+        "disabled": "Tweestapsverificatie is niet ingeschakeld",
+        "enable": "Inschakelen",
+        "disable": "Uitschakelen",
+        "setup_instructions": "Scan de QR-code met uw authenticator app",
+        "manual_entry": "Of voer deze code handmatig in",
+        "verify_code": "Voer de code van uw app in om te verifiëren",
+        "recovery_codes_title": "Herstelcodes",
+        "recovery_codes_description": "Bewaar deze herstelcodes op een veilige locatie. Ze kunnen worden gebruikt om toegang te herstellen als u uw apparaat verliest.",
+        "regenerate_codes": "Herstelcodes opnieuw genereren",
+        "show_codes": "Herstelcodes tonen"
+    },
+    "notifications": {
+        "title": "Meldingsvoorkeuren",
+        "subtitle": "Kies hoe u wilt worden geïnformeerd",
+        "email_notifications": "E-mailmeldingen",
+        "sms_notifications": "SMS-meldingen",
+        "push_notifications": "Push-meldingen",
+        "types": {
+            "work_order_assigned": "Werkorder aan mij toegewezen",
+            "work_order_completed": "Werkorder voltooid",
+            "work_order_overdue": "Werkorder achterstallig",
+            "preventive_task_due": "Preventieve taak binnenkort",
+            "low_stock_alert": "Lage voorraad waarschuwing",
+            "sensor_alert": "Sensorwaarschuwing",
+            "budget_alert": "Budgetdrempel bereikt",
+            "production_complete": "Productierun voltooid"
+        },
+        "save": "Voorkeuren opslaan",
+        "saved": "Meldingsvoorkeuren bijgewerkt"
+    },
+    "appearance": {
+        "title": "Uiterlijk",
+        "subtitle": "Pas aan hoe LineCare eruitziet",
+        "theme_label": "Thema",
+        "theme_light": "Licht",
+        "theme_dark": "Donker",
+        "theme_system": "Systeem"
+    },
+    "company": {
+        "title": "Bedrijfsinstellingen",
+        "subtitle": "Beheer uw bedrijfsinformatie",
+        "name_label": "Bedrijfsnaam",
+        "address_label": "Adres",
+        "phone_label": "Telefoon",
+        "email_label": "E-mail",
+        "website_label": "Website",
+        "logo_label": "Bedrijfslogo",
+        "currency_label": "Valuta",
+        "save": "Instellingen opslaan"
+    },
+    "locations": {
+        "title": "Locaties",
+        "subtitle": "Beheer uw faciliteitslocaties",
+        "create": "Locatie toevoegen",
+        "edit": "Locatie bewerken",
+        "name_label": "Locatienaam",
+        "address_label": "Adres",
+        "description_label": "Beschrijving",
+        "empty": "Geen locaties geconfigureerd"
+    },
+    "users": {
+        "title": "Gebruikersbeheer",
+        "subtitle": "Beheer gebruikers in uw bedrijf",
+        "create": "Gebruiker toevoegen",
+        "edit": "Gebruiker bewerken",
+        "name_label": "Naam",
+        "email_label": "E-mail",
+        "role_label": "Rol",
+        "roles": {
+            "operator": "Operator",
+            "technician": "Monteur",
+            "manager": "Manager"
+        },
+        "status_label": "Status",
+        "active": "Actief",
+        "inactive": "Inactief",
+        "empty": "Geen gebruikers gevonden",
+        "invite": "Gebruiker uitnodigen",
+        "resend_invite": "Uitnodiging opnieuw versturen"
+    },
+    "cause_categories": {
+        "title": "Oorzaakcategorieën",
+        "subtitle": "Configureer hoofdoorzaakcategorieën voor werkorders",
+        "create": "Categorie toevoegen",
+        "edit": "Categorie bewerken",
+        "name_label": "Categorienaam",
+        "description_label": "Beschrijving",
+        "empty": "Geen oorzaakcategorieën geconfigureerd"
+    },
+    "integrations": {
+        "title": "Integraties",
+        "subtitle": "Verbind LineCare met andere systemen",
+        "create": "Integratie toevoegen",
+        "edit": "Integratie bewerken",
+        "types": {
+            "erp": "ERP-systeem",
+            "iot": "IoT-platform",
+            "email": "E-mailservice",
+            "sms": "SMS-service"
+        },
+        "status": {
+            "active": "Actief",
+            "inactive": "Inactief",
+            "error": "Fout"
+        },
+        "last_sync": "Laatste synchronisatie",
+        "test_connection": "Verbinding testen",
+        "sync_now": "Nu synchroniseren"
+    },
+    "vendor_api_keys": {
+        "title": "Leverancier API-sleutels",
+        "subtitle": "Beheer API-sleutels voor leveranciersportaaltoegang",
+        "create": "API-sleutel aanmaken",
+        "supplier_label": "Leverancier",
+        "key_label": "API-sleutel",
+        "created": "Aangemaakt",
+        "last_used": "Laatst gebruikt",
+        "status": "Status",
+        "active": "Actief",
+        "revoked": "Ingetrokken",
+        "revoke": "Intrekken",
+        "copy_key": "API-sleutel kopiëren",
+        "key_copied": "API-sleutel gekopieerd naar klembord",
+        "warning": "Deze sleutel wordt slechts één keer getoond. Zorg ervoor dat u hem nu kopieert."
+    },
+    "danger_zone": {
+        "title": "Gevarenzone",
+        "delete_account": "Account verwijderen",
+        "delete_account_description": "Verwijder uw account en alle bijbehorende gegevens permanent",
+        "delete_account_button": "Account verwijderen",
+        "delete_account_confirm": "Weet u zeker dat u uw account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt."
+    }
+}

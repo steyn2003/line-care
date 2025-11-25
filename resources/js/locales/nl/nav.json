@@ -1,0 +1,73 @@
+{
+    "main": {
+        "dashboard": "Dashboard",
+        "machines": "Machines",
+        "work_orders": "Werkorders",
+        "preventive_tasks": "Preventieve taken",
+        "spare_parts": "Reserveonderdelen",
+        "inventory": "Voorraad",
+        "purchase_orders": "Inkooporders",
+        "suppliers": "Leveranciers",
+        "oee": "OEE",
+        "production": "Productie",
+        "costs": "Kosten",
+        "analytics": "Analyses",
+        "reports": "Rapporten",
+        "settings": "Instellingen",
+        "admin": "Beheer"
+    },
+    "sections": {
+        "maintenance": "Onderhoud",
+        "inventory_management": "Voorraad",
+        "production": "Productie",
+        "financial": "Financieel",
+        "analytics_reports": "Analyses & Rapporten",
+        "system": "Systeem",
+        "integrations": "Integraties"
+    },
+    "user_menu": {
+        "profile": "Profiel",
+        "settings": "Instellingen",
+        "notifications": "Meldingen",
+        "help": "Help & Ondersteuning",
+        "logout": "Uitloggen"
+    },
+    "sub_menus": {
+        "report_breakdown": "Storing melden",
+        "all_work_orders": "Alle werkorders",
+        "open_work_orders": "Open",
+        "in_progress": "In uitvoering",
+        "completed": "Voltooid",
+        "low_stock": "Lage voorraad",
+        "all_parts": "Alle onderdelen",
+        "oee_dashboard": "OEE Dashboard",
+        "oee_trends": "OEE Trends",
+        "production_runs": "Productieruns",
+        "downtime": "Stilstand",
+        "cost_dashboard": "Kosten Dashboard",
+        "cost_reports": "Kostenrapporten",
+        "budget": "Budget",
+        "labor_rates": "Uurtarieven",
+        "reliability": "Betrouwbaarheid",
+        "pareto": "Pareto-analyse",
+        "predictions": "Voorspellingen",
+        "custom_dashboards": "Aangepaste dashboards",
+        "downtime_report": "Stilstandrapport",
+        "locations": "Locaties",
+        "users": "Gebruikers",
+        "cause_categories": "Oorzaakcategorieën",
+        "products": "Producten",
+        "shifts": "Ploegen",
+        "downtime_categories": "Stilstandcategorieën",
+        "integrations": "Integraties",
+        "iot_dashboard": "IoT Dashboard",
+        "sensors": "Sensoren",
+        "sensor_alerts": "Sensorwaarschuwingen",
+        "notification_preferences": "Meldingsvoorkeuren",
+        "vendor_api_keys": "Leverancier API-sleutels"
+    },
+    "breadcrumbs": {
+        "home": "Home",
+        "back": "Terug"
+    }
+}

@@ -1,0 +1,60 @@
+{
+    "title": "Dashboard",
+    "welcome": "Welcome back, {{name}}",
+    "overview": "Overview",
+    "stats": {
+        "total_machines": "Total Machines",
+        "active_work_orders": "Active Work Orders",
+        "pending_tasks": "Pending Tasks",
+        "completed_today": "Completed Today",
+        "overdue": "Overdue",
+        "due_soon": "Due Soon",
+        "open": "Open",
+        "in_progress": "In Progress"
+    },
+    "cards": {
+        "work_orders": "Work Orders",
+        "work_orders_description": "Active maintenance requests",
+        "machines": "Machines",
+        "machines_description": "Equipment under management",
+        "preventive_tasks": "Preventive Tasks",
+        "preventive_tasks_description": "Scheduled maintenance",
+        "oee": "OEE Score",
+        "oee_description": "Overall Equipment Effectiveness",
+        "mtbf": "MTBF",
+        "mtbf_description": "Mean Time Between Failures",
+        "mttr": "MTTR",
+        "mttr_description": "Mean Time To Repair"
+    },
+    "recent_activity": {
+        "title": "Recent Activity",
+        "no_activity": "No recent activity",
+        "view_all": "View all activity"
+    },
+    "work_orders_chart": {
+        "title": "Work Orders by Status",
+        "open": "Open",
+        "in_progress": "In Progress",
+        "completed": "Completed"
+    },
+    "upcoming_tasks": {
+        "title": "Upcoming Preventive Tasks",
+        "no_tasks": "No upcoming tasks",
+        "view_all": "View all tasks",
+        "due": "Due"
+    },
+    "low_stock_alerts": {
+        "title": "Low Stock Alerts",
+        "no_alerts": "No low stock alerts",
+        "view_all": "View inventory",
+        "in_stock": "in stock",
+        "reorder_point": "Reorder point"
+    },
+    "quick_actions": {
+        "title": "Quick Actions",
+        "report_breakdown": "Report Breakdown",
+        "create_work_order": "Create Work Order",
+        "add_machine": "Add Machine",
+        "view_reports": "View Reports"
+    }
+}

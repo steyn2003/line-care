@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,11 +107,11 @@
         </div>
         <div class="email-footer">
             <p>
-                This is an automated notification from LineCare.<br>
-                If you have questions, please contact your system administrator.
+                {{ __('emails.common.auto_generated') }}<br>
+                {{ __('emails.common.footer', ['app' => config('app.name', 'LineCare')]) }}
             </p>
             <p>
-                <a href="{{ config('app.url') }}">Visit LineCare</a>
+                <a href="{{ config('app.url') }}">{{ __('emails.common.view_button') }}</a>
             </p>
         </div>
     </div>

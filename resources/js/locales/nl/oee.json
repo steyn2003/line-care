@@ -1,0 +1,126 @@
+{
+    "title": "OEE",
+    "dashboard": {
+        "title": "OEE Dashboard",
+        "current_shift": "Huidige ploeg",
+        "overall_oee": "Totale OEE",
+        "availability": "Beschikbaarheid",
+        "performance": "Prestatie",
+        "quality": "Kwaliteit",
+        "target": "Doel",
+        "actual": "Werkelijk",
+        "world_class": "Wereldklasse (85%+)",
+        "good": "Goed (60-85%)",
+        "needs_improvement": "Verbetering nodig (<60%)"
+    },
+    "metrics": {
+        "oee_score": "OEE Score",
+        "availability_rate": "Beschikbaarheidsgraad",
+        "performance_rate": "Prestatiegraad",
+        "quality_rate": "Kwaliteitsgraad",
+        "planned_production_time": "Geplande productietijd",
+        "operating_time": "Operationele tijd",
+        "downtime": "Stilstand",
+        "ideal_cycle_time": "Ideale cyclustijd",
+        "actual_cycle_time": "Werkelijke cyclustijd",
+        "total_output": "Totale output",
+        "good_output": "Goede output",
+        "defects": "Defecten"
+    },
+    "production_runs": {
+        "title": "Productieruns",
+        "create": "Productierun starten",
+        "end": "Productierun beëindigen",
+        "active": "Actieve runs",
+        "completed": "Voltooide runs",
+        "empty": "Geen productieruns gevonden",
+        "form": {
+            "machine_label": "Machine",
+            "product_label": "Product",
+            "shift_label": "Ploeg",
+            "target_quantity_label": "Doelhoeveelheid",
+            "start": "Run starten"
+        },
+        "end_form": {
+            "actual_output_label": "Werkelijke output",
+            "good_output_label": "Goede output",
+            "defects_label": "Defecten",
+            "notes_label": "Notities",
+            "submit": "Run beëindigen"
+        },
+        "detail": {
+            "machine": "Machine",
+            "product": "Product",
+            "shift": "Ploeg",
+            "started": "Gestart",
+            "ended": "Beëindigd",
+            "duration": "Duur",
+            "target": "Doel",
+            "actual": "Werkelijk",
+            "good": "Goed",
+            "defects": "Defecten",
+            "oee": "OEE",
+            "downtime_events": "Stilstandgebeurtenissen"
+        }
+    },
+    "downtime": {
+        "title": "Stilstand",
+        "log": "Stilstand registreren",
+        "start": "Stilstand starten",
+        "end": "Stilstand beëindigen",
+        "active": "Actieve stilstand",
+        "duration": "Duur",
+        "category": "Categorie",
+        "planned": "Gepland",
+        "unplanned": "Ongepland",
+        "form": {
+            "machine_label": "Machine",
+            "category_label": "Categorie",
+            "description_label": "Beschrijving",
+            "description_placeholder": "Wat veroorzaakte de stilstand?"
+        }
+    },
+    "categories": {
+        "title": "Stilstandcategorieën",
+        "create": "Categorie toevoegen",
+        "edit": "Categorie bewerken",
+        "name_label": "Categorienaam",
+        "type_label": "Type",
+        "is_planned_label": "Geplande stilstand",
+        "is_included_in_oee_label": "Opnemen in OEE-berekening"
+    },
+    "products": {
+        "title": "Producten",
+        "create": "Product toevoegen",
+        "edit": "Product bewerken",
+        "name_label": "Productnaam",
+        "code_label": "Productcode",
+        "theoretical_cycle_time_label": "Theoretische cyclustijd (seconden)",
+        "target_output_per_hour_label": "Doeloutput per uur"
+    },
+    "shifts": {
+        "title": "Ploegen",
+        "create": "Ploeg toevoegen",
+        "edit": "Ploeg bewerken",
+        "name_label": "Ploegnaam",
+        "start_time_label": "Starttijd",
+        "end_time_label": "Eindtijd"
+    },
+    "trends": {
+        "title": "OEE Trends",
+        "daily": "Dagelijks",
+        "weekly": "Wekelijks",
+        "monthly": "Maandelijks",
+        "by_machine": "Per machine",
+        "by_product": "Per product",
+        "by_shift": "Per ploeg",
+        "date_range": "Datumbereik"
+    },
+    "losses": {
+        "title": "Verliesanalyse",
+        "availability_losses": "Beschikbaarheidsverliezen",
+        "performance_losses": "Prestatieverliezen",
+        "quality_losses": "Kwaliteitsverliezen",
+        "top_causes": "Belangrijkste oorzaken"
+    }
+}

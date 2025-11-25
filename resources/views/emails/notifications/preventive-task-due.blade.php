@@ -1,30 +1,30 @@
 @extends('emails.layout')
 
-@section('title', 'Preventive Maintenance Due')
+@section('title', __('emails.preventive_task_due.title'))
 
 @section('content')
-<h2>🔧 Preventive Maintenance Due</h2>
+<h2>🔧 {{ __('emails.preventive_task_due.title') }}</h2>
 
-<p>Hello {{ $user_name ?? 'there' }},</p>
+<p>{{ $user_name ? __('emails.common.greeting', ['name' => $user_name]) : __('emails.common.greeting_default') }}</p>
 
-<p>A scheduled preventive maintenance task is due soon:</p>
+<p>{{ __('emails.preventive_task_due.intro') }}</p>
 
 <div class="notification-card warning">
     <div class="info-row">
-        <span class="info-label">Task:</span>
+        <span class="info-label">{{ __('emails.preventive_task_due.task_name') }}:</span>
         <span class="info-value"><strong>{{ $task_title ?? 'Untitled Task' }}</strong></span>
     </div>
     <div class="info-row">
-        <span class="info-label">Machine:</span>
+        <span class="info-label">{{ __('emails.preventive_task_due.machine') }}:</span>
         <span class="info-value">{{ $machine_name ?? 'N/A' }}</span>
     </div>
     <div class="info-row">
-        <span class="info-label">Due Date:</span>
+        <span class="info-label">{{ __('emails.preventive_task_due.due_date') }}:</span>
         <span class="info-value">{{ $due_date ?? 'N/A' }}</span>
     </div>
     @if(isset($frequency))
     <div class="info-row">
-        <span class="info-label">Frequency:</span>
+        <span class="info-label">{{ __('emails.preventive_task_due.frequency') }}:</span>
         <span class="info-value">{{ ucfirst($frequency) }}</span>
     </div>
     @endif
@@ -37,7 +37,7 @@
 </div>
 
 @if(isset($instructions))
-<p><strong>Instructions:</strong></p>
+<p><strong>{{ __('emails.preventive_task_due.instructions') }}:</strong></p>
 <p>{{ $instructions }}</p>
 @endif
 
@@ -51,8 +51,6 @@
 @endif
 
 <a href="{{ config('app.url') }}/preventive-tasks/{{ $task_id ?? '' }}" class="button">
-    View Task Details
+    {{ __('emails.preventive_task_due.action') }}
 </a>
-
-<p>Please schedule and complete this preventive maintenance task to ensure optimal machine performance.</p>
 @endsection

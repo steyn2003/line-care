@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -9,6 +10,14 @@ Route::get('/', function () {
         'canRegister' => Features::enabled(Features::registration()),
     ]);
 })->name('home');
+
+// Locale routes
+Route::post('/locale', [LocaleController::class, 'update'])
+    ->middleware(['auth'])
+    ->name('locale.update');
+
+Route::post('/locale/guest', [LocaleController::class, 'updateGuest'])
+    ->name('locale.update.guest');
 
 // Marketing pages (public)
 Route::get('/oplossing', function () {

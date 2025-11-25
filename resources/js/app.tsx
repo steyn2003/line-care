@@ -5,6 +5,7 @@ import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
+import i18n from './lib/i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -16,6 +17,12 @@ createInertiaApp({
             import.meta.glob('./pages/**/*.tsx'),
         ),
     setup({ el, App, props }) {
+        // Sync locale from server to i18next
+        const locale = props.initialPage.props.locale as string | undefined;
+        if (locale && i18n.language !== locale) {
+            i18n.changeLanguage(locale);
+        }
+
         const root = createRoot(el);
 
         root.render(

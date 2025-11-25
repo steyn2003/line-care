@@ -1,0 +1,115 @@
+{
+    "title": "Work Orders",
+    "list": {
+        "title": "Work Orders",
+        "empty": "No work orders found",
+        "create": "Create Work Order",
+        "filter_by_status": "Filter by status",
+        "filter_by_priority": "Filter by priority",
+        "filter_by_machine": "Filter by machine",
+        "all_statuses": "All statuses",
+        "all_priorities": "All priorities",
+        "all_machines": "All machines"
+    },
+    "status": {
+        "open": "Open",
+        "in_progress": "In Progress",
+        "completed": "Completed",
+        "cancelled": "Cancelled"
+    },
+    "priority": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "critical": "Critical"
+    },
+    "type": {
+        "breakdown": "Breakdown",
+        "preventive": "Preventive",
+        "corrective": "Corrective",
+        "inspection": "Inspection"
+    },
+    "form": {
+        "title_label": "Title",
+        "title_placeholder": "Enter work order title",
+        "description_label": "Description",
+        "description_placeholder": "Describe the issue or task",
+        "machine_label": "Machine",
+        "machine_placeholder": "Select a machine",
+        "type_label": "Type",
+        "type_placeholder": "Select type",
+        "priority_label": "Priority",
+        "priority_placeholder": "Select priority",
+        "assigned_to_label": "Assigned to",
+        "assigned_to_placeholder": "Select technician",
+        "due_date_label": "Due date",
+        "due_date_placeholder": "Select due date",
+        "cause_category_label": "Cause category",
+        "cause_category_placeholder": "Select cause category",
+        "notes_label": "Notes",
+        "notes_placeholder": "Additional notes..."
+    },
+    "detail": {
+        "created": "Created",
+        "updated": "Last updated",
+        "assigned_to": "Assigned to",
+        "unassigned": "Unassigned",
+        "machine": "Machine",
+        "location": "Location",
+        "due_date": "Due date",
+        "no_due_date": "No due date",
+        "priority": "Priority",
+        "status": "Status",
+        "type": "Type",
+        "cause_category": "Cause category",
+        "description": "Description",
+        "no_description": "No description provided",
+        "maintenance_logs": "Maintenance Logs",
+        "no_logs": "No maintenance logs yet",
+        "parts_used": "Parts Used",
+        "no_parts": "No parts recorded",
+        "time_spent": "Time Spent",
+        "labor_cost": "Labor Cost",
+        "parts_cost": "Parts Cost",
+        "total_cost": "Total Cost"
+    },
+    "actions": {
+        "start_work": "Start Work",
+        "complete": "Complete",
+        "reopen": "Reopen",
+        "cancel": "Cancel",
+        "assign": "Assign",
+        "edit": "Edit",
+        "delete": "Delete",
+        "add_log": "Add Log",
+        "add_parts": "Add Parts"
+    },
+    "complete_form": {
+        "title": "Complete Work Order",
+        "resolution_label": "Resolution notes",
+        "resolution_placeholder": "Describe what was done to resolve the issue",
+        "cause_category_label": "Root cause category",
+        "parts_used_label": "Parts used",
+        "time_spent_label": "Time spent (hours)",
+        "submit": "Mark as Complete"
+    },
+    "report_breakdown": {
+        "title": "Report Breakdown",
+        "subtitle": "Report a machine breakdown or issue",
+        "machine_label": "Which machine has the issue?",
+        "description_label": "What happened?",
+        "description_placeholder": "Describe the problem in detail...",
+        "priority_label": "How urgent is this?",
+        "submit": "Report Breakdown",
+        "success": "Breakdown reported successfully"
+    },
+    "messages": {
+        "created": "Work order created successfully",
+        "updated": "Work order updated successfully",
+        "deleted": "Work order deleted successfully",
+        "started": "Work order started",
+        "completed": "Work order completed",
+        "assigned": "Work order assigned successfully",
+        "cancelled": "Work order cancelled"
+    }
+}
