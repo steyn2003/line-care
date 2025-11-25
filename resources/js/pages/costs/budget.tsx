@@ -87,6 +87,7 @@ export default function BudgetManagement({ budgets, selectedYear }: Props) {
                 budgeted_parts: editingBudget.budgeted_parts.toString(),
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [editingBudget]);
 
     const handleYearChange = (year: string) => {

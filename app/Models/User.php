@@ -24,6 +24,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'company_id',
         'role',
@@ -86,5 +87,21 @@ class User extends Authenticatable
     public function unreadNotificationsCount(): int
     {
         return $this->notifications()->where('is_read', false)->count();
+    }
+
+    /**
+     * Get the user's device tokens for push notifications.
+     */
+    public function deviceTokens(): HasMany
+    {
+        return $this->hasMany(DeviceToken::class);
+    }
+
+    /**
+     * Check if user has any device tokens registered.
+     */
+    public function hasDeviceTokens(): bool
+    {
+        return $this->deviceTokens()->exists();
     }
 }

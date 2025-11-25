@@ -3,7 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Integration;
-use App\Services\Integrations\ErpIntegration;
+use App\Services\Integrations\ErpAdapterFactory;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -58,7 +58,8 @@ class SyncErpIntegrationJob implements ShouldQueue
             return;
         }
 
-        $erpIntegration = new ErpIntegration($this->integration);
+        // Use the factory to get the appropriate adapter for this provider
+        $erpIntegration = ErpAdapterFactory::make($this->integration);
 
         if ($this->action === 'all') {
             $actions = ['sync_inventory', 'sync_purchase_orders', 'sync_work_order_costs'];

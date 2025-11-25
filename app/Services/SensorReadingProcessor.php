@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Events\SensorAlertTriggered;
+use App\Events\SensorReadingReceived;
 use App\Models\Sensor;
 use App\Models\SensorReading;
 use App\Models\SensorAlert;
@@ -41,6 +43,9 @@ class SensorReadingProcessor
             }
 
             DB::commit();
+
+            // Broadcast the reading event for real-time updates
+            broadcast(new SensorReadingReceived($reading, $sensor->company_id))->toOthers();
 
             return $reading;
         } catch (\Exception $e) {
@@ -105,6 +110,9 @@ class SensorReadingProcessor
             'alert_type' => $alertType,
             'current_value' => $value,
         ]);
+
+        // Broadcast the alert event for real-time updates
+        broadcast(new SensorAlertTriggered($alert, $sensor->company_id))->toOthers();
 
         // Auto-create work order for critical alerts
         if ($alertType === 'critical') {

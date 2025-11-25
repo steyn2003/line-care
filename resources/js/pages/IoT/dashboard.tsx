@@ -78,8 +78,8 @@ export default function IoTDashboard({
 }: IoTDashboardProps) {
     const [sensors] = useState(initialSensors);
     const [alerts, setAlerts] = useState(initialAlerts);
-    const [lastUpdate, setLastUpdate] = useState(new Date());
-    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [, setLastUpdate] = useState(new Date());
+    const [, setIsRefreshing] = useState(false);
 
     const refreshData = () => {
         setIsRefreshing(true);

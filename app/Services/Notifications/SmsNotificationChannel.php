@@ -60,14 +60,13 @@ class SmsNotificationChannel implements NotificationChannelInterface
 
     /**
      * Check if SMS is configured
-     *
-     * TODO: Update this when SMS provider is configured
      */
     public function isAvailable(): bool
     {
-        // Check if SMS provider is configured
-        // Example: return !empty(config('services.twilio.sid'));
-        return false; // Not yet activated
+        // Check if Twilio credentials are configured
+        return !empty(config('services.twilio.sid'))
+            && !empty(config('services.twilio.token'))
+            && !empty(config('services.twilio.from'));
     }
 
     /**

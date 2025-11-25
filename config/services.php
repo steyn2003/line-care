@@ -35,4 +35,37 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Twilio SMS Service
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for Twilio SMS notifications. Sign up at twilio.com
+    | to get your account SID, auth token, and a phone number.
+    |
+    */
+
+    'twilio' => [
+        'sid' => env('TWILIO_SID'),
+        'token' => env('TWILIO_AUTH_TOKEN'),
+        'from' => env('TWILIO_PHONE_NUMBER'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Firebase Cloud Messaging (FCM)
+    |--------------------------------------------------------------------------
+    |
+    | Configuration for Firebase Cloud Messaging push notifications.
+    | You can use either a legacy server key or the newer service account
+    | credentials file approach.
+    |
+    */
+
+    'fcm' => [
+        'server_key' => env('FCM_SERVER_KEY'),
+        'credentials_file' => env('FCM_CREDENTIALS_FILE'),
+        'project_id' => env('FCM_PROJECT_ID'),
+    ],
+
 ];

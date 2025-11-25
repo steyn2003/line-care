@@ -67,14 +67,12 @@ class PushNotificationChannel implements NotificationChannelInterface
 
     /**
      * Check if push notifications are configured
-     *
-     * TODO: Update this when push notification provider is configured
      */
     public function isAvailable(): bool
     {
-        // Check if push notification provider is configured
-        // Example: return !empty(config('services.fcm.server_key'));
-        return false; // Not yet activated
+        // Check if Firebase Cloud Messaging credentials are configured
+        return !empty(config('services.fcm.server_key'))
+            || !empty(config('services.fcm.credentials_file'));
     }
 
     /**
@@ -91,9 +89,7 @@ class PushNotificationChannel implements NotificationChannelInterface
     public function canSendToUser(User $user): bool
     {
         // Check if user has registered device tokens
-        // This assumes a device_tokens relationship exists (needs to be added)
-        // return $user->deviceTokens()->exists();
-        return false; // Not yet implemented
+        return $user->deviceTokens()->exists();
     }
 
     /**
