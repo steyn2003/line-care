@@ -55,7 +55,6 @@ interface RecentWorkOrder {
     title: string;
     type: string;
     status: string;
-    priority: string;
     created_at: string;
     machine?: { id: number; name: string; code: string | null };
     assignee?: { id: number; name: string };
@@ -175,19 +174,6 @@ function getStatusColor(status: string): string {
             return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
         case 'completed':
             return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-        default:
-            return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
-    }
-}
-
-function getPriorityColor(priority: string): string {
-    switch (priority) {
-        case 'critical':
-            return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
-        case 'high':
-            return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-300';
-        case 'medium':
-            return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
         default:
             return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
     }
@@ -833,27 +819,17 @@ export default function Dashboard({
                                                                     'No machine'}
                                                             </p>
                                                         </div>
-                                                        <div className="flex items-center gap-2">
-                                                            <Badge
-                                                                variant="outline"
-                                                                className={getPriorityColor(
-                                                                    wo.priority,
-                                                                )}
-                                                            >
-                                                                {wo.priority}
-                                                            </Badge>
-                                                            <Badge
-                                                                variant="outline"
-                                                                className={getStatusColor(
-                                                                    wo.status,
-                                                                )}
-                                                            >
-                                                                {wo.status.replace(
-                                                                    '_',
-                                                                    ' ',
-                                                                )}
-                                                            </Badge>
-                                                        </div>
+                                                        <Badge
+                                                            variant="outline"
+                                                            className={getStatusColor(
+                                                                wo.status,
+                                                            )}
+                                                        >
+                                                            {wo.status.replace(
+                                                                '_',
+                                                                ' ',
+                                                            )}
+                                                        </Badge>
                                                     </div>
                                                 ),
                                             )

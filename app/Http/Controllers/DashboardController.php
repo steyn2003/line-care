@@ -108,7 +108,7 @@ class DashboardController extends Controller
             ->with(['machine:id,name,code', 'assignee:id,name'])
             ->orderByDesc('created_at')
             ->limit(5)
-            ->get(['id', 'title', 'type', 'status', 'priority', 'machine_id', 'assigned_to', 'created_at']);
+            ->get(['id', 'title', 'type', 'status', 'machine_id', 'assigned_to', 'created_at']);
 
         // ==================
         // COST METRICS

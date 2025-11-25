@@ -31,25 +31,7 @@ class ComprehensiveDemoSeeder extends Seeder
      */
     public function run(): void
     {
-        // Create Super Admin (or find existing)
-        $superAdmin = User::firstOrCreate(
-            ['email' => 'admin@linecare.com'],
-            [
-                'name' => 'Super Admin',
-                'password' => Hash::make('password'),
-                'email_verified_at' => now(),
-                'role' => Role::SUPER_ADMIN,
-                'company_id' => null,
-            ]
-        );
-
-        if ($superAdmin->wasRecentlyCreated) {
-            $this->command->info('✓ Created Super Admin (admin@linecare.com / password)');
-        } else {
-            $this->command->info('✓ Super Admin already exists (admin@linecare.com)');
-        }
-
-        // Create 3 demo companies
+        // Create 3 demo companies first (so we can assign super admin to one)
         $companiesData = [
             [
                 'name' => 'Acme Manufacturing Inc.',
@@ -71,6 +53,7 @@ class ComprehensiveDemoSeeder extends Seeder
             ],
         ];
 
+        $companies = [];
         foreach ($companiesData as $companyData) {
             // Check if email column exists
             $hasContactFields = \Schema::hasColumn('companies', 'email');
@@ -82,8 +65,31 @@ class ComprehensiveDemoSeeder extends Seeder
                 $company = Company::create(['name' => $companyData['name']]);
             }
 
+            $companies[] = $company;
             $this->seedCompanyData($company);
             $this->command->info("✓ Seeded complete data for {$company->name}");
+        }
+
+        // Create Super Admin connected to the first company
+        $superAdmin = User::firstOrCreate(
+            ['email' => 'admin@linecare.com'],
+            [
+                'name' => 'Super Admin',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+                'role' => Role::SUPER_ADMIN,
+                'company_id' => $companies[0]->id, // Connect to first company
+            ]
+        );
+
+        // Update existing super admin if they don't have a company
+        if (!$superAdmin->wasRecentlyCreated && $superAdmin->company_id === null) {
+            $superAdmin->update(['company_id' => $companies[0]->id]);
+            $this->command->info('✓ Updated Super Admin to connect to ' . $companies[0]->name);
+        } elseif ($superAdmin->wasRecentlyCreated) {
+            $this->command->info('✓ Created Super Admin (admin@linecare.com / password) connected to ' . $companies[0]->name);
+        } else {
+            $this->command->info('✓ Super Admin already exists (admin@linecare.com)');
         }
 
         $this->command->info('✓ All demo data created successfully!');
