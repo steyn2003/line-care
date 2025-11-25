@@ -42,7 +42,6 @@ export const resources = {
         settings: enSettings,
         nav: enNav,
         marketing: enMarketing,
-        admin: enAdmin,
     },
     nl: {
         common: nlCommon,
@@ -56,7 +55,6 @@ export const resources = {
         settings: nlSettings,
         nav: nlNav,
         marketing: nlMarketing,
-        admin: nlAdmin,
     },
 } as const;
 
