@@ -1,12 +1,15 @@
 <?php
 
+use App\Http\Controllers\Api\AnalyticsController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CauseCategoryController;
 use App\Http\Controllers\Api\CostController;
 use App\Http\Controllers\Api\DashboardController;
+use App\Http\Controllers\Api\CustomDashboardController;
 use App\Http\Controllers\Api\DowntimeCategoryController;
 use App\Http\Controllers\Api\DowntimeController;
 use App\Http\Controllers\Api\ExternalServiceController;
+use App\Http\Controllers\Api\GlobalSearchController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\LaborRateController;
 use App\Http\Controllers\Api\LocationController;
@@ -20,10 +23,12 @@ use App\Http\Controllers\Api\PreventiveTaskController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ProductionRunController;
 use App\Http\Controllers\Api\PurchaseOrderController;
+use App\Http\Controllers\Api\SavedFilterController;
 use App\Http\Controllers\Api\ShiftController;
 use App\Http\Controllers\Api\SparePartController;
 use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\WidgetController;
 use App\Http\Controllers\Api\WorkOrderController;
 use Illuminate\Support\Facades\Route;
 
@@ -306,6 +311,52 @@ Route::middleware('auth:sanctum')->group(function () {
     // Notification Preferences routes
     Route::get('notifications/preferences', [NotificationController::class, 'getPreferences'])->name('api.notifications.preferences');
     Route::put('notifications/preferences', [NotificationController::class, 'updatePreferences'])->name('api.notifications.update-preferences');
+
+    // ========== Advanced Analytics & Custom Dashboards (Phase 9) ==========
+
+    // Advanced Analytics routes
+    Route::prefix('analytics')->name('api.analytics.')->group(function () {
+        Route::get('mtbf', [AnalyticsController::class, 'mtbf'])->name('mtbf');
+        Route::get('mttr', [AnalyticsController::class, 'mttr'])->name('mttr');
+        Route::get('pareto', [AnalyticsController::class, 'pareto'])->name('pareto');
+        Route::get('predictions', [AnalyticsController::class, 'predictions'])->name('predictions');
+        Route::get('failure-modes', [AnalyticsController::class, 'failureModes'])->name('failure-modes');
+        Route::get('root-cause-trends', [AnalyticsController::class, 'rootCauseTrends'])->name('root-cause-trends');
+        Route::get('effectiveness', [AnalyticsController::class, 'effectiveness'])->name('effectiveness');
+        Route::get('dashboard', [AnalyticsController::class, 'dashboard'])->name('dashboard');
+    });
+
+    // Custom Dashboard routes
+    Route::apiResource('custom-dashboards', CustomDashboardController::class)->names([
+        'index' => 'api.custom-dashboards.index',
+        'store' => 'api.custom-dashboards.store',
+        'show' => 'api.custom-dashboards.show',
+        'update' => 'api.custom-dashboards.update',
+        'destroy' => 'api.custom-dashboards.destroy',
+    ]);
+    Route::post('custom-dashboards/{dashboard}/duplicate', [CustomDashboardController::class, 'duplicate'])->name('api.custom-dashboards.duplicate');
+    Route::put('custom-dashboards/{dashboard}/layout', [CustomDashboardController::class, 'updateLayout'])->name('api.custom-dashboards.layout');
+
+    // Widget routes
+    Route::get('widgets/options', [WidgetController::class, 'options'])->name('api.widgets.options');
+    Route::post('custom-dashboards/{dashboard}/widgets', [WidgetController::class, 'store'])->name('api.widgets.store');
+    Route::put('widgets/{widget}', [WidgetController::class, 'update'])->name('api.widgets.update');
+    Route::delete('widgets/{widget}', [WidgetController::class, 'destroy'])->name('api.widgets.destroy');
+    Route::get('widgets/{widget}/data', [WidgetController::class, 'data'])->name('api.widgets.data');
+
+    // Saved Filters routes
+    Route::apiResource('saved-filters', SavedFilterController::class)->names([
+        'index' => 'api.saved-filters.index',
+        'store' => 'api.saved-filters.store',
+        'show' => 'api.saved-filters.show',
+        'update' => 'api.saved-filters.update',
+        'destroy' => 'api.saved-filters.destroy',
+    ]);
+    Route::post('saved-filters/{savedFilter}/set-default', [SavedFilterController::class, 'setDefault'])->name('api.saved-filters.set-default');
+
+    // Global Search routes
+    Route::get('search', [GlobalSearchController::class, 'search'])->name('api.search');
+    Route::get('search/suggestions', [GlobalSearchController::class, 'suggestions'])->name('api.search.suggestions');
 });
 
 // ========== Vendor Portal (Phase 8) - API Key Authentication ==========

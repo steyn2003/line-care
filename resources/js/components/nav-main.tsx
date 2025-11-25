@@ -19,26 +19,114 @@ import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 
 export function NavMain({
-    label,
     items = [],
+    label,
 }: {
-    label?: string;
     items: NavItem[];
+    label?: string;
 }) {
     const page = usePage();
+
+    // Check if any item in an array is active
+    const isAnyActive = (navItems: NavItem[]): boolean => {
+        return navItems.some((item) =>
+            page.url.startsWith(resolveUrl(item.href)),
+        );
+    };
+
+    // Check if item or any of its sub-items/groups are active
+    const checkIsActive = (item: NavItem): boolean => {
+        if (item.groups) {
+            return item.groups.some((group) => isAnyActive(group.items));
+        }
+        if (item.items) {
+            return isAnyActive(item.items);
+        }
+        return page.url.startsWith(resolveUrl(item.href));
+    };
+
     return (
         <SidebarGroup className="px-2 py-0">
             {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
             <SidebarMenu>
                 {items.map((item) => {
-                    // Check if this item or any of its sub-items are active
-                    const isActive = item.items
-                        ? item.items.some((subItem) =>
-                              page.url.startsWith(resolveUrl(subItem.href)),
-                          )
-                        : page.url.startsWith(resolveUrl(item.href));
+                    const isActive = checkIsActive(item);
 
-                    // If item has sub-items, render as collapsible
+                    // If item has groups (sub-grouped items)
+                    if (item.groups && item.groups.length > 0) {
+                        return (
+                            <Collapsible
+                                key={item.title}
+                                asChild
+                                defaultOpen={isActive}
+                                className="group/collapsible"
+                            >
+                                <SidebarMenuItem>
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton
+                                            tooltip={item.title}
+                                            isActive={isActive}
+                                        >
+                                            {item.icon && <item.icon />}
+                                            <span>{item.title}</span>
+                                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                                        </SidebarMenuButton>
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            {item.groups.map((group) => (
+                                                <div
+                                                    key={group.label}
+                                                    className="mt-2 first:mt-0"
+                                                >
+                                                    <span className="px-2 text-xs font-medium text-muted-foreground">
+                                                        {group.label}
+                                                    </span>
+                                                    {group.items.map(
+                                                        (subItem) => (
+                                                            <SidebarMenuSubItem
+                                                                key={
+                                                                    subItem.title
+                                                                }
+                                                            >
+                                                                <SidebarMenuSubButton
+                                                                    asChild
+                                                                    isActive={page.url.startsWith(
+                                                                        resolveUrl(
+                                                                            subItem.href,
+                                                                        ),
+                                                                    )}
+                                                                >
+                                                                    <Link
+                                                                        href={
+                                                                            subItem.href
+                                                                        }
+                                                                        prefetch
+                                                                        preserveScroll
+                                                                    >
+                                                                        {subItem.icon && (
+                                                                            <subItem.icon />
+                                                                        )}
+                                                                        <span>
+                                                                            {
+                                                                                subItem.title
+                                                                            }
+                                                                        </span>
+                                                                    </Link>
+                                                                </SidebarMenuSubButton>
+                                                            </SidebarMenuSubItem>
+                                                        ),
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+                        );
+                    }
+
+                    // If item has sub-items (flat list), render as collapsible
                     if (item.items && item.items.length > 0) {
                         return (
                             <Collapsible
@@ -49,7 +137,10 @@ export function NavMain({
                             >
                                 <SidebarMenuItem>
                                     <CollapsibleTrigger asChild>
-                                        <SidebarMenuButton tooltip={item.title}>
+                                        <SidebarMenuButton
+                                            tooltip={item.title}
+                                            isActive={isActive}
+                                        >
                                             {item.icon && <item.icon />}
                                             <span>{item.title}</span>
                                             <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -72,6 +163,7 @@ export function NavMain({
                                                         <Link
                                                             href={subItem.href}
                                                             prefetch
+                                                            preserveScroll
                                                         >
                                                             {subItem.icon && (
                                                                 <subItem.icon />
@@ -98,7 +190,7 @@ export function NavMain({
                                 isActive={isActive}
                                 tooltip={{ children: item.title }}
                             >
-                                <Link href={item.href} prefetch>
+                                <Link href={item.href} prefetch preserveScroll>
                                     {item.icon && <item.icon />}
                                     <span>{item.title}</span>
                                 </Link>

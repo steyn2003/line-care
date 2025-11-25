@@ -216,6 +216,29 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('settings/vendor-api-keys', [\App\Http\Controllers\VendorApiKeyController::class, 'store'])->name('vendor-api-keys.store');
     Route::post('settings/vendor-api-keys/{vendorApiKey}/toggle', [\App\Http\Controllers\VendorApiKeyController::class, 'toggle'])->name('vendor-api-keys.toggle');
     Route::delete('settings/vendor-api-keys/{vendorApiKey}', [\App\Http\Controllers\VendorApiKeyController::class, 'destroy'])->name('vendor-api-keys.destroy');
+
+    // ========== Phase 9: Advanced Analytics & Custom Dashboards ==========
+
+    // Analytics routes
+    Route::get('analytics', [\App\Http\Controllers\AnalyticsController::class, 'index'])->name('analytics.index');
+    Route::get('analytics/reliability', [\App\Http\Controllers\AnalyticsController::class, 'reliability'])->name('analytics.reliability');
+    Route::get('analytics/pareto', [\App\Http\Controllers\AnalyticsController::class, 'pareto'])->name('analytics.pareto');
+    Route::get('analytics/predictions', [\App\Http\Controllers\AnalyticsController::class, 'predictions'])->name('analytics.predictions');
+    Route::get('analytics/failure-modes', [\App\Http\Controllers\AnalyticsController::class, 'failureModes'])->name('analytics.failure-modes');
+
+    // Custom Dashboards routes
+    Route::get('dashboards', [\App\Http\Controllers\CustomDashboardController::class, 'index'])->name('dashboards.index');
+    Route::get('dashboards/create', [\App\Http\Controllers\CustomDashboardController::class, 'create'])->name('dashboards.create');
+    Route::post('dashboards', [\App\Http\Controllers\CustomDashboardController::class, 'store'])->name('dashboards.store');
+    Route::get('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'show'])->name('dashboards.show');
+    Route::get('dashboards/{dashboard}/edit', [\App\Http\Controllers\CustomDashboardController::class, 'edit'])->name('dashboards.edit');
+    Route::put('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'update'])->name('dashboards.update');
+    Route::delete('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'destroy'])->name('dashboards.destroy');
+    Route::post('dashboards/{dashboard}/duplicate', [\App\Http\Controllers\CustomDashboardController::class, 'duplicate'])->name('dashboards.duplicate');
+
+    // Dashboard Widgets routes
+    Route::post('dashboards/{dashboard}/widgets', [\App\Http\Controllers\CustomDashboardController::class, 'addWidget'])->name('dashboards.widgets.store');
+    Route::delete('dashboards/{dashboard}/widgets/{widget}', [\App\Http\Controllers\CustomDashboardController::class, 'removeWidget'])->name('dashboards.widgets.destroy');
 });
 
 // ========== Admin Routes (Super Admin Only) ==========

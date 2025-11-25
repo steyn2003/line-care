@@ -15,12 +15,23 @@ export interface NavGroup {
     items: NavItem[];
 }
 
+export interface NavSection {
+    label: string;
+    items: NavItem[];
+}
+
+export interface NavSubGroup {
+    label: string;
+    items: NavItem[];
+}
+
 export interface NavItem {
     title: string;
     href: NonNullable<InertiaLinkProps['href']>;
     icon?: LucideIcon | null;
     isActive?: boolean;
     items?: NavItem[];
+    groups?: NavSubGroup[];
 }
 
 export interface SharedData {
