@@ -1,7 +1,14 @@
 {
     "title": "Dashboard",
-    "welcome": "Welcome back, {{name}}",
+    "welcome": "Welcome back, {{name}}!",
+    "subtitle": "Here's what's happening with your operations",
     "overview": "Overview",
+    "filters": {
+        "date_from": "Date From",
+        "date_to": "Date To",
+        "location": "Location",
+        "all_locations": "All locations"
+    },
     "stats": {
         "total_machines": "Total Machines",
         "active_work_orders": "Active Work Orders",
@@ -10,21 +17,88 @@
         "overdue": "Overdue",
         "due_soon": "Due Soon",
         "open": "Open",
-        "in_progress": "In Progress"
+        "in_progress": "In Progress",
+        "work_orders": "work orders",
+        "being_worked_on": "being worked on",
+        "overdue_pm": "Overdue PM",
+        "past_due_date": "past due date",
+        "breakdowns": "Breakdowns",
+        "in_selected_period": "in selected period",
+        "completed": "Completed"
     },
     "cards": {
         "work_orders": "Work Orders",
         "work_orders_description": "Active maintenance requests",
         "machines": "Machines",
         "machines_description": "Equipment under management",
+        "manage_equipment": "Manage equipment",
         "preventive_tasks": "Preventive Tasks",
         "preventive_tasks_description": "Scheduled maintenance",
+        "spare_parts": "Spare Parts",
+        "parts_count": "{{count}} parts",
         "oee": "OEE Score",
         "oee_description": "Overall Equipment Effectiveness",
         "mtbf": "MTBF",
         "mtbf_description": "Mean Time Between Failures",
         "mttr": "MTTR",
         "mttr_description": "Mean Time To Repair"
+    },
+    "quick_actions": {
+        "title": "Quick Actions",
+        "report_breakdown": "Report Breakdown",
+        "quick_report": "Quick report",
+        "create_work_order": "Create Work Order",
+        "add_machine": "Add Machine",
+        "view_reports": "View Reports"
+    },
+    "costs": {
+        "title": "Maintenance Costs",
+        "this_month": "This month",
+        "budget": "Budget",
+        "used": "used"
+    },
+    "inventory": {
+        "title": "Inventory Status",
+        "total_value": "total value",
+        "low_stock": "low stock",
+        "critical": "critical",
+        "pos_pending": "POs pending"
+    },
+    "oee": {
+        "title": "OEE Performance",
+        "avg_oee": "avg OEE",
+        "availability": "Availability",
+        "performance": "Performance",
+        "quality": "Quality"
+    },
+    "recent_work_orders": {
+        "title": "Recent Work Orders",
+        "description": "Latest maintenance activities",
+        "view_all": "View All",
+        "no_machine": "No machine",
+        "no_recent": "No recent work orders"
+    },
+    "upcoming_tasks": {
+        "title": "Upcoming PM Tasks",
+        "description": "Due in the next 7 days",
+        "view_all": "View All",
+        "no_tasks": "No upcoming tasks",
+        "no_machine": "No machine",
+        "every": "Every"
+    },
+    "problem_machines": {
+        "title": "Problem Machines",
+        "description": "Most breakdowns in period",
+        "details": "Details",
+        "breakdowns": "breakdowns"
+    },
+    "low_stock_alerts": {
+        "title": "Low Stock Alerts",
+        "description": "Parts below reorder point",
+        "view_all": "View All",
+        "no_alerts": "No low stock alerts",
+        "in_stock": "in stock",
+        "reorder_at": "reorder at"
     },
     "recent_activity": {
         "title": "Recent Activity",
@@ -37,24 +111,27 @@
         "in_progress": "In Progress",
         "completed": "Completed"
     },
-    "upcoming_tasks": {
-        "title": "Upcoming Preventive Tasks",
-        "no_tasks": "No upcoming tasks",
-        "view_all": "View all tasks",
-        "due": "Due"
+    "production_runs": {
+        "title": "Recent Production Runs",
+        "description": "Latest OEE performance",
+        "view_all": "View All",
+        "machine": "Machine",
+        "product": "Product",
+        "date": "Date"
     },
-    "low_stock_alerts": {
-        "title": "Low Stock Alerts",
-        "no_alerts": "No low stock alerts",
-        "view_all": "View inventory",
-        "in_stock": "in stock",
-        "reorder_point": "Reorder point"
+    "operator": {
+        "quick_access": "Quick Access",
+        "common_actions": "Most common actions",
+        "my_reports": "My Reports"
     },
-    "quick_actions": {
-        "title": "Quick Actions",
-        "report_breakdown": "Report Breakdown",
-        "create_work_order": "Create Work Order",
-        "add_machine": "Add Machine",
-        "view_reports": "View Reports"
+    "footer_stats": {
+        "breakdowns_7_days": "Breakdowns (7 days)",
+        "breakdowns_30_days": "Breakdowns (30 days)",
+        "production_runs": "Production runs",
+        "costs_in_period": "Costs in period"
+    },
+    "low_stock_alert": {
+        "title": "Low Stock Alert",
+        "description": "Parts needing reorder"
     }
 }

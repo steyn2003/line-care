@@ -44,302 +44,304 @@ import {
     Wifi,
     Wrench,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import AppLogo from './app-logo';
 
-// Overview - always visible
-const overviewNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Notifications',
-        href: '/notifications',
-        icon: Bell,
-    },
-];
-
-// Maintenance section with sub-items
-const maintenanceNavItem: NavItem = {
-    title: 'Maintenance',
-    href: '#',
-    icon: Wrench,
-    items: [
-        {
-            title: 'Machines',
-            href: '/machines',
-            icon: Wrench,
-        },
-        {
-            title: 'Work Orders',
-            href: '/work-orders',
-            icon: ClipboardList,
-        },
-        {
-            title: 'Report Breakdown',
-            href: '/work-orders/report-breakdown',
-            icon: AlertTriangle,
-        },
-        {
-            title: 'Preventive Tasks',
-            href: '/preventive-tasks',
-            icon: Calendar,
-        },
-    ],
-};
-
-// Production & OEE section with sub-items
-const productionNavItem: NavItem = {
-    title: 'Production & OEE',
-    href: '#',
-    icon: Factory,
-    items: [
-        {
-            title: 'OEE Dashboard',
-            href: '/oee/dashboard',
-            icon: TrendingUp,
-        },
-        {
-            title: 'Production Runs',
-            href: '/production/runs',
-            icon: Factory,
-        },
-        {
-            title: 'OEE Trends',
-            href: '/oee/trends',
-            icon: BarChart3,
-        },
-        {
-            title: 'Products',
-            href: '/products',
-            icon: Package,
-        },
-        {
-            title: 'Shifts',
-            href: '/shifts',
-            icon: Clock,
-        },
-    ],
-};
-
-// Inventory section with sub-items
-const inventoryNavItem: NavItem = {
-    title: 'Inventory',
-    href: '#',
-    icon: Package,
-    items: [
-        {
-            title: 'Spare Parts',
-            href: '/spare-parts',
-            icon: Package,
-        },
-        {
-            title: 'Low Stock Alerts',
-            href: '/inventory/low-stock',
-            icon: AlertTriangle,
-        },
-        {
-            title: 'Purchase Orders',
-            href: '/purchase-orders',
-            icon: ShoppingCart,
-        },
-        {
-            title: 'Suppliers',
-            href: '/suppliers',
-            icon: Warehouse,
-        },
-    ],
-};
-
-// Cost Management section with sub-items
-const costNavItem: NavItem = {
-    title: 'Cost Management',
-    href: '#',
-    icon: DollarSign,
-    items: [
-        {
-            title: 'Cost Dashboard',
-            href: '/costs/dashboard',
-            icon: DollarSign,
-        },
-        {
-            title: 'Cost Report',
-            href: '/costs/report',
-            icon: FileText,
-        },
-        {
-            title: 'Budget Management',
-            href: '/costs/budget',
-            icon: PiggyBank,
-        },
-        {
-            title: 'Labor Rates',
-            href: '/costs/labor-rates',
-            icon: Clock,
-        },
-    ],
-};
-
-// Dashboards & Reports section with sub-groups
-const reportsNavItem: NavItem = {
-    title: 'Reports',
-    href: '#',
-    icon: LayoutDashboard,
-    groups: [
-        {
-            label: 'Dashboards',
-            items: [
-                {
-                    title: 'Custom Dashboards',
-                    href: '/dashboards',
-                    icon: LayoutDashboard,
-                },
-            ],
-        },
-        {
-            label: 'Analytics',
-            items: [
-                {
-                    title: 'Analytics Dashboard',
-                    href: '/analytics',
-                    icon: Activity,
-                },
-                {
-                    title: 'Reliability (MTBF/MTTR)',
-                    href: '/analytics/reliability',
-                    icon: Gauge,
-                },
-                {
-                    title: 'Pareto Analysis',
-                    href: '/analytics/pareto',
-                    icon: PieChart,
-                },
-                {
-                    title: 'Failure Predictions',
-                    href: '/analytics/predictions',
-                    icon: Brain,
-                },
-                {
-                    title: 'Failure Modes',
-                    href: '/analytics/failure-modes',
-                    icon: AlertTriangle,
-                },
-            ],
-        },
-        {
-            label: 'Reports',
-            items: [
-                {
-                    title: 'Downtime Report',
-                    href: '/reports/downtime',
-                    icon: TrendingDown,
-                },
-            ],
-        },
-    ],
-};
-
-// IoT & Sensors section with sub-items
-const iotNavItem: NavItem = {
-    title: 'IoT & Sensors',
-    href: '#',
-    icon: Wifi,
-    items: [
-        {
-            title: 'IoT Dashboard',
-            href: '/iot/dashboard',
-            icon: Wifi,
-        },
-        {
-            title: 'Sensors',
-            href: '/iot/sensors',
-            icon: Wifi,
-        },
-        {
-            title: 'Sensor Alerts',
-            href: '/iot/alerts',
-            icon: AlertTriangle,
-        },
-    ],
-};
-
-// Settings section with sub-items (consolidated)
-const settingsNavItem: NavItem = {
-    title: 'Settings',
-    href: '#',
-    icon: Settings,
-    items: [
-        {
-            title: 'Locations',
-            href: '/locations',
-            icon: MapPin,
-        },
-        {
-            title: 'Cause Categories',
-            href: '/cause-categories',
-            icon: AlertTriangle,
-        },
-        {
-            title: 'Users',
-            href: '/users',
-            icon: Users,
-        },
-        {
-            title: 'Integrations',
-            href: '/settings/integrations',
-            icon: Settings,
-        },
-        {
-            title: 'Vendor API Keys',
-            href: '/settings/vendor-api-keys',
-            icon: Key,
-        },
-    ],
-};
-
-// Grouped sections
-const operationsNavItems: NavItem[] = [
-    maintenanceNavItem,
-    productionNavItem,
-    inventoryNavItem,
-];
-
-const financeNavItems: NavItem[] = [costNavItem];
-
-const insightsNavItems: NavItem[] = [reportsNavItem];
-
-const systemNavItems: NavItem[] = [iotNavItem, settingsNavItem];
-
-const footerNavItems: NavItem[] = [];
-
-// Admin section with sub-items
-const adminNavItem: NavItem = {
-    title: 'System Admin',
-    href: '#',
-    icon: Shield,
-    items: [
-        {
-            title: 'Admin Dashboard',
-            href: '/admin',
-            icon: Shield,
-        },
-        {
-            title: 'Companies',
-            href: '/admin/companies',
-            icon: Building2,
-        },
-        {
-            title: 'All Users',
-            href: '/admin/users',
-            icon: Users,
-        },
-    ],
-};
-
 export function AppSidebar() {
+    const { t } = useTranslation('nav');
     const { auth } = usePage().props;
     const isSuperAdmin = auth.user.role === 'super_admin';
+
+    // Overview - always visible
+    const overviewNavItems: NavItem[] = [
+        {
+            title: t('dashboard'),
+            href: dashboard(),
+            icon: LayoutGrid,
+        },
+        {
+            title: t('notifications'),
+            href: '/notifications',
+            icon: Bell,
+        },
+    ];
+
+    // Maintenance section with sub-items
+    const maintenanceNavItem: NavItem = {
+        title: t('maintenance.title'),
+        href: '#',
+        icon: Wrench,
+        items: [
+            {
+                title: t('maintenance.machines'),
+                href: '/machines',
+                icon: Wrench,
+            },
+            {
+                title: t('maintenance.work_orders'),
+                href: '/work-orders',
+                icon: ClipboardList,
+            },
+            {
+                title: t('maintenance.report_breakdown'),
+                href: '/work-orders/report-breakdown',
+                icon: AlertTriangle,
+            },
+            {
+                title: t('maintenance.preventive_tasks'),
+                href: '/preventive-tasks',
+                icon: Calendar,
+            },
+        ],
+    };
+
+    // Production & OEE section with sub-items
+    const productionNavItem: NavItem = {
+        title: t('production.title'),
+        href: '#',
+        icon: Factory,
+        items: [
+            {
+                title: t('production.oee_dashboard'),
+                href: '/oee/dashboard',
+                icon: TrendingUp,
+            },
+            {
+                title: t('production.runs'),
+                href: '/production/runs',
+                icon: Factory,
+            },
+            {
+                title: t('production.oee_trends'),
+                href: '/oee/trends',
+                icon: BarChart3,
+            },
+            {
+                title: t('production.products'),
+                href: '/products',
+                icon: Package,
+            },
+            {
+                title: t('production.shifts'),
+                href: '/shifts',
+                icon: Clock,
+            },
+        ],
+    };
+
+    // Inventory section with sub-items
+    const inventoryNavItem: NavItem = {
+        title: t('inventory.title'),
+        href: '#',
+        icon: Package,
+        items: [
+            {
+                title: t('inventory.spare_parts'),
+                href: '/spare-parts',
+                icon: Package,
+            },
+            {
+                title: t('inventory.low_stock'),
+                href: '/inventory/low-stock',
+                icon: AlertTriangle,
+            },
+            {
+                title: t('inventory.purchase_orders'),
+                href: '/purchase-orders',
+                icon: ShoppingCart,
+            },
+            {
+                title: t('inventory.suppliers'),
+                href: '/suppliers',
+                icon: Warehouse,
+            },
+        ],
+    };
+
+    // Cost Management section with sub-items
+    const costNavItem: NavItem = {
+        title: t('costs.title'),
+        href: '#',
+        icon: DollarSign,
+        items: [
+            {
+                title: t('costs.dashboard'),
+                href: '/costs/dashboard',
+                icon: DollarSign,
+            },
+            {
+                title: t('costs.report'),
+                href: '/costs/report',
+                icon: FileText,
+            },
+            {
+                title: t('costs.budget'),
+                href: '/costs/budget',
+                icon: PiggyBank,
+            },
+            {
+                title: t('costs.labor_rates'),
+                href: '/costs/labor-rates',
+                icon: Clock,
+            },
+        ],
+    };
+
+    // Dashboards & Reports section with sub-groups
+    const reportsNavItem: NavItem = {
+        title: t('reports.title'),
+        href: '#',
+        icon: LayoutDashboard,
+        groups: [
+            {
+                label: t('reports.dashboards'),
+                items: [
+                    {
+                        title: t('reports.custom_dashboards'),
+                        href: '/dashboards',
+                        icon: LayoutDashboard,
+                    },
+                ],
+            },
+            {
+                label: t('reports.analytics'),
+                items: [
+                    {
+                        title: t('reports.analytics_dashboard'),
+                        href: '/analytics',
+                        icon: Activity,
+                    },
+                    {
+                        title: t('reports.reliability'),
+                        href: '/analytics/reliability',
+                        icon: Gauge,
+                    },
+                    {
+                        title: t('reports.pareto'),
+                        href: '/analytics/pareto',
+                        icon: PieChart,
+                    },
+                    {
+                        title: t('reports.predictions'),
+                        href: '/analytics/predictions',
+                        icon: Brain,
+                    },
+                    {
+                        title: t('reports.failure_modes'),
+                        href: '/analytics/failure-modes',
+                        icon: AlertTriangle,
+                    },
+                ],
+            },
+            {
+                label: t('reports.reports'),
+                items: [
+                    {
+                        title: t('reports.downtime'),
+                        href: '/reports/downtime',
+                        icon: TrendingDown,
+                    },
+                ],
+            },
+        ],
+    };
+
+    // IoT & Sensors section with sub-items
+    const iotNavItem: NavItem = {
+        title: t('iot.title'),
+        href: '#',
+        icon: Wifi,
+        items: [
+            {
+                title: t('iot.dashboard'),
+                href: '/iot/dashboard',
+                icon: Wifi,
+            },
+            {
+                title: t('iot.sensors'),
+                href: '/iot/sensors',
+                icon: Wifi,
+            },
+            {
+                title: t('iot.alerts'),
+                href: '/iot/alerts',
+                icon: AlertTriangle,
+            },
+        ],
+    };
+
+    // Settings section with sub-items (consolidated)
+    const settingsNavItem: NavItem = {
+        title: t('settings.title'),
+        href: '#',
+        icon: Settings,
+        items: [
+            {
+                title: t('settings.locations'),
+                href: '/locations',
+                icon: MapPin,
+            },
+            {
+                title: t('settings.cause_categories'),
+                href: '/cause-categories',
+                icon: AlertTriangle,
+            },
+            {
+                title: t('settings.users'),
+                href: '/users',
+                icon: Users,
+            },
+            {
+                title: t('settings.integrations'),
+                href: '/settings/integrations',
+                icon: Settings,
+            },
+            {
+                title: t('settings.vendor_api_keys'),
+                href: '/settings/vendor-api-keys',
+                icon: Key,
+            },
+        ],
+    };
+
+    // Admin section with sub-items
+    const adminNavItem: NavItem = {
+        title: t('admin.title'),
+        href: '#',
+        icon: Shield,
+        items: [
+            {
+                title: t('admin.dashboard'),
+                href: '/admin',
+                icon: Shield,
+            },
+            {
+                title: t('admin.companies'),
+                href: '/admin/companies',
+                icon: Building2,
+            },
+            {
+                title: t('admin.users'),
+                href: '/admin/users',
+                icon: Users,
+            },
+        ],
+    };
+
+    // Grouped sections
+    const operationsNavItems: NavItem[] = [
+        maintenanceNavItem,
+        productionNavItem,
+        inventoryNavItem,
+    ];
+
+    const financeNavItems: NavItem[] = [costNavItem];
+
+    const insightsNavItems: NavItem[] = [reportsNavItem];
+
+    const systemNavItems: NavItem[] = [iotNavItem, settingsNavItem];
+
+    const footerNavItems: NavItem[] = [];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -361,20 +363,32 @@ export function AppSidebar() {
 
                 {/* Admin section - only for super admins */}
                 {isSuperAdmin && (
-                    <NavMain label="Admin" items={[adminNavItem]} />
+                    <NavMain
+                        label={t('sections.admin')}
+                        items={[adminNavItem]}
+                    />
                 )}
 
                 {/* Operations section */}
-                <NavMain label="Operations" items={operationsNavItems} />
+                <NavMain
+                    label={t('sections.operations')}
+                    items={operationsNavItems}
+                />
 
                 {/* Finance section */}
-                <NavMain label="Finance" items={financeNavItems} />
+                <NavMain
+                    label={t('sections.finance')}
+                    items={financeNavItems}
+                />
 
                 {/* Insights section */}
-                <NavMain label="Insights" items={insightsNavItems} />
+                <NavMain
+                    label={t('sections.insights')}
+                    items={insightsNavItems}
+                />
 
                 {/* System section */}
-                <NavMain label="System" items={systemNavItems} />
+                <NavMain label={t('sections.system')} items={systemNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

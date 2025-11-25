@@ -33,7 +33,23 @@
         "recovery_codes_title": "Herstelcodes",
         "recovery_codes_description": "Bewaar deze herstelcodes op een veilige locatie. Ze kunnen worden gebruikt om toegang te herstellen als u uw apparaat verliest.",
         "regenerate_codes": "Herstelcodes opnieuw genereren",
-        "show_codes": "Herstelcodes tonen"
+        "show_codes": "Herstelcodes tonen",
+        "enabled_title": "Tweestapsverificatie Ingeschakeld",
+        "enabled_description": "Tweestapsverificatie is nu ingeschakeld. Scan de QR-code of voer de installatiesleutel in uw authenticator app in.",
+        "verify_title": "Verificatiecode Verifiëren",
+        "verify_description": "Voer de 6-cijferige code van uw authenticator app in",
+        "enable_title": "Tweestapsverificatie Inschakelen",
+        "enable_description": "Om het inschakelen van tweestapsverificatie te voltooien, scan de QR-code of voer de installatiesleutel in uw authenticator app in",
+        "or_enter_manually": "of voer de code handmatig in"
+    },
+    "recovery_codes": {
+        "title": "2FA Herstelcodes",
+        "description": "Herstelcodes geven u weer toegang als u uw 2FA-apparaat kwijtraakt. Bewaar ze in een veilige wachtwoordmanager.",
+        "view": "Herstelcodes bekijken",
+        "hide": "Herstelcodes verbergen",
+        "regenerate": "Codes opnieuw genereren",
+        "loading": "Herstelcodes laden",
+        "warning": "Elke herstelcode kan één keer worden gebruikt om toegang te krijgen tot uw account en wordt na gebruik verwijderd. Als u meer nodig heeft, klik dan hierboven op Codes opnieuw genereren."
     },
     "notifications": {
         "title": "Meldingsvoorkeuren",
@@ -60,7 +76,11 @@
         "theme_label": "Thema",
         "theme_light": "Licht",
         "theme_dark": "Donker",
-        "theme_system": "Systeem"
+        "theme_system": "Systeem",
+        "light": "Licht",
+        "dark": "Donker",
+        "system": "Systeem",
+        "toggle_theme": "Thema wisselen"
     },
     "company": {
         "title": "Bedrijfsinstellingen",
@@ -155,5 +175,18 @@
         "delete_account_description": "Verwijder uw account en alle bijbehorende gegevens permanent",
         "delete_account_button": "Account verwijderen",
         "delete_account_confirm": "Weet u zeker dat u uw account wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt."
+    },
+    "delete_account": {
+        "title": "Account verwijderen",
+        "description": "Verwijder uw account en al zijn gegevens",
+        "warning": "Waarschuwing",
+        "warning_message": "Ga voorzichtig te werk, dit kan niet ongedaan worden gemaakt.",
+        "button": "Account verwijderen",
+        "confirm_title": "Weet u zeker dat u uw account wilt verwijderen?",
+        "confirm_description": "Zodra uw account is verwijderd, worden al zijn gegevens en bronnen ook permanent verwijderd. Voer uw wachtwoord in om te bevestigen dat u uw account permanent wilt verwijderen.",
+        "password": "Wachtwoord",
+        "password_placeholder": "Wachtwoord",
+        "cancel": "Annuleren",
+        "confirm_button": "Account verwijderen"
     }
 }

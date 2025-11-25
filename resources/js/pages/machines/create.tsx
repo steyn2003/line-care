@@ -19,6 +19,7 @@ import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
 import { Head, router, useForm } from '@inertiajs/react';
 import { ArrowLeft, Save } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Location {
     id: number;
@@ -41,6 +42,7 @@ interface Props {
 }
 
 export default function CreateMachine({ locations, machine }: Props) {
+    const { t } = useTranslation('machines');
     const isEditing = !!machine;
 
     const { data, setData, post, put, processing, errors } = useForm({
@@ -75,7 +77,7 @@ export default function CreateMachine({ locations, machine }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Add Machine" />
+            <Head title={isEditing ? t('edit.title') : t('create.title')} />
 
             <div className="container mx-auto max-w-2xl space-y-6 py-6">
                 {/* Header */}
@@ -87,22 +89,24 @@ export default function CreateMachine({ locations, machine }: Props) {
                         className="text-muted-foreground"
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
-                        Back to Machines
+                        {t('create.back')}
                     </Button>
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                        Add New Machine
+                        {isEditing
+                            ? t('edit.page_title')
+                            : t('create.page_title')}
                     </h1>
                     <p className="text-muted-foreground">
-                        Register a new machine in the system
+                        {isEditing ? t('edit.subtitle') : t('create.subtitle')}
                     </p>
                 </div>
 
                 {/* Form */}
                 <Card className="border-border">
                     <CardHeader>
-                        <CardTitle>Machine Information</CardTitle>
+                        <CardTitle>{t('create.card_title')}</CardTitle>
                         <CardDescription>
-                            Fill in the details about the machine
+                            {t('create.card_description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -110,12 +114,12 @@ export default function CreateMachine({ locations, machine }: Props) {
                             {/* Machine Name */}
                             <div className="space-y-2">
                                 <Label htmlFor="name">
-                                    Machine Name{' '}
+                                    {t('form.name_label')}{' '}
                                     <span className="text-destructive">*</span>
                                 </Label>
                                 <Input
                                     id="name"
-                                    placeholder="e.g., CNC Machine 1, Press Brake, etc."
+                                    placeholder={t('form.name_placeholder')}
                                     value={data.name}
                                     onChange={(e) =>
                                         setData('name', e.target.value)
@@ -133,11 +137,11 @@ export default function CreateMachine({ locations, machine }: Props) {
                             {/* Machine Code */}
                             <div className="space-y-2">
                                 <Label htmlFor="code">
-                                    Machine Code / ID (optional)
+                                    {t('form.code_label')}
                                 </Label>
                                 <Input
                                     id="code"
-                                    placeholder="e.g., CNC-001, PB-02"
+                                    placeholder={t('form.code_placeholder')}
                                     value={data.code}
                                     onChange={(e) =>
                                         setData('code', e.target.value)
@@ -145,7 +149,7 @@ export default function CreateMachine({ locations, machine }: Props) {
                                     className="bg-background"
                                 />
                                 <p className="text-xs text-muted-foreground">
-                                    Internal reference code or asset number
+                                    {t('form.code_hint')}
                                 </p>
                                 {errors.code && (
                                     <p className="text-sm text-destructive">
@@ -156,7 +160,9 @@ export default function CreateMachine({ locations, machine }: Props) {
 
                             {/* Location */}
                             <div className="space-y-2">
-                                <Label htmlFor="location_id">Location</Label>
+                                <Label htmlFor="location_id">
+                                    {t('form.location_label')}
+                                </Label>
                                 <Select
                                     value={data.location_id || undefined}
                                     onValueChange={(value) =>
@@ -164,7 +170,11 @@ export default function CreateMachine({ locations, machine }: Props) {
                                     }
                                 >
                                     <SelectTrigger className="bg-background">
-                                        <SelectValue placeholder="Select location (optional)..." />
+                                        <SelectValue
+                                            placeholder={t(
+                                                'form.location_placeholder',
+                                            )}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {locations.map((location) => (
@@ -178,7 +188,7 @@ export default function CreateMachine({ locations, machine }: Props) {
                                     </SelectContent>
                                 </Select>
                                 <p className="text-xs text-muted-foreground">
-                                    Leave empty if no specific location
+                                    {t('form.location_hint')}
                                 </p>
                                 {errors.location_id && (
                                     <p className="text-sm text-destructive">
@@ -190,7 +200,7 @@ export default function CreateMachine({ locations, machine }: Props) {
                             {/* Criticality */}
                             <div className="space-y-2">
                                 <Label htmlFor="criticality">
-                                    Criticality{' '}
+                                    {t('form.criticality_label')}{' '}
                                     <span className="text-destructive">*</span>
                                 </Label>
                                 <Select
@@ -204,19 +214,18 @@ export default function CreateMachine({ locations, machine }: Props) {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="low">
-                                            Low - Minor impact on operations
+                                            {t('form.criticality_low')}
                                         </SelectItem>
                                         <SelectItem value="medium">
-                                            Medium - Moderate impact
+                                            {t('form.criticality_medium')}
                                         </SelectItem>
                                         <SelectItem value="high">
-                                            High - Critical to operations
+                                            {t('form.criticality_high')}
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <p className="text-xs text-muted-foreground">
-                                    How critical is this machine to your
-                                    operations?
+                                    {t('form.criticality_hint')}
                                 </p>
                                 {errors.criticality && (
                                     <p className="text-sm text-destructive">
@@ -227,7 +236,9 @@ export default function CreateMachine({ locations, machine }: Props) {
 
                             {/* Status */}
                             <div className="space-y-2">
-                                <Label htmlFor="status">Status</Label>
+                                <Label htmlFor="status">
+                                    {t('form.status_label')}
+                                </Label>
                                 <Select
                                     value={data.status}
                                     onValueChange={(value: string) =>
@@ -239,10 +250,10 @@ export default function CreateMachine({ locations, machine }: Props) {
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="active">
-                                            Active - In use
+                                            {t('form.status_active')}
                                         </SelectItem>
                                         <SelectItem value="archived">
-                                            Archived - Not in use
+                                            {t('form.status_archived')}
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -256,11 +267,13 @@ export default function CreateMachine({ locations, machine }: Props) {
                             {/* Description */}
                             <div className="space-y-2">
                                 <Label htmlFor="description">
-                                    Description (optional)
+                                    {t('form.description_label')}
                                 </Label>
                                 <Textarea
                                     id="description"
-                                    placeholder="Additional notes, specifications, or details about this machine..."
+                                    placeholder={t(
+                                        'form.description_placeholder',
+                                    )}
                                     value={data.description}
                                     onChange={(e) =>
                                         setData('description', e.target.value)
@@ -284,7 +297,7 @@ export default function CreateMachine({ locations, machine }: Props) {
                                     disabled={processing}
                                     className="flex-1"
                                 >
-                                    Cancel
+                                    {t('create.cancel')}
                                 </Button>
                                 <Button
                                     type="submit"
@@ -292,11 +305,17 @@ export default function CreateMachine({ locations, machine }: Props) {
                                     className="flex-1"
                                 >
                                     {processing ? (
-                                        'Adding Machine...'
+                                        isEditing ? (
+                                            t('edit.submitting')
+                                        ) : (
+                                            t('create.submitting')
+                                        )
                                     ) : (
                                         <>
                                             <Save className="mr-2 h-4 w-4" />
-                                            Add Machine
+                                            {isEditing
+                                                ? t('edit.submit')
+                                                : t('create.submit')}
                                         </>
                                     )}
                                 </Button>

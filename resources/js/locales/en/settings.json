@@ -33,7 +33,23 @@
         "recovery_codes_title": "Recovery Codes",
         "recovery_codes_description": "Store these recovery codes in a secure location. They can be used to recover access if you lose your device.",
         "regenerate_codes": "Regenerate Recovery Codes",
-        "show_codes": "Show Recovery Codes"
+        "show_codes": "Show Recovery Codes",
+        "enabled_title": "Two-Factor Authentication Enabled",
+        "enabled_description": "Two-factor authentication is now enabled. Scan the QR code or enter the setup key in your authenticator app.",
+        "verify_title": "Verify Authentication Code",
+        "verify_description": "Enter the 6-digit code from your authenticator app",
+        "enable_title": "Enable Two-Factor Authentication",
+        "enable_description": "To finish enabling two-factor authentication, scan the QR code or enter the setup key in your authenticator app",
+        "or_enter_manually": "or, enter the code manually"
+    },
+    "recovery_codes": {
+        "title": "2FA Recovery Codes",
+        "description": "Recovery codes let you regain access if you lose your 2FA device. Store them in a secure password manager.",
+        "view": "View Recovery Codes",
+        "hide": "Hide Recovery Codes",
+        "regenerate": "Regenerate Codes",
+        "loading": "Loading recovery codes",
+        "warning": "Each recovery code can be used once to access your account and will be removed after use. If you need more, click Regenerate Codes above."
     },
     "notifications": {
         "title": "Notification Preferences",
@@ -60,7 +76,11 @@
         "theme_label": "Theme",
         "theme_light": "Light",
         "theme_dark": "Dark",
-        "theme_system": "System"
+        "theme_system": "System",
+        "light": "Light",
+        "dark": "Dark",
+        "system": "System",
+        "toggle_theme": "Toggle theme"
     },
     "company": {
         "title": "Company Settings",
@@ -155,5 +175,18 @@
         "delete_account_description": "Permanently delete your account and all associated data",
         "delete_account_button": "Delete Account",
         "delete_account_confirm": "Are you sure you want to delete your account? This action cannot be undone."
+    },
+    "delete_account": {
+        "title": "Delete account",
+        "description": "Delete your account and all of its resources",
+        "warning": "Warning",
+        "warning_message": "Please proceed with caution, this cannot be undone.",
+        "button": "Delete account",
+        "confirm_title": "Are you sure you want to delete your account?",
+        "confirm_description": "Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.",
+        "password": "Password",
+        "password_placeholder": "Password",
+        "cancel": "Cancel",
+        "confirm_button": "Delete account"
     }
 }

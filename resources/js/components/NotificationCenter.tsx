@@ -21,6 +21,7 @@ import {
     X,
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Notification {
     id: string;
@@ -59,6 +60,7 @@ export default function NotificationCenter({
     initialNotifications = [],
     unreadCount: initialUnreadCount = 0,
 }: NotificationCenterProps) {
+    const { t } = useTranslation('common');
     const [notifications, setNotifications] =
         useState<Notification[]>(initialNotifications);
     const [unreadCount, setUnreadCount] = useState(initialUnreadCount);
@@ -179,21 +181,33 @@ export default function NotificationCenter({
 
         switch (type) {
             case 'work_order_assigned':
-                return `Work Order Assigned: ${data.work_order_title || 'New Task'}`;
+                return t('notifications.types.work_order_assigned_title', {
+                    title: data.work_order_title || t('notifications.new_task'),
+                });
             case 'work_order_overdue':
-                return `Work Order Overdue: ${data.work_order_title || 'Task'}`;
+                return t('notifications.types.work_order_overdue_title', {
+                    title: data.work_order_title || t('notifications.task'),
+                });
             case 'preventive_task_due':
-                return `PM Due: ${data.task_title || 'Task'}`;
+                return t('notifications.types.pm_due_title', {
+                    title: data.task_title || t('notifications.task'),
+                });
             case 'part_low_stock':
-                return `Low Stock: ${data.part_name || 'Part'}`;
+                return t('notifications.types.low_stock_title', {
+                    part: data.part_name || t('notifications.part'),
+                });
             case 'sensor_alert':
-                return `Sensor Alert: ${data.machine_name || 'Machine'}`;
+                return t('notifications.types.sensor_alert_title', {
+                    machine: data.machine_name || t('notifications.machine'),
+                });
             case 'budget_exceeded':
-                return 'Budget Exceeded';
+                return t('notifications.types.budget_exceeded_title');
             case 'production_run_complete':
-                return `Production Complete: ${data.machine_name || 'Machine'}`;
+                return t('notifications.types.production_complete_title', {
+                    machine: data.machine_name || t('notifications.machine'),
+                });
             default:
-                return 'Notification';
+                return t('notifications.notification');
         }
     };
 
@@ -202,17 +216,23 @@ export default function NotificationCenter({
 
         switch (type) {
             case 'work_order_assigned':
-                return `${data.machine_name || ''} • Priority: ${data.priority || 'Normal'}`;
+                return `${data.machine_name || ''} • ${t('notifications.priority')}: ${data.priority || t('notifications.normal')}`;
             case 'work_order_overdue':
-                return `${data.days_overdue || 0} days overdue`;
+                return t('notifications.days_overdue', {
+                    count: data.days_overdue || 0,
+                });
             case 'preventive_task_due':
-                return `Due ${data.due_date || ''}`;
+                return t('notifications.due_on', { date: data.due_date || '' });
             case 'part_low_stock':
-                return `Only ${data.quantity_available || 0} remaining`;
+                return t('notifications.remaining', {
+                    count: data.quantity_available || 0,
+                });
             case 'sensor_alert':
-                return `${data.sensor_type || 'Sensor'} ${data.alert_type || 'alert'}`;
+                return `${data.sensor_type || t('notifications.sensor')} ${data.alert_type || t('notifications.alert')}`;
             case 'budget_exceeded':
-                return `Exceeded by $${data.variance || 0}`;
+                return t('notifications.exceeded_by', {
+                    amount: data.variance || 0,
+                });
             case 'production_run_complete':
                 return `OEE: ${data.oee || 'N/A'}%`;
             default:
@@ -269,15 +289,15 @@ export default function NotificationCenter({
         const diffMs = now.getTime() - date.getTime();
         const diffMins = Math.floor(diffMs / 60000);
 
-        if (diffMins < 1) return 'Just now';
-        if (diffMins < 60) return `${diffMins}m ago`;
+        if (diffMins < 1) return t('time.just_now');
+        if (diffMins < 60) return t('time.minutes_ago', { count: diffMins });
 
         const diffHours = Math.floor(diffMins / 60);
-        if (diffHours < 24) return `${diffHours}h ago`;
+        if (diffHours < 24) return t('time.hours_ago', { count: diffHours });
 
         const diffDays = Math.floor(diffHours / 24);
-        if (diffDays === 1) return 'Yesterday';
-        if (diffDays < 7) return `${diffDays}d ago`;
+        if (diffDays === 1) return t('time.yesterday');
+        if (diffDays < 7) return t('time.days_ago', { count: diffDays });
 
         return date.toLocaleDateString();
     };
@@ -299,7 +319,9 @@ export default function NotificationCenter({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-96 p-0">
                 <div className="flex items-center justify-between border-b px-4 py-3">
-                    <h3 className="text-lg font-semibold">Notifications</h3>
+                    <h3 className="text-lg font-semibold">
+                        {t('notifications.title')}
+                    </h3>
                     {unreadCount > 0 && (
                         <Button
                             variant="ghost"
@@ -308,7 +330,7 @@ export default function NotificationCenter({
                             className="text-xs"
                         >
                             <Check className="mr-1 h-3 w-3" />
-                            Mark all read
+                            {t('notifications.mark_all_read')}
                         </Button>
                     )}
                 </div>
@@ -318,10 +340,10 @@ export default function NotificationCenter({
                         <div className="flex flex-col items-center justify-center px-4 py-12 text-center">
                             <Bell className="mb-3 h-12 w-12 text-gray-400" />
                             <p className="font-medium text-gray-600">
-                                No notifications
+                                {t('notifications.no_notifications')}
                             </p>
                             <p className="mt-1 text-sm text-gray-500">
-                                You're all caught up!
+                                {t('notifications.all_caught_up')}
                             </p>
                         </div>
                     ) : (
@@ -415,7 +437,7 @@ export default function NotificationCenter({
                                 setIsOpen(false);
                             }}
                         >
-                            View all notifications
+                            {t('notifications.view_all')}
                         </Button>
                     </div>
                 )}

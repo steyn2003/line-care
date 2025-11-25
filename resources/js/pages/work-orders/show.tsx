@@ -51,6 +51,7 @@ import {
     UserPlus,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Machine {
     id: number;
@@ -174,6 +175,7 @@ export default function WorkOrderShow({
     spare_parts,
     user,
 }: Props) {
+    const { t } = useTranslation('workorders');
     const [showCompleteModal, setShowCompleteModal] = useState(false);
     const [selectedParts, setSelectedParts] = useState<
         Array<{
@@ -305,31 +307,31 @@ export default function WorkOrderShow({
                             className="text-muted-foreground"
                         >
                             <ArrowLeft className="mr-2 h-4 w-4" />
-                            Back to Work Orders
+                            {t('detail.back_to_work_orders')}
                         </Button>
                         <div className="flex items-center gap-2">
                             <Badge className={typeColors[work_order.type]}>
                                 {work_order.type === 'breakdown' ? (
                                     <>
                                         <AlertTriangle className="mr-1 h-3 w-3" />
-                                        Breakdown
+                                        {t('type.breakdown')}
                                     </>
                                 ) : (
                                     <>
                                         <Calendar className="mr-1 h-3 w-3" />
-                                        Preventive
+                                        {t('type.preventive')}
                                     </>
                                 )}
                             </Badge>
                             <Badge className={statusColors[work_order.status]}>
-                                {work_order.status.replace('_', ' ')}
+                                {t(`status.${work_order.status}`)}
                             </Badge>
                         </div>
                         <h1 className="text-3xl font-bold tracking-tight text-foreground">
                             {work_order.title}
                         </h1>
                         <p className="text-sm text-muted-foreground">
-                            WO #{work_order.id}
+                            {t('detail.wo_number', { id: work_order.id })}
                         </p>
                     </div>
 
@@ -338,13 +340,13 @@ export default function WorkOrderShow({
                         {canStart && (
                             <Button onClick={handleStartWork}>
                                 <Play className="mr-2 h-4 w-4" />
-                                Start Work
+                                {t('actions.start_work')}
                             </Button>
                         )}
                         {canComplete && (
                             <Button onClick={() => setShowCompleteModal(true)}>
                                 <Check className="mr-2 h-4 w-4" />
-                                Complete
+                                {t('actions.complete')}
                             </Button>
                         )}
                         {!work_order.assignee && canEdit && (
@@ -353,7 +355,7 @@ export default function WorkOrderShow({
                                 onClick={handleAssignToMe}
                             >
                                 <UserPlus className="mr-2 h-4 w-4" />
-                                Assign to Me
+                                {t('actions.assign')}
                             </Button>
                         )}
                     </div>
@@ -365,12 +367,12 @@ export default function WorkOrderShow({
                         {/* Summary */}
                         <Card className="border-border">
                             <CardHeader>
-                                <CardTitle>Details</CardTitle>
+                                <CardTitle>{t('detail.details')}</CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
                                 <div>
                                     <span className="text-sm font-medium text-muted-foreground">
-                                        Machine
+                                        {t('detail.machine')}
                                     </span>
                                     <div className="mt-1">
                                         <Link
@@ -395,7 +397,7 @@ export default function WorkOrderShow({
                                 {work_order.description && (
                                     <div>
                                         <span className="text-sm font-medium text-muted-foreground">
-                                            Description
+                                            {t('detail.description')}
                                         </span>
                                         <p className="mt-1 text-sm whitespace-pre-wrap text-foreground">
                                             {work_order.description}
@@ -406,7 +408,7 @@ export default function WorkOrderShow({
                                 {work_order.cause_category && (
                                     <div>
                                         <span className="text-sm font-medium text-muted-foreground">
-                                            Cause Category
+                                            {t('detail.cause_category')}
                                         </span>
                                         <p className="mt-1 text-sm text-foreground">
                                             {work_order.cause_category.name}
@@ -419,7 +421,7 @@ export default function WorkOrderShow({
                         {/* Timeline */}
                         <Card className="border-border">
                             <CardHeader>
-                                <CardTitle>Timeline</CardTitle>
+                                <CardTitle>{t('detail.timeline')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-4">
@@ -436,10 +438,11 @@ export default function WorkOrderShow({
                                         </div>
                                         <div className="flex-1 pb-4">
                                             <p className="text-sm font-medium text-foreground">
-                                                Created
+                                                {t('detail.created')}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
-                                                by {work_order.creator.name}
+                                                {t('detail.by')}{' '}
+                                                {work_order.creator.name}
                                             </p>
                                             <p className="text-xs text-muted-foreground">
                                                 {formatDateTime(
@@ -462,11 +465,11 @@ export default function WorkOrderShow({
                                             </div>
                                             <div className="flex-1 pb-4">
                                                 <p className="text-sm font-medium text-foreground">
-                                                    Started
+                                                    {t('detail.started')}
                                                 </p>
                                                 {work_order.assignee && (
                                                     <p className="text-xs text-muted-foreground">
-                                                        by{' '}
+                                                        {t('detail.by')}{' '}
                                                         {
                                                             work_order.assignee
                                                                 .name
@@ -492,7 +495,7 @@ export default function WorkOrderShow({
                                             </div>
                                             <div className="flex-1">
                                                 <p className="text-sm font-medium text-foreground">
-                                                    Completed
+                                                    {t('detail.completed')}
                                                 </p>
                                                 <p className="text-xs text-muted-foreground">
                                                     {formatDateTime(
@@ -501,7 +504,7 @@ export default function WorkOrderShow({
                                                 </p>
                                                 {calculateDowntime() && (
                                                     <p className="text-xs text-muted-foreground">
-                                                        Downtime:{' '}
+                                                        {t('detail.downtime')}:{' '}
                                                         {calculateDowntime()}
                                                     </p>
                                                 )}
@@ -516,9 +519,13 @@ export default function WorkOrderShow({
                         {work_order.maintenance_logs.length > 0 && (
                             <Card className="border-border">
                                 <CardHeader>
-                                    <CardTitle>Maintenance Logs</CardTitle>
+                                    <CardTitle>
+                                        {t('detail.maintenance_logs')}
+                                    </CardTitle>
                                     <CardDescription>
-                                        Work performed and notes
+                                        {t(
+                                            'detail.maintenance_logs_description',
+                                        )}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
@@ -543,7 +550,10 @@ export default function WorkOrderShow({
                                                     {log.work_done && (
                                                         <div>
                                                             <p className="text-xs font-medium text-muted-foreground">
-                                                                Work Done:
+                                                                {t(
+                                                                    'detail.work_done',
+                                                                )}
+                                                                :
                                                             </p>
                                                             <p className="text-sm whitespace-pre-wrap text-foreground">
                                                                 {log.work_done}
@@ -554,7 +564,10 @@ export default function WorkOrderShow({
                                                     {log.parts_used && (
                                                         <div>
                                                             <p className="text-xs font-medium text-muted-foreground">
-                                                                Parts Used:
+                                                                {t(
+                                                                    'detail.parts_used',
+                                                                )}
+                                                                :
                                                             </p>
                                                             <p className="text-sm text-foreground">
                                                                 {log.parts_used}
@@ -565,7 +578,10 @@ export default function WorkOrderShow({
                                                     {log.notes && (
                                                         <div>
                                                             <p className="text-xs font-medium text-muted-foreground">
-                                                                Notes:
+                                                                {t(
+                                                                    'detail.notes',
+                                                                )}
+                                                                :
                                                             </p>
                                                             <p className="text-sm whitespace-pre-wrap text-foreground">
                                                                 {log.notes}
@@ -585,10 +601,13 @@ export default function WorkOrderShow({
                             work_order.spare_parts.length > 0 && (
                                 <Card className="border-border">
                                     <CardHeader>
-                                        <CardTitle>Spare Parts Used</CardTitle>
+                                        <CardTitle>
+                                            {t('detail.spare_parts_used')}
+                                        </CardTitle>
                                         <CardDescription>
-                                            Parts consumed during this work
-                                            order
+                                            {t(
+                                                'detail.spare_parts_description',
+                                            )}
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent>
@@ -596,17 +615,21 @@ export default function WorkOrderShow({
                                             <TableHeader>
                                                 <TableRow>
                                                     <TableHead>
-                                                        Part Number
+                                                        {t(
+                                                            'detail.part_number',
+                                                        )}
                                                     </TableHead>
-                                                    <TableHead>Name</TableHead>
-                                                    <TableHead className="text-right">
-                                                        Quantity
-                                                    </TableHead>
-                                                    <TableHead className="text-right">
-                                                        Unit Cost
+                                                    <TableHead>
+                                                        {t('detail.name')}
                                                     </TableHead>
                                                     <TableHead className="text-right">
-                                                        Total
+                                                        {t('detail.quantity')}
+                                                    </TableHead>
+                                                    <TableHead className="text-right">
+                                                        {t('detail.unit_cost')}
+                                                    </TableHead>
+                                                    <TableHead className="text-right">
+                                                        {t('detail.total')}
                                                     </TableHead>
                                                 </TableRow>
                                             </TableHeader>
@@ -661,7 +684,7 @@ export default function WorkOrderShow({
                         {/* Assignment */}
                         <Card className="border-border">
                             <CardHeader>
-                                <CardTitle>Assignment</CardTitle>
+                                <CardTitle>{t('detail.assignment')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 {work_order.assignee ? (
@@ -680,7 +703,7 @@ export default function WorkOrderShow({
                                     </div>
                                 ) : (
                                     <p className="text-sm text-muted-foreground">
-                                        Unassigned
+                                        {t('detail.unassigned')}
                                     </p>
                                 )}
                             </CardContent>
@@ -693,17 +716,17 @@ export default function WorkOrderShow({
                                     <CardHeader>
                                         <CardTitle className="flex items-center gap-2">
                                             <DollarSign className="h-5 w-5 text-primary" />
-                                            Cost Breakdown
+                                            {t('detail.cost_breakdown')}
                                         </CardTitle>
                                         <CardDescription>
-                                            Total maintenance costs
+                                            {t('detail.cost_description')}
                                         </CardDescription>
                                     </CardHeader>
                                     <CardContent className="space-y-3">
                                         <div className="space-y-2">
                                             <div className="flex items-center justify-between text-sm">
                                                 <span className="text-muted-foreground">
-                                                    Labor Cost
+                                                    {t('detail.labor_cost')}
                                                 </span>
                                                 <span className="font-medium">
                                                     $
@@ -715,7 +738,7 @@ export default function WorkOrderShow({
                                             </div>
                                             <div className="flex items-center justify-between text-sm">
                                                 <span className="text-muted-foreground">
-                                                    Parts Cost
+                                                    {t('detail.parts_cost')}
                                                 </span>
                                                 <span className="font-medium">
                                                     $
@@ -727,7 +750,7 @@ export default function WorkOrderShow({
                                             </div>
                                             <div className="flex items-center justify-between text-sm">
                                                 <span className="text-muted-foreground">
-                                                    Downtime Cost
+                                                    {t('detail.downtime_cost')}
                                                 </span>
                                                 <span className="font-medium">
                                                     $
@@ -743,7 +766,9 @@ export default function WorkOrderShow({
                                             ) > 0 && (
                                                 <div className="flex items-center justify-between text-sm">
                                                     <span className="text-muted-foreground">
-                                                        External Services
+                                                        {t(
+                                                            'detail.external_services',
+                                                        )}
                                                     </span>
                                                     <span className="font-medium">
                                                         $
@@ -758,7 +783,7 @@ export default function WorkOrderShow({
                                         <div className="border-t pt-2">
                                             <div className="flex items-center justify-between">
                                                 <span className="font-semibold text-foreground">
-                                                    Total Cost
+                                                    {t('detail.total_cost')}
                                                 </span>
                                                 <span className="text-lg font-bold text-primary">
                                                     $
@@ -773,7 +798,7 @@ export default function WorkOrderShow({
                                             href="/costs/report"
                                             className="block text-center text-sm text-primary hover:underline"
                                         >
-                                            View detailed cost report →
+                                            {t('detail.view_cost_report')}
                                         </Link>
                                     </CardContent>
                                 </Card>
@@ -782,7 +807,7 @@ export default function WorkOrderShow({
                         {/* Created By */}
                         <Card className="border-border">
                             <CardHeader>
-                                <CardTitle>Reported By</CardTitle>
+                                <CardTitle>{t('detail.reported_by')}</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="flex items-center gap-3">
@@ -811,16 +836,16 @@ export default function WorkOrderShow({
             >
                 <DialogContent className="sm:max-w-[500px]">
                     <DialogHeader>
-                        <DialogTitle>Complete Work Order</DialogTitle>
+                        <DialogTitle>{t('complete_form.title')}</DialogTitle>
                         <DialogDescription>
-                            Fill in the completion details and notes
+                            {t('complete_form.description')}
                         </DialogDescription>
                     </DialogHeader>
 
                     <div className="space-y-4 py-4">
                         <div className="space-y-2">
                             <Label htmlFor="completed_at">
-                                Completion Time
+                                {t('complete_form.completion_time')}
                             </Label>
                             <Input
                                 id="completed_at"
@@ -840,13 +865,13 @@ export default function WorkOrderShow({
                         {/* Time Tracking Section */}
                         <div className="space-y-3 rounded-md border bg-muted/30 p-3">
                             <p className="text-sm font-medium">
-                                Time Tracking (for cost calculation)
+                                {t('complete_form.time_tracking')}
                             </p>
 
                             <div className="grid grid-cols-2 gap-3">
                                 <div className="space-y-2">
                                     <Label htmlFor="time_started">
-                                        Time Started
+                                        {t('complete_form.time_started')}
                                     </Label>
                                     <Input
                                         id="time_started"
@@ -862,7 +887,7 @@ export default function WorkOrderShow({
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="time_completed">
-                                        Time Completed
+                                        {t('complete_form.time_completed')}
                                     </Label>
                                     <Input
                                         id="time_completed"
@@ -880,7 +905,7 @@ export default function WorkOrderShow({
 
                             <div className="space-y-2">
                                 <Label htmlFor="break_time">
-                                    Break Time (hours)
+                                    {t('complete_form.break_time')}
                                 </Label>
                                 <Input
                                     id="break_time"
@@ -891,18 +916,19 @@ export default function WorkOrderShow({
                                     onChange={(e) =>
                                         setData('break_time', e.target.value)
                                     }
-                                    placeholder="e.g., 0.5 for 30 minutes"
+                                    placeholder={t(
+                                        'complete_form.break_time_placeholder',
+                                    )}
                                 />
                                 <p className="text-xs text-muted-foreground">
-                                    Labor cost will be calculated automatically
-                                    based on your hourly rate
+                                    {t('complete_form.labor_cost_note')}
                                 </p>
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <Label htmlFor="cause_category_id">
-                                Cause Category
+                                {t('complete_form.cause_category')}
                             </Label>
                             <Select
                                 value={data.cause_category_id.toString()}
@@ -911,7 +937,11 @@ export default function WorkOrderShow({
                                 }
                             >
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select cause..." />
+                                    <SelectValue
+                                        placeholder={t(
+                                            'complete_form.select_cause',
+                                        )}
+                                    />
                                 </SelectTrigger>
                                 <SelectContent>
                                     {cause_categories.map((cat) => (
@@ -932,10 +962,14 @@ export default function WorkOrderShow({
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="work_done">Work Done</Label>
+                            <Label htmlFor="work_done">
+                                {t('complete_form.work_done')}
+                            </Label>
                             <Textarea
                                 id="work_done"
-                                placeholder="Describe what was done to fix the issue..."
+                                placeholder={t(
+                                    'complete_form.work_done_placeholder',
+                                )}
                                 value={data.work_done}
                                 onChange={(e) =>
                                     setData('work_done', e.target.value)
@@ -946,27 +980,32 @@ export default function WorkOrderShow({
 
                         <div className="space-y-2">
                             <Label htmlFor="parts_used">
-                                Parts Used (Legacy)
+                                {t('complete_form.parts_used_legacy')}
                             </Label>
                             <Input
                                 id="parts_used"
-                                placeholder="List any parts replaced..."
+                                placeholder={t(
+                                    'complete_form.parts_used_placeholder',
+                                )}
                                 value={data.parts_used}
                                 onChange={(e) =>
                                     setData('parts_used', e.target.value)
                                 }
                             />
                             <p className="text-xs text-muted-foreground">
-                                Use the spare parts section below for tracked
-                                inventory
+                                {t('complete_form.parts_used_note')}
                             </p>
                         </div>
 
                         <div className="space-y-2">
-                            <Label htmlFor="notes">Additional Notes</Label>
+                            <Label htmlFor="notes">
+                                {t('complete_form.additional_notes')}
+                            </Label>
                             <Textarea
                                 id="notes"
-                                placeholder="Any additional observations or notes..."
+                                placeholder={t(
+                                    'complete_form.additional_notes_placeholder',
+                                )}
                                 value={data.notes}
                                 onChange={(e) =>
                                     setData('notes', e.target.value)
@@ -978,7 +1017,9 @@ export default function WorkOrderShow({
                         {/* Spare Parts Selection */}
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                                <Label>Spare Parts Used</Label>
+                                <Label>
+                                    {t('complete_form.spare_parts_used')}
+                                </Label>
                                 <Button
                                     type="button"
                                     variant="outline"
@@ -986,7 +1027,7 @@ export default function WorkOrderShow({
                                     onClick={handleAddPart}
                                 >
                                     <Plus className="mr-2 h-4 w-4" />
-                                    Add Part
+                                    {t('complete_form.add_part')}
                                 </Button>
                             </div>
 
@@ -1021,7 +1062,11 @@ export default function WorkOrderShow({
                                                         }
                                                     >
                                                         <SelectTrigger>
-                                                            <SelectValue placeholder="Select part" />
+                                                            <SelectValue
+                                                                placeholder={t(
+                                                                    'complete_form.select_part',
+                                                                )}
+                                                            />
                                                         </SelectTrigger>
                                                         <SelectContent>
                                                             {spare_parts.map(
@@ -1059,7 +1104,11 @@ export default function WorkOrderShow({
                                                         }
                                                     >
                                                         <SelectTrigger>
-                                                            <SelectValue placeholder="Location" />
+                                                            <SelectValue
+                                                                placeholder={t(
+                                                                    'complete_form.select_location',
+                                                                )}
+                                                            />
                                                         </SelectTrigger>
                                                         <SelectContent>
                                                             {selectedPart?.stocks.map(
@@ -1108,7 +1157,10 @@ export default function WorkOrderShow({
                                                     />
                                                     {part.location_id > 0 && (
                                                         <p className="mt-1 text-xs text-muted-foreground">
-                                                            Max: {availableQty}
+                                                            {t(
+                                                                'complete_form.max',
+                                                            )}
+                                                            : {availableQty}
                                                         </p>
                                                     )}
                                                 </div>
@@ -1135,8 +1187,7 @@ export default function WorkOrderShow({
                             {selectedParts.length === 0 && (
                                 <p className="rounded-md border py-4 text-center text-sm text-muted-foreground">
                                     <Package className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />
-                                    No spare parts added. Click "Add Part" to
-                                    track parts used.
+                                    {t('complete_form.no_parts_added')}
                                 </p>
                             )}
                         </div>
@@ -1151,12 +1202,12 @@ export default function WorkOrderShow({
                             }}
                             disabled={processing}
                         >
-                            Cancel
+                            {t('actions.cancel')}
                         </Button>
                         <Button onClick={handleComplete} disabled={processing}>
                             {processing
-                                ? 'Completing...'
-                                : 'Complete Work Order'}
+                                ? t('complete_form.completing')
+                                : t('complete_form.complete_work_order')}
                         </Button>
                     </DialogFooter>
                 </DialogContent>

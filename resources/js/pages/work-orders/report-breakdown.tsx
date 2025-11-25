@@ -36,6 +36,7 @@ import {
     Send,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Machine {
     id: number;
@@ -59,6 +60,7 @@ export default function ReportBreakdown({
     cause_categories,
     preselected_machine_id,
 }: Props) {
+    const { t } = useTranslation('workorders');
     const [showMoreDetails, setShowMoreDetails] = useState(false);
 
     const { data, setData, post, processing, errors } = useForm({
@@ -82,7 +84,7 @@ export default function ReportBreakdown({
 
     return (
         <AppLayout>
-            <Head title="Report Breakdown" />
+            <Head title={t('report_breakdown.title')} />
 
             <div className="container mx-auto max-w-2xl py-6">
                 {/* Header */}
@@ -94,7 +96,7 @@ export default function ReportBreakdown({
                         className="mb-2 text-muted-foreground"
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
-                        Back
+                        {t('report_breakdown.back')}
                     </Button>
                     <div className="mb-2 flex items-center gap-3">
                         <div className="flex h-12 w-12 items-center justify-center rounded-full bg-destructive/10">
@@ -102,10 +104,10 @@ export default function ReportBreakdown({
                         </div>
                         <div>
                             <h1 className="text-2xl font-bold tracking-tight text-foreground">
-                                Report Breakdown
+                                {t('report_breakdown.title')}
                             </h1>
                             <p className="text-sm text-muted-foreground">
-                                Quickly report a machine breakdown
+                                {t('report_breakdown.subtitle')}
                             </p>
                         </div>
                     </div>
@@ -114,10 +116,11 @@ export default function ReportBreakdown({
                 {/* Form Card */}
                 <Card className="border-border shadow-lg">
                     <CardHeader>
-                        <CardTitle>Breakdown Details</CardTitle>
+                        <CardTitle>
+                            {t('report_breakdown.card_title')}
+                        </CardTitle>
                         <CardDescription>
-                            Fill in the required information. A technician will
-                            be notified.
+                            {t('report_breakdown.card_description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
@@ -128,7 +131,7 @@ export default function ReportBreakdown({
                                     htmlFor="machine_id"
                                     className="text-base"
                                 >
-                                    Machine{' '}
+                                    {t('report_breakdown.machine_label')}{' '}
                                     <span className="text-destructive">*</span>
                                 </Label>
                                 <Select
@@ -141,7 +144,11 @@ export default function ReportBreakdown({
                                         id="machine_id"
                                         className="h-12 bg-background text-base"
                                     >
-                                        <SelectValue placeholder="Select the machine..." />
+                                        <SelectValue
+                                            placeholder={t(
+                                                'report_breakdown.machine_placeholder',
+                                            )}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         {machines.map((machine) => (
@@ -175,12 +182,14 @@ export default function ReportBreakdown({
                             {/* Short Description - Required */}
                             <div className="space-y-2">
                                 <Label htmlFor="title" className="text-base">
-                                    What's wrong?{' '}
+                                    {t('report_breakdown.whats_wrong')}{' '}
                                     <span className="text-destructive">*</span>
                                 </Label>
                                 <Input
                                     id="title"
-                                    placeholder="e.g., Machine won't start, Strange noise, etc."
+                                    placeholder={t(
+                                        'report_breakdown.whats_wrong_placeholder',
+                                    )}
                                     value={data.title}
                                     onChange={(e) =>
                                         setData('title', e.target.value)
@@ -202,7 +211,7 @@ export default function ReportBreakdown({
                                     htmlFor="started_at"
                                     className="text-base"
                                 >
-                                    When did it happen?
+                                    {t('report_breakdown.when_happened')}
                                 </Label>
                                 <div className="flex items-center gap-2">
                                     <Input
@@ -230,11 +239,11 @@ export default function ReportBreakdown({
                                             )
                                         }
                                     >
-                                        Now
+                                        {t('report_breakdown.now')}
                                     </Button>
                                 </div>
                                 <p className="text-xs text-muted-foreground">
-                                    Default is now, change if needed
+                                    {t('report_breakdown.time_hint')}
                                 </p>
                             </div>
 
@@ -249,7 +258,9 @@ export default function ReportBreakdown({
                                         variant="outline"
                                         className="w-full justify-between"
                                     >
-                                        <span>More details (optional)</span>
+                                        <span>
+                                            {t('report_breakdown.more_details')}
+                                        </span>
                                         {showMoreDetails ? (
                                             <ChevronUp className="h-4 w-4" />
                                         ) : (
@@ -264,11 +275,15 @@ export default function ReportBreakdown({
                                             htmlFor="description"
                                             className="text-base"
                                         >
-                                            Detailed Description
+                                            {t(
+                                                'report_breakdown.detailed_description',
+                                            )}
                                         </Label>
                                         <Textarea
                                             id="description"
-                                            placeholder="Any additional details that might help the technician..."
+                                            placeholder={t(
+                                                'report_breakdown.description_placeholder',
+                                            )}
                                             value={data.description}
                                             onChange={(e) =>
                                                 setData(
@@ -280,8 +295,9 @@ export default function ReportBreakdown({
                                             className="resize-none bg-background"
                                         />
                                         <p className="text-xs text-muted-foreground">
-                                            What happened? Any error messages?
-                                            What were you doing?
+                                            {t(
+                                                'report_breakdown.description_hint',
+                                            )}
                                         </p>
                                     </div>
 
@@ -291,7 +307,7 @@ export default function ReportBreakdown({
                                             htmlFor="cause_category_id"
                                             className="text-base"
                                         >
-                                            Type of Issue (if known)
+                                            {t('report_breakdown.issue_type')}
                                         </Label>
                                         <Select
                                             value={
@@ -309,7 +325,11 @@ export default function ReportBreakdown({
                                                 id="cause_category_id"
                                                 className="h-12 bg-background"
                                             >
-                                                <SelectValue placeholder="Not sure / Skip" />
+                                                <SelectValue
+                                                    placeholder={t(
+                                                        'report_breakdown.issue_type_placeholder',
+                                                    )}
+                                                />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {cause_categories.map((cat) => (
@@ -323,20 +343,23 @@ export default function ReportBreakdown({
                                             </SelectContent>
                                         </Select>
                                         <p className="text-xs text-muted-foreground">
-                                            Optional - leave empty if you're not
-                                            sure
+                                            {t(
+                                                'report_breakdown.issue_type_hint',
+                                            )}
                                         </p>
                                     </div>
 
                                     {/* Photo Upload - Placeholder for future */}
                                     <div className="space-y-2">
                                         <Label className="text-base">
-                                            Photos
+                                            {t('report_breakdown.photos')}
                                         </Label>
                                         <div className="rounded-lg border-2 border-dashed border-border p-8 text-center">
                                             <Camera className="mx-auto mb-2 h-8 w-8 text-muted-foreground" />
                                             <p className="text-sm text-muted-foreground">
-                                                Photo upload coming soon
+                                                {t(
+                                                    'report_breakdown.photos_coming_soon',
+                                                )}
                                             </p>
                                         </div>
                                     </div>
@@ -358,12 +381,12 @@ export default function ReportBreakdown({
                                     {processing ? (
                                         <>
                                             <Loader className="mr-2 h-5 w-5 animate-spin" />
-                                            Submitting...
+                                            {t('report_breakdown.submitting')}
                                         </>
                                     ) : (
                                         <>
                                             <Send className="mr-2 h-5 w-5" />
-                                            Report Breakdown
+                                            {t('report_breakdown.submit')}
                                         </>
                                     )}
                                 </Button>
@@ -373,12 +396,7 @@ export default function ReportBreakdown({
                             <div className="border-t border-border pt-2">
                                 <div className="flex items-start gap-2 text-sm text-muted-foreground">
                                     <Info className="mt-0.5 h-4 w-4 flex-shrink-0" />
-                                    <p>
-                                        Your report will be sent to the
-                                        maintenance team immediately. You'll
-                                        receive a work order number for
-                                        tracking.
-                                    </p>
+                                    <p>{t('report_breakdown.help_text')}</p>
                                 </div>
                             </div>
                         </form>
@@ -394,17 +412,18 @@ export default function ReportBreakdown({
                             </div>
                             <div className="space-y-1">
                                 <p className="text-sm font-medium text-foreground">
-                                    Quick Tips
+                                    {t('report_breakdown.quick_tips')}
                                 </p>
                                 <ul className="space-y-1 text-sm text-muted-foreground">
                                     <li>
-                                        • Be specific about what's not working
+                                        • {t('report_breakdown.tip_specific')}
                                     </li>
                                     <li>
-                                        • Mention any error codes or unusual
-                                        sounds
+                                        • {t('report_breakdown.tip_errors')}
                                     </li>
-                                    <li>• Note if this has happened before</li>
+                                    <li>
+                                        • {t('report_breakdown.tip_history')}
+                                    </li>
                                 </ul>
                             </div>
                         </div>

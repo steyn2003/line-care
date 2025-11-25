@@ -37,6 +37,7 @@ import {
     Wrench,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Location {
     id: number;
@@ -192,6 +193,7 @@ export default function Dashboard({
     filters,
     user,
 }: Props) {
+    const { t } = useTranslation('dashboard');
     const [locationFilter, setLocationFilter] = useState<string>(
         filters.location_id?.toString() || 'all',
     );
@@ -246,7 +248,7 @@ export default function Dashboard({
 
     return (
         <AppLayout>
-            <Head title="Dashboard" />
+            <Head title={t('title')} />
 
             <div className="container mx-auto space-y-6 py-6">
                 {/* Header */}
@@ -254,10 +256,10 @@ export default function Dashboard({
                     <div className="flex items-center justify-between">
                         <div>
                             <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                                Welcome back, {user.name}!
+                                {t('welcome', { name: user.name })}
                             </h1>
                             <p className="mt-1 text-muted-foreground">
-                                Here's what's happening with your operations
+                                {t('subtitle')}
                             </p>
                         </div>
                     </div>
@@ -272,7 +274,7 @@ export default function Dashboard({
                                             htmlFor="date-from"
                                             className="text-sm font-medium"
                                         >
-                                            Date From
+                                            {t('filters.date_from')}
                                         </Label>
                                         <div className="relative mt-1.5">
                                             <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -291,7 +293,7 @@ export default function Dashboard({
                                             htmlFor="date-to"
                                             className="text-sm font-medium"
                                         >
-                                            Date To
+                                            {t('filters.date_to')}
                                         </Label>
                                         <div className="relative mt-1.5">
                                             <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -311,7 +313,7 @@ export default function Dashboard({
                                                 htmlFor="location-filter"
                                                 className="text-sm font-medium"
                                             >
-                                                Location
+                                                {t('filters.location')}
                                             </Label>
                                             <Select
                                                 value={locationFilter}
@@ -323,11 +325,17 @@ export default function Dashboard({
                                                     id="location-filter"
                                                     className="mt-1.5 bg-background"
                                                 >
-                                                    <SelectValue placeholder="All locations" />
+                                                    <SelectValue
+                                                        placeholder={t(
+                                                            'filters.all_locations',
+                                                        )}
+                                                    />
                                                 </SelectTrigger>
                                                 <SelectContent>
                                                     <SelectItem value="all">
-                                                        All locations
+                                                        {t(
+                                                            'filters.all_locations',
+                                                        )}
                                                     </SelectItem>
                                                     {locations.map(
                                                         (location) => (
@@ -365,10 +373,10 @@ export default function Dashboard({
                                 </div>
                                 <div className="text-left">
                                     <div className="font-semibold">
-                                        Report Breakdown
+                                        {t('quick_actions.report_breakdown')}
                                     </div>
                                     <div className="text-xs opacity-80">
-                                        Quick report
+                                        {t('quick_actions.quick_report')}
                                     </div>
                                 </div>
                             </div>
@@ -388,10 +396,11 @@ export default function Dashboard({
                                 </div>
                                 <div className="text-left">
                                     <div className="font-semibold">
-                                        Work Orders
+                                        {t('cards.work_orders')}
                                     </div>
                                     <div className="text-xs text-muted-foreground">
-                                        {metrics.open_work_orders_count} open
+                                        {metrics.open_work_orders_count}{' '}
+                                        {t('stats.open').toLowerCase()}
                                     </div>
                                 </div>
                             </div>
@@ -411,10 +420,10 @@ export default function Dashboard({
                                 </div>
                                 <div className="text-left">
                                     <div className="font-semibold">
-                                        Machines
+                                        {t('cards.machines')}
                                     </div>
                                     <div className="text-xs text-muted-foreground">
-                                        Manage equipment
+                                        {t('cards.manage_equipment')}
                                     </div>
                                 </div>
                             </div>
@@ -434,11 +443,13 @@ export default function Dashboard({
                                 </div>
                                 <div className="text-left">
                                     <div className="font-semibold">
-                                        Spare Parts
+                                        {t('cards.spare_parts')}
                                     </div>
                                     <div className="text-xs text-muted-foreground">
-                                        {metrics.inventory.total_parts_count}{' '}
-                                        parts
+                                        {t('cards.parts_count', {
+                                            count: metrics.inventory
+                                                .total_parts_count,
+                                        })}
                                     </div>
                                 </div>
                             </div>
@@ -459,7 +470,7 @@ export default function Dashboard({
                             >
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                                     <CardTitle className="text-sm font-medium text-muted-foreground">
-                                        Open
+                                        {t('stats.open')}
                                     </CardTitle>
                                     <ClipboardList className="h-4 w-4 text-muted-foreground" />
                                 </CardHeader>
@@ -468,7 +479,7 @@ export default function Dashboard({
                                         {metrics.open_work_orders_count}
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        work orders
+                                        {t('stats.work_orders')}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -483,7 +494,7 @@ export default function Dashboard({
                             >
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                                     <CardTitle className="text-sm font-medium text-muted-foreground">
-                                        In Progress
+                                        {t('stats.in_progress')}
                                     </CardTitle>
                                     <Wrench className="h-4 w-4 text-blue-500" />
                                 </CardHeader>
@@ -492,7 +503,7 @@ export default function Dashboard({
                                         {metrics.in_progress_work_orders_count}
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        being worked on
+                                        {t('stats.being_worked_on')}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -507,7 +518,7 @@ export default function Dashboard({
                             >
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                                     <CardTitle className="text-sm font-medium text-muted-foreground">
-                                        Overdue PM
+                                        {t('stats.overdue_pm')}
                                     </CardTitle>
                                     <Clock className="h-4 w-4 text-destructive" />
                                 </CardHeader>
@@ -516,7 +527,7 @@ export default function Dashboard({
                                         {metrics.overdue_preventive_tasks_count}
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        past due date
+                                        {t('stats.past_due_date')}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -524,7 +535,7 @@ export default function Dashboard({
                             <Card className="border-border">
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                                     <CardTitle className="text-sm font-medium text-muted-foreground">
-                                        Breakdowns
+                                        {t('stats.breakdowns')}
                                     </CardTitle>
                                     <AlertTriangle className="h-4 w-4 text-orange-500" />
                                 </CardHeader>
@@ -533,7 +544,7 @@ export default function Dashboard({
                                         {metrics.breakdowns_in_range}
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        in selected period
+                                        {t('stats.in_selected_period')}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -541,7 +552,7 @@ export default function Dashboard({
                             <Card className="border-border">
                                 <CardHeader className="flex flex-row items-center justify-between pb-2">
                                     <CardTitle className="text-sm font-medium text-muted-foreground">
-                                        Completed
+                                        {t('stats.completed')}
                                     </CardTitle>
                                     <CheckCircle2 className="h-4 w-4 text-green-500" />
                                 </CardHeader>
@@ -550,7 +561,7 @@ export default function Dashboard({
                                         {metrics.completed_in_range}
                                     </div>
                                     <p className="text-xs text-muted-foreground">
-                                        in selected period
+                                        {t('stats.in_selected_period')}
                                     </p>
                                 </CardContent>
                             </Card>
@@ -566,7 +577,7 @@ export default function Dashboard({
                                 <CardHeader className="pb-2">
                                     <div className="flex items-center justify-between">
                                         <CardTitle className="text-sm font-medium text-muted-foreground">
-                                            Maintenance Costs
+                                            {t('costs.title')}
                                         </CardTitle>
                                         <DollarSign className="h-4 w-4 text-muted-foreground" />
                                     </div>
@@ -580,7 +591,7 @@ export default function Dashboard({
                                         </div>
                                         <div className="flex items-center gap-1 text-xs">
                                             <span className="text-muted-foreground">
-                                                This month
+                                                {t('costs.this_month')}
                                             </span>
                                             {metrics.costs
                                                 .month_change_percent !== 0 && (
@@ -613,7 +624,7 @@ export default function Dashboard({
                                         <div className="space-y-1">
                                             <div className="flex justify-between text-xs">
                                                 <span className="text-muted-foreground">
-                                                    Budget
+                                                    {t('costs.budget')}
                                                 </span>
                                                 <span
                                                     className={
@@ -628,7 +639,7 @@ export default function Dashboard({
                                                         metrics.costs
                                                             .budget_used_percent
                                                     }
-                                                    % used
+                                                    % {t('costs.used')}
                                                 </span>
                                             </div>
                                             <Progress
@@ -654,7 +665,7 @@ export default function Dashboard({
                                 <CardHeader className="pb-2">
                                     <div className="flex items-center justify-between">
                                         <CardTitle className="text-sm font-medium text-muted-foreground">
-                                            Inventory Status
+                                            {t('inventory.title')}
                                         </CardTitle>
                                         <Package className="h-4 w-4 text-muted-foreground" />
                                     </div>
@@ -668,7 +679,7 @@ export default function Dashboard({
                                             )}
                                         </span>
                                         <span className="text-xs text-muted-foreground">
-                                            total value
+                                            {t('inventory.total_value')}
                                         </span>
                                     </div>
                                     <div className="flex gap-4 text-sm">
@@ -681,7 +692,7 @@ export default function Dashboard({
                                                         metrics.inventory
                                                             .low_stock_count
                                                     }{' '}
-                                                    low stock
+                                                    {t('inventory.low_stock')}
                                                 </span>
                                             </div>
                                         )}
@@ -694,7 +705,7 @@ export default function Dashboard({
                                                         metrics.inventory
                                                             .critical_out_of_stock
                                                     }{' '}
-                                                    critical
+                                                    {t('inventory.critical')}
                                                 </span>
                                             </div>
                                         )}
@@ -707,7 +718,7 @@ export default function Dashboard({
                                                         metrics.inventory
                                                             .pending_pos_count
                                                     }{' '}
-                                                    POs pending
+                                                    {t('inventory.pos_pending')}
                                                 </span>
                                             </div>
                                         )}
@@ -723,7 +734,7 @@ export default function Dashboard({
                                 <CardHeader className="pb-2">
                                     <div className="flex items-center justify-between">
                                         <CardTitle className="text-sm font-medium text-muted-foreground">
-                                            OEE Performance
+                                            {t('oee.title')}
                                         </CardTitle>
                                         <Gauge className="h-4 w-4 text-muted-foreground" />
                                     </div>
@@ -736,13 +747,13 @@ export default function Dashboard({
                                             {metrics.oee.avg_oee}%
                                         </span>
                                         <span className="text-xs text-muted-foreground">
-                                            avg OEE
+                                            {t('oee.avg_oee')}
                                         </span>
                                     </div>
                                     <div className="grid grid-cols-3 gap-2 text-xs">
                                         <div>
                                             <div className="text-muted-foreground">
-                                                Availability
+                                                {t('oee.availability')}
                                             </div>
                                             <div className="font-medium">
                                                 {metrics.oee.avg_availability}%
@@ -750,7 +761,7 @@ export default function Dashboard({
                                         </div>
                                         <div>
                                             <div className="text-muted-foreground">
-                                                Performance
+                                                {t('oee.performance')}
                                             </div>
                                             <div className="font-medium">
                                                 {metrics.oee.avg_performance}%
@@ -758,7 +769,7 @@ export default function Dashboard({
                                         </div>
                                         <div>
                                             <div className="text-muted-foreground">
-                                                Quality
+                                                {t('oee.quality')}
                                             </div>
                                             <div className="font-medium">
                                                 {metrics.oee.avg_quality}%
@@ -777,10 +788,12 @@ export default function Dashboard({
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <CardTitle>
-                                                Recent Work Orders
+                                                {t('recent_work_orders.title')}
                                             </CardTitle>
                                             <CardDescription>
-                                                Latest maintenance activities
+                                                {t(
+                                                    'recent_work_orders.description',
+                                                )}
                                             </CardDescription>
                                         </div>
                                         <Button
@@ -789,7 +802,9 @@ export default function Dashboard({
                                             asChild
                                         >
                                             <Link href="/work-orders">
-                                                View All
+                                                {t(
+                                                    'recent_work_orders.view_all',
+                                                )}
                                                 <ArrowRight className="ml-2 h-4 w-4" />
                                             </Link>
                                         </Button>
@@ -817,7 +832,9 @@ export default function Dashboard({
                                                             <p className="text-sm text-muted-foreground">
                                                                 {wo.machine
                                                                     ?.name ||
-                                                                    'No machine'}
+                                                                    t(
+                                                                        'recent_work_orders.no_machine',
+                                                                    )}
                                                             </p>
                                                         </div>
                                                         <Badge
@@ -836,7 +853,9 @@ export default function Dashboard({
                                             )
                                         ) : (
                                             <p className="py-4 text-center text-muted-foreground">
-                                                No recent work orders
+                                                {t(
+                                                    'recent_work_orders.no_recent',
+                                                )}
                                             </p>
                                         )}
                                     </div>
@@ -849,10 +868,12 @@ export default function Dashboard({
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <CardTitle>
-                                                Upcoming PM Tasks
+                                                {t('upcoming_tasks.title')}
                                             </CardTitle>
                                             <CardDescription>
-                                                Due in the next 7 days
+                                                {t(
+                                                    'upcoming_tasks.description',
+                                                )}
                                             </CardDescription>
                                         </div>
                                         <Button
@@ -861,7 +882,7 @@ export default function Dashboard({
                                             asChild
                                         >
                                             <Link href="/preventive-tasks">
-                                                View All
+                                                {t('upcoming_tasks.view_all')}
                                                 <ArrowRight className="ml-2 h-4 w-4" />
                                             </Link>
                                         </Button>
@@ -888,7 +909,9 @@ export default function Dashboard({
                                                             <p className="text-sm text-muted-foreground">
                                                                 {task.machine
                                                                     ?.name ||
-                                                                    'No machine'}
+                                                                    t(
+                                                                        'upcoming_tasks.no_machine',
+                                                                    )}
                                                             </p>
                                                         </div>
                                                         <div className="text-right">
@@ -898,7 +921,9 @@ export default function Dashboard({
                                                                 )}
                                                             </p>
                                                             <p className="text-xs text-muted-foreground">
-                                                                Every{' '}
+                                                                {t(
+                                                                    'upcoming_tasks.every',
+                                                                )}{' '}
                                                                 {
                                                                     task.schedule_interval_value
                                                                 }{' '}
@@ -912,7 +937,7 @@ export default function Dashboard({
                                             )
                                         ) : (
                                             <p className="py-4 text-center text-muted-foreground">
-                                                No upcoming tasks
+                                                {t('upcoming_tasks.no_tasks')}
                                             </p>
                                         )}
                                     </div>
@@ -929,10 +954,14 @@ export default function Dashboard({
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <CardTitle>
-                                                    Problem Machines
+                                                    {t(
+                                                        'problem_machines.title',
+                                                    )}
                                                 </CardTitle>
                                                 <CardDescription>
-                                                    Most breakdowns in period
+                                                    {t(
+                                                        'problem_machines.description',
+                                                    )}
                                                 </CardDescription>
                                             </div>
                                             <Button
@@ -941,7 +970,9 @@ export default function Dashboard({
                                                 asChild
                                             >
                                                 <Link href="/reports/downtime">
-                                                    Details
+                                                    {t(
+                                                        'problem_machines.details',
+                                                    )}
                                                     <ArrowRight className="ml-2 h-4 w-4" />
                                                 </Link>
                                             </Button>
@@ -981,7 +1012,9 @@ export default function Dashboard({
                                                             {
                                                                 machine.breakdown_count
                                                             }{' '}
-                                                            breakdowns
+                                                            {t(
+                                                                'problem_machines.breakdowns',
+                                                            )}
                                                         </Badge>
                                                     </div>
                                                 ),
@@ -998,10 +1031,12 @@ export default function Dashboard({
                                         <div className="flex items-center justify-between">
                                             <div>
                                                 <CardTitle>
-                                                    Low Stock Alert
+                                                    {t('low_stock_alert.title')}
                                                 </CardTitle>
                                                 <CardDescription>
-                                                    Parts needing reorder
+                                                    {t(
+                                                        'low_stock_alert.description',
+                                                    )}
                                                 </CardDescription>
                                             </div>
                                             <Button
@@ -1010,7 +1045,9 @@ export default function Dashboard({
                                                 asChild
                                             >
                                                 <Link href="/inventory/low-stock">
-                                                    View All
+                                                    {t(
+                                                        'low_stock_alerts.view_all',
+                                                    )}
                                                     <ArrowRight className="ml-2 h-4 w-4" />
                                                 </Link>
                                             </Button>
@@ -1046,10 +1083,14 @@ export default function Dashboard({
                                                                 {
                                                                     part.quantity_on_hand
                                                                 }{' '}
-                                                                in stock
+                                                                {t(
+                                                                    'low_stock_alerts.in_stock',
+                                                                )}
                                                             </p>
                                                             <p className="text-xs text-muted-foreground">
-                                                                Reorder at{' '}
+                                                                {t(
+                                                                    'low_stock_alerts.reorder_at',
+                                                                )}{' '}
                                                                 {
                                                                     part.reorder_point
                                                                 }
@@ -1071,10 +1112,12 @@ export default function Dashboard({
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <CardTitle>
-                                                Recent Production Runs
+                                                {t('production_runs.title')}
                                             </CardTitle>
                                             <CardDescription>
-                                                Latest OEE performance
+                                                {t(
+                                                    'production_runs.description',
+                                                )}
                                             </CardDescription>
                                         </div>
                                         <Button
@@ -1083,7 +1126,7 @@ export default function Dashboard({
                                             asChild
                                         >
                                             <Link href="/production/runs">
-                                                View All
+                                                {t('production_runs.view_all')}
                                                 <ArrowRight className="ml-2 h-4 w-4" />
                                             </Link>
                                         </Button>
@@ -1095,13 +1138,19 @@ export default function Dashboard({
                                             <thead>
                                                 <tr className="border-b text-left text-sm text-muted-foreground">
                                                     <th className="pb-2 font-medium">
-                                                        Machine
+                                                        {t(
+                                                            'production_runs.machine',
+                                                        )}
                                                     </th>
                                                     <th className="pb-2 font-medium">
-                                                        Product
+                                                        {t(
+                                                            'production_runs.product',
+                                                        )}
                                                     </th>
                                                     <th className="pb-2 font-medium">
-                                                        Date
+                                                        {t(
+                                                            'production_runs.date',
+                                                        )}
                                                     </th>
                                                     <th className="pb-2 text-right font-medium">
                                                         OEE
@@ -1183,9 +1232,9 @@ export default function Dashboard({
                 {user.role === 'operator' && (
                     <Card className="border-border">
                         <CardHeader>
-                            <CardTitle>Quick Access</CardTitle>
+                            <CardTitle>{t('operator.quick_access')}</CardTitle>
                             <CardDescription>
-                                Most common actions
+                                {t('operator.common_actions')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -1194,7 +1243,11 @@ export default function Dashboard({
                                     <Link href="/work-orders/report-breakdown">
                                         <div className="flex flex-col items-center gap-2">
                                             <AlertTriangle className="h-6 w-6" />
-                                            <span>Report Breakdown</span>
+                                            <span>
+                                                {t(
+                                                    'quick_actions.report_breakdown',
+                                                )}
+                                            </span>
                                         </div>
                                     </Link>
                                 </Button>
@@ -1207,7 +1260,9 @@ export default function Dashboard({
                                     <Link href="/work-orders">
                                         <div className="flex flex-col items-center gap-2">
                                             <ClipboardList className="h-6 w-6" />
-                                            <span>My Reports</span>
+                                            <span>
+                                                {t('operator.my_reports')}
+                                            </span>
                                         </div>
                                     </Link>
                                 </Button>
@@ -1227,7 +1282,7 @@ export default function Dashboard({
                                         {metrics.breakdowns_last_7_days}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                        Breakdowns (7 days)
+                                        {t('footer_stats.breakdowns_7_days')}
                                     </p>
                                 </div>
                             </CardContent>
@@ -1240,7 +1295,7 @@ export default function Dashboard({
                                         {metrics.breakdowns_last_30_days}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                        Breakdowns (30 days)
+                                        {t('footer_stats.breakdowns_30_days')}
                                     </p>
                                 </div>
                             </CardContent>
@@ -1253,7 +1308,7 @@ export default function Dashboard({
                                         {metrics.oee.run_count}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                        Production runs
+                                        {t('footer_stats.production_runs')}
                                     </p>
                                 </div>
                             </CardContent>
@@ -1268,7 +1323,7 @@ export default function Dashboard({
                                         )}
                                     </p>
                                     <p className="text-xs text-muted-foreground">
-                                        Costs in period
+                                        {t('footer_stats.costs_in_period')}
                                     </p>
                                 </div>
                             </CardContent>

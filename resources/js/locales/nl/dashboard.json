@@ -1,7 +1,14 @@
 {
     "title": "Dashboard",
-    "welcome": "Welkom terug, {{name}}",
+    "welcome": "Welkom terug, {{name}}!",
+    "subtitle": "Dit is wat er gebeurt met uw operaties",
     "overview": "Overzicht",
+    "filters": {
+        "date_from": "Datum van",
+        "date_to": "Datum tot",
+        "location": "Locatie",
+        "all_locations": "Alle locaties"
+    },
     "stats": {
         "total_machines": "Totaal machines",
         "active_work_orders": "Actieve werkorders",
@@ -10,21 +17,88 @@
         "overdue": "Achterstallig",
         "due_soon": "Binnenkort",
         "open": "Open",
-        "in_progress": "In uitvoering"
+        "in_progress": "In uitvoering",
+        "work_orders": "werkorders",
+        "being_worked_on": "in behandeling",
+        "overdue_pm": "Achterstallig PM",
+        "past_due_date": "na vervaldatum",
+        "breakdowns": "Storingen",
+        "in_selected_period": "in geselecteerde periode",
+        "completed": "Voltooid"
     },
     "cards": {
         "work_orders": "Werkorders",
         "work_orders_description": "Actieve onderhoudsverzoeken",
         "machines": "Machines",
         "machines_description": "Apparatuur onder beheer",
+        "manage_equipment": "Apparatuur beheren",
         "preventive_tasks": "Preventieve taken",
         "preventive_tasks_description": "Gepland onderhoud",
+        "spare_parts": "Reserveonderdelen",
+        "parts_count": "{{count}} onderdelen",
         "oee": "OEE Score",
         "oee_description": "Overall Equipment Effectiveness",
         "mtbf": "MTBF",
         "mtbf_description": "Gemiddelde tijd tussen storingen",
         "mttr": "MTTR",
         "mttr_description": "Gemiddelde reparatietijd"
+    },
+    "quick_actions": {
+        "title": "Snelle acties",
+        "report_breakdown": "Storing melden",
+        "quick_report": "Snelle melding",
+        "create_work_order": "Werkorder aanmaken",
+        "add_machine": "Machine toevoegen",
+        "view_reports": "Rapporten bekijken"
+    },
+    "costs": {
+        "title": "Onderhoudskosten",
+        "this_month": "Deze maand",
+        "budget": "Budget",
+        "used": "gebruikt"
+    },
+    "inventory": {
+        "title": "Voorraadstatus",
+        "total_value": "totale waarde",
+        "low_stock": "lage voorraad",
+        "critical": "kritiek",
+        "pos_pending": "inkooporders in behandeling"
+    },
+    "oee": {
+        "title": "OEE Prestaties",
+        "avg_oee": "gem. OEE",
+        "availability": "Beschikbaarheid",
+        "performance": "Prestatie",
+        "quality": "Kwaliteit"
+    },
+    "recent_work_orders": {
+        "title": "Recente Werkorders",
+        "description": "Laatste onderhoudsactiviteiten",
+        "view_all": "Alles bekijken",
+        "no_machine": "Geen machine",
+        "no_recent": "Geen recente werkorders"
+    },
+    "upcoming_tasks": {
+        "title": "Aankomende PM Taken",
+        "description": "Vervallen in de komende 7 dagen",
+        "view_all": "Alles bekijken",
+        "no_tasks": "Geen aankomende taken",
+        "no_machine": "Geen machine",
+        "every": "Elke"
+    },
+    "problem_machines": {
+        "title": "Probleemmachines",
+        "description": "Meeste storingen in periode",
+        "details": "Details",
+        "breakdowns": "storingen"
+    },
+    "low_stock_alerts": {
+        "title": "Lage Voorraad Waarschuwingen",
+        "description": "Onderdelen onder bestelpunt",
+        "view_all": "Alles bekijken",
+        "no_alerts": "Geen lage voorraad waarschuwingen",
+        "in_stock": "op voorraad",
+        "reorder_at": "bestellen bij"
     },
     "recent_activity": {
         "title": "Recente activiteit",
@@ -37,24 +111,27 @@
         "in_progress": "In uitvoering",
         "completed": "Voltooid"
     },
-    "upcoming_tasks": {
-        "title": "Aankomende preventieve taken",
-        "no_tasks": "Geen aankomende taken",
-        "view_all": "Alle taken bekijken",
-        "due": "Vervalt"
+    "production_runs": {
+        "title": "Recente Productieruns",
+        "description": "Laatste OEE prestaties",
+        "view_all": "Alles bekijken",
+        "machine": "Machine",
+        "product": "Product",
+        "date": "Datum"
     },
-    "low_stock_alerts": {
-        "title": "Lage voorraad waarschuwingen",
-        "no_alerts": "Geen lage voorraad waarschuwingen",
-        "view_all": "Voorraad bekijken",
-        "in_stock": "op voorraad",
-        "reorder_point": "Bestelpunt"
+    "operator": {
+        "quick_access": "Snelle Toegang",
+        "common_actions": "Meest voorkomende acties",
+        "my_reports": "Mijn Meldingen"
     },
-    "quick_actions": {
-        "title": "Snelle acties",
-        "report_breakdown": "Storing melden",
-        "create_work_order": "Werkorder aanmaken",
-        "add_machine": "Machine toevoegen",
-        "view_reports": "Rapporten bekijken"
+    "footer_stats": {
+        "breakdowns_7_days": "Storingen (7 dagen)",
+        "breakdowns_30_days": "Storingen (30 dagen)",
+        "production_runs": "Productieruns",
+        "costs_in_period": "Kosten in periode"
+    },
+    "low_stock_alert": {
+        "title": "Lage Voorraad Waarschuwing",
+        "description": "Onderdelen die besteld moeten worden"
     }
 }

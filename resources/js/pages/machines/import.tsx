@@ -25,6 +25,7 @@ import {
     XCircle,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Location {
     id: number;
@@ -58,6 +59,7 @@ interface Props {
 }
 
 export default function ImportMachines({ preview }: Props) {
+    const { t } = useTranslation('machines');
     const [step, setStep] = useState<'upload' | 'preview' | 'complete'>(
         preview ? 'preview' : 'upload',
     );
@@ -105,7 +107,7 @@ export default function ImportMachines({ preview }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Import Machines" />
+            <Head title={t('import.title')} />
 
             <div className="container mx-auto max-w-4xl py-6">
                 {/* Header */}
@@ -117,13 +119,13 @@ export default function ImportMachines({ preview }: Props) {
                         className="mb-2 text-muted-foreground"
                     >
                         <ArrowLeft className="mr-2 h-4 w-4" />
-                        Back to Machines
+                        {t('import.back')}
                     </Button>
                     <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                        Import Machines from CSV
+                        {t('import.page_title')}
                     </h1>
                     <p className="text-muted-foreground">
-                        Upload a CSV file to bulk import machines
+                        {t('import.subtitle')}
                     </p>
                 </div>
 
@@ -131,10 +133,9 @@ export default function ImportMachines({ preview }: Props) {
                 {step === 'upload' && (
                     <Card>
                         <CardHeader>
-                            <CardTitle>Upload CSV File</CardTitle>
+                            <CardTitle>{t('import.upload_title')}</CardTitle>
                             <CardDescription>
-                                Download our template to get started, then
-                                upload your completed CSV file
+                                {t('import.upload_description')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
@@ -146,11 +147,10 @@ export default function ImportMachines({ preview }: Props) {
                                     className="w-full sm:w-auto"
                                 >
                                     <Download className="mr-2 h-4 w-4" />
-                                    Download CSV Template
+                                    {t('import.download_template')}
                                 </Button>
                                 <p className="mt-2 text-sm text-muted-foreground">
-                                    The template includes example data and
-                                    required columns
+                                    {t('import.template_hint')}
                                 </p>
                             </div>
 
@@ -158,7 +158,7 @@ export default function ImportMachines({ preview }: Props) {
                             <form onSubmit={handleUpload} className="space-y-4">
                                 <div>
                                     <Label htmlFor="file">
-                                        Select CSV File
+                                        {t('import.select_file')}
                                     </Label>
                                     <div className="mt-2">
                                         <input
@@ -171,7 +171,7 @@ export default function ImportMachines({ preview }: Props) {
                                     </div>
                                     {file && (
                                         <p className="mt-2 text-sm text-muted-foreground">
-                                            Selected: {file.name}
+                                            {t('import.selected')}: {file.name}
                                         </p>
                                     )}
                                 </div>
@@ -183,38 +183,22 @@ export default function ImportMachines({ preview }: Props) {
                                 >
                                     <Upload className="mr-2 h-4 w-4" />
                                     {processing
-                                        ? 'Validating...'
-                                        : 'Upload and Validate'}
+                                        ? t('import.validating')
+                                        : t('import.upload_button')}
                                 </Button>
                             </form>
 
                             {/* Instructions */}
                             <div className="rounded-lg border border-border bg-muted/50 p-4">
                                 <h3 className="mb-2 font-semibold text-foreground">
-                                    CSV Format Requirements:
+                                    {t('import.format_title')}
                                 </h3>
                                 <ul className="space-y-1 text-sm text-muted-foreground">
-                                    <li>
-                                        • <strong>name</strong> (required) -
-                                        Machine name
-                                    </li>
-                                    <li>
-                                        • <strong>code</strong> (optional) -
-                                        Machine code/ID
-                                    </li>
-                                    <li>
-                                        • <strong>location</strong> (optional) -
-                                        Location name
-                                    </li>
-                                    <li>
-                                        • <strong>criticality</strong>{' '}
-                                        (optional) - low, medium, or high
-                                        (default: medium)
-                                    </li>
-                                    <li>
-                                        • <strong>status</strong> (optional) -
-                                        active or archived (default: active)
-                                    </li>
+                                    <li>• {t('import.format_name')}</li>
+                                    <li>• {t('import.format_code')}</li>
+                                    <li>• {t('import.format_location')}</li>
+                                    <li>• {t('import.format_criticality')}</li>
+                                    <li>• {t('import.format_status')}</li>
                                 </ul>
                             </div>
                         </CardContent>
@@ -227,7 +211,9 @@ export default function ImportMachines({ preview }: Props) {
                         {/* Summary */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Validation Results</CardTitle>
+                                <CardTitle>
+                                    {t('import.validation_title')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="grid gap-4 sm:grid-cols-3">
@@ -238,7 +224,7 @@ export default function ImportMachines({ preview }: Props) {
                                                 {preview.valid_count}
                                             </div>
                                             <div className="text-sm text-muted-foreground">
-                                                Valid Rows
+                                                {t('import.valid_rows')}
                                             </div>
                                         </div>
                                     </div>
@@ -249,7 +235,7 @@ export default function ImportMachines({ preview }: Props) {
                                                 {preview.invalid_count}
                                             </div>
                                             <div className="text-sm text-muted-foreground">
-                                                Invalid Rows
+                                                {t('import.invalid_rows')}
                                             </div>
                                         </div>
                                     </div>
@@ -260,7 +246,7 @@ export default function ImportMachines({ preview }: Props) {
                                                 {preview.total_count}
                                             </div>
                                             <div className="text-sm text-muted-foreground">
-                                                Total Rows
+                                                {t('import.total_rows')}
                                             </div>
                                         </div>
                                     </div>
@@ -273,10 +259,10 @@ export default function ImportMachines({ preview }: Props) {
                             <Card className="border-destructive">
                                 <CardHeader>
                                     <CardTitle className="text-destructive">
-                                        Validation Errors
+                                        {t('import.errors_title')}
                                     </CardTitle>
                                     <CardDescription>
-                                        These rows will be skipped during import
+                                        {t('import.errors_description')}
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent>
@@ -291,7 +277,8 @@ export default function ImportMachines({ preview }: Props) {
                                                     <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-destructive" />
                                                     <div className="text-sm">
                                                         <strong>
-                                                            Row {error.row}:
+                                                            {t('import.row')}{' '}
+                                                            {error.row}:
                                                         </strong>{' '}
                                                         {error.message}
                                                     </div>
@@ -299,9 +286,11 @@ export default function ImportMachines({ preview }: Props) {
                                             ))}
                                         {preview.errors.length > 10 && (
                                             <p className="text-sm text-muted-foreground">
-                                                ... and{' '}
-                                                {preview.errors.length - 10}{' '}
-                                                more errors
+                                                {t('import.more_errors', {
+                                                    count:
+                                                        preview.errors.length -
+                                                        10,
+                                                })}
                                             </p>
                                         )}
                                     </div>
@@ -312,13 +301,15 @@ export default function ImportMachines({ preview }: Props) {
                         {/* Options */}
                         <Card>
                             <CardHeader>
-                                <CardTitle>Import Options</CardTitle>
+                                <CardTitle>
+                                    {t('import.options_title')}
+                                </CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <div className="space-y-4">
                                     <div>
                                         <Label htmlFor="location_handling">
-                                            How to handle unknown locations?
+                                            {t('import.location_handling')}
                                         </Label>
                                         <Select
                                             value={data.location_handling}
@@ -339,12 +330,12 @@ export default function ImportMachines({ preview }: Props) {
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="create">
-                                                    Create new locations
-                                                    automatically
+                                                    {t(
+                                                        'import.location_create',
+                                                    )}
                                                 </SelectItem>
                                                 <SelectItem value="skip">
-                                                    Skip machines with unknown
-                                                    locations
+                                                    {t('import.location_skip')}
                                                 </SelectItem>
                                             </SelectContent>
                                         </Select>
@@ -362,7 +353,7 @@ export default function ImportMachines({ preview }: Props) {
                                     router.visit('/machines/import');
                                 }}
                             >
-                                Cancel
+                                {t('import.cancel')}
                             </Button>
                             <Button
                                 onClick={handleConfirm}
@@ -371,8 +362,14 @@ export default function ImportMachines({ preview }: Props) {
                                 }
                             >
                                 {processing
-                                    ? 'Importing...'
-                                    : `Import ${preview.valid_count} Machine${preview.valid_count !== 1 ? 's' : ''}`}
+                                    ? t('import.importing')
+                                    : preview.valid_count === 1
+                                      ? t('import.import_button', {
+                                            count: preview.valid_count,
+                                        })
+                                      : t('import.import_button_plural', {
+                                            count: preview.valid_count,
+                                        })}
                             </Button>
                         </div>
                     </div>
@@ -386,13 +383,13 @@ export default function ImportMachines({ preview }: Props) {
                                 <CheckCircle className="h-10 w-10 text-green-600" />
                             </div>
                             <h3 className="mb-2 text-lg font-semibold text-foreground">
-                                Import Complete!
+                                {t('import.complete_title')}
                             </h3>
                             <p className="mb-6 text-center text-sm text-muted-foreground">
-                                Your machines have been successfully imported
+                                {t('import.complete_description')}
                             </p>
                             <Button onClick={() => router.visit('/machines')}>
-                                View Machines
+                                {t('import.view_machines')}
                             </Button>
                         </CardContent>
                     </Card>

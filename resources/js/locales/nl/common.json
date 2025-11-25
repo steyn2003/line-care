@@ -1,4 +1,5 @@
 {
+    "language": "Taal",
     "actions": {
         "save": "Opslaan",
         "cancel": "Annuleren",
@@ -31,7 +32,8 @@
         "duplicate": "Dupliceren",
         "archive": "Archiveren",
         "restore": "Herstellen",
-        "print": "Afdrukken"
+        "print": "Afdrukken",
+        "continue": "Doorgaan"
     },
     "status": {
         "active": "Actief",
@@ -95,7 +97,11 @@
         "time": "Tijd",
         "start_date": "Startdatum",
         "end_date": "Einddatum",
-        "due_date": "Vervaldatum"
+        "due_date": "Vervaldatum",
+        "just_now": "Zojuist",
+        "minutes_ago": "{{count}}m geleden",
+        "hours_ago": "{{count}}u geleden",
+        "days_ago": "{{count}}d geleden"
     },
     "pagination": {
         "previous": "Vorige",
@@ -146,5 +152,53 @@
         "network": "Netwerkfout. Controleer uw verbinding.",
         "server": "Serverfout. Probeer het later opnieuw.",
         "timeout": "Verzoek verlopen. Probeer het opnieuw."
+    },
+    "search": {
+        "placeholder": "Zoeken",
+        "title": "Algemene Zoekfunctie",
+        "description": "Zoek naar machines, werkorders, reserveonderdelen en meer",
+        "input_placeholder": "Zoek machines, werkorders, onderdelen...",
+        "searching": "Zoeken...",
+        "no_results": "Geen resultaten gevonden.",
+        "min_characters": "Typ minimaal 2 tekens om te zoeken",
+        "types": {
+            "pages": "Pagina's",
+            "machines": "Machines",
+            "work_orders": "Werkorders",
+            "preventive_tasks": "Preventieve Taken",
+            "spare_parts": "Reserveonderdelen",
+            "purchase_orders": "Inkooporders",
+            "suppliers": "Leveranciers",
+            "users": "Gebruikers"
+        }
+    },
+    "notifications": {
+        "title": "Meldingen",
+        "mark_all_read": "Alles gelezen",
+        "no_notifications": "Geen meldingen",
+        "all_caught_up": "Je bent helemaal bij!",
+        "view_all": "Alle meldingen bekijken",
+        "notification": "Melding",
+        "new_task": "Nieuwe Taak",
+        "task": "Taak",
+        "part": "Onderdeel",
+        "machine": "Machine",
+        "sensor": "Sensor",
+        "alert": "waarschuwing",
+        "priority": "Prioriteit",
+        "normal": "Normaal",
+        "types": {
+            "work_order_assigned_title": "Werkorder Toegewezen: {{title}}",
+            "work_order_overdue_title": "Werkorder Achterstallig: {{title}}",
+            "pm_due_title": "PM Gepland: {{title}}",
+            "low_stock_title": "Lage Voorraad: {{part}}",
+            "sensor_alert_title": "Sensor Waarschuwing: {{machine}}",
+            "budget_exceeded_title": "Budget Overschreden",
+            "production_complete_title": "Productie Voltooid: {{machine}}"
+        },
+        "days_overdue": "{{count}} dagen achterstallig",
+        "due_on": "Vervaldatum {{date}}",
+        "remaining": "Nog maar {{count}} over",
+        "exceeded_by": "Overschreden met €{{amount}}"
     }
 }

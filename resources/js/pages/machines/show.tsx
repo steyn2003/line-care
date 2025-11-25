@@ -17,6 +17,7 @@ import {
     MapPin,
     Pencil,
 } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 
 interface Location {
     id: number;
@@ -85,6 +86,8 @@ export default function MachineShow({
     work_orders,
     analytics,
 }: Props) {
+    const { t } = useTranslation('machines');
+
     const handleEdit = () => {
         router.visit(`/machines/${machine.id}/edit`);
     };
@@ -109,7 +112,7 @@ export default function MachineShow({
                                 className="text-muted-foreground"
                             >
                                 <ArrowLeft className="mr-2 h-4 w-4" />
-                                Back to Machines
+                                {t('show.back_to_machines')}
                             </Button>
                         </div>
                         <h1 className="text-3xl font-bold tracking-tight text-foreground">
@@ -124,11 +127,11 @@ export default function MachineShow({
                     <div className="flex gap-2">
                         <Button variant="outline" onClick={handleEdit}>
                             <Pencil className="mr-2 h-4 w-4" />
-                            Edit
+                            {t('show.edit')}
                         </Button>
                         <Button onClick={handleReportBreakdown}>
                             <AlertTriangle className="mr-2 h-4 w-4" />
-                            Report Breakdown
+                            {t('show.report_breakdown')}
                         </Button>
                     </div>
                 </div>
@@ -136,26 +139,26 @@ export default function MachineShow({
                 {/* Machine Info */}
                 <Card className="border-border">
                     <CardHeader>
-                        <CardTitle>Machine Details</CardTitle>
+                        <CardTitle>{t('show.machine_details')}</CardTitle>
                     </CardHeader>
                     <CardContent className="grid gap-4 md:grid-cols-2">
                         <div className="space-y-3">
                             <div>
                                 <span className="text-sm font-medium text-muted-foreground">
-                                    Status
+                                    {t('show.status')}
                                 </span>
                                 <div className="mt-1">
                                     <Badge
                                         className={statusColors[machine.status]}
                                     >
-                                        {machine.status}
+                                        {t(`show.status_${machine.status}`)}
                                     </Badge>
                                 </div>
                             </div>
                             {machine.location && (
                                 <div>
                                     <span className="text-sm font-medium text-muted-foreground">
-                                        Location
+                                        {t('show.location')}
                                     </span>
                                     <div className="mt-1 flex items-center text-sm text-foreground">
                                         <MapPin className="mr-2 h-4 w-4 text-muted-foreground" />
@@ -167,7 +170,7 @@ export default function MachineShow({
                         <div className="space-y-3">
                             <div>
                                 <span className="text-sm font-medium text-muted-foreground">
-                                    Criticality
+                                    {t('show.criticality')}
                                 </span>
                                 <div className="mt-1">
                                     <Badge
@@ -177,13 +180,15 @@ export default function MachineShow({
                                             ]
                                         }
                                     >
-                                        {machine.criticality}
+                                        {t(
+                                            `show.criticality_${machine.criticality}`,
+                                        )}
                                     </Badge>
                                 </div>
                             </div>
                             <div>
                                 <span className="text-sm font-medium text-muted-foreground">
-                                    Added
+                                    {t('show.added')}
                                 </span>
                                 <p className="mt-1 text-sm text-foreground">
                                     {new Date(
@@ -199,7 +204,9 @@ export default function MachineShow({
                 <div className="grid gap-4 md:grid-cols-4">
                     <Card className="border-border">
                         <CardHeader className="pb-2">
-                            <CardDescription>Breakdowns (90d)</CardDescription>
+                            <CardDescription>
+                                {t('show.breakdowns_90d')}
+                            </CardDescription>
                             <CardTitle className="text-3xl text-destructive">
                                 {analytics.breakdown_count}
                             </CardTitle>
@@ -208,7 +215,9 @@ export default function MachineShow({
 
                     <Card className="border-border">
                         <CardHeader className="pb-2">
-                            <CardDescription>Preventive (90d)</CardDescription>
+                            <CardDescription>
+                                {t('show.preventive_90d')}
+                            </CardDescription>
                             <CardTitle className="text-3xl text-primary">
                                 {analytics.preventive_count}
                             </CardTitle>
@@ -217,7 +226,9 @@ export default function MachineShow({
 
                     <Card className="border-border">
                         <CardHeader className="pb-2">
-                            <CardDescription>Total Downtime</CardDescription>
+                            <CardDescription>
+                                {t('show.total_downtime')}
+                            </CardDescription>
                             <CardTitle className="text-3xl text-foreground">
                                 {Math.round(
                                     analytics.total_downtime_minutes / 60,
@@ -227,14 +238,18 @@ export default function MachineShow({
                         </CardHeader>
                         <CardContent>
                             <p className="text-xs text-muted-foreground">
-                                {analytics.total_downtime_minutes} minutes
+                                {t('show.minutes', {
+                                    count: analytics.total_downtime_minutes,
+                                })}
                             </p>
                         </CardContent>
                     </Card>
 
                     <Card className="border-border">
                         <CardHeader className="pb-2">
-                            <CardDescription>Avg Resolution</CardDescription>
+                            <CardDescription>
+                                {t('show.avg_resolution')}
+                            </CardDescription>
                             <CardTitle className="text-3xl text-foreground">
                                 {Math.round(
                                     analytics.avg_resolution_time_minutes,
@@ -249,9 +264,11 @@ export default function MachineShow({
                 {analytics.breakdowns_by_cause.length > 0 && (
                     <Card className="border-border">
                         <CardHeader>
-                            <CardTitle>Breakdowns by Cause</CardTitle>
+                            <CardTitle>
+                                {t('show.breakdowns_by_cause')}
+                            </CardTitle>
                             <CardDescription>
-                                Common failure categories
+                                {t('show.common_failure_categories')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -284,16 +301,18 @@ export default function MachineShow({
                     <CardHeader>
                         <div className="flex items-center justify-between">
                             <div>
-                                <CardTitle>Recent Work Orders</CardTitle>
+                                <CardTitle>
+                                    {t('show.recent_work_orders')}
+                                </CardTitle>
                                 <CardDescription>
-                                    Last 10 work orders for this machine
+                                    {t('show.last_10_work_orders')}
                                 </CardDescription>
                             </div>
                             <Button variant="outline" asChild>
                                 <Link
                                     href={`/work-orders?machine_id=${machine.id}`}
                                 >
-                                    View All
+                                    {t('show.view_all')}
                                 </Link>
                             </Button>
                         </div>
@@ -302,7 +321,7 @@ export default function MachineShow({
                         {work_orders.length === 0 ? (
                             <div className="py-8 text-center text-muted-foreground">
                                 <Inbox className="mx-auto mb-2 h-12 w-12" />
-                                <p>No work orders yet</p>
+                                <p>{t('show.no_work_orders')}</p>
                             </div>
                         ) : (
                             <div className="space-y-3">
@@ -323,7 +342,7 @@ export default function MachineShow({
                                                         typeColors[wo.type]
                                                     }
                                                 >
-                                                    {wo.type}
+                                                    {t(`show.type_${wo.type}`)}
                                                 </Badge>
                                                 <Badge
                                                     className={
@@ -332,9 +351,8 @@ export default function MachineShow({
                                                         ]
                                                     }
                                                 >
-                                                    {wo.status.replace(
-                                                        '_',
-                                                        ' ',
+                                                    {t(
+                                                        `show.wo_status_${wo.status}`,
                                                     )}
                                                 </Badge>
                                             </div>

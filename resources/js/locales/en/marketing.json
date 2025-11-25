@@ -1,0 +1,23 @@
+{
+    "nav": {
+        "home": "Home",
+        "solution": "Solution",
+        "features": "Features",
+        "pricing": "Pricing",
+        "for_who": "For who",
+        "about": "About us",
+        "login": "Login",
+        "try_free": "Try free",
+        "dashboard": "Dashboard"
+    },
+    "footer": {
+        "tagline": "Simple maintenance software for small factories.",
+        "product": "Product",
+        "request_demo": "Request demo",
+        "company": "Company",
+        "contact": "Contact",
+        "legal": "Legal",
+        "privacy": "Privacy",
+        "copyright": "© 2025 LineCare. All rights reserved."
+    }
+}

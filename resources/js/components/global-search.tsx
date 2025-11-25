@@ -19,6 +19,7 @@ import {
     Wrench,
 } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface SearchResult {
     id: number;
@@ -54,24 +55,25 @@ const typeIcons: Record<string, React.ElementType> = {
     users: Users,
 };
 
-const typeLabels: Record<string, string> = {
-    pages: 'Pages',
-    machines: 'Machines',
-    work_orders: 'Work Orders',
-    preventive_tasks: 'Preventive Tasks',
-    spare_parts: 'Spare Parts',
-    purchase_orders: 'Purchase Orders',
-    suppliers: 'Suppliers',
-    users: 'Users',
-};
-
 export function GlobalSearch() {
+    const { t } = useTranslation('common');
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<SearchResponse['results'] | null>(
         null,
     );
     const [isLoading, setIsLoading] = useState(false);
+
+    const typeLabels: Record<string, string> = {
+        pages: t('search.types.pages'),
+        machines: t('search.types.machines'),
+        work_orders: t('search.types.work_orders'),
+        preventive_tasks: t('search.types.preventive_tasks'),
+        spare_parts: t('search.types.spare_parts'),
+        purchase_orders: t('search.types.purchase_orders'),
+        suppliers: t('search.types.suppliers'),
+        users: t('search.types.users'),
+    };
 
     // Keyboard shortcut to open search
     useEffect(() => {
@@ -137,7 +139,9 @@ export function GlobalSearch() {
                 onClick={() => setOpen(true)}
             >
                 <Search className="h-4 w-4 xl:mr-2" />
-                <span className="hidden xl:inline-flex">Search...</span>
+                <span className="hidden xl:inline-flex">
+                    {t('search.placeholder')}...
+                </span>
                 <kbd className="pointer-events-none absolute top-1.5 right-1.5 hidden h-6 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 select-none xl:flex">
                     <span className="text-xs">Ctrl</span>K
                 </kbd>
@@ -146,28 +150,28 @@ export function GlobalSearch() {
             <CommandDialog
                 open={open}
                 onOpenChange={setOpen}
-                title="Global Search"
-                description="Search across machines, work orders, spare parts, and more"
+                title={t('search.title')}
+                description={t('search.description')}
             >
                 <CommandInput
-                    placeholder="Search machines, work orders, parts..."
+                    placeholder={t('search.input_placeholder')}
                     value={query}
                     onValueChange={setQuery}
                 />
                 <CommandList>
                     {isLoading && (
                         <div className="py-6 text-center text-sm text-muted-foreground">
-                            Searching...
+                            {t('search.searching')}
                         </div>
                     )}
 
                     {!isLoading && query.length >= 2 && !hasResults && (
-                        <CommandEmpty>No results found.</CommandEmpty>
+                        <CommandEmpty>{t('search.no_results')}</CommandEmpty>
                     )}
 
                     {!isLoading && query.length < 2 && (
                         <div className="py-6 text-center text-sm text-muted-foreground">
-                            Type at least 2 characters to search
+                            {t('search.min_characters')}
                         </div>
                     )}
 

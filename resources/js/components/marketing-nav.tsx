@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
+import { useTranslation } from 'react-i18next';
 
 interface MarketingNavProps {
     canRegister?: boolean;
@@ -13,14 +14,15 @@ export function MarketingNav({
     currentPath = '/',
 }: MarketingNavProps) {
     const { auth } = usePage<SharedData>().props;
+    const { t } = useTranslation('marketing');
 
     const navLinks = [
-        { href: '/', label: 'Home' },
-        { href: '/oplossing', label: 'Oplossing' },
-        { href: '/functionaliteiten', label: 'Functionaliteiten' },
-        { href: '/prijzen', label: 'Prijzen' },
-        { href: '/voor-wie', label: 'Voor wie' },
-        { href: '/over-ons', label: 'Over ons' },
+        { href: '/', label: t('nav.home') },
+        { href: '/oplossing', label: t('nav.solution') },
+        { href: '/functionaliteiten', label: t('nav.features') },
+        { href: '/prijzen', label: t('nav.pricing') },
+        { href: '/voor-wie', label: t('nav.for_who') },
+        { href: '/over-ons', label: t('nav.about') },
     ];
 
     return (
@@ -53,19 +55,21 @@ export function MarketingNav({
                         {auth.user ? (
                             <Link href={dashboard()}>
                                 <Button variant="default" size="sm">
-                                    Dashboard
+                                    {t('nav.dashboard')}
                                 </Button>
                             </Link>
                         ) : (
                             <>
                                 <Link href={login()}>
                                     <Button variant="ghost" size="sm">
-                                        Inloggen
+                                        {t('nav.login')}
                                     </Button>
                                 </Link>
                                 {canRegister && (
                                     <Link href={register()}>
-                                        <Button size="sm">Probeer gratis</Button>
+                                        <Button size="sm">
+                                            {t('nav.try_free')}
+                                        </Button>
                                     </Link>
                                 )}
                             </>

@@ -1,0 +1,23 @@
+{
+    "nav": {
+        "home": "Home",
+        "solution": "Oplossing",
+        "features": "Functionaliteiten",
+        "pricing": "Prijzen",
+        "for_who": "Voor wie",
+        "about": "Over ons",
+        "login": "Inloggen",
+        "try_free": "Probeer gratis",
+        "dashboard": "Dashboard"
+    },
+    "footer": {
+        "tagline": "Eenvoudige onderhoudssoftware voor kleine fabrieken.",
+        "product": "Product",
+        "request_demo": "Demo aanvragen",
+        "company": "Bedrijf",
+        "contact": "Contact",
+        "legal": "Legal",
+        "privacy": "Privacy",
+        "copyright": "© 2025 LineCare. Alle rechten voorbehouden."
+    }
+}

@@ -24,6 +24,7 @@ import {
     UserCheck,
 } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Machine {
     id: number;
@@ -88,6 +89,7 @@ export default function WorkOrdersIndex({
     filters,
     user,
 }: Props) {
+    const { t } = useTranslation('workorders');
     const [search, setSearch] = useState('');
     const [statusFilter, setStatusFilter] = useState<string>(
         filters.status || 'all',
@@ -153,17 +155,17 @@ export default function WorkOrdersIndex({
 
     return (
         <AppLayout>
-            <Head title="Work Orders" />
+            <Head title={t('title')} />
 
             <div className="container mx-auto space-y-6 py-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                            Work Orders
+                            {t('list.title')}
                         </h1>
                         <p className="mt-1 text-muted-foreground">
-                            Manage breakdowns and preventive maintenance tasks
+                            {t('list.subtitle')}
                         </p>
                     </div>
                     <div className="flex gap-2">
@@ -171,14 +173,14 @@ export default function WorkOrdersIndex({
                             <Button variant="outline" asChild>
                                 <Link href="/work-orders/create">
                                     <Plus className="mr-2 h-4 w-4" />
-                                    New Work Order
+                                    {t('list.new_work_order')}
                                 </Link>
                             </Button>
                         )}
                         <Button asChild>
                             <Link href="/work-orders/report-breakdown">
                                 <AlertTriangle className="mr-2 h-4 w-4" />
-                                Report Breakdown
+                                {t('list.report_breakdown')}
                             </Link>
                         </Button>
                     </div>
@@ -187,7 +189,7 @@ export default function WorkOrdersIndex({
                 {/* Filters */}
                 <Card className="border-border">
                     <CardHeader>
-                        <CardTitle>Filters</CardTitle>
+                        <CardTitle>{t('list.filters')}</CardTitle>
                     </CardHeader>
                     <CardContent>
                         <div className="space-y-4">
@@ -197,11 +199,13 @@ export default function WorkOrdersIndex({
                                         htmlFor="search"
                                         className="text-sm font-medium"
                                     >
-                                        Search
+                                        {t('list.search')}
                                     </Label>
                                     <Input
                                         id="search"
-                                        placeholder="Search work orders..."
+                                        placeholder={t(
+                                            'list.search_placeholder',
+                                        )}
                                         value={search}
                                         onChange={(e) =>
                                             setSearch(e.target.value)
@@ -215,7 +219,7 @@ export default function WorkOrdersIndex({
                                         htmlFor="status-filter"
                                         className="text-sm font-medium"
                                     >
-                                        Status
+                                        {t('list.status')}
                                     </Label>
                                     <Select
                                         value={statusFilter}
@@ -234,19 +238,19 @@ export default function WorkOrdersIndex({
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                All Status
+                                                {t('list.all_status')}
                                             </SelectItem>
                                             <SelectItem value="open">
-                                                Open
+                                                {t('status.open')}
                                             </SelectItem>
                                             <SelectItem value="in_progress">
-                                                In Progress
+                                                {t('status.in_progress')}
                                             </SelectItem>
                                             <SelectItem value="completed">
-                                                Completed
+                                                {t('status.completed')}
                                             </SelectItem>
                                             <SelectItem value="cancelled">
-                                                Cancelled
+                                                {t('status.cancelled')}
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -257,7 +261,7 @@ export default function WorkOrdersIndex({
                                         htmlFor="type-filter"
                                         className="text-sm font-medium"
                                     >
-                                        Type
+                                        {t('list.type')}
                                     </Label>
                                     <Select
                                         value={typeFilter}
@@ -274,13 +278,13 @@ export default function WorkOrdersIndex({
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                All Types
+                                                {t('list.all_types')}
                                             </SelectItem>
                                             <SelectItem value="breakdown">
-                                                Breakdown
+                                                {t('type.breakdown')}
                                             </SelectItem>
                                             <SelectItem value="preventive">
-                                                Preventive
+                                                {t('type.preventive')}
                                             </SelectItem>
                                         </SelectContent>
                                     </Select>
@@ -291,7 +295,7 @@ export default function WorkOrdersIndex({
                                         htmlFor="machine-filter"
                                         className="text-sm font-medium"
                                     >
-                                        Machine
+                                        {t('list.machine')}
                                     </Label>
                                     <Select
                                         value={machineFilter}
@@ -310,7 +314,7 @@ export default function WorkOrdersIndex({
                                         </SelectTrigger>
                                         <SelectContent>
                                             <SelectItem value="all">
-                                                All Machines
+                                                {t('list.all_machines')}
                                             </SelectItem>
                                             {machines.map((machine) => (
                                                 <SelectItem
@@ -329,7 +333,7 @@ export default function WorkOrdersIndex({
                                         htmlFor="date-from"
                                         className="text-sm font-medium"
                                     >
-                                        Date From
+                                        {t('list.date_from')}
                                     </Label>
                                     <div className="relative">
                                         <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -353,7 +357,7 @@ export default function WorkOrdersIndex({
                                         htmlFor="date-to"
                                         className="text-sm font-medium"
                                     >
-                                        Date To
+                                        {t('list.date_to')}
                                     </Label>
                                     <div className="relative">
                                         <Calendar className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
@@ -380,7 +384,7 @@ export default function WorkOrdersIndex({
                                 dateTo) && (
                                 <div className="flex items-center justify-between border-t pt-4">
                                     <p className="text-sm text-muted-foreground">
-                                        Filters applied
+                                        {t('list.filters_applied')}
                                     </p>
                                     <Button
                                         variant="ghost"
@@ -401,7 +405,7 @@ export default function WorkOrdersIndex({
                                             );
                                         }}
                                     >
-                                        Clear All Filters
+                                        {t('list.clear_all_filters')}
                                     </Button>
                                 </div>
                             )}
@@ -416,11 +420,11 @@ export default function WorkOrdersIndex({
                             <CardContent className="flex flex-col items-center justify-center py-12">
                                 <Inbox className="mb-4 h-12 w-12 text-muted-foreground" />
                                 <p className="mb-4 text-center text-muted-foreground">
-                                    No work orders found
+                                    {t('list.empty')}
                                 </p>
                                 <Button asChild>
                                     <Link href="/work-orders/report-breakdown">
-                                        Report Breakdown
+                                        {t('list.report_breakdown')}
                                     </Link>
                                 </Button>
                             </CardContent>
@@ -447,12 +451,16 @@ export default function WorkOrdersIndex({
                                                     {wo.type === 'breakdown' ? (
                                                         <>
                                                             <AlertTriangle className="mr-1 h-3 w-3" />
-                                                            Breakdown
+                                                            {t(
+                                                                'type.breakdown',
+                                                            )}
                                                         </>
                                                     ) : (
                                                         <>
                                                             <Calendar className="mr-1 h-3 w-3" />
-                                                            Preventive
+                                                            {t(
+                                                                'type.preventive',
+                                                            )}
                                                         </>
                                                     )}
                                                 </Badge>
@@ -461,10 +469,7 @@ export default function WorkOrdersIndex({
                                                         statusColors[wo.status]
                                                     }
                                                 >
-                                                    {wo.status.replace(
-                                                        '_',
-                                                        ' ',
-                                                    )}
+                                                    {t(`status.${wo.status}`)}
                                                 </Badge>
                                             </div>
 
@@ -495,7 +500,7 @@ export default function WorkOrdersIndex({
                                             {wo.assignee && (
                                                 <div className="flex items-center text-sm text-muted-foreground">
                                                     <UserCheck className="mr-1 h-4 w-4" />
-                                                    Assigned to{' '}
+                                                    {t('list.assigned_to')}{' '}
                                                     {wo.assignee.name}
                                                 </div>
                                             )}
@@ -514,7 +519,7 @@ export default function WorkOrdersIndex({
                                                             );
                                                         }}
                                                     >
-                                                        Start
+                                                        {t('list.start')}
                                                     </Button>
                                                 )}
                                             {wo.status === 'in_progress' &&
@@ -528,7 +533,7 @@ export default function WorkOrdersIndex({
                                                             );
                                                         }}
                                                     >
-                                                        Complete
+                                                        {t('actions.complete')}
                                                     </Button>
                                                 )}
                                             <ChevronRight className="h-5 w-5 text-muted-foreground" />
@@ -543,8 +548,10 @@ export default function WorkOrdersIndex({
                 {/* Pagination Info */}
                 {filteredWorkOrders.length > 0 && (
                     <div className="text-center text-sm text-muted-foreground">
-                        Showing {filteredWorkOrders.length} of{' '}
-                        {work_orders.total} work orders
+                        {t('list.showing', {
+                            count: filteredWorkOrders.length,
+                            total: work_orders.total,
+                        })}
                     </div>
                 )}
             </div>

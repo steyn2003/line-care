@@ -1,29 +1,74 @@
 {
-    "main": {
-        "dashboard": "Dashboard",
+    "dashboard": "Dashboard",
+    "notifications": "Notifications",
+    "sections": {
+        "admin": "Admin",
+        "operations": "Operations",
+        "finance": "Finance",
+        "insights": "Insights",
+        "system": "System"
+    },
+    "maintenance": {
+        "title": "Maintenance",
         "machines": "Machines",
         "work_orders": "Work Orders",
-        "preventive_tasks": "Preventive Tasks",
-        "spare_parts": "Spare Parts",
-        "inventory": "Inventory",
-        "purchase_orders": "Purchase Orders",
-        "suppliers": "Suppliers",
-        "oee": "OEE",
-        "production": "Production",
-        "costs": "Costs",
-        "analytics": "Analytics",
-        "reports": "Reports",
-        "settings": "Settings",
-        "admin": "Admin"
+        "report_breakdown": "Report Breakdown",
+        "preventive_tasks": "Preventive Tasks"
     },
-    "sections": {
-        "maintenance": "Maintenance",
-        "inventory_management": "Inventory",
-        "production": "Production",
-        "financial": "Financial",
-        "analytics_reports": "Analytics & Reports",
-        "system": "System",
-        "integrations": "Integrations"
+    "production": {
+        "title": "Production & OEE",
+        "oee_dashboard": "OEE Dashboard",
+        "runs": "Production Runs",
+        "oee_trends": "OEE Trends",
+        "products": "Products",
+        "shifts": "Shifts"
+    },
+    "inventory": {
+        "title": "Inventory",
+        "spare_parts": "Spare Parts",
+        "low_stock": "Low Stock Alerts",
+        "purchase_orders": "Purchase Orders",
+        "suppliers": "Suppliers"
+    },
+    "costs": {
+        "title": "Cost Management",
+        "dashboard": "Cost Dashboard",
+        "report": "Cost Report",
+        "budget": "Budget Management",
+        "labor_rates": "Labor Rates"
+    },
+    "reports": {
+        "title": "Reports",
+        "dashboards": "Dashboards",
+        "custom_dashboards": "Custom Dashboards",
+        "analytics": "Analytics",
+        "analytics_dashboard": "Analytics Dashboard",
+        "reliability": "Reliability (MTBF/MTTR)",
+        "pareto": "Pareto Analysis",
+        "predictions": "Failure Predictions",
+        "failure_modes": "Failure Modes",
+        "reports": "Reports",
+        "downtime": "Downtime Report"
+    },
+    "iot": {
+        "title": "IoT & Sensors",
+        "dashboard": "IoT Dashboard",
+        "sensors": "Sensors",
+        "alerts": "Sensor Alerts"
+    },
+    "settings": {
+        "title": "Settings",
+        "locations": "Locations",
+        "cause_categories": "Cause Categories",
+        "users": "Users",
+        "integrations": "Integrations",
+        "vendor_api_keys": "Vendor API Keys"
+    },
+    "admin": {
+        "title": "System Admin",
+        "dashboard": "Admin Dashboard",
+        "companies": "Companies",
+        "users": "All Users"
     },
     "user_menu": {
         "profile": "Profile",
@@ -31,40 +76,6 @@
         "notifications": "Notifications",
         "help": "Help & Support",
         "logout": "Log out"
-    },
-    "sub_menus": {
-        "report_breakdown": "Report Breakdown",
-        "all_work_orders": "All Work Orders",
-        "open_work_orders": "Open",
-        "in_progress": "In Progress",
-        "completed": "Completed",
-        "low_stock": "Low Stock",
-        "all_parts": "All Parts",
-        "oee_dashboard": "OEE Dashboard",
-        "oee_trends": "OEE Trends",
-        "production_runs": "Production Runs",
-        "downtime": "Downtime",
-        "cost_dashboard": "Cost Dashboard",
-        "cost_reports": "Cost Reports",
-        "budget": "Budget",
-        "labor_rates": "Labor Rates",
-        "reliability": "Reliability",
-        "pareto": "Pareto Analysis",
-        "predictions": "Predictions",
-        "custom_dashboards": "Custom Dashboards",
-        "downtime_report": "Downtime Report",
-        "locations": "Locations",
-        "users": "Users",
-        "cause_categories": "Cause Categories",
-        "products": "Products",
-        "shifts": "Shifts",
-        "downtime_categories": "Downtime Categories",
-        "integrations": "Integrations",
-        "iot_dashboard": "IoT Dashboard",
-        "sensors": "Sensors",
-        "sensor_alerts": "Sensor Alerts",
-        "notification_preferences": "Notification Preferences",
-        "vendor_api_keys": "Vendor API Keys"
     },
     "breadcrumbs": {
         "home": "Home",

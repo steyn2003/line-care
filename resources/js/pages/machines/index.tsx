@@ -19,6 +19,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { FileUp, Inbox, MapPin, Plus } from 'lucide-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Location {
     id: number;
@@ -56,6 +57,7 @@ const statusColors = {
 };
 
 export default function MachinesIndex({ machines, locations, filters }: Props) {
+    const { t } = useTranslation('machines');
     const [search, setSearch] = useState('');
     const [locationFilter, setLocationFilter] = useState<string>(
         filters.location_id?.toString() || 'all',
@@ -88,30 +90,30 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
 
     return (
         <AppLayout>
-            <Head title="Machines" />
+            <Head title={t('title')} />
 
             <div className="container mx-auto space-y-6 py-6">
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-bold tracking-tight text-foreground">
-                            Machines
+                            {t('list.title')}
                         </h1>
                         <p className="mt-1 text-muted-foreground">
-                            Manage your factory machines and equipment
+                            {t('list.subtitle')}
                         </p>
                     </div>
                     <div className="flex gap-2">
                         <Button variant="outline" asChild>
                             <Link href="/machines/import">
                                 <FileUp className="mr-2 h-4 w-4" />
-                                Import CSV
+                                {t('list.import_csv')}
                             </Link>
                         </Button>
                         <Button asChild>
                             <Link href="/machines/create">
                                 <Plus className="mr-2 h-4 w-4" />
-                                Add Machine
+                                {t('list.create')}
                             </Link>
                         </Button>
                     </div>
@@ -120,19 +122,19 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
                 {/* Filters */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>Filters</CardTitle>
+                        <CardTitle>{t('list.filters')}</CardTitle>
                         <CardDescription>
-                            Filter machines by location and status
+                            {t('list.filters_description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="grid gap-4 md:grid-cols-4">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-foreground">
-                                    Search
+                                    {t('list.search')}
                                 </label>
                                 <Input
-                                    placeholder="Search by name or code..."
+                                    placeholder={t('list.search_placeholder')}
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     className="bg-background"
@@ -141,18 +143,22 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-foreground">
-                                    Location
+                                    {t('list.location')}
                                 </label>
                                 <Select
                                     value={locationFilter}
                                     onValueChange={setLocationFilter}
                                 >
                                     <SelectTrigger className="bg-background">
-                                        <SelectValue placeholder="All locations" />
+                                        <SelectValue
+                                            placeholder={t(
+                                                'list.all_locations',
+                                            )}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
-                                            All locations
+                                            {t('list.all_locations')}
                                         </SelectItem>
                                         {locations.map((location) => (
                                             <SelectItem
@@ -168,24 +174,26 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
 
                             <div className="space-y-2">
                                 <label className="text-sm font-medium text-foreground">
-                                    Status
+                                    {t('form.status_label')}
                                 </label>
                                 <Select
                                     value={statusFilter}
                                     onValueChange={setStatusFilter}
                                 >
                                     <SelectTrigger className="bg-background">
-                                        <SelectValue placeholder="Status" />
+                                        <SelectValue
+                                            placeholder={t('form.status_label')}
+                                        />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectItem value="all">
-                                            All status
+                                            {t('list.all_status')}
                                         </SelectItem>
                                         <SelectItem value="active">
-                                            Active
+                                            {t('list.active')}
                                         </SelectItem>
                                         <SelectItem value="archived">
-                                            Archived
+                                            {t('list.archived')}
                                         </SelectItem>
                                     </SelectContent>
                                 </Select>
@@ -196,7 +204,7 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
                                     onClick={handleFilterChange}
                                     className="w-full"
                                 >
-                                    Apply Filters
+                                    {t('list.apply_filters')}
                                 </Button>
                             </div>
                         </div>
@@ -210,12 +218,11 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
                             <CardContent className="flex flex-col items-center justify-center py-12">
                                 <Inbox className="mb-4 h-12 w-12 text-muted-foreground" />
                                 <p className="text-center text-muted-foreground">
-                                    No machines found. Add your first machine to
-                                    get started.
+                                    {t('list.empty_description')}
                                 </p>
                                 <Button asChild className="mt-4">
                                     <Link href="/machines/create">
-                                        Add Machine
+                                        {t('list.create')}
                                     </Link>
                                 </Button>
                             </CardContent>
@@ -260,7 +267,7 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
                                         )}
                                         <div className="flex items-center justify-between">
                                             <span className="text-sm text-muted-foreground">
-                                                Criticality:
+                                                {t('list.criticality')}:
                                             </span>
                                             <Badge
                                                 className={
@@ -282,8 +289,10 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
                 {/* Summary */}
                 {filteredMachines.length > 0 && (
                     <div className="text-center text-sm text-muted-foreground">
-                        Showing {filteredMachines.length} of {machines.length}{' '}
-                        machines
+                        {t('list.showing', {
+                            count: filteredMachines.length,
+                            total: machines.length,
+                        })}
                     </div>
                 )}
             </div>

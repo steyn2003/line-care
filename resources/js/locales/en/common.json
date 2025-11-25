@@ -1,4 +1,5 @@
 {
+    "language": "Language",
     "actions": {
         "save": "Save",
         "cancel": "Cancel",
@@ -31,7 +32,8 @@
         "duplicate": "Duplicate",
         "archive": "Archive",
         "restore": "Restore",
-        "print": "Print"
+        "print": "Print",
+        "continue": "Continue"
     },
     "status": {
         "active": "Active",
@@ -95,7 +97,11 @@
         "time": "Time",
         "start_date": "Start date",
         "end_date": "End date",
-        "due_date": "Due date"
+        "due_date": "Due date",
+        "just_now": "Just now",
+        "minutes_ago": "{{count}}m ago",
+        "hours_ago": "{{count}}h ago",
+        "days_ago": "{{count}}d ago"
     },
     "pagination": {
         "previous": "Previous",
@@ -146,5 +152,53 @@
         "network": "Network error. Please check your connection.",
         "server": "Server error. Please try again later.",
         "timeout": "Request timed out. Please try again."
+    },
+    "search": {
+        "placeholder": "Search",
+        "title": "Global Search",
+        "description": "Search across machines, work orders, spare parts, and more",
+        "input_placeholder": "Search machines, work orders, parts...",
+        "searching": "Searching...",
+        "no_results": "No results found.",
+        "min_characters": "Type at least 2 characters to search",
+        "types": {
+            "pages": "Pages",
+            "machines": "Machines",
+            "work_orders": "Work Orders",
+            "preventive_tasks": "Preventive Tasks",
+            "spare_parts": "Spare Parts",
+            "purchase_orders": "Purchase Orders",
+            "suppliers": "Suppliers",
+            "users": "Users"
+        }
+    },
+    "notifications": {
+        "title": "Notifications",
+        "mark_all_read": "Mark all read",
+        "no_notifications": "No notifications",
+        "all_caught_up": "You're all caught up!",
+        "view_all": "View all notifications",
+        "notification": "Notification",
+        "new_task": "New Task",
+        "task": "Task",
+        "part": "Part",
+        "machine": "Machine",
+        "sensor": "Sensor",
+        "alert": "alert",
+        "priority": "Priority",
+        "normal": "Normal",
+        "types": {
+            "work_order_assigned_title": "Work Order Assigned: {{title}}",
+            "work_order_overdue_title": "Work Order Overdue: {{title}}",
+            "pm_due_title": "PM Due: {{title}}",
+            "low_stock_title": "Low Stock: {{part}}",
+            "sensor_alert_title": "Sensor Alert: {{machine}}",
+            "budget_exceeded_title": "Budget Exceeded",
+            "production_complete_title": "Production Complete: {{machine}}"
+        },
+        "days_overdue": "{{count}} days overdue",
+        "due_on": "Due {{date}}",
+        "remaining": "Only {{count}} remaining",
+        "exceeded_by": "Exceeded by ${{amount}}"
     }
 }
