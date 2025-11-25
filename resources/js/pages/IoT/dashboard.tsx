@@ -18,7 +18,6 @@ import {
     Droplets,
     Gauge,
     Minus,
-    RefreshCw,
     ThermometerSun,
     TrendingDown,
     TrendingUp,
@@ -193,30 +192,30 @@ export default function IoTDashboard({
 
     return (
         <AppLayout
-            header={
-                <div className="flex items-center justify-between">
-                    <h2 className="text-xl leading-tight font-semibold text-gray-800">
-                        IoT Dashboard
-                    </h2>
-                    <div className="flex items-center gap-4">
-                        <span className="text-sm text-gray-600">
-                            Last update:{' '}
-                            {formatTimestamp(lastUpdate.toISOString())}
-                        </span>
-                        <Button
-                            variant="outline"
-                            size="sm"
-                            onClick={refreshData}
-                            disabled={isRefreshing}
-                        >
-                            <RefreshCw
-                                className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
-                            />
-                            Refresh
-                        </Button>
-                    </div>
-                </div>
-            }
+        // header={
+        //     <div className="flex items-center justify-between">
+        //         <h2 className="text-xl leading-tight font-semibold text-gray-800">
+        //             IoT Dashboard
+        //         </h2>
+        //         <div className="flex items-center gap-4">
+        //             <span className="text-sm text-gray-600">
+        //                 Last update:{' '}
+        //                 {formatTimestamp(lastUpdate.toISOString())}
+        //             </span>
+        //             <Button
+        //                 variant="outline"
+        //                 size="sm"
+        //                 onClick={refreshData}
+        //                 disabled={isRefreshing}
+        //             >
+        //                 <RefreshCw
+        //                     className={`mr-2 h-4 w-4 ${isRefreshing ? 'animate-spin' : ''}`}
+        //                 />
+        //                 Refresh
+        //             </Button>
+        //         </div>
+        //     </div>
+        // }
         >
             <Head title="IoT Dashboard" />
 

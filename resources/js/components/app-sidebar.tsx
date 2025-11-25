@@ -24,6 +24,7 @@ import {
     DollarSign,
     Factory,
     FileText,
+    Key,
     LayoutGrid,
     MapPin,
     Package,
@@ -181,6 +182,11 @@ const integrationsNavItems: NavItem[] = [
         title: 'Integrations',
         href: '/settings/integrations',
         icon: Settings,
+    },
+    {
+        title: 'Vendor API Keys',
+        href: '/settings/vendor-api-keys',
+        icon: Key,
     },
 ];
 

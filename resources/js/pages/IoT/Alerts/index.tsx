@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
-import { AlertTriangle, CheckCircle, Filter } from 'lucide-react';
+import { CheckCircle, ChevronLeft, ChevronRight, Filter } from 'lucide-react';
 
 interface SensorAlert {
     id: number;
@@ -57,9 +57,15 @@ interface SensorAlertIndexProps {
 }
 
 export default function Index({
-    alerts,
-    filters,
-    machines,
+    alerts = {
+        data: [],
+        current_page: 1,
+        last_page: 1,
+        per_page: 15,
+        total: 0,
+    },
+    filters = { status: null, threshold_type: null, machine_id: null },
+    machines = [],
 }: SensorAlertIndexProps) {
     const handleAcknowledge = (alertId: number) => {
         router.post(
@@ -105,30 +111,26 @@ export default function Index({
         );
     };
 
-    const unacknowledgedCount = alerts.data.filter(
-        (a) => !a.acknowledged_at,
-    ).length;
-
     return (
         <AppLayout
-            title="Sensor Alerts"
-            renderHeader={() => (
-                <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <AlertTriangle className="h-6 w-6 text-red-600" />
-                        <div>
-                            <h2 className="text-xl font-semibold text-gray-900">
-                                Sensor Alerts
-                            </h2>
-                            <p className="text-sm text-gray-600">
-                                {unacknowledgedCount > 0
-                                    ? `${unacknowledgedCount} unacknowledged alert${unacknowledgedCount !== 1 ? 's' : ''}`
-                                    : 'All alerts acknowledged'}
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            )}
+        // title="Sensor Alerts"
+        // renderHeader={() => (
+        //     <div className="flex items-center justify-between">
+        //         <div className="flex items-center gap-3">
+        //             <AlertTriangle className="h-6 w-6 text-red-600" />
+        //             <div>
+        //                 <h2 className="text-xl font-semibold text-gray-900">
+        //                     Sensor Alerts
+        //                 </h2>
+        //                 <p className="text-sm text-gray-600">
+        //                     {unacknowledgedCount > 0
+        //                         ? `${unacknowledgedCount} unacknowledged alert${unacknowledgedCount !== 1 ? 's' : ''}`
+        //                         : 'All alerts acknowledged'}
+        //                 </p>
+        //             </div>
+        //         </div>
+        //     </div>
+        // )}
         >
             <Head title="Sensor Alerts" />
 

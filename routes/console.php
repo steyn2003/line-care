@@ -39,3 +39,11 @@ Schedule::command('linecare:sync-erp-integrations --action=all')
     ->dailyAt('03:00') // 3 AM when system is less busy
     ->withoutOverlapping()
     ->runInBackground();
+
+// Purge old sensor readings weekly (retain 90 days by default)
+Schedule::command('linecare:purge-sensor-readings --days=90')
+    ->weekly()
+    ->sundays()
+    ->at('02:00')
+    ->withoutOverlapping()
+    ->runInBackground();

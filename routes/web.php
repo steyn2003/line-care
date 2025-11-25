@@ -210,6 +210,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Notification Preferences routes
     Route::get('settings/notifications', [\App\Http\Controllers\NotificationPreferencesController::class, 'index'])->name('notification-preferences.index');
     Route::put('settings/notifications', [\App\Http\Controllers\NotificationPreferencesController::class, 'update'])->name('notification-preferences.update');
+
+    // Vendor API Key Management routes
+    Route::get('settings/vendor-api-keys', [\App\Http\Controllers\VendorApiKeyController::class, 'index'])->name('vendor-api-keys.index');
+    Route::post('settings/vendor-api-keys', [\App\Http\Controllers\VendorApiKeyController::class, 'store'])->name('vendor-api-keys.store');
+    Route::post('settings/vendor-api-keys/{vendorApiKey}/toggle', [\App\Http\Controllers\VendorApiKeyController::class, 'toggle'])->name('vendor-api-keys.toggle');
+    Route::delete('settings/vendor-api-keys/{vendorApiKey}', [\App\Http\Controllers\VendorApiKeyController::class, 'destroy'])->name('vendor-api-keys.destroy');
 });
 
 // ========== Admin Routes (Super Admin Only) ==========
@@ -229,6 +235,24 @@ Route::middleware(['auth', 'verified', 'super.admin'])->prefix('admin')->name('a
     Route::post('users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
     Route::put('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+});
+
+// ========== Vendor Portal (Public - API Key Session Auth) ==========
+Route::prefix('vendor-portal')->name('vendor-portal.')->group(function () {
+    // Public routes
+    Route::get('/', [\App\Http\Controllers\VendorPortalWebController::class, 'login'])->name('login');
+    Route::post('/authenticate', [\App\Http\Controllers\VendorPortalWebController::class, 'authenticate'])->name('authenticate');
+    Route::post('/logout', [\App\Http\Controllers\VendorPortalWebController::class, 'logout'])->name('logout');
+
+    // Protected routes (require vendor session)
+    Route::middleware(\App\Http\Middleware\AuthenticateVendorSession::class)->group(function () {
+        Route::get('/dashboard', [\App\Http\Controllers\VendorPortalWebController::class, 'dashboard'])->name('dashboard');
+        Route::get('/orders/{purchaseOrder}', [\App\Http\Controllers\VendorPortalWebController::class, 'showOrder'])->name('order');
+        Route::post('/orders/{purchaseOrder}/acknowledge', [\App\Http\Controllers\VendorPortalWebController::class, 'acknowledgeOrder'])->name('order.acknowledge');
+        Route::post('/orders/{purchaseOrder}/ship', [\App\Http\Controllers\VendorPortalWebController::class, 'shipOrder'])->name('order.ship');
+        Route::post('/orders/{purchaseOrder}/tracking', [\App\Http\Controllers\VendorPortalWebController::class, 'updateTracking'])->name('order.tracking');
+        Route::post('/orders/{purchaseOrder}/documents', [\App\Http\Controllers\VendorPortalWebController::class, 'uploadDocument'])->name('order.documents');
+    });
 });
 
 require __DIR__.'/settings.php';

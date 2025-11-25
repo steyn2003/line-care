@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\SendVendorPurchaseOrderNotificationJob;
 use App\Models\PurchaseOrder;
 use App\Models\Stock;
 use App\Models\InventoryTransaction;
@@ -216,8 +217,8 @@ class PurchaseOrderController extends Controller
         try {
             $purchaseOrder->markAsSent();
 
-            // TODO: In Phase 8, send actual email to supplier
-            // Mail::to($purchaseOrder->supplier->email)->send(new PurchaseOrderMail($purchaseOrder));
+            // Dispatch job to send email notification to vendor
+            SendVendorPurchaseOrderNotificationJob::dispatch($purchaseOrder, 'new');
 
             return response()->json([
                 'message' => 'Purchase order sent successfully',
