@@ -406,10 +406,14 @@ export default function IoTDashboard({
                                                                 {sensor.name}
                                                             </div>
                                                             {sensor.last_reading !==
-                                                            null ? (
+                                                                null &&
+                                                            sensor.last_reading !==
+                                                                undefined ? (
                                                                 <div className="flex items-center gap-2">
                                                                     <span className="text-2xl font-bold">
-                                                                        {sensor.last_reading.toFixed(
+                                                                        {Number(
+                                                                            sensor.last_reading,
+                                                                        ).toFixed(
                                                                             1,
                                                                         )}
                                                                     </span>
