@@ -44,8 +44,10 @@ class IoTDashboardController extends Controller
                 ];
             });
 
-        // Get unacknowledged alerts
-        $alerts = SensorAlert::where('company_id', $companyId)
+        // Get unacknowledged alerts (filter by company through sensor relationship)
+        $alerts = SensorAlert::whereHas('sensor', function ($query) use ($companyId) {
+                $query->where('company_id', $companyId);
+            })
             ->whereNull('acknowledged_at')
             ->with(['sensor', 'machine'])
             ->orderBy('triggered_at', 'desc')
@@ -54,8 +56,8 @@ class IoTDashboardController extends Controller
                 return [
                     'id' => $alert->id,
                     'sensor_id' => $alert->sensor_id,
-                    'sensor_name' => $alert->sensor->name,
-                    'machine_name' => $alert->machine->name,
+                    'sensor_name' => $alert->sensor->name ?? 'Unknown',
+                    'machine_name' => $alert->machine->name ?? 'Unknown',
                     'alert_type' => $alert->alert_type,
                     'triggered_at' => $alert->triggered_at,
                     'acknowledged_at' => $alert->acknowledged_at,
