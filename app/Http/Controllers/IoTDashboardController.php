@@ -34,7 +34,7 @@ class IoTDashboardController extends Controller
                     'sensor_type' => $sensor->sensor_type,
                     'name' => $sensor->name,
                     'unit' => $sensor->unit,
-                    'last_reading' => $sensor->last_reading,
+                    'last_reading' => $sensor->last_reading_value,
                     'last_reading_at' => $sensor->last_reading_at,
                     'warning_threshold' => $sensor->warning_threshold,
                     'critical_threshold' => $sensor->critical_threshold,
@@ -90,7 +90,7 @@ class IoTDashboardController extends Controller
         }
 
         $sensors = Sensor::where('machine_id', $machine->id)
-            ->with(['sensorReadings' => function ($query) {
+            ->with(['readings' => function ($query) {
                 $query->orderBy('reading_time', 'desc')->limit(100);
             }])
             ->get()
@@ -103,14 +103,14 @@ class IoTDashboardController extends Controller
                     'sensor_type' => $sensor->sensor_type,
                     'name' => $sensor->name,
                     'unit' => $sensor->unit,
-                    'last_reading' => $sensor->last_reading,
+                    'last_reading' => $sensor->last_reading_value,
                     'last_reading_at' => $sensor->last_reading_at,
                     'warning_threshold' => $sensor->warning_threshold,
                     'critical_threshold' => $sensor->critical_threshold,
                     'is_active' => $sensor->is_active,
                     'status' => $status,
                     'trend' => $trend,
-                    'readings' => $sensor->sensorReadings->map(function ($reading) {
+                    'readings' => $sensor->readings->map(function ($reading) {
                         return [
                             'value' => $reading->reading_value,
                             'time' => $reading->reading_time,
@@ -141,15 +141,15 @@ class IoTDashboardController extends Controller
             return 'inactive';
         }
 
-        if ($sensor->last_reading === null) {
+        if ($sensor->last_reading_value === null) {
             return 'inactive';
         }
 
-        if ($sensor->critical_threshold && $sensor->last_reading >= $sensor->critical_threshold) {
+        if ($sensor->critical_threshold && $sensor->last_reading_value >= $sensor->critical_threshold) {
             return 'critical';
         }
 
-        if ($sensor->warning_threshold && $sensor->last_reading >= $sensor->warning_threshold) {
+        if ($sensor->warning_threshold && $sensor->last_reading_value >= $sensor->warning_threshold) {
             return 'warning';
         }
 
@@ -162,7 +162,7 @@ class IoTDashboardController extends Controller
     protected function getSensorTrend(Sensor $sensor): string
     {
         // Get last 5 readings to determine trend
-        $readings = $sensor->sensorReadings()
+        $readings = $sensor->readings()
             ->orderBy('reading_time', 'desc')
             ->limit(5)
             ->pluck('reading_value')
