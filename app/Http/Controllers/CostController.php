@@ -187,7 +187,7 @@ class CostController extends Controller
 
         // Get monthly trends
         $driver = DB::connection()->getDriverName();
-        $monthFormat = $driver === 'mysql'
+        $monthFormat = in_array($driver, ['mysql', 'mariadb'])
             ? "DATE_FORMAT(work_orders.completed_at, '%Y-%m')"
             : "strftime('%Y-%m', work_orders.completed_at)";
 
