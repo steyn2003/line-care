@@ -62,9 +62,10 @@ interface RecentWorkOrder {
 
 interface UpcomingTask {
     id: number;
-    name: string;
+    title: string;
     next_due_date: string;
-    frequency: string;
+    schedule_interval_value: number;
+    schedule_interval_unit: string;
     machine?: { id: number; name: string; code: string | null };
 }
 
@@ -882,7 +883,7 @@ export default function Dashboard({
                                                     >
                                                         <div className="min-w-0 flex-1">
                                                             <p className="truncate font-medium">
-                                                                {task.name}
+                                                                {task.title}
                                                             </p>
                                                             <p className="text-sm text-muted-foreground">
                                                                 {task.machine
@@ -897,7 +898,13 @@ export default function Dashboard({
                                                                 )}
                                                             </p>
                                                             <p className="text-xs text-muted-foreground">
-                                                                {task.frequency}
+                                                                Every{' '}
+                                                                {
+                                                                    task.schedule_interval_value
+                                                                }{' '}
+                                                                {
+                                                                    task.schedule_interval_unit
+                                                                }
                                                             </p>
                                                         </div>
                                                     </div>

@@ -135,7 +135,7 @@ class DashboardController extends Controller
             ->with(['machine:id,name,code'])
             ->orderBy('next_due_date')
             ->limit(5)
-            ->get(['id', 'name', 'machine_id', 'next_due_date', 'frequency']);
+            ->get(['id', 'title', 'machine_id', 'next_due_date', 'schedule_interval_value', 'schedule_interval_unit']);
 
         $metrics = [
             // Work Orders
