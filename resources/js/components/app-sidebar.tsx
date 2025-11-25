@@ -183,7 +183,7 @@ const costNavItem: NavItem = {
 
 // Dashboards & Reports section with sub-groups
 const reportsNavItem: NavItem = {
-    title: 'Dashboards & Reports',
+    title: 'Reports',
     href: '#',
     icon: LayoutDashboard,
     groups: [

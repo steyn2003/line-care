@@ -44,6 +44,9 @@ Route::get('/over-ons', function () {
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+    // Global Search (JSON response for command palette)
+    Route::get('search', [\App\Http\Controllers\SearchController::class, 'search'])->name('search');
+
     // Machine routes
     Route::get('machines', [\App\Http\Controllers\MachineController::class, 'index'])->name('machines.index');
     Route::get('machines/create', [\App\Http\Controllers\MachineController::class, 'create'])->name('machines.create');

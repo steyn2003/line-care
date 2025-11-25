@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import {
     CommandDialog,
     CommandEmpty,
@@ -6,7 +7,6 @@ import {
     CommandItem,
     CommandList,
 } from '@/components/ui/command';
-import { Button } from '@/components/ui/button';
 import { router } from '@inertiajs/react';
 import {
     AlertTriangle,
@@ -30,8 +30,10 @@ interface SearchResult {
 
 interface SearchResponse {
     results: {
+        pages: SearchResult[];
         machines: SearchResult[];
         work_orders: SearchResult[];
+        preventive_tasks: SearchResult[];
         spare_parts: SearchResult[];
         purchase_orders: SearchResult[];
         suppliers: SearchResult[];
@@ -42,8 +44,10 @@ interface SearchResponse {
 }
 
 const typeIcons: Record<string, React.ElementType> = {
+    pages: Search,
     machines: Wrench,
     work_orders: ClipboardList,
+    preventive_tasks: AlertTriangle,
     spare_parts: Package,
     purchase_orders: ShoppingCart,
     suppliers: Warehouse,
@@ -51,8 +55,10 @@ const typeIcons: Record<string, React.ElementType> = {
 };
 
 const typeLabels: Record<string, string> = {
+    pages: 'Pages',
     machines: 'Machines',
     work_orders: 'Work Orders',
+    preventive_tasks: 'Preventive Tasks',
     spare_parts: 'Spare Parts',
     purchase_orders: 'Purchase Orders',
     suppliers: 'Suppliers',
@@ -62,7 +68,9 @@ const typeLabels: Record<string, string> = {
 export function GlobalSearch() {
     const [open, setOpen] = useState(false);
     const [query, setQuery] = useState('');
-    const [results, setResults] = useState<SearchResponse['results'] | null>(null);
+    const [results, setResults] = useState<SearchResponse['results'] | null>(
+        null,
+    );
     const [isLoading, setIsLoading] = useState(false);
 
     // Keyboard shortcut to open search
@@ -88,7 +96,15 @@ export function GlobalSearch() {
         const timeoutId = setTimeout(async () => {
             setIsLoading(true);
             try {
-                const response = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                const response = await fetch(
+                    `/search?q=${encodeURIComponent(query)}`,
+                    {
+                        headers: {
+                            Accept: 'application/json',
+                            'X-Requested-With': 'XMLHttpRequest',
+                        },
+                    },
+                );
                 if (response.ok) {
                     const data: SearchResponse = await response.json();
                     setResults(data.results);
@@ -110,7 +126,8 @@ export function GlobalSearch() {
         router.visit(url);
     }, []);
 
-    const hasResults = results && Object.values(results).some((arr) => arr.length > 0);
+    const hasResults =
+        results && Object.values(results).some((arr) => arr.length > 0);
 
     return (
         <>
@@ -121,7 +138,7 @@ export function GlobalSearch() {
             >
                 <Search className="h-4 w-4 xl:mr-2" />
                 <span className="hidden xl:inline-flex">Search...</span>
-                <kbd className="pointer-events-none absolute right-1.5 top-1.5 hidden h-6 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 xl:flex">
+                <kbd className="pointer-events-none absolute top-1.5 right-1.5 hidden h-6 items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 select-none xl:flex">
                     <span className="text-xs">Ctrl</span>K
                 </kbd>
             </Button>
@@ -168,7 +185,9 @@ export function GlobalSearch() {
                                         <CommandItem
                                             key={`${type}-${item.id}`}
                                             value={`${type}-${item.id}-${item.title}`}
-                                            onSelect={() => handleSelect(item.url)}
+                                            onSelect={() =>
+                                                handleSelect(item.url)
+                                            }
                                         >
                                             <Icon className="mr-2 h-4 w-4" />
                                             <div className="flex flex-col">
