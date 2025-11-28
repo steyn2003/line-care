@@ -251,6 +251,37 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Dashboard Widgets routes
     Route::post('dashboards/{dashboard}/widgets', [\App\Http\Controllers\CustomDashboardController::class, 'addWidget'])->name('dashboards.widgets.store');
     Route::delete('dashboards/{dashboard}/widgets/{widget}', [\App\Http\Controllers\CustomDashboardController::class, 'removeWidget'])->name('dashboards.widgets.destroy');
+
+    // ========== Planning Module ==========
+
+    // Planning Board (main interface)
+    Route::get('planning', [\App\Http\Controllers\PlanningController::class, 'index'])->name('planning.index');
+
+    // Planning Slots routes (for Inertia form submissions)
+    Route::post('planning/slots', [\App\Http\Controllers\PlanningSlotController::class, 'store'])->name('planning.slots.store');
+    Route::put('planning/slots/{slot}', [\App\Http\Controllers\PlanningSlotController::class, 'update'])->name('planning.slots.update');
+    Route::delete('planning/slots/{slot}', [\App\Http\Controllers\PlanningSlotController::class, 'destroy'])->name('planning.slots.destroy');
+
+    // Shutdown Planning routes
+    Route::get('planning/shutdowns', [\App\Http\Controllers\PlannedShutdownController::class, 'index'])->name('planning.shutdowns.index');
+    Route::get('planning/shutdowns/create', [\App\Http\Controllers\PlannedShutdownController::class, 'create'])->name('planning.shutdowns.create');
+    Route::post('planning/shutdowns', [\App\Http\Controllers\PlannedShutdownController::class, 'store'])->name('planning.shutdowns.store');
+    Route::get('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'show'])->name('planning.shutdowns.show');
+    Route::get('planning/shutdowns/{plannedShutdown}/edit', [\App\Http\Controllers\PlannedShutdownController::class, 'edit'])->name('planning.shutdowns.edit');
+    Route::put('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'update'])->name('planning.shutdowns.update');
+    Route::delete('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'destroy'])->name('planning.shutdowns.destroy');
+
+    // Capacity Dashboard routes
+    Route::get('planning/capacity', [\App\Http\Controllers\PlanningController::class, 'capacity'])->name('planning.capacity');
+
+    // Planning Analytics routes
+    Route::get('planning/analytics', [\App\Http\Controllers\PlanningController::class, 'analytics'])->name('planning.analytics');
+
+    // Technician Availability routes
+    Route::get('planning/availability', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'index'])->name('planning.availability.index');
+    Route::post('planning/availability', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'store'])->name('planning.availability.store');
+    Route::put('planning/availability/{availability}', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'update'])->name('planning.availability.update');
+    Route::delete('planning/availability/{availability}', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'destroy'])->name('planning.availability.destroy');
 });
 
 // ========== Admin Routes (Super Admin Only) ==========

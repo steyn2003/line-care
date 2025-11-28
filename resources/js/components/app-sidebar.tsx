@@ -21,6 +21,7 @@ import {
     Brain,
     Building2,
     Calendar,
+    CalendarDays,
     ClipboardList,
     Clock,
     DollarSign,
@@ -91,6 +92,35 @@ export function AppSidebar() {
                 title: t('maintenance.preventive_tasks'),
                 href: '/preventive-tasks',
                 icon: Calendar,
+            },
+        ],
+    };
+
+    // Planning section with sub-items
+    const planningNavItem: NavItem = {
+        title: t('planning.title', 'Planning'),
+        href: '#',
+        icon: CalendarDays,
+        items: [
+            {
+                title: t('planning.board', 'Planning Board'),
+                href: '/planning',
+                icon: CalendarDays,
+            },
+            {
+                title: t('planning.shutdowns', 'Shutdowns'),
+                href: '/planning/shutdowns',
+                icon: Clock,
+            },
+            {
+                title: t('planning.capacity', 'Capacity'),
+                href: '/planning/capacity',
+                icon: BarChart3,
+            },
+            {
+                title: t('planning.analytics', 'Analytics'),
+                href: '/planning/analytics',
+                icon: Activity,
             },
         ],
     };
@@ -331,6 +361,7 @@ export function AppSidebar() {
     // Grouped sections
     const operationsNavItems: NavItem[] = [
         maintenanceNavItem,
+        planningNavItem,
         productionNavItem,
         inventoryNavItem,
     ];

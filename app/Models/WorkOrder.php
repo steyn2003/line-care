@@ -33,6 +33,12 @@ class WorkOrder extends Model
         'preventive_task_id',
         'started_at',
         'completed_at',
+        'planned_start_at',
+        'planned_end_at',
+        'planned_duration_minutes',
+        'is_firm_planned',
+        'planning_priority',
+        'requires_shutdown',
     ];
 
     /**
@@ -45,6 +51,12 @@ class WorkOrder extends Model
             'status' => WorkOrderStatus::class,
             'started_at' => 'datetime',
             'completed_at' => 'datetime',
+            'planned_start_at' => 'datetime',
+            'planned_end_at' => 'datetime',
+            'planned_duration_minutes' => 'integer',
+            'is_firm_planned' => 'boolean',
+            'planning_priority' => 'integer',
+            'requires_shutdown' => 'boolean',
         ];
     }
 
@@ -148,6 +160,14 @@ class WorkOrder extends Model
     }
 
     /**
+     * Get the planning slots for this work order.
+     */
+    public function planningSlots(): HasMany
+    {
+        return $this->hasMany(PlanningSlot::class);
+    }
+
+    /**
      * Scope a query to only include work orders for a specific company.
      */
     public function scopeForCompany($query, int $companyId)
@@ -200,5 +220,66 @@ class WorkOrder extends Model
         return $this->spareParts->sum(function ($part) {
             return $part->pivot->quantity_used * $part->pivot->unit_cost;
         });
+    }
+
+    /**
+     * Scope a query to only include unplanned work orders.
+     */
+    public function scopeUnplanned($query)
+    {
+        return $query->whereNull('planned_start_at')
+            ->whereIn('status', [WorkOrderStatus::OPEN, WorkOrderStatus::IN_PROGRESS]);
+    }
+
+    /**
+     * Scope a query to only include planned work orders.
+     */
+    public function scopePlanned($query)
+    {
+        return $query->whereNotNull('planned_start_at');
+    }
+
+    /**
+     * Scope a query to only include work orders requiring shutdown.
+     */
+    public function scopeRequiresShutdown($query)
+    {
+        return $query->where('requires_shutdown', true);
+    }
+
+    /**
+     * Scope a query to order by planning priority.
+     */
+    public function scopeByPlanningPriority($query)
+    {
+        return $query->orderBy('planning_priority', 'asc');
+    }
+
+    /**
+     * Check if this work order is planned.
+     */
+    public function isPlanned(): bool
+    {
+        return $this->planned_start_at !== null;
+    }
+
+    /**
+     * Check if this work order is firmly planned (locked).
+     */
+    public function isFirmPlanned(): bool
+    {
+        return $this->is_firm_planned;
+    }
+
+    /**
+     * Get the planning variance in minutes (actual vs planned duration).
+     */
+    public function getPlanningVarianceMinutesAttribute(): ?int
+    {
+        if (!$this->planned_duration_minutes || !$this->downtime_minutes) {
+            return null;
+        }
+
+        return $this->downtime_minutes - $this->planned_duration_minutes;
     }
 }

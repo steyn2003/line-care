@@ -30,6 +30,11 @@ use App\Http\Controllers\Api\SupplierController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\WidgetController;
 use App\Http\Controllers\Api\WorkOrderController;
+use App\Http\Controllers\Api\PlanningSlotController;
+use App\Http\Controllers\Api\PlannedShutdownController;
+use App\Http\Controllers\Api\TechnicianAvailabilityController;
+use App\Http\Controllers\Api\PlanningTemplateController;
+use App\Http\Controllers\Api\PlanningController;
 use Illuminate\Support\Facades\Route;
 
 // Public auth routes
@@ -357,6 +362,74 @@ Route::middleware('auth:sanctum')->group(function () {
     // Global Search routes
     Route::get('search', [GlobalSearchController::class, 'search'])->name('api.search');
     Route::get('search/suggestions', [GlobalSearchController::class, 'suggestions'])->name('api.search.suggestions');
+
+    // ========== Planning Module ==========
+
+    // Planning Slots routes
+    Route::apiResource('planning/slots', PlanningSlotController::class)->names([
+        'index' => 'api.planning.slots.index',
+        'store' => 'api.planning.slots.store',
+        'show' => 'api.planning.slots.show',
+        'update' => 'api.planning.slots.update',
+        'destroy' => 'api.planning.slots.destroy',
+    ]);
+    Route::post('planning/slots/bulk-create', [PlanningSlotController::class, 'bulkCreate'])->name('api.planning.slots.bulk-create');
+    Route::put('planning/slots/bulk-update', [PlanningSlotController::class, 'bulkUpdate'])->name('api.planning.slots.bulk-update');
+
+    // Planned Shutdowns routes
+    Route::apiResource('planning/shutdowns', PlannedShutdownController::class)->names([
+        'index' => 'api.planning.shutdowns.index',
+        'store' => 'api.planning.shutdowns.store',
+        'show' => 'api.planning.shutdowns.show',
+        'update' => 'api.planning.shutdowns.update',
+        'destroy' => 'api.planning.shutdowns.destroy',
+    ]);
+    Route::post('planning/shutdowns/{plannedShutdown}/plan-work', [PlannedShutdownController::class, 'planWork'])->name('api.planning.shutdowns.plan-work');
+    Route::post('planning/shutdowns/{plannedShutdown}/start', [PlannedShutdownController::class, 'start'])->name('api.planning.shutdowns.start');
+    Route::post('planning/shutdowns/{plannedShutdown}/complete', [PlannedShutdownController::class, 'complete'])->name('api.planning.shutdowns.complete');
+    Route::post('planning/shutdowns/{plannedShutdown}/cancel', [PlannedShutdownController::class, 'cancel'])->name('api.planning.shutdowns.cancel');
+
+    // Technician Availability routes
+    Route::apiResource('planning/availability', TechnicianAvailabilityController::class)->names([
+        'index' => 'api.planning.availability.index',
+        'store' => 'api.planning.availability.store',
+        'show' => 'api.planning.availability.show',
+        'update' => 'api.planning.availability.update',
+        'destroy' => 'api.planning.availability.destroy',
+    ]);
+    Route::get('planning/availability-summary', [TechnicianAvailabilityController::class, 'summary'])->name('api.planning.availability.summary');
+    Route::post('planning/availability/bulk', [TechnicianAvailabilityController::class, 'bulkStore'])->name('api.planning.availability.bulk');
+
+    // Planning Templates routes
+    Route::apiResource('planning/templates', PlanningTemplateController::class)->names([
+        'index' => 'api.planning.templates.index',
+        'store' => 'api.planning.templates.store',
+        'show' => 'api.planning.templates.show',
+        'update' => 'api.planning.templates.update',
+        'destroy' => 'api.planning.templates.destroy',
+    ]);
+    Route::post('planning/templates/{planningTemplate}/generate', [PlanningTemplateController::class, 'generate'])->name('api.planning.templates.generate');
+
+    // Planning Calendar & Views routes
+    Route::prefix('planning')->name('api.planning.')->group(function () {
+        Route::get('calendar', [PlanningController::class, 'calendar'])->name('calendar');
+        Route::get('gantt', [PlanningController::class, 'gantt'])->name('gantt');
+        Route::get('unplanned-work-orders', [PlanningController::class, 'unplannedWorkOrders'])->name('unplanned-work-orders');
+
+        // Auto-Scheduling routes
+        Route::post('auto-schedule', [PlanningController::class, 'autoSchedule'])->name('auto-schedule');
+        Route::post('suggest-slot', [PlanningController::class, 'suggestSlot'])->name('suggest-slot');
+        Route::post('rebalance', [PlanningController::class, 'rebalance'])->name('rebalance');
+
+        // Capacity & Conflicts routes
+        Route::get('capacity', [PlanningController::class, 'capacity'])->name('capacity');
+        Route::get('conflicts', [PlanningController::class, 'conflicts'])->name('conflicts');
+        Route::post('conflicts/{slot}/resolve', [PlanningController::class, 'resolveConflict'])->name('conflicts.resolve');
+
+        // Planning Analytics routes
+        Route::get('accuracy-metrics', [PlanningController::class, 'accuracyMetrics'])->name('accuracy-metrics');
+        Route::get('variances', [PlanningController::class, 'variances'])->name('variances');
+    });
 });
 
 // ========== Vendor Portal (Phase 8) - API Key Authentication ==========

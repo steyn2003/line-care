@@ -105,4 +105,44 @@ class User extends Authenticatable
     {
         return $this->deviceTokens()->exists();
     }
+
+    /**
+     * Get the planning slots assigned to this user (as technician).
+     */
+    public function planningSlots(): HasMany
+    {
+        return $this->hasMany(PlanningSlot::class, 'technician_id');
+    }
+
+    /**
+     * Get the availability records for this user (as technician).
+     */
+    public function availability(): HasMany
+    {
+        return $this->hasMany(TechnicianAvailability::class, 'technician_id');
+    }
+
+    /**
+     * Check if this user is a technician.
+     */
+    public function isTechnician(): bool
+    {
+        return $this->role === Role::TECHNICIAN;
+    }
+
+    /**
+     * Check if this user is a manager.
+     */
+    public function isManager(): bool
+    {
+        return $this->role === Role::MANAGER;
+    }
+
+    /**
+     * Check if this user is an operator.
+     */
+    public function isOperator(): bool
+    {
+        return $this->role === Role::OPERATOR;
+    }
 }
