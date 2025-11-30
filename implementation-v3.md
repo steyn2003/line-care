@@ -18,7 +18,7 @@ Transform LineCare into an enterprise-ready SaaS platform that:
 - [x] Phase 10 - Feature Flags & Plans per Tenant (COMPLETED)
 - [x] Phase 11 - Superadmin Portal (COMPLETED)
 - [x] Phase 12 - Audit Logging System (COMPLETED)
-- [ ] Phase 13 - Export, API Docs & Webhooks
+- [x] Phase 13 - Export, API Docs & Webhooks (COMPLETED)
 
 ---
 
@@ -867,23 +867,23 @@ Route::get('/openapi.json', function () {
 
 | # | Task | Status |
 |---|------|--------|
-| 1 | Create `ExportService` | [ ] |
-| 2 | Add work orders export endpoint | [ ] |
-| 3 | Add machines export endpoint | [ ] |
-| 4 | Add costs export endpoint | [ ] |
-| 5 | Add spare parts export endpoint | [ ] |
-| 6 | Add export buttons to list pages | [ ] |
-| 7 | Create `openapi.json` specification | [ ] |
-| 8 | Create API docs view with Swagger UI | [ ] |
-| 9 | Register docs routes | [ ] |
-| 10 | Migration: create `webhook_endpoints` table | [ ] |
-| 11 | Create `WebhookEndpoint` model | [ ] |
-| 12 | Build `WebhookDispatcher` service | [ ] |
-| 13 | Create `DispatchWebhookJob` | [ ] |
-| 14 | Create WebhookController with CRUD | [ ] |
-| 15 | Add webhook triggers to critical events | [ ] |
-| 16 | Create webhooks settings UI | [ ] |
-| 17 | Test webhook delivery end-to-end | [ ] |
+| 1 | Create `ExportService` | [x] |
+| 2 | Add work orders export endpoint | [x] |
+| 3 | Add machines export endpoint | [x] |
+| 4 | Add costs export endpoint | [x] |
+| 5 | Add spare parts export endpoint | [x] |
+| 6 | Add export buttons to list pages | [x] |
+| 7 | Create `openapi.json` specification | [x] |
+| 8 | Create API docs view with Swagger UI | [x] |
+| 9 | Register docs routes | [x] |
+| 10 | Migration: create `webhook_endpoints` table | [x] |
+| 11 | Create `WebhookEndpoint` model | [x] |
+| 12 | Build `WebhookDispatcher` service | [x] |
+| 13 | Create `DispatchWebhookJob` | [x] |
+| 14 | Create WebhookController with CRUD | [x] |
+| 15 | Add webhook triggers to critical events | [x] |
+| 16 | Create webhooks settings UI | [x] |
+| 17 | Test webhook delivery end-to-end | [x] |
 
 ---
 
