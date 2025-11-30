@@ -104,51 +104,6 @@ export default function CostReport({
         }).format(amount);
     };
 
-    const exportToCSV = () => {
-        const headers = [
-            'Machine/Category',
-            'Labor Cost',
-            'Parts Cost',
-            'External Service',
-            'Downtime Cost',
-            'Total Cost',
-            'Work Orders',
-        ];
-        const data =
-            filters.group_by === 'machine'
-                ? machines.map((m) => [
-                      m.name + (m.code ? ` (${m.code})` : ''),
-                      m.labor_cost,
-                      m.parts_cost,
-                      m.external_service_cost,
-                      m.downtime_cost,
-                      m.total_cost,
-                      m.work_order_count,
-                  ])
-                : categories.map((c) => [
-                      c.category_name,
-                      c.labor_cost,
-                      c.parts_cost,
-                      c.external_service_cost,
-                      c.downtime_cost,
-                      c.total_cost,
-                      c.work_order_count,
-                  ]);
-
-        const csv = [
-            headers.join(','),
-            ...data.map((row) => row.join(',')),
-        ].join('\n');
-
-        const blob = new Blob([csv], { type: 'text/csv' });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `cost-report-${filters.date_from}-to-${filters.date_to}.csv`;
-        a.click();
-        window.URL.revokeObjectURL(url);
-    };
-
     const totalCosts = machines.reduce(
         (acc, m) => ({
             labor: acc.labor + parseFloat(m.labor_cost.toString()),
@@ -183,9 +138,16 @@ export default function CostReport({
                             </p>
                         </div>
                     </div>
-                    <Button onClick={exportToCSV} variant="outline">
-                        <Download className="mr-2 h-4 w-4" />
-                        Export CSV
+                    <Button variant="outline" asChild>
+                        <a
+                            href={`/exports/costs?${new URLSearchParams({
+                                date_from: filters.date_from,
+                                date_to: filters.date_to,
+                            }).toString()}`}
+                        >
+                            <Download className="mr-2 h-4 w-4" />
+                            Export CSV
+                        </a>
                     </Button>
                 </div>
 

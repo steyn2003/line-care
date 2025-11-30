@@ -154,6 +154,31 @@ export default function SparePartsIndex({
                     </div>
                     <div className="flex gap-2">
                         <Button variant="outline" asChild>
+                            <a
+                                href={`/exports/spare-parts?${new URLSearchParams(
+                                    {
+                                        ...(filters.category_id && {
+                                            category_id:
+                                                filters.category_id.toString(),
+                                        }),
+                                        ...(filters.supplier_id && {
+                                            supplier_id:
+                                                filters.supplier_id.toString(),
+                                        }),
+                                        ...(filters.status && {
+                                            status: filters.status,
+                                        }),
+                                        ...(filters.low_stock && {
+                                            low_stock: 'true',
+                                        }),
+                                    },
+                                ).toString()}`}
+                            >
+                                <Download className="mr-2 h-4 w-4" />
+                                Export
+                            </a>
+                        </Button>
+                        <Button variant="outline" asChild>
                             <Link href="/inventory/low-stock">
                                 <AlertTriangle className="mr-2 h-4 w-4" />
                                 Low Stock Alert

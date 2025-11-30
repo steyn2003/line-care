@@ -123,12 +123,39 @@ export default function PreventiveTasksIndex({ tasks, machines }: Props) {
                             Schedule and track preventive maintenance tasks
                         </p>
                     </div>
-                    <Button
-                        onClick={() => router.visit('/preventive-tasks/create')}
-                    >
-                        <Plus className="mr-2 h-4 w-4" />
-                        Add Task
-                    </Button>
+                    <div className="flex gap-2">
+                        <Button variant="outline" asChild>
+                            <a
+                                href={`/exports/preventive-tasks?${new URLSearchParams(
+                                    {
+                                        ...(machineFilter && {
+                                            machine_id: machineFilter,
+                                        }),
+                                        ...(statusFilter === 'active' && {
+                                            is_active: 'true',
+                                        }),
+                                        ...(statusFilter === 'inactive' && {
+                                            is_active: 'false',
+                                        }),
+                                        ...(statusFilter === 'overdue' && {
+                                            overdue: 'true',
+                                        }),
+                                    },
+                                ).toString()}`}
+                            >
+                                <Download className="mr-2 h-4 w-4" />
+                                Export
+                            </a>
+                        </Button>
+                        <Button
+                            onClick={() =>
+                                router.visit('/preventive-tasks/create')
+                            }
+                        >
+                            <Plus className="mr-2 h-4 w-4" />
+                            Add Task
+                        </Button>
+                    </div>
                 </div>
 
                 {/* Filters */}

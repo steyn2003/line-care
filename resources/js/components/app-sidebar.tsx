@@ -18,6 +18,7 @@ import {
     AlertTriangle,
     BarChart3,
     Bell,
+    BookOpen,
     Brain,
     Building2,
     Calendar,
@@ -42,6 +43,7 @@ import {
     TrendingUp,
     Users,
     Warehouse,
+    Webhook,
     Wifi,
     Wrench,
 } from 'lucide-react';
@@ -349,6 +351,18 @@ export function AppSidebar() {
                   },
               ]
             : []),
+        // Webhooks - available to managers
+        {
+            title: t('settings.webhooks', 'Webhooks'),
+            href: '/settings/webhooks',
+            icon: Webhook,
+        },
+        // API Documentation
+        {
+            title: t('settings.api_docs', 'API Docs'),
+            href: '/api/docs',
+            icon: BookOpen,
+        },
     ];
 
     const settingsNavItem: NavItem = {

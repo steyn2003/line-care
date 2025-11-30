@@ -1,0 +1,859 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "LineCare API",
+    "version": "1.0.0",
+    "description": "LineCare CMMS API for maintenance management, work orders, inventory, OEE tracking, and more.",
+    "contact": {
+      "name": "LineCare Support",
+      "email": "support@linecare.app"
+    },
+    "license": {
+      "name": "Proprietary"
+    }
+  },
+  "servers": [
+    {
+      "url": "{baseUrl}/api",
+      "description": "API Server",
+      "variables": {
+        "baseUrl": {
+          "default": "https://app.linecare.app",
+          "description": "Base URL of the LineCare instance"
+        }
+      }
+    }
+  ],
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "tags": [
+    {
+      "name": "Authentication",
+      "description": "Authentication endpoints"
+    },
+    {
+      "name": "Machines",
+      "description": "Machine management"
+    },
+    {
+      "name": "Work Orders",
+      "description": "Work order management"
+    },
+    {
+      "name": "Preventive Tasks",
+      "description": "Preventive maintenance task management"
+    },
+    {
+      "name": "Spare Parts",
+      "description": "Spare parts inventory management"
+    },
+    {
+      "name": "Production Runs",
+      "description": "Production run and OEE tracking"
+    },
+    {
+      "name": "Planning",
+      "description": "Maintenance planning and scheduling"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Webhook endpoint management"
+    }
+  ],
+  "paths": {
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Authenticate user",
+        "description": "Authenticate with email and password to receive a bearer token",
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email",
+                    "example": "user@company.com"
+                  },
+                  "password": {
+                    "type": "string",
+                    "format": "password",
+                    "example": "password123"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful authentication",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "token": {
+                      "type": "string",
+                      "description": "Bearer token for API requests"
+                    },
+                    "user": {
+                      "$ref": "#/components/schemas/User"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          }
+        }
+      }
+    },
+    "/machines": {
+      "get": {
+        "tags": ["Machines"],
+        "summary": "List machines",
+        "description": "Get a paginated list of machines for the authenticated user's company",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 15 }
+          },
+          {
+            "name": "location_id",
+            "in": "query",
+            "schema": { "type": "integer" },
+            "description": "Filter by location"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["active", "archived"] }
+          },
+          {
+            "name": "criticality",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["low", "medium", "high"] }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of machines",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/Machine" }
+                    },
+                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Machines"],
+        "summary": "Create machine",
+        "description": "Create a new machine",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MachineInput" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Machine created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Machine" }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation error"
+          }
+        }
+      }
+    },
+    "/machines/{id}": {
+      "get": {
+        "tags": ["Machines"],
+        "summary": "Get machine",
+        "description": "Get a single machine by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Machine details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Machine" }
+              }
+            }
+          },
+          "404": {
+            "description": "Machine not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Machines"],
+        "summary": "Update machine",
+        "description": "Update an existing machine",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MachineInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Machine updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/Machine" }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Machines"],
+        "summary": "Delete machine",
+        "description": "Delete a machine",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Machine deleted"
+          }
+        }
+      }
+    },
+    "/work-orders": {
+      "get": {
+        "tags": ["Work Orders"],
+        "summary": "List work orders",
+        "description": "Get a paginated list of work orders",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 }
+          },
+          {
+            "name": "per_page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 15 }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["open", "in_progress", "completed", "cancelled"] }
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": { "type": "string", "enum": ["breakdown", "preventive"] }
+          },
+          {
+            "name": "machine_id",
+            "in": "query",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "assigned_to",
+            "in": "query",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "schema": { "type": "string", "format": "date" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of work orders",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/WorkOrder" }
+                    },
+                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Work Orders"],
+        "summary": "Create work order",
+        "description": "Create a new work order",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkOrderInput" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Work order created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/WorkOrder" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/work-orders/{id}": {
+      "get": {
+        "tags": ["Work Orders"],
+        "summary": "Get work order",
+        "description": "Get a single work order by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Work order details",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/WorkOrder" }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Work Orders"],
+        "summary": "Update work order",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WorkOrderInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Work order updated",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/WorkOrder" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/work-orders/{id}/status": {
+      "post": {
+        "tags": ["Work Orders"],
+        "summary": "Update work order status",
+        "description": "Update the status of a work order",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["status"],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": ["open", "in_progress", "completed", "cancelled"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status updated"
+          }
+        }
+      }
+    },
+    "/work-orders/{id}/complete": {
+      "post": {
+        "tags": ["Work Orders"],
+        "summary": "Complete work order",
+        "description": "Mark a work order as completed with details",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "work_done": {
+                    "type": "string",
+                    "description": "Description of work performed"
+                  },
+                  "cause_category_id": {
+                    "type": "integer",
+                    "description": "ID of the cause category"
+                  },
+                  "notes": {
+                    "type": "string"
+                  },
+                  "spare_parts": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "spare_part_id": { "type": "integer" },
+                        "quantity": { "type": "number" },
+                        "location_id": { "type": "integer" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Work order completed"
+          }
+        }
+      }
+    },
+    "/spare-parts": {
+      "get": {
+        "tags": ["Spare Parts"],
+        "summary": "List spare parts",
+        "description": "Get a paginated list of spare parts",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": { "type": "integer", "default": 1 }
+          },
+          {
+            "name": "category_id",
+            "in": "query",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "supplier_id",
+            "in": "query",
+            "schema": { "type": "integer" }
+          },
+          {
+            "name": "low_stock",
+            "in": "query",
+            "schema": { "type": "boolean" },
+            "description": "Filter parts below reorder point"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of spare parts",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "data": {
+                      "type": "array",
+                      "items": { "$ref": "#/components/schemas/SparePart" }
+                    },
+                    "meta": { "$ref": "#/components/schemas/PaginationMeta" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Spare Parts"],
+        "summary": "Create spare part",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SparePartInput" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Spare part created"
+          }
+        }
+      }
+    },
+    "/webhooks": {
+      "get": {
+        "tags": ["Webhooks"],
+        "summary": "List webhook endpoints",
+        "description": "Get all configured webhook endpoints for your company",
+        "responses": {
+          "200": {
+            "description": "List of webhook endpoints",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": { "$ref": "#/components/schemas/WebhookEndpoint" }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Webhooks"],
+        "summary": "Create webhook endpoint",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WebhookEndpointInput" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Webhook endpoint created",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/WebhookEndpoint" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/webhooks/{id}": {
+      "put": {
+        "tags": ["Webhooks"],
+        "summary": "Update webhook endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/WebhookEndpointInput" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Webhook endpoint updated"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Webhooks"],
+        "summary": "Delete webhook endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Webhook endpoint deleted"
+          }
+        }
+      }
+    },
+    "/webhooks/{id}/test": {
+      "post": {
+        "tags": ["Webhooks"],
+        "summary": "Test webhook endpoint",
+        "description": "Send a test payload to the webhook endpoint",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "integer" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Test webhook sent"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "description": "Enter your API token"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "role": { "type": "string", "enum": ["operator", "technician", "manager", "super_admin"] },
+          "company_id": { "type": "integer" },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Machine": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" },
+          "code": { "type": "string", "nullable": true },
+          "location_id": { "type": "integer", "nullable": true },
+          "location": { "$ref": "#/components/schemas/Location" },
+          "criticality": { "type": "string", "enum": ["low", "medium", "high"] },
+          "status": { "type": "string", "enum": ["active", "archived"] },
+          "hourly_production_value": { "type": "number", "nullable": true },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "MachineInput": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "code": { "type": "string" },
+          "location_id": { "type": "integer" },
+          "criticality": { "type": "string", "enum": ["low", "medium", "high"] },
+          "status": { "type": "string", "enum": ["active", "archived"] },
+          "hourly_production_value": { "type": "number" }
+        }
+      },
+      "Location": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "name": { "type": "string" }
+        }
+      },
+      "WorkOrder": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "title": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "type": { "type": "string", "enum": ["breakdown", "preventive"] },
+          "status": { "type": "string", "enum": ["open", "in_progress", "completed", "cancelled"] },
+          "machine_id": { "type": "integer" },
+          "machine": { "$ref": "#/components/schemas/Machine" },
+          "assigned_to": { "type": "integer", "nullable": true },
+          "assignee": { "$ref": "#/components/schemas/User" },
+          "created_by": { "type": "integer" },
+          "creator": { "$ref": "#/components/schemas/User" },
+          "cause_category_id": { "type": "integer", "nullable": true },
+          "started_at": { "type": "string", "format": "date-time", "nullable": true },
+          "completed_at": { "type": "string", "format": "date-time", "nullable": true },
+          "created_at": { "type": "string", "format": "date-time" },
+          "updated_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "WorkOrderInput": {
+        "type": "object",
+        "required": ["title", "machine_id", "type"],
+        "properties": {
+          "title": { "type": "string" },
+          "description": { "type": "string" },
+          "machine_id": { "type": "integer" },
+          "type": { "type": "string", "enum": ["breakdown", "preventive"] },
+          "assigned_to": { "type": "integer" }
+        }
+      },
+      "SparePart": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "part_number": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string", "nullable": true },
+          "category_id": { "type": "integer", "nullable": true },
+          "supplier_id": { "type": "integer", "nullable": true },
+          "unit_of_measure": { "type": "string" },
+          "unit_cost": { "type": "number" },
+          "reorder_point": { "type": "integer" },
+          "reorder_quantity": { "type": "integer" },
+          "is_critical": { "type": "boolean" },
+          "status": { "type": "string", "enum": ["active", "discontinued"] },
+          "total_quantity_on_hand": { "type": "integer" },
+          "total_quantity_available": { "type": "integer" }
+        }
+      },
+      "SparePartInput": {
+        "type": "object",
+        "required": ["part_number", "name"],
+        "properties": {
+          "part_number": { "type": "string" },
+          "name": { "type": "string" },
+          "description": { "type": "string" },
+          "category_id": { "type": "integer" },
+          "supplier_id": { "type": "integer" },
+          "unit_of_measure": { "type": "string" },
+          "unit_cost": { "type": "number" },
+          "reorder_point": { "type": "integer" },
+          "reorder_quantity": { "type": "integer" },
+          "is_critical": { "type": "boolean" }
+        }
+      },
+      "WebhookEndpoint": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "url": { "type": "string", "format": "uri" },
+          "events": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "List of events to subscribe to"
+          },
+          "is_active": { "type": "boolean" },
+          "last_triggered_at": { "type": "string", "format": "date-time", "nullable": true },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "WebhookEndpointInput": {
+        "type": "object",
+        "required": ["url", "events"],
+        "properties": {
+          "url": { "type": "string", "format": "uri" },
+          "events": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "work_order.created",
+                "work_order.completed",
+                "work_order.assigned",
+                "part.low_stock",
+                "purchase_order.received",
+                "failure.predicted"
+              ]
+            }
+          },
+          "is_active": { "type": "boolean", "default": true }
+        }
+      },
+      "PaginationMeta": {
+        "type": "object",
+        "properties": {
+          "current_page": { "type": "integer" },
+          "per_page": { "type": "integer" },
+          "total": { "type": "integer" },
+          "last_page": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

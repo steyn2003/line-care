@@ -105,6 +105,22 @@ export default function MachinesIndex({ machines, locations, filters }: Props) {
                     </div>
                     <div className="flex gap-2">
                         <Button variant="outline" asChild>
+                            <a
+                                href={`/exports/machines?${new URLSearchParams({
+                                    ...(filters.location_id && {
+                                        location_id:
+                                            filters.location_id.toString(),
+                                    }),
+                                    ...(filters.status && {
+                                        status: filters.status,
+                                    }),
+                                }).toString()}`}
+                            >
+                                <Download className="mr-2 h-4 w-4" />
+                                {t('list.export', 'Export')}
+                            </a>
+                        </Button>
+                        <Button variant="outline" asChild>
                             <Link href="/machines/import">
                                 <FileUp className="mr-2 h-4 w-4" />
                                 {t('list.import_csv')}

@@ -316,6 +316,39 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('audit.for-model');
 });
 
+// ========== API Documentation ==========
+Route::middleware(['auth', 'verified'])->get('/api/docs', function () {
+    return view('api-docs');
+})->name('api.docs');
+
+// ========== Webhook Settings Routes ==========
+Route::middleware(['auth', 'verified'])->prefix('settings/webhooks')->name('webhooks.')->group(function () {
+    Route::get('/', [\App\Http\Controllers\WebhookController::class, 'index'])->name('index');
+    Route::post('/', [\App\Http\Controllers\WebhookController::class, 'store'])->name('store');
+    Route::get('/{webhook}', [\App\Http\Controllers\WebhookController::class, 'show'])->name('show');
+    Route::put('/{webhook}', [\App\Http\Controllers\WebhookController::class, 'update'])->name('update');
+    Route::delete('/{webhook}', [\App\Http\Controllers\WebhookController::class, 'destroy'])->name('destroy');
+    Route::post('/{webhook}/toggle', [\App\Http\Controllers\WebhookController::class, 'toggle'])->name('toggle');
+    Route::post('/{webhook}/regenerate-secret', [\App\Http\Controllers\WebhookController::class, 'regenerateSecret'])->name('regenerate-secret');
+    Route::post('/{webhook}/test', [\App\Http\Controllers\WebhookController::class, 'test'])->name('test');
+});
+
+// ========== Export Routes ==========
+Route::middleware(['auth', 'verified'])->prefix('exports')->name('exports.')->group(function () {
+    Route::get('work-orders', [\App\Http\Controllers\ExportController::class, 'workOrders'])->name('work-orders');
+    Route::get('machines', [\App\Http\Controllers\ExportController::class, 'machines'])->name('machines');
+    Route::get('preventive-tasks', [\App\Http\Controllers\ExportController::class, 'preventiveTasks'])->name('preventive-tasks');
+
+    // Feature-gated exports
+    Route::middleware(['feature:inventory'])->group(function () {
+        Route::get('spare-parts', [\App\Http\Controllers\ExportController::class, 'spareParts'])->name('spare-parts');
+    });
+
+    Route::middleware(['feature:costs'])->group(function () {
+        Route::get('costs', [\App\Http\Controllers\ExportController::class, 'costs'])->name('costs');
+    });
+});
+
 // ========== Admin Routes (Super Admin Only) ==========
 
 Route::middleware(['auth', 'verified', 'super.admin'])->prefix('admin')->name('admin.')->group(function () {

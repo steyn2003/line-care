@@ -169,6 +169,33 @@ export default function WorkOrdersIndex({
                         </p>
                     </div>
                     <div className="flex gap-2">
+                        <Button variant="outline" asChild>
+                            <a
+                                href={`/exports/work-orders?${new URLSearchParams(
+                                    {
+                                        ...(filters.status && {
+                                            status: filters.status,
+                                        }),
+                                        ...(filters.type && {
+                                            type: filters.type,
+                                        }),
+                                        ...(filters.machine_id && {
+                                            machine_id:
+                                                filters.machine_id.toString(),
+                                        }),
+                                        ...(filters.date_from && {
+                                            date_from: filters.date_from,
+                                        }),
+                                        ...(filters.date_to && {
+                                            date_to: filters.date_to,
+                                        }),
+                                    },
+                                ).toString()}`}
+                            >
+                                <Download className="mr-2 h-4 w-4" />
+                                {t('list.export', 'Export')}
+                            </a>
+                        </Button>
                         {user.role !== 'operator' && (
                             <Button variant="outline" asChild>
                                 <Link href="/work-orders/create">
