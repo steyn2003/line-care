@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\WorkOrderStatus;
 use App\Enums\WorkOrderType;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +14,17 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class WorkOrder extends Model
 {
-    use HasFactory;
+    use HasFactory, Auditable;
+
+    /**
+     * The events to audit.
+     */
+    protected array $auditEvents = ['created', 'updated', 'deleted'];
+
+    /**
+     * Fields to exclude from audit logs.
+     */
+    protected array $auditExclude = ['updated_at'];
 
     /**
      * The attributes that are mass assignable.

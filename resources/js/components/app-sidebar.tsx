@@ -279,6 +279,14 @@ export function AppSidebar() {
         ],
     };
 
+    // Audit Log - only for managers and superadmins
+    const isManager = auth.user.role === 'manager';
+    const auditNavItem: NavItem = {
+        title: t('audit.title'),
+        href: '/audit',
+        icon: Clock,
+    };
+
     // IoT & Sensors section with sub-items
     const iotNavItem: NavItem = {
         title: t('iot.title'),
@@ -384,9 +392,10 @@ export function AppSidebar() {
 
     const financeNavItems: NavItem[] = features.costs ? [costNavItem] : [];
 
-    const insightsNavItems: NavItem[] = features.analytics
-        ? [reportsNavItem]
-        : [];
+    const insightsNavItems: NavItem[] = [
+        ...(features.analytics ? [reportsNavItem] : []),
+        ...(isManager || isSuperAdmin ? [auditNavItem] : []),
+    ];
 
     const systemNavItems: NavItem[] = [
         ...(features.iot ? [iotNavItem] : []),

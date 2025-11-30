@@ -22,6 +22,11 @@ class LocationPolicy
      */
     public function view(User $user, Location $location): bool
     {
+        // Super admins can view all locations
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Users can only view locations from their own company
         return $user->company_id === $location->company_id;
     }
@@ -31,8 +36,8 @@ class LocationPolicy
      */
     public function create(User $user): bool
     {
-        // Only Managers can create locations
-        return $user->role === Role::MANAGER;
+        // Only Managers and Super Admins can create locations
+        return $user->canActAsManager();
     }
 
     /**
@@ -40,13 +45,18 @@ class LocationPolicy
      */
     public function update(User $user, Location $location): bool
     {
+        // Super admins can update all locations
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $location->company_id) {
             return false;
         }
 
         // Only Managers can update locations
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 
     /**
@@ -54,12 +64,17 @@ class LocationPolicy
      */
     public function delete(User $user, Location $location): bool
     {
+        // Super admins can delete all locations
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $location->company_id) {
             return false;
         }
 
         // Only Managers can delete locations
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 }

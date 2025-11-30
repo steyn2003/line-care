@@ -13,9 +13,9 @@ class PreventiveTaskPolicy
      */
     public function viewAny(User $user): bool
     {
-        // Technicians and Managers can view preventive tasks
+        // Technicians, Managers, and Super Admins can view preventive tasks
         // Operators don't need to see preventive tasks (they only handle breakdowns)
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -23,13 +23,18 @@ class PreventiveTaskPolicy
      */
     public function view(User $user, PreventiveTask $preventiveTask): bool
     {
+        // Super admins can view all preventive tasks
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $preventiveTask->company_id) {
             return false;
         }
 
         // Technicians and Managers can view
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -37,8 +42,8 @@ class PreventiveTaskPolicy
      */
     public function create(User $user): bool
     {
-        // Only Managers can create preventive tasks
-        return $user->role === Role::MANAGER;
+        // Only Managers and Super Admins can create preventive tasks
+        return $user->canActAsManager();
     }
 
     /**
@@ -46,13 +51,18 @@ class PreventiveTaskPolicy
      */
     public function update(User $user, PreventiveTask $preventiveTask): bool
     {
+        // Super admins can update all preventive tasks
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $preventiveTask->company_id) {
             return false;
         }
 
         // Only Managers can update preventive tasks
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 
     /**
@@ -60,12 +70,17 @@ class PreventiveTaskPolicy
      */
     public function delete(User $user, PreventiveTask $preventiveTask): bool
     {
+        // Super admins can delete all preventive tasks
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $preventiveTask->company_id) {
             return false;
         }
 
         // Only Managers can delete preventive tasks
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 }

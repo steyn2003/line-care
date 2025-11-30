@@ -36,7 +36,7 @@ interface UserData {
     id: number;
     name: string;
     email: string;
-    role: 'operator' | 'technician' | 'manager';
+    role: 'operator' | 'technician' | 'manager' | 'super_admin';
     created_at: string;
 }
 
@@ -53,7 +53,11 @@ export default function UsersIndex({ users }: Props) {
     const { data, setData, post, put, reset, processing, errors } = useForm({
         name: '',
         email: '',
-        role: 'technician' as 'operator' | 'technician' | 'manager',
+        role: 'technician' as
+            | 'operator'
+            | 'technician'
+            | 'manager'
+            | 'super_admin',
         password: '',
         password_confirmation: '',
     });
@@ -123,6 +127,11 @@ export default function UsersIndex({ users }: Props) {
                 color: string;
             }
         > = {
+            super_admin: {
+                variant: 'default',
+                label: 'Super Admin',
+                color: 'bg-red-100 text-red-800',
+            },
             manager: {
                 variant: 'default',
                 label: 'Manager',

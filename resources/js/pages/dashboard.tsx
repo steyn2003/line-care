@@ -148,7 +148,7 @@ interface Props {
     };
     user: {
         name: string;
-        role: 'operator' | 'technician' | 'manager';
+        role: 'operator' | 'technician' | 'manager' | 'super_admin';
     };
 }
 
@@ -243,8 +243,9 @@ export default function Dashboard({
         handleFilterChange({ date_to: newDate });
     };
 
-    const isManager = user.role === 'manager';
-    const isTechnician = user.role === 'technician';
+    const isSuperAdmin = user.role === 'super_admin';
+    const isManager = user.role === 'manager' || isSuperAdmin;
+    const isTechnician = user.role === 'technician' || isManager;
 
     return (
         <AppLayout>

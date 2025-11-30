@@ -13,8 +13,8 @@ class PlanningTemplatePolicy
      */
     public function viewAny(User $user): bool
     {
-        // Technicians and Managers can view planning templates
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        // Technicians, Managers, and Super Admins can view planning templates
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -22,13 +22,18 @@ class PlanningTemplatePolicy
      */
     public function view(User $user, PlanningTemplate $planningTemplate): bool
     {
+        // Super admins can view all planning templates
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $planningTemplate->company_id) {
             return false;
         }
 
         // Technicians and Managers can view
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -36,8 +41,8 @@ class PlanningTemplatePolicy
      */
     public function create(User $user): bool
     {
-        // Only Managers can create planning templates
-        return $user->role === Role::MANAGER;
+        // Only Managers and Super Admins can create planning templates
+        return $user->canActAsManager();
     }
 
     /**
@@ -45,13 +50,18 @@ class PlanningTemplatePolicy
      */
     public function update(User $user, PlanningTemplate $planningTemplate): bool
     {
+        // Super admins can update all planning templates
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $planningTemplate->company_id) {
             return false;
         }
 
         // Only Managers can update planning templates
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 
     /**
@@ -59,12 +69,17 @@ class PlanningTemplatePolicy
      */
     public function delete(User $user, PlanningTemplate $planningTemplate): bool
     {
+        // Super admins can delete all planning templates
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $planningTemplate->company_id) {
             return false;
         }
 
         // Only Managers can delete planning templates
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 }

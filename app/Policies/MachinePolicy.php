@@ -22,6 +22,11 @@ class MachinePolicy
      */
     public function view(User $user, Machine $machine): bool
     {
+        // Super admins can view all machines
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Users can only view machines from their own company
         return $user->company_id === $machine->company_id;
     }
@@ -31,8 +36,8 @@ class MachinePolicy
      */
     public function create(User $user): bool
     {
-        // Only Technicians and Managers can create machines
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        // Only Technicians, Managers, and Super Admins can create machines
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -40,13 +45,18 @@ class MachinePolicy
      */
     public function update(User $user, Machine $machine): bool
     {
+        // Super admins can update all machines
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $machine->company_id) {
             return false;
         }
 
         // Only Technicians and Managers can update machines
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -54,13 +64,18 @@ class MachinePolicy
      */
     public function delete(User $user, Machine $machine): bool
     {
+        // Super admins can delete all machines
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $machine->company_id) {
             return false;
         }
 
         // Only Managers can delete machines
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 
     /**
@@ -68,7 +83,7 @@ class MachinePolicy
      */
     public function import(User $user): bool
     {
-        // Only Managers can import machines
-        return $user->role === Role::MANAGER;
+        // Only Managers and Super Admins can import machines
+        return $user->canActAsManager();
     }
 }

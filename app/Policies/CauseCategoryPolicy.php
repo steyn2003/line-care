@@ -22,6 +22,11 @@ class CauseCategoryPolicy
      */
     public function view(User $user, CauseCategory $causeCategory): bool
     {
+        // Super admins can view all cause categories
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Users can only view cause categories from their own company
         return $user->company_id === $causeCategory->company_id;
     }
@@ -31,8 +36,8 @@ class CauseCategoryPolicy
      */
     public function create(User $user): bool
     {
-        // Only Managers can create cause categories
-        return $user->role === Role::MANAGER;
+        // Only Managers and Super Admins can create cause categories
+        return $user->canActAsManager();
     }
 
     /**
@@ -40,13 +45,18 @@ class CauseCategoryPolicy
      */
     public function update(User $user, CauseCategory $causeCategory): bool
     {
+        // Super admins can update all cause categories
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $causeCategory->company_id) {
             return false;
         }
 
         // Only Managers can update cause categories
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 
     /**
@@ -54,12 +64,17 @@ class CauseCategoryPolicy
      */
     public function delete(User $user, CauseCategory $causeCategory): bool
     {
+        // Super admins can delete all cause categories
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $causeCategory->company_id) {
             return false;
         }
 
         // Only Managers can delete cause categories
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 }

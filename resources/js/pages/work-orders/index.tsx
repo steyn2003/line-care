@@ -63,7 +63,7 @@ interface Props {
         date_to?: string;
     };
     user: {
-        role: 'operator' | 'technician' | 'manager';
+        role: 'operator' | 'technician' | 'manager' | 'super_admin';
     };
 }
 

@@ -53,4 +53,31 @@ enum Role: string
     {
         return $this === self::SUPER_ADMIN;
     }
+
+    /**
+     * Check if this role can perform manager-level actions.
+     * Super admins can do everything managers can do.
+     */
+    public function canActAsManager(): bool
+    {
+        return $this === self::MANAGER || $this === self::SUPER_ADMIN;
+    }
+
+    /**
+     * Check if this role can perform technician-level actions.
+     * Managers and super admins can do everything technicians can do.
+     */
+    public function canActAsTechnician(): bool
+    {
+        return in_array($this, [self::TECHNICIAN, self::MANAGER, self::SUPER_ADMIN], true);
+    }
+
+    /**
+     * Check if this role has elevated permissions (not just operator).
+     * Technicians, managers, and super admins have elevated permissions.
+     */
+    public function hasElevatedPermissions(): bool
+    {
+        return $this !== self::OPERATOR;
+    }
 }

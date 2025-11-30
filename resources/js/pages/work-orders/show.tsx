@@ -149,7 +149,7 @@ interface Props {
     locations: Location[];
     user: {
         id: number;
-        role: 'operator' | 'technician' | 'manager';
+        role: 'operator' | 'technician' | 'manager' | 'super_admin';
     };
 }
 

@@ -24,18 +24,23 @@ class WorkOrderPolicy
      */
     public function view(User $user, WorkOrder $workOrder): bool
     {
+        // Super admins can view all work orders
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $workOrder->company_id) {
             return false;
         }
 
         // Managers and Technicians can view all
-        if (in_array($user->role, [Role::TECHNICIAN, Role::MANAGER])) {
+        if ($user->canActAsTechnician()) {
             return true;
         }
 
         // Operators can only view work orders they created
-        return $user->role === Role::OPERATOR && $workOrder->created_by === $user->id;
+        return $user->isOperator() && $workOrder->created_by === $user->id;
     }
 
     /**
@@ -53,13 +58,18 @@ class WorkOrderPolicy
      */
     public function update(User $user, WorkOrder $workOrder): bool
     {
+        // Super admins can update all work orders
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $workOrder->company_id) {
             return false;
         }
 
         // Only Technicians and Managers can update work orders
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -67,13 +77,18 @@ class WorkOrderPolicy
      */
     public function delete(User $user, WorkOrder $workOrder): bool
     {
+        // Super admins can delete all work orders
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $workOrder->company_id) {
             return false;
         }
 
         // Only Managers can delete work orders
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 
     /**
@@ -81,13 +96,18 @@ class WorkOrderPolicy
      */
     public function assign(User $user, WorkOrder $workOrder): bool
     {
+        // Super admins can assign all work orders
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $workOrder->company_id) {
             return false;
         }
 
         // Technicians can assign to themselves, Managers can assign to anyone
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -95,12 +115,17 @@ class WorkOrderPolicy
      */
     public function complete(User $user, WorkOrder $workOrder): bool
     {
+        // Super admins can complete all work orders
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $workOrder->company_id) {
             return false;
         }
 
         // Only Technicians and Managers can complete work orders
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 }

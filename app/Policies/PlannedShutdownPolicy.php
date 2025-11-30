@@ -22,6 +22,11 @@ class PlannedShutdownPolicy
      */
     public function view(User $user, PlannedShutdown $plannedShutdown): bool
     {
+        // Super admins can view all planned shutdowns
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         return $user->company_id === $plannedShutdown->company_id;
     }
@@ -31,8 +36,8 @@ class PlannedShutdownPolicy
      */
     public function create(User $user): bool
     {
-        // Only Managers can create planned shutdowns
-        return $user->role === Role::MANAGER;
+        // Only Managers and Super Admins can create planned shutdowns
+        return $user->canActAsManager();
     }
 
     /**
@@ -40,13 +45,18 @@ class PlannedShutdownPolicy
      */
     public function update(User $user, PlannedShutdown $plannedShutdown): bool
     {
+        // Super admins can update all planned shutdowns
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $plannedShutdown->company_id) {
             return false;
         }
 
         // Only Managers can update planned shutdowns
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 
     /**
@@ -54,12 +64,17 @@ class PlannedShutdownPolicy
      */
     public function delete(User $user, PlannedShutdown $plannedShutdown): bool
     {
+        // Super admins can delete all planned shutdowns
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $plannedShutdown->company_id) {
             return false;
         }
 
         // Only Managers can delete planned shutdowns
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 }

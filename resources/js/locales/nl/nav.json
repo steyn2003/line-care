@@ -70,6 +70,9 @@
         "companies": "Bedrijven",
         "users": "Alle Gebruikers"
     },
+    "audit": {
+        "title": "Auditlogboek"
+    },
     "user_menu": {
         "profile": "Profiel",
         "settings": "Instellingen",

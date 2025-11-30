@@ -22,6 +22,11 @@ class PlanningSlotPolicy
      */
     public function view(User $user, PlanningSlot $planningSlot): bool
     {
+        // Super admins can view all planning slots
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         return $user->company_id === $planningSlot->company_id;
     }
@@ -31,8 +36,8 @@ class PlanningSlotPolicy
      */
     public function create(User $user): bool
     {
-        // Only Technicians and Managers can create planning slots
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        // Only Technicians, Managers, and Super Admins can create planning slots
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -40,13 +45,18 @@ class PlanningSlotPolicy
      */
     public function update(User $user, PlanningSlot $planningSlot): bool
     {
+        // Super admins can update all planning slots
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $planningSlot->company_id) {
             return false;
         }
 
         // Only Technicians and Managers can update planning slots
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -54,12 +64,17 @@ class PlanningSlotPolicy
      */
     public function delete(User $user, PlanningSlot $planningSlot): bool
     {
+        // Super admins can delete all planning slots
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $planningSlot->company_id) {
             return false;
         }
 
         // Only Managers can delete planning slots
-        return $user->role === Role::MANAGER;
+        return $user->canActAsManager();
     }
 }

@@ -292,5 +292,30 @@
             "banner_prefix": "You are viewing as",
             "at": "at"
         }
+    },
+    "audit": {
+        "title": "Audit Log",
+        "description": "Track all changes and actions in the system",
+        "history": "History",
+        "logs": "Audit Logs",
+        "logs_description": "All recorded actions and changes",
+        "no_logs": "No audit logs found",
+        "filters": "Filters",
+        "filter_logs": "Filter Logs",
+        "model_type": "Resource Type",
+        "action": "Action",
+        "user": "User",
+        "date_from": "From Date",
+        "date_to": "To Date",
+        "all": "All",
+        "apply": "Apply Filters",
+        "clear": "Clear",
+        "timestamp": "Time",
+        "resource": "Resource",
+        "changes": "Changes",
+        "ip": "IP Address",
+        "showing": "Showing",
+        "of": "of",
+        "entries": "entries"
     }
 }

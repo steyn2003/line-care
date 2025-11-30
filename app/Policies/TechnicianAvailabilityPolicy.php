@@ -22,6 +22,11 @@ class TechnicianAvailabilityPolicy
      */
     public function view(User $user, TechnicianAvailability $availability): bool
     {
+        // Super admins can view all availability records
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         return $user->company_id === $availability->company_id;
     }
@@ -31,8 +36,8 @@ class TechnicianAvailabilityPolicy
      */
     public function create(User $user): bool
     {
-        // Technicians can create their own, Managers can create for anyone
-        return in_array($user->role, [Role::TECHNICIAN, Role::MANAGER]);
+        // Technicians can create their own, Managers and Super Admins can create for anyone
+        return $user->canActAsTechnician();
     }
 
     /**
@@ -40,17 +45,22 @@ class TechnicianAvailabilityPolicy
      */
     public function update(User $user, TechnicianAvailability $availability): bool
     {
+        // Super admins can update all availability records
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $availability->company_id) {
             return false;
         }
 
         // Managers can update any, Technicians can only update their own
-        if ($user->role === Role::MANAGER) {
+        if ($user->canActAsManager()) {
             return true;
         }
 
-        return $user->role === Role::TECHNICIAN && $availability->technician_id === $user->id;
+        return $user->isTechnician() && $availability->technician_id === $user->id;
     }
 
     /**
@@ -58,16 +68,21 @@ class TechnicianAvailabilityPolicy
      */
     public function delete(User $user, TechnicianAvailability $availability): bool
     {
+        // Super admins can delete all availability records
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
         // Must belong to same company
         if ($user->company_id !== $availability->company_id) {
             return false;
         }
 
         // Managers can delete any, Technicians can only delete their own
-        if ($user->role === Role::MANAGER) {
+        if ($user->canActAsManager()) {
             return true;
         }
 
-        return $user->role === Role::TECHNICIAN && $availability->technician_id === $user->id;
+        return $user->isTechnician() && $availability->technician_id === $user->id;
     }
 }

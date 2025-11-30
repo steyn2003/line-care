@@ -292,5 +292,30 @@
             "banner_prefix": "Je bekijkt als",
             "at": "bij"
         }
+    },
+    "audit": {
+        "title": "Auditlogboek",
+        "description": "Volg alle wijzigingen en acties in het systeem",
+        "history": "Geschiedenis",
+        "logs": "Auditlogs",
+        "logs_description": "Alle geregistreerde acties en wijzigingen",
+        "no_logs": "Geen auditlogs gevonden",
+        "filters": "Filters",
+        "filter_logs": "Logs Filteren",
+        "model_type": "Resourcetype",
+        "action": "Actie",
+        "user": "Gebruiker",
+        "date_from": "Van Datum",
+        "date_to": "Tot Datum",
+        "all": "Alle",
+        "apply": "Filters Toepassen",
+        "clear": "Wissen",
+        "timestamp": "Tijd",
+        "resource": "Resource",
+        "changes": "Wijzigingen",
+        "ip": "IP-adres",
+        "showing": "Toont",
+        "of": "van",
+        "entries": "items"
     }
 }

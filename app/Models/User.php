@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Enums\Role;
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -14,7 +15,23 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, TwoFactorAuthenticatable, Auditable;
+
+    /**
+     * The events to audit.
+     */
+    protected array $auditEvents = ['created', 'updated', 'deleted'];
+
+    /**
+     * Fields to exclude from audit logs (sensitive data).
+     */
+    protected array $auditExclude = [
+        'password',
+        'remember_token',
+        'two_factor_secret',
+        'two_factor_recovery_codes',
+        'updated_at',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -152,6 +169,33 @@ class User extends Authenticatable
     public function isSuperAdmin(): bool
     {
         return $this->role->isSuperAdmin();
+    }
+
+    /**
+     * Check if this user can perform manager-level actions.
+     * Super admins can do everything managers can do.
+     */
+    public function canActAsManager(): bool
+    {
+        return $this->role->canActAsManager();
+    }
+
+    /**
+     * Check if this user can perform technician-level actions.
+     * Managers and super admins can do everything technicians can do.
+     */
+    public function canActAsTechnician(): bool
+    {
+        return $this->role->canActAsTechnician();
+    }
+
+    /**
+     * Check if this user has elevated permissions (not just operator).
+     * Technicians, managers, and super admins have elevated permissions.
+     */
+    public function hasElevatedPermissions(): bool
+    {
+        return $this->role->hasElevatedPermissions();
     }
 
     /**
