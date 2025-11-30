@@ -48,7 +48,13 @@ class CompanyController extends Controller
         }]);
 
         return Inertia::render('admin/companies/show', [
-            'company' => $company,
+            'company' => array_merge($company->toArray(), [
+                'is_trial' => $company->is_trial,
+                'trial_ends_at' => $company->trial_ends_at?->toISOString(),
+                'is_demo' => $company->is_demo,
+                'industry' => $company->industry,
+                'company_size' => $company->company_size,
+            ]),
             'featureSummary' => $this->featureService->getFeatureSummaryForCompany($company),
             'availablePlans' => $this->featureService->getAvailablePlans(),
             'featureDefinitions' => $this->featureService->getFeatureDefinitions(),
@@ -145,5 +151,49 @@ class CompanyController extends Controller
 
         return redirect()->route('admin.companies.index')
             ->with('success', __('admin.companies.deleted'));
+    }
+
+    /**
+     * Extend the trial period for a company.
+     */
+    public function extendTrial(Request $request, Company $company): RedirectResponse
+    {
+        if (! $company->is_trial) {
+            return back()->withErrors([
+                'trial' => __('admin.companies.not_a_trial'),
+            ]);
+        }
+
+        $validated = $request->validate([
+            'days' => 'required|integer|min:1|max:90',
+        ]);
+
+        $company->extendTrial($validated['days']);
+
+        return back()->with('success', __('admin.companies.trial_extended', [
+            'days' => $validated['days'],
+        ]));
+    }
+
+    /**
+     * Convert a trial company to a paid plan.
+     */
+    public function convertToPaid(Request $request, Company $company): RedirectResponse
+    {
+        if (! $company->is_trial) {
+            return back()->withErrors([
+                'trial' => __('admin.companies.not_a_trial'),
+            ]);
+        }
+
+        $validated = $request->validate([
+            'plan' => 'required|string|in:' . implode(',', $this->featureService->getAvailablePlans()),
+        ]);
+
+        $company->convertToPaid($validated['plan']);
+
+        return back()->with('success', __('admin.companies.converted_to_paid', [
+            'plan' => $validated['plan'],
+        ]));
     }
 }

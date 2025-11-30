@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { dashboard, login, register } from '@/routes';
+import { dashboard, login } from '@/routes';
 import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +9,7 @@ interface MarketingNavProps {
     currentPath?: string;
 }
 
-export function MarketingNav({
-    canRegister = true,
-    currentPath = '/',
-}: MarketingNavProps) {
+export function MarketingNav({ currentPath = '/' }: MarketingNavProps) {
     const { auth } = usePage<SharedData>().props;
     const { t } = useTranslation('marketing');
 
@@ -66,13 +63,11 @@ export function MarketingNav({
                                         {t('nav.login')}
                                     </Button>
                                 </Link>
-                                {canRegister && (
-                                    <Link href={register()}>
-                                        <Button size="sm">
-                                            {t('nav.try_free')}
-                                        </Button>
-                                    </Link>
-                                )}
+                                <Link href="/trial">
+                                    <Button size="sm">
+                                        {t('nav.try_free', 'Gratis proberen')}
+                                    </Button>
+                                </Link>
                             </>
                         )}
                     </div>

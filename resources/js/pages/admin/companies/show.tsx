@@ -69,6 +69,11 @@ interface Company {
     address: string | null;
     plan: string;
     feature_flags: Record<string, boolean> | null;
+    is_trial: boolean;
+    trial_ends_at: string | null;
+    is_demo: boolean;
+    industry: string | null;
+    company_size: string | null;
     created_at: string;
     updated_at: string;
     users_count: number;
@@ -105,6 +110,16 @@ export default function CompanyShow({
     const { t } = useTranslation();
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [planDialogOpen, setPlanDialogOpen] = useState(false);
+    const [extendTrialDialogOpen, setExtendTrialDialogOpen] = useState(false);
+    const [convertDialogOpen, setConvertDialogOpen] = useState(false);
+
+    const extendTrialForm = useForm({
+        days: 14,
+    });
+
+    const convertForm = useForm({
+        plan: 'basic',
+    });
 
     const editForm = useForm({
         name: company.name,
@@ -141,6 +156,34 @@ export default function CompanyShow({
             },
             onError: () => {
                 toast.error(t('admin.companies.plan_update_error'));
+            },
+        });
+    };
+
+    const handleExtendTrial = (e: React.FormEvent) => {
+        e.preventDefault();
+        extendTrialForm.post(`/admin/companies/${company.id}/extend-trial`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setExtendTrialDialogOpen(false);
+                toast.success(t('admin.companies.trial_extended'));
+            },
+            onError: () => {
+                toast.error(t('admin.companies.trial_extend_error'));
+            },
+        });
+    };
+
+    const handleConvertToPaid = (e: React.FormEvent) => {
+        e.preventDefault();
+        convertForm.post(`/admin/companies/${company.id}/convert-to-paid`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                setConvertDialogOpen(false);
+                toast.success(t('admin.companies.converted_to_paid'));
+            },
+            onError: () => {
+                toast.error(t('admin.companies.convert_error'));
             },
         });
     };
@@ -320,6 +363,24 @@ export default function CompanyShow({
                                 <MapPin className="mt-0.5 h-4 w-4 text-muted-foreground" />
                                 <span>{company.address || '-'}</span>
                             </div>
+                            {company.industry && (
+                                <div className="flex items-center gap-3">
+                                    <Building2 className="h-4 w-4 text-muted-foreground" />
+                                    <span>{company.industry}</span>
+                                </div>
+                            )}
+                            {company.company_size && (
+                                <div className="flex items-center gap-3">
+                                    <Users className="h-4 w-4 text-muted-foreground" />
+                                    <span>
+                                        {company.company_size}{' '}
+                                        {t(
+                                            'admin.companies.employees',
+                                            'medewerkers',
+                                        )}
+                                    </span>
+                                </div>
+                            )}
                             <div className="pt-2 text-sm text-muted-foreground">
                                 {t('admin.companies.created_at')}:{' '}
                                 {new Date(
@@ -328,6 +389,134 @@ export default function CompanyShow({
                             </div>
                         </CardContent>
                     </Card>
+
+                    {/* Trial Management (only shown for trial companies) */}
+                    {company.is_trial && (
+                        <Card className="border-amber-200 bg-amber-50/50 dark:border-amber-800 dark:bg-amber-950/20">
+                            <CardHeader>
+                                <CardTitle className="flex items-center gap-2">
+                                    <Clock className="h-5 w-5 text-amber-600" />
+                                    {t(
+                                        'admin.companies.trial_management',
+                                        'Trial Beheer',
+                                    )}
+                                </CardTitle>
+                                <CardDescription>
+                                    {t(
+                                        'admin.companies.trial_management_description',
+                                        'Beheer de proefperiode van dit bedrijf',
+                                    )}
+                                </CardDescription>
+                            </CardHeader>
+                            <CardContent className="space-y-4">
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        {t(
+                                            'admin.companies.trial_status',
+                                            'Status',
+                                        )}
+                                        :
+                                    </span>
+                                    {company.trial_ends_at &&
+                                    new Date(company.trial_ends_at) >
+                                        new Date() ? (
+                                        <Badge
+                                            variant="default"
+                                            className="bg-amber-500"
+                                        >
+                                            {t(
+                                                'admin.companies.trial_active',
+                                                'Actief',
+                                            )}
+                                        </Badge>
+                                    ) : (
+                                        <Badge variant="destructive">
+                                            {t(
+                                                'admin.companies.trial_expired',
+                                                'Verlopen',
+                                            )}
+                                        </Badge>
+                                    )}
+                                </div>
+                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-muted-foreground">
+                                        {t(
+                                            'admin.companies.trial_ends_at',
+                                            'Eindigt op',
+                                        )}
+                                        :
+                                    </span>
+                                    <div className="flex items-center gap-2">
+                                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                                        <span className="font-medium">
+                                            {company.trial_ends_at
+                                                ? new Date(
+                                                      company.trial_ends_at,
+                                                  ).toLocaleDateString(
+                                                      'nl-NL',
+                                                      {
+                                                          day: 'numeric',
+                                                          month: 'long',
+                                                          year: 'numeric',
+                                                      },
+                                                  )
+                                                : '-'}
+                                        </span>
+                                    </div>
+                                </div>
+                                {company.trial_ends_at && (
+                                    <div className="flex items-center justify-between">
+                                        <span className="text-sm text-muted-foreground">
+                                            {t(
+                                                'admin.companies.days_remaining',
+                                                'Dagen over',
+                                            )}
+                                            :
+                                        </span>
+                                        <span className="font-medium">
+                                            {Math.max(
+                                                0,
+                                                Math.ceil(
+                                                    (new Date(
+                                                        company.trial_ends_at,
+                                                    ).getTime() -
+                                                        new Date().getTime()) /
+                                                        (1000 * 60 * 60 * 24),
+                                                ),
+                                            )}
+                                        </span>
+                                    </div>
+                                )}
+                                <div className="flex gap-2 pt-2">
+                                    <Button
+                                        variant="outline"
+                                        size="sm"
+                                        onClick={() =>
+                                            setExtendTrialDialogOpen(true)
+                                        }
+                                    >
+                                        <Clock className="mr-2 h-4 w-4" />
+                                        {t(
+                                            'admin.companies.extend_trial',
+                                            'Verleng Trial',
+                                        )}
+                                    </Button>
+                                    <Button
+                                        size="sm"
+                                        onClick={() =>
+                                            setConvertDialogOpen(true)
+                                        }
+                                    >
+                                        <Check className="mr-2 h-4 w-4" />
+                                        {t(
+                                            'admin.companies.convert_to_paid',
+                                            'Activeer Abonnement',
+                                        )}
+                                    </Button>
+                                </div>
+                            </CardContent>
+                        </Card>
+                    )}
 
                     {/* Plan & Features Summary */}
                     <Card>
@@ -679,6 +868,199 @@ export default function CompanyShow({
                                 {planForm.processing
                                     ? t('common.saving')
                                     : t('admin.companies.update_plan')}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+
+            {/* Extend Trial Dialog */}
+            <Dialog
+                open={extendTrialDialogOpen}
+                onOpenChange={setExtendTrialDialogOpen}
+            >
+                <DialogContent>
+                    <form onSubmit={handleExtendTrial}>
+                        <DialogHeader>
+                            <DialogTitle>
+                                {t(
+                                    'admin.companies.extend_trial',
+                                    'Verleng Trial',
+                                )}
+                            </DialogTitle>
+                            <DialogDescription>
+                                {t(
+                                    'admin.companies.extend_trial_description',
+                                    'Verleng de proefperiode met een aantal dagen.',
+                                )}
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4 py-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="extend-days">
+                                    {t(
+                                        'admin.companies.days_to_extend',
+                                        'Aantal dagen',
+                                    )}
+                                </Label>
+                                <Input
+                                    id="extend-days"
+                                    type="number"
+                                    min={1}
+                                    max={90}
+                                    value={extendTrialForm.data.days}
+                                    onChange={(e) =>
+                                        extendTrialForm.setData(
+                                            'days',
+                                            parseInt(e.target.value) || 14,
+                                        )
+                                    }
+                                />
+                                {extendTrialForm.errors.days && (
+                                    <p className="text-sm text-destructive">
+                                        {extendTrialForm.errors.days}
+                                    </p>
+                                )}
+                            </div>
+                            {company.trial_ends_at && (
+                                <div className="rounded-lg bg-muted p-3 text-sm">
+                                    <p className="text-muted-foreground">
+                                        {t(
+                                            'admin.companies.new_end_date',
+                                            'Nieuwe einddatum',
+                                        )}
+                                        :{' '}
+                                        <span className="font-medium text-foreground">
+                                            {new Date(
+                                                new Date(
+                                                    company.trial_ends_at,
+                                                ).getTime() +
+                                                    extendTrialForm.data.days *
+                                                        24 *
+                                                        60 *
+                                                        60 *
+                                                        1000,
+                                            ).toLocaleDateString('nl-NL', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric',
+                                            })}
+                                        </span>
+                                    </p>
+                                </div>
+                            )}
+                        </div>
+                        <DialogFooter>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setExtendTrialDialogOpen(false)}
+                            >
+                                {t('common.cancel')}
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={extendTrialForm.processing}
+                            >
+                                {extendTrialForm.processing
+                                    ? t('common.saving')
+                                    : t(
+                                          'admin.companies.extend_trial',
+                                          'Verleng Trial',
+                                      )}
+                            </Button>
+                        </DialogFooter>
+                    </form>
+                </DialogContent>
+            </Dialog>
+
+            {/* Convert to Paid Dialog */}
+            <Dialog
+                open={convertDialogOpen}
+                onOpenChange={setConvertDialogOpen}
+            >
+                <DialogContent>
+                    <form onSubmit={handleConvertToPaid}>
+                        <DialogHeader>
+                            <DialogTitle>
+                                {t(
+                                    'admin.companies.convert_to_paid',
+                                    'Activeer Abonnement',
+                                )}
+                            </DialogTitle>
+                            <DialogDescription>
+                                {t(
+                                    'admin.companies.convert_description',
+                                    'Converteer deze trial naar een betaald abonnement.',
+                                )}
+                            </DialogDescription>
+                        </DialogHeader>
+                        <div className="space-y-4 py-4">
+                            <div className="space-y-2">
+                                <Label htmlFor="convert-plan">
+                                    {t(
+                                        'admin.companies.select_plan',
+                                        'Kies abonnement',
+                                    )}
+                                </Label>
+                                <Select
+                                    value={convertForm.data.plan}
+                                    onValueChange={(value) =>
+                                        convertForm.setData('plan', value)
+                                    }
+                                >
+                                    <SelectTrigger>
+                                        <SelectValue />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        {availablePlans
+                                            .filter((plan) => plan !== 'trial')
+                                            .map((plan) => (
+                                                <SelectItem
+                                                    key={plan}
+                                                    value={plan}
+                                                >
+                                                    {plan
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        plan.slice(1)}
+                                                </SelectItem>
+                                            ))}
+                                    </SelectContent>
+                                </Select>
+                                {convertForm.errors.plan && (
+                                    <p className="text-sm text-destructive">
+                                        {convertForm.errors.plan}
+                                    </p>
+                                )}
+                            </div>
+                            <div className="rounded-lg bg-amber-50 p-3 text-sm dark:bg-amber-950/50">
+                                <p className="text-amber-800 dark:text-amber-200">
+                                    {t(
+                                        'admin.companies.convert_warning',
+                                        'Let op: Deze actie verwijdert de trial status en activeert het gekozen abonnement.',
+                                    )}
+                                </p>
+                            </div>
+                        </div>
+                        <DialogFooter>
+                            <Button
+                                type="button"
+                                variant="outline"
+                                onClick={() => setConvertDialogOpen(false)}
+                            >
+                                {t('common.cancel')}
+                            </Button>
+                            <Button
+                                type="submit"
+                                disabled={convertForm.processing}
+                            >
+                                {convertForm.processing
+                                    ? t('common.saving')
+                                    : t(
+                                          'admin.companies.activate',
+                                          'Activeren',
+                                      )}
                             </Button>
                         </DialogFooter>
                     </form>

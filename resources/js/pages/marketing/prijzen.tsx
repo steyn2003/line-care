@@ -64,12 +64,12 @@ export default function Prijzen({
                                         Tot 5 gebruikers
                                     </p>
                                 </div>
-                                <Link href="/#demo">
+                                <Link href="/trial">
                                     <Button
                                         className="mb-6 w-full"
                                         variant="outline"
                                     >
-                                        Start pilot
+                                        Start gratis trial
                                     </Button>
                                 </Link>
                                 <div className="space-y-4">
@@ -173,9 +173,9 @@ export default function Prijzen({
                                         Tot 15 gebruikers
                                     </p>
                                 </div>
-                                <Link href="/#demo">
+                                <Link href="/trial">
                                     <Button className="mb-6 w-full">
-                                        Start pilot
+                                        Start gratis trial
                                     </Button>
                                 </Link>
                                 <div className="space-y-4">
@@ -746,12 +746,19 @@ export default function Prijzen({
                         Klaar om te starten?
                     </h2>
                     <p className="mb-8 text-lg text-muted-foreground">
-                        Plan een demo en zie of LineCare past bij jouw fabriek.
-                        Geen verplichtingen.
+                        Start vandaag nog met een gratis trial van 14 dagen.
+                        Geen creditcard nodig.
                     </p>
-                    <Link href="/#demo">
-                        <Button size="lg">Plan een demo</Button>
-                    </Link>
+                    <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <Link href="/trial">
+                            <Button size="lg">Start gratis trial</Button>
+                        </Link>
+                        <Link href="/#demo">
+                            <Button size="lg" variant="outline">
+                                Plan een demo
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </section>
         </MarketingLayout>

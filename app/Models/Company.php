@@ -33,6 +33,11 @@ class Company extends Model
         'address',
         'plan',
         'feature_flags',
+        'is_trial',
+        'trial_ends_at',
+        'is_demo',
+        'industry',
+        'company_size',
     ];
 
     /**
@@ -42,6 +47,9 @@ class Company extends Model
      */
     protected $casts = [
         'feature_flags' => 'array',
+        'is_trial' => 'boolean',
+        'trial_ends_at' => 'datetime',
+        'is_demo' => 'boolean',
     ];
 
     /**
@@ -132,7 +140,60 @@ class Company extends Model
             'basic' => 'Basic',
             'pro' => 'Pro',
             'enterprise' => 'Enterprise',
+            'trial' => 'Trial',
             default => ucfirst($this->plan ?? 'basic'),
         };
+    }
+
+    /**
+     * Check if the trial has expired.
+     */
+    public function isTrialExpired(): bool
+    {
+        if (! $this->is_trial || ! $this->trial_ends_at) {
+            return false;
+        }
+
+        return $this->trial_ends_at->isPast();
+    }
+
+    /**
+     * Get remaining trial days.
+     */
+    public function getTrialDaysRemaining(): ?int
+    {
+        if (! $this->is_trial || ! $this->trial_ends_at) {
+            return null;
+        }
+
+        if ($this->trial_ends_at->isPast()) {
+            return 0;
+        }
+
+        return (int) now()->diffInDays($this->trial_ends_at, false);
+    }
+
+    /**
+     * Extend the trial by a number of days.
+     */
+    public function extendTrial(int $days): void
+    {
+        $baseDate = $this->trial_ends_at ?? now();
+
+        $this->update([
+            'trial_ends_at' => $baseDate->addDays($days),
+        ]);
+    }
+
+    /**
+     * Convert trial to a paid plan.
+     */
+    public function convertToPaid(string $plan): void
+    {
+        $this->update([
+            'is_trial' => false,
+            'trial_ends_at' => null,
+            'plan' => $plan,
+        ]);
     }
 }

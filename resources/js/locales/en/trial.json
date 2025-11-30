@@ -1,0 +1,58 @@
+{
+    "signup": {
+        "head_title": "Start your free trial",
+        "title": "Start your free trial",
+        "description": "14 days free access to all features. No credit card required.",
+        "company_name": "Company name",
+        "company_name_placeholder": "Your Company Ltd.",
+        "name": "Your name",
+        "name_placeholder": "John Doe",
+        "email": "Email address",
+        "email_placeholder": "john@company.com",
+        "password": "Password",
+        "password_placeholder": "Minimum 8 characters",
+        "confirm_password": "Confirm password",
+        "confirm_password_placeholder": "Repeat your password",
+        "industry": "Industry",
+        "industry_placeholder": "Select...",
+        "company_size": "Company size",
+        "company_size_placeholder": "Select...",
+        "submit": "Start free trial",
+        "have_account": "Already have an account?",
+        "login": "Log in",
+        "benefits_title": "What you get:",
+        "trial_note": "Your trial starts immediately after signing up. After 14 days you can upgrade to a paid subscription or contact us."
+    },
+    "benefits": {
+        "unlimited_machines": "Unlimited machines and work orders",
+        "preventive": "Preventive maintenance planning",
+        "qr_codes": "QR codes for quick breakdown reporting",
+        "reports": "Reports and analytics",
+        "spare_parts": "Spare parts inventory management",
+        "oee": "OEE tracking and production insights"
+    },
+    "expired": {
+        "head_title": "Trial expired",
+        "title": "Your trial has expired",
+        "description": "Your LineCare trial ended on {{date}}.",
+        "data_safe": "Your data remains safely stored. Contact us to activate your account and continue where you left off.",
+        "contact_email": "Contact us",
+        "contact_whatsapp": "WhatsApp",
+        "logout": "Log out",
+        "what_you_get": "What you get with a subscription:",
+        "benefit_1": "Full access to all features",
+        "benefit_2": "Unlimited users",
+        "benefit_3": "Priority support",
+        "benefit_4": "Automatic updates"
+    },
+    "banner": {
+        "trial_remaining": "Trial:",
+        "day": "day",
+        "days": "days",
+        "remaining": "remaining",
+        "upgrade_now": "Upgrade now",
+        "contact": "Contact us",
+        "dismiss": "Close"
+    },
+    "welcome_message": "Welcome! You have 14 days to try LineCare."
+}

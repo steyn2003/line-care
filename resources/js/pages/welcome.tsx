@@ -73,24 +73,36 @@ export default function Welcome({
                         reserveonderdelen beheren, OEE meten en onderhoudskosten
                         inzichtelijk maken.
                     </p>
-                    <div className="mt-10 flex items-center justify-center gap-4">
-                        <a href="#demo">
+                    <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <a href="/trial">
                             <Button size="lg" className="text-base">
-                                Plan een demo{' '}
+                                Start gratis trial{' '}
                                 <ArrowUpRight className="ml-1 h-5 w-5" />
                             </Button>
                         </a>
-                        <a href="#hoe-het-werkt">
+                        <a href="#demo">
                             <Button
                                 variant="outline"
                                 size="lg"
                                 className="text-base shadow-none"
+                            >
+                                Plan een demo
+                            </Button>
+                        </a>
+                        <a href="#hoe-het-werkt">
+                            <Button
+                                variant="ghost"
+                                size="lg"
+                                className="text-base"
                             >
                                 <PlayCircle className="mr-2 h-5 w-5" /> Bekijk
                                 hoe het werkt
                             </Button>
                         </a>
                     </div>
+                    <p className="mt-4 text-sm text-muted-foreground">
+                        14 dagen gratis, geen creditcard nodig
+                    </p>
                 </div>
                 {/* Hero Image: Screenshot of LineCare dashboard or product demo video */}
                 <div className="mx-auto aspect-video w-full max-w-7xl overflow-hidden rounded-xl">
@@ -560,9 +572,14 @@ export default function Welcome({
                             </p>
                         </div>
                     </div>
-                    <div className="mt-12 text-center">
+                    <div className="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                        <a href="/trial">
+                            <Button size="lg">Start gratis trial</Button>
+                        </a>
                         <a href="#demo">
-                            <Button size="lg">Plan een pilot-gesprek</Button>
+                            <Button size="lg" variant="outline">
+                                Plan een pilot-gesprek
+                            </Button>
                         </a>
                     </div>
                 </div>

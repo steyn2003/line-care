@@ -6,6 +6,7 @@ import {
     ImpersonationBanner,
     useImpersonation,
 } from '@/components/impersonation-banner';
+import { TrialBanner, useIsTrial } from '@/components/trial-banner';
 import { Toaster } from '@/components/ui/sonner';
 import { useFlash } from '@/hooks/use-flash';
 import { type BreadcrumbItem } from '@/types';
@@ -20,16 +21,23 @@ export default function AppSidebarLayout({
 
     const impersonation = useImpersonation();
     const isImpersonating = impersonation?.is_impersonating ?? false;
+    const isTrial = useIsTrial();
+
+    // Calculate top offset based on active banners
+    const hasTopBanner = isImpersonating || isTrial;
+    const topOffset =
+        isImpersonating && isTrial ? 'pt-24' : hasTopBanner ? 'pt-12' : '';
 
     return (
         <AppShell variant="sidebar">
             {isImpersonating && impersonation && (
                 <ImpersonationBanner impersonation={impersonation} />
             )}
-            <AppSidebar className={isImpersonating ? 'pt-12' : ''} />
+            {!isImpersonating && <TrialBanner />}
+            <AppSidebar className={topOffset} />
             <AppContent
                 variant="sidebar"
-                className={`overflow-x-hidden ${isImpersonating ? 'pt-12' : ''}`}
+                className={`overflow-x-hidden ${topOffset}`}
             >
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
                 <div className="px-4 md:px-6 lg:px-8">{children}</div>

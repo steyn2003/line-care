@@ -50,7 +50,11 @@ import {
 import { useTranslation } from 'react-i18next';
 import AppLogo from './app-logo';
 
-export function AppSidebar() {
+interface AppSidebarProps {
+    className?: string;
+}
+
+export function AppSidebar({ className }: AppSidebarProps) {
     const { t } = useTranslation('nav');
     const { auth, features } = usePage<{
         auth: { user: { role: string } };
@@ -419,7 +423,7 @@ export function AppSidebar() {
     const footerNavItems: NavItem[] = [];
 
     return (
-        <Sidebar collapsible="icon" variant="inset">
+        <Sidebar collapsible="icon" variant="inset" className={className}>
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

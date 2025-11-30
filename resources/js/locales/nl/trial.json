@@ -1,0 +1,58 @@
+{
+    "signup": {
+        "head_title": "Start je gratis trial",
+        "title": "Start je gratis trial",
+        "description": "14 dagen gratis toegang tot alle functies. Geen creditcard nodig.",
+        "company_name": "Bedrijfsnaam",
+        "company_name_placeholder": "Jouw Bedrijf B.V.",
+        "name": "Je naam",
+        "name_placeholder": "Jan Jansen",
+        "email": "E-mailadres",
+        "email_placeholder": "jan@bedrijf.nl",
+        "password": "Wachtwoord",
+        "password_placeholder": "Minimaal 8 karakters",
+        "confirm_password": "Bevestig wachtwoord",
+        "confirm_password_placeholder": "Herhaal je wachtwoord",
+        "industry": "Branche",
+        "industry_placeholder": "Selecteer...",
+        "company_size": "Bedrijfsgrootte",
+        "company_size_placeholder": "Selecteer...",
+        "submit": "Start gratis trial",
+        "have_account": "Al een account?",
+        "login": "Log in",
+        "benefits_title": "Wat je krijgt:",
+        "trial_note": "Je trial begint direct na aanmelding. Na 14 dagen kun je upgraden naar een betaald abonnement of neem je contact met ons op."
+    },
+    "benefits": {
+        "unlimited_machines": "Onbeperkt machines en werkorders",
+        "preventive": "Preventief onderhoud planning",
+        "qr_codes": "QR-codes voor snelle storingsmeldingen",
+        "reports": "Rapporten en analytics",
+        "spare_parts": "Voorraadbeheer onderdelen",
+        "oee": "OEE tracking en productie inzicht"
+    },
+    "expired": {
+        "head_title": "Trial verlopen",
+        "title": "Je proefperiode is verlopen",
+        "description": "Je trial van LineCare is op {{date}} geëindigd.",
+        "data_safe": "Je data blijft veilig bewaard. Neem contact met ons op om je account te activeren en verder te gaan waar je gebleven was.",
+        "contact_email": "Neem contact op",
+        "contact_whatsapp": "WhatsApp",
+        "logout": "Uitloggen",
+        "what_you_get": "Wat je krijgt met een abonnement:",
+        "benefit_1": "Volledige toegang tot alle functies",
+        "benefit_2": "Onbeperkt aantal gebruikers",
+        "benefit_3": "Prioriteit support",
+        "benefit_4": "Automatische updates"
+    },
+    "banner": {
+        "trial_remaining": "Trial: nog",
+        "day": "dag",
+        "days": "dagen",
+        "remaining": "over",
+        "upgrade_now": "Upgrade nu",
+        "contact": "Neem contact op",
+        "dismiss": "Sluiten"
+    },
+    "welcome_message": "Welkom! Je hebt 14 dagen om LineCare te proberen."
+}

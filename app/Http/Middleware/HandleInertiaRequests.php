@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'company' => $this->getCompanyData($request),
             'features' => $this->getFeatures($request),
             'impersonation' => $this->getImpersonation(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
@@ -80,5 +81,30 @@ class HandleInertiaRequests extends Middleware
     protected function getImpersonation(): ?array
     {
         return app(ImpersonationService::class)->getImpersonationData();
+    }
+
+    /**
+     * Get company data for trial banner and other UI elements.
+     *
+     * @return array|null
+     */
+    protected function getCompanyData(Request $request): ?array
+    {
+        $user = $request->user();
+
+        if (! $user || ! $user->company) {
+            return null;
+        }
+
+        $company = $user->company;
+
+        return [
+            'id' => $company->id,
+            'name' => $company->name,
+            'plan' => $company->plan,
+            'is_trial' => $company->is_trial,
+            'trial_ends_at' => $company->trial_ends_at?->toISOString(),
+            'is_demo' => $company->is_demo,
+        ];
     }
 }

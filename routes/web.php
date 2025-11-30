@@ -66,6 +66,16 @@ Route::get('/oee', function () {
 Route::get('/m/{qrToken}', [\App\Http\Controllers\QrScanController::class, 'scan'])
     ->name('qr.scan');
 
+// ========== Trial Routes (Public) ==========
+Route::get('/trial', [\App\Http\Controllers\TrialController::class, 'create'])
+    ->name('trial.create');
+Route::post('/trial', [\App\Http\Controllers\TrialController::class, 'store'])
+    ->name('trial.store');
+
+// Trial Expired (requires auth but allowed when expired)
+Route::middleware(['auth'])->get('/trial/expired', [\App\Http\Controllers\TrialController::class, 'expired'])
+    ->name('trial.expired');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
@@ -372,6 +382,8 @@ Route::middleware(['auth', 'verified', 'super.admin'])->prefix('admin')->name('a
     Route::put('companies/{company}/plan', [\App\Http\Controllers\Admin\CompanyController::class, 'updatePlan'])->name('companies.update-plan');
     Route::put('companies/{company}/features', [\App\Http\Controllers\Admin\CompanyController::class, 'updateFeatures'])->name('companies.update-features');
     Route::put('companies/{company}/features/{feature}', [\App\Http\Controllers\Admin\CompanyController::class, 'toggleFeature'])->name('companies.toggle-feature');
+    Route::post('companies/{company}/extend-trial', [\App\Http\Controllers\Admin\CompanyController::class, 'extendTrial'])->name('companies.extend-trial');
+    Route::post('companies/{company}/convert-to-paid', [\App\Http\Controllers\Admin\CompanyController::class, 'convertToPaid'])->name('companies.convert-to-paid');
     Route::delete('companies/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'destroy'])->name('companies.destroy');
 
     // User Management
