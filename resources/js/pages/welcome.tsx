@@ -13,9 +13,12 @@ import { Textarea } from '@/components/ui/textarea';
 import { MarketingLayout } from '@/layouts/marketing-layout';
 import {
     ArrowUpRight,
+    Box,
     CheckCircle2,
     Clock,
+    DollarSign,
     FileSpreadsheet,
+    Gauge,
     MessageSquare,
     PlayCircle,
     Settings,
@@ -59,16 +62,16 @@ export default function Welcome({
                         variant="secondary"
                         className="rounded-full border-border py-1"
                     >
-                        Speciaal voor kleine fabrieken 🏭
+                        Compleet CMMS voor kleine fabrieken
                     </Badge>
                     <h1 className="mt-6 text-4xl font-semibold tracking-tighter sm:text-5xl md:text-6xl md:leading-[1.2] lg:text-7xl">
-                        Eenvoudige onderhoudssoftware voor kleine fabrieken
+                        Onderhoudssoftware met voorraad, OEE en kostenbeheer
                     </h1>
                     <p className="mt-6 text-foreground/80 md:text-lg">
                         Stop met Excel, WhatsApp en whiteboards. LineCare helpt
                         je storingen registreren, periodiek onderhoud plannen,
-                        en inzicht krijgen in welke machines de meeste stilstand
-                        veroorzaken.
+                        reserveonderdelen beheren, OEE meten en onderhoudskosten
+                        inzichtelijk maken.
                     </p>
                     <div className="mt-10 flex items-center justify-center gap-4">
                         <a href="#demo">
@@ -106,7 +109,7 @@ export default function Welcome({
                         Herkenbaar? Onderhoud versnipperd in Excel, WhatsApp en
                         op het whiteboard
                     </h2>
-                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         <Card>
                             <CardHeader>
                                 <MessageSquare className="mb-2 h-8 w-8 text-destructive" />
@@ -134,6 +137,36 @@ export default function Welcome({
                                 <p className="text-sm text-muted-foreground">
                                     Wanneer moet die machine weer gesmeerd? Die
                                     vraag leeft alleen in het hoofd van je TD.
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <Box className="mb-2 h-8 w-8 text-destructive" />
+                                <CardTitle className="text-lg">
+                                    Reserveonderdelen verspreid over
+                                    Excel-sheets
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-muted-foreground">
+                                    Welke onderdelen hebben we nog? Waar liggen
+                                    ze? Wanneer moeten we bijbestellen? Niemand
+                                    weet het zeker.
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <Gauge className="mb-2 h-8 w-8 text-destructive" />
+                                <CardTitle className="text-lg">
+                                    Geen inzicht in OEE en productie-efficiency
+                                </CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-muted-foreground">
+                                    Hoeveel produceren we echt vs. wat we zouden
+                                    kunnen? Zonder OEE-data blijft het gissen.
                                 </p>
                             </CardContent>
                         </Card>
@@ -183,13 +216,13 @@ export default function Welcome({
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="mb-12 text-center">
                         <h2 className="mb-4 text-3xl font-bold">
-                            Alles rond onderhoud op één plek
+                            Alles rond onderhoud op een plek
                         </h2>
                         <p className="mx-auto max-w-2xl text-lg text-muted-foreground">
-                            LineCare is een eenvoudig CMMS (Computerized
+                            LineCare is een compleet CMMS (Computerized
                             Maintenance Management System) speciaal voor kleine
-                            fabrieken. Geen ingewikkelde modules die je nooit
-                            gebruikt, maar precies wat je nodig hebt.
+                            fabrieken. Van storingen melden tot OEE meten, van
+                            reserveonderdelen tot kostenbeheer.
                         </p>
                     </div>
 
@@ -204,7 +237,7 @@ export default function Welcome({
                         </div>
                     </div>
 
-                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+                    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         <Card>
                             <CardHeader>
                                 <Smartphone className="mb-2 h-10 w-10 text-primary" />
@@ -226,19 +259,47 @@ export default function Welcome({
                             <CardContent>
                                 <p className="text-sm text-muted-foreground">
                                     Stel taken in (elke 3 maanden smeren) en
-                                    krijg automatisch herinneringen.
+                                    krijg automatisch herinneringen en
+                                    werkorders.
                                 </p>
                             </CardContent>
                         </Card>
                         <Card>
                             <CardHeader>
-                                <TrendingUp className="mb-2 h-10 w-10 text-primary" />
-                                <CardTitle>Overzicht per machine</CardTitle>
+                                <Box className="mb-2 h-10 w-10 text-primary" />
+                                <CardTitle>Reserveonderdelen beheer</CardTitle>
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-muted-foreground">
-                                    Zie direct: hoeveel storingen, totale
-                                    stilstand, laatste onderhoud.
+                                    Voorraad bijhouden, automatische
+                                    herbestelmeldingen, inkooporders en
+                                    leveranciersbeheer.
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <Gauge className="mb-2 h-10 w-10 text-primary" />
+                                <CardTitle>OEE tracking</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-muted-foreground">
+                                    Meet beschikbaarheid, prestatie en
+                                    kwaliteit. Zie direct waar productieverlies
+                                    zit.
+                                </p>
+                            </CardContent>
+                        </Card>
+                        <Card>
+                            <CardHeader>
+                                <DollarSign className="mb-2 h-10 w-10 text-primary" />
+                                <CardTitle>Kostenbeheer</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <p className="text-sm text-muted-foreground">
+                                    Arbeidskosten, onderdeelkosten en
+                                    stilstandkosten per werkorder. Budget vs.
+                                    werkelijk.
                                 </p>
                             </CardContent>
                         </Card>
@@ -330,9 +391,9 @@ export default function Welcome({
                                 </h3>
                                 <p className="text-muted-foreground">
                                     Technische dienst ziet alle openstaande
-                                    taken in één overzicht, pakt werk op en
-                                    registreert wat gedaan is. Alle informatie
-                                    op één plek.
+                                    taken in een overzicht, pakt werk op,
+                                    registreert gebruikte onderdelen en bestede
+                                    tijd. Alle informatie op een plek.
                                 </p>
                             </div>
                             {/* Screenshot: Work order list view for technicians */}
@@ -355,7 +416,7 @@ export default function Welcome({
                                     <p className="text-center text-xs text-muted-foreground">
                                         Screenshot: analytics dashboard
                                         <br />
-                                        met grafieken stilstand per machine
+                                        met OEE, kosten en stilstand per machine
                                     </p>
                                 </div>
                             </div>
@@ -364,13 +425,13 @@ export default function Welcome({
                                     4
                                 </div>
                                 <h3 className="mb-3 text-2xl font-semibold">
-                                    Inzicht in stilstand per machine
+                                    Inzicht in OEE, kosten en stilstand
                                 </h3>
                                 <p className="text-muted-foreground">
                                     Dashboard toont direct welke machines het
-                                    vaakst uitvallen en hoeveel stilstand ze
-                                    veroorzaken. Eindelijk data om beslissingen
-                                    op te baseren.
+                                    vaakst uitvallen, wat de OEE is, en hoeveel
+                                    het kost. Eindelijk data om beslissingen op
+                                    te baseren.
                                 </p>
                             </div>
                         </div>
@@ -426,7 +487,7 @@ export default function Welcome({
                             </CardHeader>
                             <CardContent>
                                 <p className="text-sm text-muted-foreground">
-                                    Eindelijk data over stilstand en
+                                    Eindelijk data over stilstand, OEE en
                                     onderhoudskosten. Onderbouw investeringen
                                     met harde cijfers.
                                 </p>
@@ -527,10 +588,11 @@ export default function Welcome({
                                 Grote CMMS-pakketten zijn gebouwd voor
                                 multinationals met honderden machines, complexe
                                 workflows en grote IT-afdelingen. LineCare is
-                                simpel: storingen registreren, periodiek
-                                onderhoud plannen, en inzicht in stilstand.
-                                Precies wat een kleine fabriek nodig heeft,
-                                zonder overbodige complexiteit.
+                                compleet maar simpel: storingen registreren,
+                                periodiek onderhoud plannen, reserveonderdelen
+                                beheren, OEE meten en kosten bijhouden. Precies
+                                wat een kleine fabriek nodig heeft, zonder
+                                overbodige complexiteit.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-2">
@@ -567,19 +629,78 @@ export default function Welcome({
                                 je machines, locaties, en andere basisgegevens.
                                 LineCare toont een preview zodat je kunt
                                 controleren of alles klopt, en daarna importeer
-                                je alles met één klik.
+                                je alles met een klik.
                             </AccordionContent>
                         </AccordionItem>
                         <AccordionItem value="item-5">
                             <AccordionTrigger className="text-left">
+                                Kan LineCare ons voorraad reserveonderdelen
+                                beheren?
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                Ja! LineCare heeft een complete module voor
+                                reserveonderdelen: onderdelen catalogus,
+                                voorraadniveaus per locatie, automatische
+                                herbestelmeldingen, inkooporders en
+                                leveranciersbeheer. Je koppelt gebruikte
+                                onderdelen aan werkorders voor volledig
+                                kosteninsicht.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-6">
+                            <AccordionTrigger className="text-left">
+                                Wat is OEE en hoe helpt LineCare daarbij?
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                OEE (Overall Equipment Effectiveness) meet hoe
+                                effectief je machines draaien: Beschikbaarheid x
+                                Prestatie x Kwaliteit. LineCare berekent dit
+                                automatisch op basis van productieruns en
+                                stilstandregistraties. Je ziet direct waar
+                                productieverlies zit en kunt gericht verbeteren.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-7">
+                            <AccordionTrigger className="text-left">
+                                Koppelt LineCare met ons ERP-systeem?
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                Ja, LineCare heeft koppelingen met populaire
+                                ERP-systemen zoals SAP, Oracle, NetSuite,
+                                Microsoft Dynamics en Odoo. Zo synchroniseer je
+                                voorraad, kosten en inkooporders automatisch.
+                                Ook IoT-sensoren kun je aansluiten voor
+                                real-time machine monitoring.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-8">
+                            <AccordionTrigger className="text-left">
+                                Hoe werkt de kostenbewaking?
+                            </AccordionTrigger>
+                            <AccordionContent>
+                                LineCare registreert automatisch arbeidskosten
+                                (op basis van uurtarieven en bestede tijd),
+                                onderdeelkosten (gekoppeld aan werkorders) en
+                                stilstandkosten (op basis van
+                                machine-productiewaarde). Je ziet kosten per
+                                werkorder, per machine, en per periode. Met
+                                budgetbeheer vergelijk je werkelijke kosten met
+                                je budget.
+                            </AccordionContent>
+                        </AccordionItem>
+                        <AccordionItem value="item-9">
+                            <AccordionTrigger className="text-left">
                                 Hoeveel kost het per maand?
                             </AccordionTrigger>
                             <AccordionContent>
-                                We werken met transparante prijzen op basis van
-                                het aantal gebruikers. Voor een pilot starten we
-                                vaak met een voordeeltarief zodat je LineCare
-                                eerst kunt uitproberen. Neem contact op voor een
-                                persoonlijke offerte.
+                                LineCare werkt met drie prijsniveaus: Starter
+                                vanaf EUR 49/maand voor basisonderhoud,
+                                Professional vanaf EUR 99/maand inclusief
+                                reserveonderdelen en OEE, en Enterprise met
+                                integraties en geavanceerde analytics op maat.
+                                Voor een pilot starten we vaak met een
+                                voordeeltarief zodat je LineCare eerst kunt
+                                uitproberen.
                             </AccordionContent>
                         </AccordionItem>
                     </Accordion>

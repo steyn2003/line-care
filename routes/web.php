@@ -50,6 +50,18 @@ Route::get('/over-ons', function () {
     ]);
 })->name('marketing.over-ons');
 
+Route::get('/integraties', function () {
+    return Inertia::render('marketing/integraties', [
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('marketing.integraties');
+
+Route::get('/oee', function () {
+    return Inertia::render('marketing/oee', [
+        'canRegister' => Features::enabled(Features::registration()),
+    ]);
+})->name('marketing.oee');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 

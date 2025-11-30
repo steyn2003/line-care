@@ -20,8 +20,9 @@ export function MarketingNav({
         { href: '/', label: t('nav.home') },
         { href: '/oplossing', label: t('nav.solution') },
         { href: '/functionaliteiten', label: t('nav.features') },
+        { href: '/oee', label: 'OEE' },
+        { href: '/integraties', label: 'Integraties' },
         { href: '/prijzen', label: t('nav.pricing') },
-        { href: '/voor-wie', label: t('nav.for_who') },
         { href: '/over-ons', label: t('nav.about') },
     ];
 
