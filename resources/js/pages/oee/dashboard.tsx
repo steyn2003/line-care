@@ -14,6 +14,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useFeatureGuard } from '@/hooks/use-feature-guard';
 import AppLayout from '@/layouts/app-layout';
 import { Head, router } from '@inertiajs/react';
 import { Activity, CheckCircle2, Clock, TrendingUp } from 'lucide-react';
@@ -94,6 +95,9 @@ export default function OEEDashboard({
     machineComparison,
     filters: initialFilters,
 }: Props) {
+    // Feature guard: redirect if OEE feature is not available
+    useFeatureGuard({ feature: 'oee' });
+
     const handleFilterChange = (key: string, value: string) => {
         router.get(
             '/oee/dashboard',

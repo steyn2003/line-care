@@ -15,8 +15,8 @@ Transform LineCare into an enterprise-ready SaaS platform that:
 ---
 
 ## Current Status - V3 Progress
-- [ ] Phase 10 - Feature Flags & Plans per Tenant
-- [ ] Phase 11 - Superadmin Portal
+- [x] Phase 10 - Feature Flags & Plans per Tenant (COMPLETED)
+- [x] Phase 11 - Superadmin Portal (COMPLETED)
 - [ ] Phase 12 - Audit Logging System
 - [ ] Phase 13 - Export, API Docs & Webhooks
 
@@ -182,17 +182,17 @@ Route::middleware(['auth', 'feature:oee'])->group(function () {
 
 | # | Task | Status |
 |---|------|--------|
-| 1 | Migration: add `plan` + `feature_flags` to companies | [ ] |
-| 2 | Create `config/features.php` with plan defaults | [ ] |
-| 3 | Build `FeatureService` with logic | [ ] |
-| 4 | Create `EnsureFeatureEnabled` middleware | [ ] |
-| 5 | Register middleware alias in kernel | [ ] |
-| 6 | Apply middleware to feature-specific routes | [ ] |
-| 7 | Add Inertia share for features | [ ] |
-| 8 | Update sidebar with conditional rendering | [ ] |
-| 9 | Create `FeatureGate` React component | [ ] |
-| 10 | Add page-level guards to protected pages | [ ] |
-| 11 | Test all feature combinations | [ ] |
+| 1 | Migration: add `plan` + `feature_flags` to companies | [x] |
+| 2 | Create `config/features.php` with plan defaults | [x] |
+| 3 | Build `FeatureService` with logic | [x] |
+| 4 | Create `EnsureFeatureEnabled` middleware | [x] |
+| 5 | Register middleware alias in bootstrap/app.php | [x] |
+| 6 | Apply middleware to feature-specific routes | [x] |
+| 7 | Add Inertia share for features | [x] |
+| 8 | Update sidebar with conditional rendering | [x] |
+| 9 | Create `FeatureGate` React component | [x] |
+| 10 | Add page-level guards to protected pages | [x] |
+| 11 | Test all feature combinations | [x] |
 
 ---
 

@@ -17,6 +17,20 @@ class Company extends Model
      */
     protected $fillable = [
         'name',
+        'email',
+        'phone',
+        'address',
+        'plan',
+        'feature_flags',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'feature_flags' => 'array',
     ];
 
     /**
@@ -73,5 +87,41 @@ class Company extends Model
     public function sensors(): HasMany
     {
         return $this->hasMany(Sensor::class);
+    }
+
+    /**
+     * Check if a feature is enabled for this company.
+     *
+     * @param string $feature
+     * @return bool
+     */
+    public function hasFeature(string $feature): bool
+    {
+        return app(\App\Services\FeatureService::class)->enabledForCompany($this, $feature);
+    }
+
+    /**
+     * Get all features for this company.
+     *
+     * @return array<string, bool>
+     */
+    public function getFeatures(): array
+    {
+        return app(\App\Services\FeatureService::class)->getAllFeaturesForCompany($this);
+    }
+
+    /**
+     * Get the plan label for display.
+     *
+     * @return string
+     */
+    public function getPlanLabel(): string
+    {
+        return match($this->plan) {
+            'basic' => 'Basic',
+            'pro' => 'Pro',
+            'enterprise' => 'Enterprise',
+            default => ucfirst($this->plan ?? 'basic'),
+        };
     }
 }

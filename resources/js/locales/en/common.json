@@ -153,6 +153,27 @@
         "server": "Server error. Please try again later.",
         "timeout": "Request timed out. Please try again."
     },
+    "features": {
+        "upgrade_required": "{{feature}} requires a plan upgrade",
+        "upgrade_now": "Upgrade now",
+        "unlock_feature": "Unlock {{feature}}",
+        "upgrade_plan": "Upgrade Plan",
+        "not_available_description": "This feature is not available in your current plan.",
+        "upgrade_to_access": "Upgrade your plan to access this feature and unlock its full potential.",
+        "view_plans": "View Plans",
+        "feature_names": {
+            "inventory": "Inventory Management",
+            "oee": "OEE Tracking",
+            "costs": "Cost Management",
+            "planning": "Planning Module",
+            "analytics": "Advanced Analytics",
+            "api": "API Access",
+            "webhooks": "Webhooks",
+            "vendor_portal": "Vendor Portal",
+            "iot": "IoT & Sensors",
+            "integrations": "Integrations"
+        }
+    },
     "search": {
         "placeholder": "Search",
         "title": "Global Search",
@@ -200,5 +221,76 @@
         "due_on": "Due {{date}}",
         "remaining": "Only {{count}} remaining",
         "exceeded_by": "Exceeded by ${{amount}}"
+    },
+    "common": {
+        "edit": "Edit",
+        "cancel": "Cancel",
+        "save": "Save",
+        "saving": "Saving...",
+        "search": "Search",
+        "clear": "Clear",
+        "actions": "Actions"
+    },
+    "admin": {
+        "companies": {
+            "title": "Companies",
+            "description": "All registered companies in the system",
+            "company_details": "Company details and feature management",
+            "company_info": "Company Information",
+            "name": "Name",
+            "email": "Email",
+            "phone": "Phone",
+            "address": "Address",
+            "plan": "Plan",
+            "users": "Users",
+            "machines": "Machines",
+            "work_orders": "Work Orders",
+            "locations": "Locations",
+            "created": "Created",
+            "created_at": "Created",
+            "no_companies": "No companies found",
+            "search_placeholder": "Search companies...",
+            "filter_by_plan": "Filter by plan",
+            "all_plans": "All Plans",
+            "created": "Company created successfully",
+            "updated": "Company updated successfully",
+            "update_error": "Failed to update company",
+            "deleted": "Company deleted successfully",
+            "cannot_delete_with_users": "Cannot delete company with existing users. Please delete all users first.",
+            "plan_updated": "Plan updated successfully",
+            "plan_update_error": "Failed to update plan",
+            "features_updated": "Features updated successfully",
+            "feature_toggled": "Feature toggled successfully",
+            "feature_toggle_error": "Failed to toggle feature",
+            "plan_features": "Plan & Features",
+            "current_plan": "Current Plan",
+            "change_plan": "Change Plan",
+            "change_plan_description": "Select a new plan for this company. Feature defaults will change based on the selected plan.",
+            "update_plan": "Update Plan",
+            "features_enabled": "{{count}} of {{total}} features enabled",
+            "feature_overrides": "Feature Overrides",
+            "feature_overrides_description": "Override individual features for this company regardless of their plan.",
+            "recent_users": "Recent Users",
+            "recent_users_description": "Showing the first 10 of {{count}} users",
+            "view_all_users": "View all users",
+            "edit_company": "Edit Company",
+            "edit_company_description": "Update company information"
+        },
+        "users": {
+            "name": "Name",
+            "email": "Email",
+            "role": "Role"
+        },
+        "impersonation": {
+            "impersonate": "Impersonate",
+            "started": "Now viewing as {{user}} at {{company}}",
+            "stopped": "Returned to your account",
+            "stop": "Stop Impersonating",
+            "stop_error": "Failed to stop impersonation",
+            "error": "Failed to start impersonation",
+            "no_users_found": "No users found in this company to impersonate",
+            "banner_prefix": "You are viewing as",
+            "at": "at"
+        }
     }
 }

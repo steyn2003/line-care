@@ -120,110 +120,118 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Reports routes
     Route::get('reports/downtime', [\App\Http\Controllers\ReportsController::class, 'downtime'])->name('reports.downtime');
 
-    // Spare Parts routes
-    Route::get('spare-parts', [\App\Http\Controllers\SparePartController::class, 'index'])->name('spare-parts.index');
-    Route::get('spare-parts/create', [\App\Http\Controllers\SparePartController::class, 'create'])->name('spare-parts.create');
-    Route::get('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'show'])->name('spare-parts.show');
-    Route::get('spare-parts/{sparePart}/edit', [\App\Http\Controllers\SparePartController::class, 'edit'])->name('spare-parts.edit');
+    // ========== Inventory Feature (spare-parts, inventory, purchase-orders, suppliers) ==========
+    Route::middleware(['feature:inventory'])->group(function () {
+        // Spare Parts routes
+        Route::get('spare-parts', [\App\Http\Controllers\SparePartController::class, 'index'])->name('spare-parts.index');
+        Route::get('spare-parts/create', [\App\Http\Controllers\SparePartController::class, 'create'])->name('spare-parts.create');
+        Route::get('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'show'])->name('spare-parts.show');
+        Route::get('spare-parts/{sparePart}/edit', [\App\Http\Controllers\SparePartController::class, 'edit'])->name('spare-parts.edit');
+        Route::post('spare-parts', [\App\Http\Controllers\SparePartController::class, 'store'])->name('spare-parts.store');
+        Route::put('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'update'])->name('spare-parts.update');
+        Route::delete('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'destroy'])->name('spare-parts.destroy');
 
-    // Inventory routes
-    Route::get('inventory/low-stock', [\App\Http\Controllers\InventoryController::class, 'lowStock'])->name('inventory.low-stock');
+        // Inventory routes
+        Route::get('inventory/low-stock', [\App\Http\Controllers\InventoryController::class, 'lowStock'])->name('inventory.low-stock');
 
-    // Purchase Orders routes
-    Route::get('purchase-orders', [\App\Http\Controllers\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
-    Route::get('purchase-orders/create', [\App\Http\Controllers\PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
-    Route::post('purchase-orders', [\App\Http\Controllers\PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
-    Route::get('purchase-orders/{purchaseOrder}', [\App\Http\Controllers\PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
-    Route::delete('purchase-orders/{purchaseOrder}', [\App\Http\Controllers\PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
+        // Purchase Orders routes
+        Route::get('purchase-orders', [\App\Http\Controllers\PurchaseOrderController::class, 'index'])->name('purchase-orders.index');
+        Route::get('purchase-orders/create', [\App\Http\Controllers\PurchaseOrderController::class, 'create'])->name('purchase-orders.create');
+        Route::post('purchase-orders', [\App\Http\Controllers\PurchaseOrderController::class, 'store'])->name('purchase-orders.store');
+        Route::get('purchase-orders/{purchaseOrder}', [\App\Http\Controllers\PurchaseOrderController::class, 'show'])->name('purchase-orders.show');
+        Route::delete('purchase-orders/{purchaseOrder}', [\App\Http\Controllers\PurchaseOrderController::class, 'destroy'])->name('purchase-orders.destroy');
 
-    // Suppliers routes
-    Route::get('suppliers', [\App\Http\Controllers\SupplierController::class, 'index'])->name('suppliers.index');
-    Route::post('suppliers', [\App\Http\Controllers\SupplierController::class, 'store'])->name('suppliers.store');
-    Route::put('suppliers/{supplier}', [\App\Http\Controllers\SupplierController::class, 'update'])->name('suppliers.update');
-    Route::delete('suppliers/{supplier}', [\App\Http\Controllers\SupplierController::class, 'destroy'])->name('suppliers.destroy');
-
-    // Spare Parts routes (store, update, destroy)
-    Route::post('spare-parts', [\App\Http\Controllers\SparePartController::class, 'store'])->name('spare-parts.store');
-    Route::put('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'update'])->name('spare-parts.update');
-    Route::delete('spare-parts/{sparePart}', [\App\Http\Controllers\SparePartController::class, 'destroy'])->name('spare-parts.destroy');
+        // Suppliers routes
+        Route::get('suppliers', [\App\Http\Controllers\SupplierController::class, 'index'])->name('suppliers.index');
+        Route::post('suppliers', [\App\Http\Controllers\SupplierController::class, 'store'])->name('suppliers.store');
+        Route::put('suppliers/{supplier}', [\App\Http\Controllers\SupplierController::class, 'update'])->name('suppliers.update');
+        Route::delete('suppliers/{supplier}', [\App\Http\Controllers\SupplierController::class, 'destroy'])->name('suppliers.destroy');
+    });
 
     // ========== OEE & Production Tracking (Phase 6) ==========
+    Route::middleware(['feature:oee'])->group(function () {
+        // Products routes
+        Route::get('products', [\App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
+        Route::post('products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
+        Route::put('products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
+        Route::delete('products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
 
-    // Products routes
-    Route::get('products', [\App\Http\Controllers\ProductController::class, 'index'])->name('products.index');
-    Route::post('products', [\App\Http\Controllers\ProductController::class, 'store'])->name('products.store');
-    Route::put('products/{product}', [\App\Http\Controllers\ProductController::class, 'update'])->name('products.update');
-    Route::delete('products/{product}', [\App\Http\Controllers\ProductController::class, 'destroy'])->name('products.destroy');
+        // Shifts routes
+        Route::get('shifts', [\App\Http\Controllers\ShiftController::class, 'index'])->name('shifts.index');
+        Route::post('shifts', [\App\Http\Controllers\ShiftController::class, 'store'])->name('shifts.store');
+        Route::put('shifts/{shift}', [\App\Http\Controllers\ShiftController::class, 'update'])->name('shifts.update');
+        Route::delete('shifts/{shift}', [\App\Http\Controllers\ShiftController::class, 'destroy'])->name('shifts.destroy');
 
-    // Shifts routes
-    Route::get('shifts', [\App\Http\Controllers\ShiftController::class, 'index'])->name('shifts.index');
-    Route::post('shifts', [\App\Http\Controllers\ShiftController::class, 'store'])->name('shifts.store');
-    Route::put('shifts/{shift}', [\App\Http\Controllers\ShiftController::class, 'update'])->name('shifts.update');
-    Route::delete('shifts/{shift}', [\App\Http\Controllers\ShiftController::class, 'destroy'])->name('shifts.destroy');
+        // Downtime Categories routes
+        Route::get('downtime-categories', [\App\Http\Controllers\DowntimeCategoryController::class, 'index'])->name('downtime-categories.index');
+        Route::post('downtime-categories', [\App\Http\Controllers\DowntimeCategoryController::class, 'store'])->name('downtime-categories.store');
+        Route::put('downtime-categories/{downtimeCategory}', [\App\Http\Controllers\DowntimeCategoryController::class, 'update'])->name('downtime-categories.update');
+        Route::delete('downtime-categories/{downtimeCategory}', [\App\Http\Controllers\DowntimeCategoryController::class, 'destroy'])->name('downtime-categories.destroy');
 
-    // Downtime Categories routes
-    Route::get('downtime-categories', [\App\Http\Controllers\DowntimeCategoryController::class, 'index'])->name('downtime-categories.index');
-    Route::post('downtime-categories', [\App\Http\Controllers\DowntimeCategoryController::class, 'store'])->name('downtime-categories.store');
-    Route::put('downtime-categories/{downtimeCategory}', [\App\Http\Controllers\DowntimeCategoryController::class, 'update'])->name('downtime-categories.update');
-    Route::delete('downtime-categories/{downtimeCategory}', [\App\Http\Controllers\DowntimeCategoryController::class, 'destroy'])->name('downtime-categories.destroy');
+        // Production Runs routes
+        Route::get('production/runs', [\App\Http\Controllers\ProductionRunController::class, 'index'])->name('production-runs.index');
+        Route::post('production-runs', [\App\Http\Controllers\ProductionRunController::class, 'store'])->name('production-runs.store');
+        Route::get('production/runs/{productionRun}', [\App\Http\Controllers\ProductionRunController::class, 'show'])->name('production.runs.show');
+        Route::put('production-runs/{productionRun}/end', [\App\Http\Controllers\ProductionRunController::class, 'end'])->name('production-runs.end');
 
-    // Production Runs routes
-    Route::get('production/runs', [\App\Http\Controllers\ProductionRunController::class, 'index'])->name('production-runs.index');
-    Route::post('production-runs', [\App\Http\Controllers\ProductionRunController::class, 'store'])->name('production-runs.store');
-    Route::get('production/runs/{productionRun}', [\App\Http\Controllers\ProductionRunController::class, 'show'])->name('production.runs.show');
-    Route::put('production-runs/{productionRun}/end', [\App\Http\Controllers\ProductionRunController::class, 'end'])->name('production-runs.end');
+        // Downtime routes
+        Route::post('downtime', [\App\Http\Controllers\DowntimeController::class, 'store'])->name('downtime.store');
+        Route::put('downtime/{downtime}/end', [\App\Http\Controllers\DowntimeController::class, 'end'])->name('downtime.end');
 
-    // Downtime routes
-    Route::post('downtime', [\App\Http\Controllers\DowntimeController::class, 'store'])->name('downtime.store');
-    Route::put('downtime/{downtime}/end', [\App\Http\Controllers\DowntimeController::class, 'end'])->name('downtime.end');
-
-    // OEE Dashboard routes
-    Route::get('oee/dashboard', [\App\Http\Controllers\OEEController::class, 'dashboard'])->name('oee.dashboard');
-    Route::get('oee/trends', [\App\Http\Controllers\OEEController::class, 'trends'])->name('oee.trends');
+        // OEE Dashboard routes
+        Route::get('oee/dashboard', [\App\Http\Controllers\OEEController::class, 'dashboard'])->name('oee.dashboard');
+        Route::get('oee/trends', [\App\Http\Controllers\OEEController::class, 'trends'])->name('oee.trends');
+    });
 
     // ========== Cost Management (Phase 7) ==========
+    Route::middleware(['feature:costs'])->group(function () {
+        // Cost Dashboard routes
+        Route::get('costs/dashboard', [\App\Http\Controllers\CostController::class, 'dashboard'])->name('costs.dashboard');
+        Route::get('costs/report', [\App\Http\Controllers\CostController::class, 'report'])->name('costs.report');
+        Route::get('costs/budget', [\App\Http\Controllers\CostController::class, 'budget'])->name('costs.budget');
 
-    // Cost Dashboard routes
-    Route::get('costs/dashboard', [\App\Http\Controllers\CostController::class, 'dashboard'])->name('costs.dashboard');
-    Route::get('costs/report', [\App\Http\Controllers\CostController::class, 'report'])->name('costs.report');
-    Route::get('costs/budget', [\App\Http\Controllers\CostController::class, 'budget'])->name('costs.budget');
+        // Budget CRUD routes
+        Route::post('costs/budget', [\App\Http\Controllers\CostController::class, 'storeBudget'])->name('costs.budget.store');
+        Route::put('costs/budget/{budget}', [\App\Http\Controllers\CostController::class, 'updateBudget'])->name('costs.budget.update');
+        Route::delete('costs/budget/{budget}', [\App\Http\Controllers\CostController::class, 'destroyBudget'])->name('costs.budget.destroy');
 
-    // Budget CRUD routes
-    Route::post('costs/budget', [\App\Http\Controllers\CostController::class, 'storeBudget'])->name('costs.budget.store');
-    Route::put('costs/budget/{budget}', [\App\Http\Controllers\CostController::class, 'updateBudget'])->name('costs.budget.update');
-    Route::delete('costs/budget/{budget}', [\App\Http\Controllers\CostController::class, 'destroyBudget'])->name('costs.budget.destroy');
-
-    // Labor Rate routes
-    Route::get('costs/labor-rates', [\App\Http\Controllers\LaborRateController::class, 'index'])->name('costs.labor-rates');
-    Route::post('costs/labor-rates', [\App\Http\Controllers\LaborRateController::class, 'store'])->name('costs.labor-rates.store');
-    Route::put('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'update'])->name('costs.labor-rates.update');
-    Route::delete('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'destroy'])->name('costs.labor-rates.destroy');
+        // Labor Rate routes
+        Route::get('costs/labor-rates', [\App\Http\Controllers\LaborRateController::class, 'index'])->name('costs.labor-rates');
+        Route::post('costs/labor-rates', [\App\Http\Controllers\LaborRateController::class, 'store'])->name('costs.labor-rates.store');
+        Route::put('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'update'])->name('costs.labor-rates.update');
+        Route::delete('costs/labor-rates/{laborRate}', [\App\Http\Controllers\LaborRateController::class, 'destroy'])->name('costs.labor-rates.destroy');
+    });
 
     // ========== Phase 8: Integrations & Automation ==========
 
-    // Integration Management routes
-    Route::get('settings/integrations', [\App\Http\Controllers\IntegrationController::class, 'index'])->name('integrations.index');
-    Route::get('settings/integrations/create', [\App\Http\Controllers\IntegrationController::class, 'create'])->name('integrations.create');
-    Route::post('settings/integrations', [\App\Http\Controllers\IntegrationController::class, 'store'])->name('integrations.store');
-    Route::get('settings/integrations/{integration}/edit', [\App\Http\Controllers\IntegrationController::class, 'edit'])->name('integrations.edit');
-    Route::put('settings/integrations/{integration}', [\App\Http\Controllers\IntegrationController::class, 'update'])->name('integrations.update');
-    Route::delete('settings/integrations/{integration}', [\App\Http\Controllers\IntegrationController::class, 'destroy'])->name('integrations.destroy');
+    // Integration Management routes (requires integrations feature)
+    Route::middleware(['feature:integrations'])->group(function () {
+        Route::get('settings/integrations', [\App\Http\Controllers\IntegrationController::class, 'index'])->name('integrations.index');
+        Route::get('settings/integrations/create', [\App\Http\Controllers\IntegrationController::class, 'create'])->name('integrations.create');
+        Route::post('settings/integrations', [\App\Http\Controllers\IntegrationController::class, 'store'])->name('integrations.store');
+        Route::get('settings/integrations/{integration}/edit', [\App\Http\Controllers\IntegrationController::class, 'edit'])->name('integrations.edit');
+        Route::put('settings/integrations/{integration}', [\App\Http\Controllers\IntegrationController::class, 'update'])->name('integrations.update');
+        Route::delete('settings/integrations/{integration}', [\App\Http\Controllers\IntegrationController::class, 'destroy'])->name('integrations.destroy');
+    });
 
-    // IoT Dashboard routes
-    Route::get('iot/dashboard', [\App\Http\Controllers\IoTDashboardController::class, 'index'])->name('iot.dashboard');
-    Route::get('machines/{machine}/sensors', [\App\Http\Controllers\IoTDashboardController::class, 'machineSensors'])->name('machines.sensors');
+    // IoT & Sensors routes (requires iot feature)
+    Route::middleware(['feature:iot'])->group(function () {
+        // IoT Dashboard routes
+        Route::get('iot/dashboard', [\App\Http\Controllers\IoTDashboardController::class, 'index'])->name('iot.dashboard');
+        Route::get('machines/{machine}/sensors', [\App\Http\Controllers\IoTDashboardController::class, 'machineSensors'])->name('machines.sensors');
 
-    // Sensor Management routes
-    Route::get('iot/sensors', [\App\Http\Controllers\SensorManagementController::class, 'index'])->name('sensors.index');
-    Route::get('iot/sensors/create', [\App\Http\Controllers\SensorManagementController::class, 'create'])->name('sensors.create');
-    Route::post('iot/sensors', [\App\Http\Controllers\SensorManagementController::class, 'store'])->name('sensors.store');
-    Route::get('iot/sensors/{sensor}/edit', [\App\Http\Controllers\SensorManagementController::class, 'edit'])->name('sensors.edit');
-    Route::put('iot/sensors/{sensor}', [\App\Http\Controllers\SensorManagementController::class, 'update'])->name('sensors.update');
-    Route::delete('iot/sensors/{sensor}', [\App\Http\Controllers\SensorManagementController::class, 'destroy'])->name('sensors.destroy');
+        // Sensor Management routes
+        Route::get('iot/sensors', [\App\Http\Controllers\SensorManagementController::class, 'index'])->name('sensors.index');
+        Route::get('iot/sensors/create', [\App\Http\Controllers\SensorManagementController::class, 'create'])->name('sensors.create');
+        Route::post('iot/sensors', [\App\Http\Controllers\SensorManagementController::class, 'store'])->name('sensors.store');
+        Route::get('iot/sensors/{sensor}/edit', [\App\Http\Controllers\SensorManagementController::class, 'edit'])->name('sensors.edit');
+        Route::put('iot/sensors/{sensor}', [\App\Http\Controllers\SensorManagementController::class, 'update'])->name('sensors.update');
+        Route::delete('iot/sensors/{sensor}', [\App\Http\Controllers\SensorManagementController::class, 'destroy'])->name('sensors.destroy');
 
-    // Sensor Alerts routes
-    Route::get('iot/alerts', [\App\Http\Controllers\SensorAlertManagementController::class, 'index'])->name('sensor-alerts.index');
-    Route::post('iot/alerts/{sensorAlert}/acknowledge', [\App\Http\Controllers\SensorAlertManagementController::class, 'acknowledge'])->name('sensor-alerts.acknowledge');
+        // Sensor Alerts routes
+        Route::get('iot/alerts', [\App\Http\Controllers\SensorAlertManagementController::class, 'index'])->name('sensor-alerts.index');
+        Route::post('iot/alerts/{sensorAlert}/acknowledge', [\App\Http\Controllers\SensorAlertManagementController::class, 'acknowledge'])->name('sensor-alerts.acknowledge');
+    });
 
     // Notification Center routes
     Route::get('notifications', [\App\Http\Controllers\NotificationCenterController::class, 'index'])->name('notifications.index');
@@ -235,65 +243,77 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('settings/notifications', [\App\Http\Controllers\NotificationPreferencesController::class, 'index'])->name('notification-preferences.index');
     Route::put('settings/notifications', [\App\Http\Controllers\NotificationPreferencesController::class, 'update'])->name('notification-preferences.update');
 
-    // Vendor API Key Management routes
-    Route::get('settings/vendor-api-keys', [\App\Http\Controllers\VendorApiKeyController::class, 'index'])->name('vendor-api-keys.index');
-    Route::post('settings/vendor-api-keys', [\App\Http\Controllers\VendorApiKeyController::class, 'store'])->name('vendor-api-keys.store');
-    Route::post('settings/vendor-api-keys/{vendorApiKey}/toggle', [\App\Http\Controllers\VendorApiKeyController::class, 'toggle'])->name('vendor-api-keys.toggle');
-    Route::delete('settings/vendor-api-keys/{vendorApiKey}', [\App\Http\Controllers\VendorApiKeyController::class, 'destroy'])->name('vendor-api-keys.destroy');
+    // Vendor API Key Management routes (requires vendor_portal feature)
+    Route::middleware(['feature:vendor_portal'])->group(function () {
+        Route::get('settings/vendor-api-keys', [\App\Http\Controllers\VendorApiKeyController::class, 'index'])->name('vendor-api-keys.index');
+        Route::post('settings/vendor-api-keys', [\App\Http\Controllers\VendorApiKeyController::class, 'store'])->name('vendor-api-keys.store');
+        Route::post('settings/vendor-api-keys/{vendorApiKey}/toggle', [\App\Http\Controllers\VendorApiKeyController::class, 'toggle'])->name('vendor-api-keys.toggle');
+        Route::delete('settings/vendor-api-keys/{vendorApiKey}', [\App\Http\Controllers\VendorApiKeyController::class, 'destroy'])->name('vendor-api-keys.destroy');
+    });
 
     // ========== Phase 9: Advanced Analytics & Custom Dashboards ==========
+    Route::middleware(['feature:analytics'])->group(function () {
+        // Analytics routes
+        Route::get('analytics', [\App\Http\Controllers\AnalyticsController::class, 'index'])->name('analytics.index');
+        Route::get('analytics/reliability', [\App\Http\Controllers\AnalyticsController::class, 'reliability'])->name('analytics.reliability');
+        Route::get('analytics/pareto', [\App\Http\Controllers\AnalyticsController::class, 'pareto'])->name('analytics.pareto');
+        Route::get('analytics/predictions', [\App\Http\Controllers\AnalyticsController::class, 'predictions'])->name('analytics.predictions');
+        Route::get('analytics/failure-modes', [\App\Http\Controllers\AnalyticsController::class, 'failureModes'])->name('analytics.failure-modes');
 
-    // Analytics routes
-    Route::get('analytics', [\App\Http\Controllers\AnalyticsController::class, 'index'])->name('analytics.index');
-    Route::get('analytics/reliability', [\App\Http\Controllers\AnalyticsController::class, 'reliability'])->name('analytics.reliability');
-    Route::get('analytics/pareto', [\App\Http\Controllers\AnalyticsController::class, 'pareto'])->name('analytics.pareto');
-    Route::get('analytics/predictions', [\App\Http\Controllers\AnalyticsController::class, 'predictions'])->name('analytics.predictions');
-    Route::get('analytics/failure-modes', [\App\Http\Controllers\AnalyticsController::class, 'failureModes'])->name('analytics.failure-modes');
+        // Custom Dashboards routes
+        Route::get('dashboards', [\App\Http\Controllers\CustomDashboardController::class, 'index'])->name('dashboards.index');
+        Route::get('dashboards/create', [\App\Http\Controllers\CustomDashboardController::class, 'create'])->name('dashboards.create');
+        Route::post('dashboards', [\App\Http\Controllers\CustomDashboardController::class, 'store'])->name('dashboards.store');
+        Route::get('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'show'])->name('dashboards.show');
+        Route::get('dashboards/{dashboard}/edit', [\App\Http\Controllers\CustomDashboardController::class, 'edit'])->name('dashboards.edit');
+        Route::put('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'update'])->name('dashboards.update');
+        Route::delete('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'destroy'])->name('dashboards.destroy');
+        Route::post('dashboards/{dashboard}/duplicate', [\App\Http\Controllers\CustomDashboardController::class, 'duplicate'])->name('dashboards.duplicate');
 
-    // Custom Dashboards routes
-    Route::get('dashboards', [\App\Http\Controllers\CustomDashboardController::class, 'index'])->name('dashboards.index');
-    Route::get('dashboards/create', [\App\Http\Controllers\CustomDashboardController::class, 'create'])->name('dashboards.create');
-    Route::post('dashboards', [\App\Http\Controllers\CustomDashboardController::class, 'store'])->name('dashboards.store');
-    Route::get('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'show'])->name('dashboards.show');
-    Route::get('dashboards/{dashboard}/edit', [\App\Http\Controllers\CustomDashboardController::class, 'edit'])->name('dashboards.edit');
-    Route::put('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'update'])->name('dashboards.update');
-    Route::delete('dashboards/{dashboard}', [\App\Http\Controllers\CustomDashboardController::class, 'destroy'])->name('dashboards.destroy');
-    Route::post('dashboards/{dashboard}/duplicate', [\App\Http\Controllers\CustomDashboardController::class, 'duplicate'])->name('dashboards.duplicate');
-
-    // Dashboard Widgets routes
-    Route::post('dashboards/{dashboard}/widgets', [\App\Http\Controllers\CustomDashboardController::class, 'addWidget'])->name('dashboards.widgets.store');
-    Route::delete('dashboards/{dashboard}/widgets/{widget}', [\App\Http\Controllers\CustomDashboardController::class, 'removeWidget'])->name('dashboards.widgets.destroy');
+        // Dashboard Widgets routes
+        Route::post('dashboards/{dashboard}/widgets', [\App\Http\Controllers\CustomDashboardController::class, 'addWidget'])->name('dashboards.widgets.store');
+        Route::delete('dashboards/{dashboard}/widgets/{widget}', [\App\Http\Controllers\CustomDashboardController::class, 'removeWidget'])->name('dashboards.widgets.destroy');
+    });
 
     // ========== Planning Module ==========
+    Route::middleware(['feature:planning'])->group(function () {
+        // Planning Board (main interface)
+        Route::get('planning', [\App\Http\Controllers\PlanningController::class, 'index'])->name('planning.index');
 
-    // Planning Board (main interface)
-    Route::get('planning', [\App\Http\Controllers\PlanningController::class, 'index'])->name('planning.index');
+        // Planning Slots routes (for Inertia form submissions)
+        Route::post('planning/slots', [\App\Http\Controllers\PlanningSlotController::class, 'store'])->name('planning.slots.store');
+        Route::put('planning/slots/{slot}', [\App\Http\Controllers\PlanningSlotController::class, 'update'])->name('planning.slots.update');
+        Route::delete('planning/slots/{slot}', [\App\Http\Controllers\PlanningSlotController::class, 'destroy'])->name('planning.slots.destroy');
 
-    // Planning Slots routes (for Inertia form submissions)
-    Route::post('planning/slots', [\App\Http\Controllers\PlanningSlotController::class, 'store'])->name('planning.slots.store');
-    Route::put('planning/slots/{slot}', [\App\Http\Controllers\PlanningSlotController::class, 'update'])->name('planning.slots.update');
-    Route::delete('planning/slots/{slot}', [\App\Http\Controllers\PlanningSlotController::class, 'destroy'])->name('planning.slots.destroy');
+        // Shutdown Planning routes
+        Route::get('planning/shutdowns', [\App\Http\Controllers\PlannedShutdownController::class, 'index'])->name('planning.shutdowns.index');
+        Route::get('planning/shutdowns/create', [\App\Http\Controllers\PlannedShutdownController::class, 'create'])->name('planning.shutdowns.create');
+        Route::post('planning/shutdowns', [\App\Http\Controllers\PlannedShutdownController::class, 'store'])->name('planning.shutdowns.store');
+        Route::get('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'show'])->name('planning.shutdowns.show');
+        Route::get('planning/shutdowns/{plannedShutdown}/edit', [\App\Http\Controllers\PlannedShutdownController::class, 'edit'])->name('planning.shutdowns.edit');
+        Route::put('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'update'])->name('planning.shutdowns.update');
+        Route::delete('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'destroy'])->name('planning.shutdowns.destroy');
 
-    // Shutdown Planning routes
-    Route::get('planning/shutdowns', [\App\Http\Controllers\PlannedShutdownController::class, 'index'])->name('planning.shutdowns.index');
-    Route::get('planning/shutdowns/create', [\App\Http\Controllers\PlannedShutdownController::class, 'create'])->name('planning.shutdowns.create');
-    Route::post('planning/shutdowns', [\App\Http\Controllers\PlannedShutdownController::class, 'store'])->name('planning.shutdowns.store');
-    Route::get('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'show'])->name('planning.shutdowns.show');
-    Route::get('planning/shutdowns/{plannedShutdown}/edit', [\App\Http\Controllers\PlannedShutdownController::class, 'edit'])->name('planning.shutdowns.edit');
-    Route::put('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'update'])->name('planning.shutdowns.update');
-    Route::delete('planning/shutdowns/{plannedShutdown}', [\App\Http\Controllers\PlannedShutdownController::class, 'destroy'])->name('planning.shutdowns.destroy');
+        // Capacity Dashboard routes
+        Route::get('planning/capacity', [\App\Http\Controllers\PlanningController::class, 'capacity'])->name('planning.capacity');
 
-    // Capacity Dashboard routes
-    Route::get('planning/capacity', [\App\Http\Controllers\PlanningController::class, 'capacity'])->name('planning.capacity');
+        // Planning Analytics routes
+        Route::get('planning/analytics', [\App\Http\Controllers\PlanningController::class, 'analytics'])->name('planning.analytics');
 
-    // Planning Analytics routes
-    Route::get('planning/analytics', [\App\Http\Controllers\PlanningController::class, 'analytics'])->name('planning.analytics');
+        // Technician Availability routes
+        Route::get('planning/availability', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'index'])->name('planning.availability.index');
+        Route::post('planning/availability', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'store'])->name('planning.availability.store');
+        Route::put('planning/availability/{availability}', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'update'])->name('planning.availability.update');
+        Route::delete('planning/availability/{availability}', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'destroy'])->name('planning.availability.destroy');
+    });
+});
 
-    // Technician Availability routes
-    Route::get('planning/availability', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'index'])->name('planning.availability.index');
-    Route::post('planning/availability', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'store'])->name('planning.availability.store');
-    Route::put('planning/availability/{availability}', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'update'])->name('planning.availability.update');
-    Route::delete('planning/availability/{availability}', [\App\Http\Controllers\TechnicianAvailabilityController::class, 'destroy'])->name('planning.availability.destroy');
+// ========== Audit Routes (Manager + SuperAdmin) ==========
+Route::middleware(['auth', 'verified'])->group(function () {
+    Route::get('audit', [\App\Http\Controllers\AuditLogController::class, 'index'])
+        ->name('audit.index');
+    Route::get('api/audit-logs/{modelType}/{modelId}', [\App\Http\Controllers\AuditLogController::class, 'forModel'])
+        ->name('audit.for-model');
 });
 
 // ========== Admin Routes (Super Admin Only) ==========
@@ -304,8 +324,12 @@ Route::middleware(['auth', 'verified', 'super.admin'])->prefix('admin')->name('a
 
     // Company Management
     Route::get('companies', [\App\Http\Controllers\Admin\CompanyController::class, 'index'])->name('companies.index');
+    Route::get('companies/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'show'])->name('companies.show');
     Route::post('companies', [\App\Http\Controllers\Admin\CompanyController::class, 'store'])->name('companies.store');
     Route::put('companies/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'update'])->name('companies.update');
+    Route::put('companies/{company}/plan', [\App\Http\Controllers\Admin\CompanyController::class, 'updatePlan'])->name('companies.update-plan');
+    Route::put('companies/{company}/features', [\App\Http\Controllers\Admin\CompanyController::class, 'updateFeatures'])->name('companies.update-features');
+    Route::put('companies/{company}/features/{feature}', [\App\Http\Controllers\Admin\CompanyController::class, 'toggleFeature'])->name('companies.toggle-feature');
     Route::delete('companies/{company}', [\App\Http\Controllers\Admin\CompanyController::class, 'destroy'])->name('companies.destroy');
 
     // User Management
@@ -313,9 +337,19 @@ Route::middleware(['auth', 'verified', 'super.admin'])->prefix('admin')->name('a
     Route::post('users', [\App\Http\Controllers\Admin\UserController::class, 'store'])->name('users.store');
     Route::put('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'update'])->name('users.update');
     Route::delete('users/{user}', [\App\Http\Controllers\Admin\UserController::class, 'destroy'])->name('users.destroy');
+
+    // Impersonation
+    Route::post('companies/{company}/impersonate', [\App\Http\Controllers\Admin\ImpersonationController::class, 'startFromCompany'])->name('impersonate.company');
+    Route::post('users/{user}/impersonate', [\App\Http\Controllers\Admin\ImpersonationController::class, 'startFromUser'])->name('impersonate.user');
 });
 
+// Stop Impersonation (available when impersonating, even outside admin routes)
+Route::middleware(['auth'])->post('/stop-impersonating', [\App\Http\Controllers\Admin\ImpersonationController::class, 'stop'])->name('impersonation.stop');
+
 // ========== Vendor Portal (Public - API Key Session Auth) ==========
+// Note: Vendor portal access is controlled via the vendor_api_keys table
+// which is tied to companies that have the vendor_portal feature enabled.
+// The feature check happens when creating/validating API keys, not on these routes.
 Route::prefix('vendor-portal')->name('vendor-portal.')->group(function () {
     // Public routes
     Route::get('/', [\App\Http\Controllers\VendorPortalWebController::class, 'login'])->name('login');

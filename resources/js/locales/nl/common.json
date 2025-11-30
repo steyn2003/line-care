@@ -153,6 +153,27 @@
         "server": "Serverfout. Probeer het later opnieuw.",
         "timeout": "Verzoek verlopen. Probeer het opnieuw."
     },
+    "features": {
+        "upgrade_required": "{{feature}} vereist een plan upgrade",
+        "upgrade_now": "Nu upgraden",
+        "unlock_feature": "Ontgrendel {{feature}}",
+        "upgrade_plan": "Plan Upgraden",
+        "not_available_description": "Deze functie is niet beschikbaar in uw huidige abonnement.",
+        "upgrade_to_access": "Upgrade uw abonnement om toegang te krijgen tot deze functie en het volledige potentieel te ontgrendelen.",
+        "view_plans": "Bekijk Abonnementen",
+        "feature_names": {
+            "inventory": "Voorraadbeheer",
+            "oee": "OEE Tracking",
+            "costs": "Kostenbeheer",
+            "planning": "Planning Module",
+            "analytics": "Geavanceerde Analyses",
+            "api": "API Toegang",
+            "webhooks": "Webhooks",
+            "vendor_portal": "Leveranciersportaal",
+            "iot": "IoT & Sensoren",
+            "integrations": "Integraties"
+        }
+    },
     "search": {
         "placeholder": "Zoeken",
         "title": "Algemene Zoekfunctie",
@@ -200,5 +221,76 @@
         "due_on": "Vervaldatum {{date}}",
         "remaining": "Nog maar {{count}} over",
         "exceeded_by": "Overschreden met €{{amount}}"
+    },
+    "common": {
+        "edit": "Bewerken",
+        "cancel": "Annuleren",
+        "save": "Opslaan",
+        "saving": "Opslaan...",
+        "search": "Zoeken",
+        "clear": "Wissen",
+        "actions": "Acties"
+    },
+    "admin": {
+        "companies": {
+            "title": "Bedrijven",
+            "description": "Alle geregistreerde bedrijven in het systeem",
+            "company_details": "Bedrijfsgegevens en functiebeheer",
+            "company_info": "Bedrijfsinformatie",
+            "name": "Naam",
+            "email": "E-mail",
+            "phone": "Telefoon",
+            "address": "Adres",
+            "plan": "Abonnement",
+            "users": "Gebruikers",
+            "machines": "Machines",
+            "work_orders": "Werkorders",
+            "locations": "Locaties",
+            "created": "Aangemaakt",
+            "created_at": "Aangemaakt",
+            "no_companies": "Geen bedrijven gevonden",
+            "search_placeholder": "Zoek bedrijven...",
+            "filter_by_plan": "Filter op abonnement",
+            "all_plans": "Alle Abonnementen",
+            "created": "Bedrijf succesvol aangemaakt",
+            "updated": "Bedrijf succesvol bijgewerkt",
+            "update_error": "Fout bij bijwerken bedrijf",
+            "deleted": "Bedrijf succesvol verwijderd",
+            "cannot_delete_with_users": "Kan bedrijf met bestaande gebruikers niet verwijderen. Verwijder eerst alle gebruikers.",
+            "plan_updated": "Abonnement succesvol bijgewerkt",
+            "plan_update_error": "Fout bij bijwerken abonnement",
+            "features_updated": "Functies succesvol bijgewerkt",
+            "feature_toggled": "Functie succesvol gewijzigd",
+            "feature_toggle_error": "Fout bij wijzigen functie",
+            "plan_features": "Abonnement & Functies",
+            "current_plan": "Huidig Abonnement",
+            "change_plan": "Abonnement Wijzigen",
+            "change_plan_description": "Selecteer een nieuw abonnement voor dit bedrijf. Standaardfuncties wijzigen op basis van het geselecteerde abonnement.",
+            "update_plan": "Abonnement Bijwerken",
+            "features_enabled": "{{count}} van {{total}} functies ingeschakeld",
+            "feature_overrides": "Functie Overschrijvingen",
+            "feature_overrides_description": "Overschrijf individuele functies voor dit bedrijf ongeacht hun abonnement.",
+            "recent_users": "Recente Gebruikers",
+            "recent_users_description": "Toont de eerste 10 van {{count}} gebruikers",
+            "view_all_users": "Alle gebruikers bekijken",
+            "edit_company": "Bedrijf Bewerken",
+            "edit_company_description": "Bedrijfsinformatie bijwerken"
+        },
+        "users": {
+            "name": "Naam",
+            "email": "E-mail",
+            "role": "Rol"
+        },
+        "impersonation": {
+            "impersonate": "Imiteren",
+            "started": "Je bekijkt nu als {{user}} bij {{company}}",
+            "stopped": "Teruggekeerd naar je eigen account",
+            "stop": "Stop Imiteren",
+            "stop_error": "Fout bij stoppen imitatie",
+            "error": "Fout bij starten imitatie",
+            "no_users_found": "Geen gebruikers gevonden in dit bedrijf om te imiteren",
+            "banner_prefix": "Je bekijkt als",
+            "at": "bij"
+        }
     }
 }

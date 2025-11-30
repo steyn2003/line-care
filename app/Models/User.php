@@ -145,4 +145,33 @@ class User extends Authenticatable
     {
         return $this->role === Role::OPERATOR;
     }
+
+    /**
+     * Check if this user is a super admin.
+     */
+    public function isSuperAdmin(): bool
+    {
+        return $this->role->isSuperAdmin();
+    }
+
+    /**
+     * Check if a feature is enabled for this user.
+     *
+     * @param string $feature
+     * @return bool
+     */
+    public function hasFeature(string $feature): bool
+    {
+        return app(\App\Services\FeatureService::class)->enabledForUser($this, $feature);
+    }
+
+    /**
+     * Get all features for this user.
+     *
+     * @return array<string, bool>
+     */
+    public function getFeatures(): array
+    {
+        return app(\App\Services\FeatureService::class)->getAllFeaturesForUser($this);
+    }
 }

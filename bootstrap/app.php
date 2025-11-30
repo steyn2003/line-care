@@ -31,6 +31,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'manager' => \App\Http\Middleware\EnsureUserIsManager::class,
             'tech.manager' => \App\Http\Middleware\EnsureUserIsTechnicianOrManager::class,
             'super.admin' => \App\Http\Middleware\EnsureSuperAdmin::class,
+            'feature' => \App\Http\Middleware\EnsureFeatureEnabled::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

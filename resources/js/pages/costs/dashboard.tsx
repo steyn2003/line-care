@@ -13,6 +13,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useFeatureGuard } from '@/hooks/use-feature-guard';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import {
@@ -72,6 +73,9 @@ export default function CostDashboard({
     budgetComparison,
     dateRange,
 }: Props) {
+    // Feature guard: redirect if costs feature is not available
+    useFeatureGuard({ feature: 'costs' });
+
     const handleDateRangeChange = (value: string) => {
         router.get(
             '/costs/dashboard',

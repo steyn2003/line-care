@@ -15,6 +15,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
+import { useFeatureGuard } from '@/hooks/use-feature-guard';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
 import { AlertTriangle, Package, Plus, Search } from 'lucide-react';
@@ -80,7 +81,8 @@ interface Props {
 
 const statusColors = {
     active: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300',
-    discontinued: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
+    discontinued:
+        'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300',
 };
 
 export default function SparePartsIndex({
@@ -89,6 +91,9 @@ export default function SparePartsIndex({
     suppliers,
     filters,
 }: Props) {
+    // Feature guard: redirect if inventory feature is not available
+    useFeatureGuard({ feature: 'inventory' });
+
     const [search, setSearch] = useState(filters.search || '');
     const [categoryFilter, setCategoryFilter] = useState<string>(
         filters.category_id?.toString() || 'all',
@@ -99,14 +104,18 @@ export default function SparePartsIndex({
     const [statusFilter, setStatusFilter] = useState<string>(
         filters.status || 'active',
     );
-    const [lowStockOnly, setLowStockOnly] = useState(filters.low_stock || false);
+    const [lowStockOnly, setLowStockOnly] = useState(
+        filters.low_stock || false,
+    );
 
     const handleFilterChange = () => {
         router.get(
             '/spare-parts',
             {
-                category_id: categoryFilter !== 'all' ? categoryFilter : undefined,
-                supplier_id: supplierFilter !== 'all' ? supplierFilter : undefined,
+                category_id:
+                    categoryFilter !== 'all' ? categoryFilter : undefined,
+                supplier_id:
+                    supplierFilter !== 'all' ? supplierFilter : undefined,
                 status: statusFilter !== 'all' ? statusFilter : undefined,
                 low_stock: lowStockOnly || undefined,
                 search: search || undefined,
@@ -164,13 +173,14 @@ export default function SparePartsIndex({
                     <CardHeader>
                         <CardTitle>Filters</CardTitle>
                         <CardDescription>
-                            Filter spare parts by category, supplier, or stock level
+                            Filter spare parts by category, supplier, or stock
+                            level
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <div className="grid gap-4 md:grid-cols-5">
                             <div className="relative">
-                                <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                                <Search className="absolute top-3 left-3 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     placeholder="Search parts..."
                                     value={search}
@@ -195,7 +205,9 @@ export default function SparePartsIndex({
                                     <SelectValue placeholder="All categories" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All categories</SelectItem>
+                                    <SelectItem value="all">
+                                        All categories
+                                    </SelectItem>
                                     {categories.map((category) => (
                                         <SelectItem
                                             key={category.id}
@@ -218,7 +230,9 @@ export default function SparePartsIndex({
                                     <SelectValue placeholder="All suppliers" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All suppliers</SelectItem>
+                                    <SelectItem value="all">
+                                        All suppliers
+                                    </SelectItem>
                                     {suppliers.map((supplier) => (
                                         <SelectItem
                                             key={supplier.id}
@@ -241,8 +255,12 @@ export default function SparePartsIndex({
                                     <SelectValue placeholder="Status" />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">All status</SelectItem>
-                                    <SelectItem value="active">Active</SelectItem>
+                                    <SelectItem value="all">
+                                        All status
+                                    </SelectItem>
+                                    <SelectItem value="active">
+                                        Active
+                                    </SelectItem>
                                     <SelectItem value="discontinued">
                                         Discontinued
                                     </SelectItem>
@@ -267,9 +285,7 @@ export default function SparePartsIndex({
                 {/* Parts List */}
                 <Card>
                     <CardHeader>
-                        <CardTitle>
-                            Spare Parts ({spare_parts.total})
-                        </CardTitle>
+                        <CardTitle>Spare Parts ({spare_parts.total})</CardTitle>
                     </CardHeader>
                     <CardContent>
                         {spare_parts.data.length === 0 ? (
@@ -334,7 +350,10 @@ export default function SparePartsIndex({
                                                             {part.part_number}
                                                         </span>
                                                         {part.is_critical && (
-                                                            <Badge variant="destructive" className="text-xs">
+                                                            <Badge
+                                                                variant="destructive"
+                                                                className="text-xs"
+                                                            >
                                                                 Critical
                                                             </Badge>
                                                         )}
@@ -355,18 +374,33 @@ export default function SparePartsIndex({
                                                     {part.supplier?.name || '—'}
                                                 </td>
                                                 <td className="px-4 py-3 text-right">
-                                                    <span className={getStockLevelColor(part)}>
-                                                        {part.total_quantity_on_hand}
+                                                    <span
+                                                        className={getStockLevelColor(
+                                                            part,
+                                                        )}
+                                                    >
+                                                        {
+                                                            part.total_quantity_on_hand
+                                                        }
                                                     </span>
                                                 </td>
                                                 <td className="px-4 py-3 text-right">
                                                     <div className="flex flex-col items-end">
-                                                        <span className={getStockLevelColor(part)}>
-                                                            {part.total_quantity_available}
+                                                        <span
+                                                            className={getStockLevelColor(
+                                                                part,
+                                                            )}
+                                                        >
+                                                            {
+                                                                part.total_quantity_available
+                                                            }
                                                         </span>
                                                         {part.is_low_stock && (
                                                             <span className="text-xs text-muted-foreground">
-                                                                Reorder: {part.reorder_point}
+                                                                Reorder:{' '}
+                                                                {
+                                                                    part.reorder_point
+                                                                }
                                                             </span>
                                                         )}
                                                     </div>
@@ -375,7 +409,13 @@ export default function SparePartsIndex({
                                                     ${part.unit_cost}
                                                 </td>
                                                 <td className="px-4 py-3">
-                                                    <Badge className={statusColors[part.status]}>
+                                                    <Badge
+                                                        className={
+                                                            statusColors[
+                                                                part.status
+                                                            ]
+                                                        }
+                                                    >
                                                         {part.status}
                                                     </Badge>
                                                 </td>
@@ -385,7 +425,9 @@ export default function SparePartsIndex({
                                                         size="sm"
                                                         asChild
                                                     >
-                                                        <Link href={`/spare-parts/${part.id}`}>
+                                                        <Link
+                                                            href={`/spare-parts/${part.id}`}
+                                                        >
                                                             View
                                                         </Link>
                                                     </Button>

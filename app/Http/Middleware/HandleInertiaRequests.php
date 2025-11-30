@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\FeatureService;
+use App\Services\ImpersonationService;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -45,10 +47,38 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'features' => $this->getFeatures($request),
+            'impersonation' => $this->getImpersonation(),
             'sidebarOpen' => ! $request->hasCookie('sidebar_state') || $request->cookie('sidebar_state') === 'true',
             'locale' => app()->getLocale(),
             'availableLocales' => config('localization.available', ['en', 'nl']),
             'localeMetadata' => config('localization.locales', []),
         ];
+    }
+
+    /**
+     * Get the features available to the current user.
+     *
+     * @return array<string, bool>
+     */
+    protected function getFeatures(Request $request): array
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return [];
+        }
+
+        return app(FeatureService::class)->getAllFeaturesForUser($user);
+    }
+
+    /**
+     * Get the impersonation data if currently impersonating.
+     *
+     * @return array|null
+     */
+    protected function getImpersonation(): ?array
+    {
+        return app(ImpersonationService::class)->getImpersonationData();
     }
 }

@@ -8,6 +8,7 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
     Card,
@@ -27,6 +28,13 @@ import {
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
+import {
     Table,
     TableBody,
     TableCell,
@@ -41,12 +49,15 @@ import {
     Boxes,
     Building2,
     Edit,
+    Eye,
     Plus,
     Search,
     Trash2,
+    UserCog,
     Users,
 } from 'lucide-react';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 
 interface Company {
@@ -55,9 +66,11 @@ interface Company {
     email: string | null;
     phone: string | null;
     address: string | null;
+    plan: string;
     created_at: string;
     users_count?: number;
     machines_count?: number;
+    work_orders_count?: number;
 }
 
 interface Props {
@@ -70,10 +83,17 @@ interface Props {
     };
     filters: {
         search?: string;
+        plan?: string;
     };
+    availablePlans: string[];
 }
 
-export default function CompaniesIndex({ companies, filters }: Props) {
+export default function CompaniesIndex({
+    companies,
+    filters,
+    availablePlans,
+}: Props) {
+    const { t } = useTranslation();
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [editDialogOpen, setEditDialogOpen] = useState(false);
     const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
@@ -81,13 +101,26 @@ export default function CompaniesIndex({ companies, filters }: Props) {
         null,
     );
     const [searchQuery, setSearchQuery] = useState(filters.search || '');
+    const [planFilter, setPlanFilter] = useState(filters.plan || '');
 
     const createForm = useForm({
         name: '',
         email: '',
         phone: '',
         address: '',
+        plan: 'basic',
     });
+
+    const getPlanBadgeVariant = (plan: string) => {
+        switch (plan) {
+            case 'enterprise':
+                return 'default';
+            case 'pro':
+                return 'secondary';
+            default:
+                return 'outline';
+        }
+    };
 
     const editForm = useForm({
         name: '',
@@ -100,12 +133,43 @@ export default function CompaniesIndex({ companies, filters }: Props) {
         e.preventDefault();
         router.get(
             '/admin/companies',
-            { search: searchQuery },
+            { search: searchQuery, plan: planFilter },
             {
                 preserveState: true,
                 replace: true,
             },
         );
+    };
+
+    const handlePlanFilterChange = (value: string) => {
+        setPlanFilter(value);
+        router.get(
+            '/admin/companies',
+            { search: searchQuery, plan: value === 'all' ? '' : value },
+            {
+                preserveState: true,
+                replace: true,
+            },
+        );
+    };
+
+    const handleImpersonate = (company: Company) => {
+        router.post(`/admin/companies/${company.id}/impersonate`, undefined, {
+            onSuccess: () => {
+                toast.success(
+                    t('admin.impersonation.started', {
+                        company: company.name,
+                    }),
+                );
+            },
+            onError: (errors) => {
+                if (errors.impersonation) {
+                    toast.error(errors.impersonation as string);
+                } else {
+                    toast.error(t('admin.impersonation.error'));
+                }
+            },
+        });
     };
 
     const handleCreate = (e: React.FormEvent) => {
@@ -207,14 +271,16 @@ export default function CompaniesIndex({ companies, filters }: Props) {
                     </Button>
                 </div>
 
-                {/* Search */}
+                {/* Search & Filters */}
                 <Card>
                     <CardContent className="pt-6">
                         <form onSubmit={handleSearch} className="flex gap-2">
                             <div className="relative flex-1">
                                 <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                                 <Input
-                                    placeholder="Search companies..."
+                                    placeholder={t(
+                                        'admin.companies.search_placeholder',
+                                    )}
                                     value={searchQuery}
                                     onChange={(e) =>
                                         setSearchQuery(e.target.value)
@@ -222,17 +288,41 @@ export default function CompaniesIndex({ companies, filters }: Props) {
                                     className="pl-10"
                                 />
                             </div>
-                            <Button type="submit">Search</Button>
-                            {filters.search && (
+                            <Select
+                                value={planFilter || 'all'}
+                                onValueChange={handlePlanFilterChange}
+                            >
+                                <SelectTrigger className="w-[150px]">
+                                    <SelectValue
+                                        placeholder={t(
+                                            'admin.companies.filter_by_plan',
+                                        )}
+                                    />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="all">
+                                        {t('admin.companies.all_plans')}
+                                    </SelectItem>
+                                    {availablePlans.map((plan) => (
+                                        <SelectItem key={plan} value={plan}>
+                                            {plan.charAt(0).toUpperCase() +
+                                                plan.slice(1)}
+                                        </SelectItem>
+                                    ))}
+                                </SelectContent>
+                            </Select>
+                            <Button type="submit">{t('common.search')}</Button>
+                            {(filters.search || filters.plan) && (
                                 <Button
                                     type="button"
                                     variant="outline"
                                     onClick={() => {
                                         setSearchQuery('');
+                                        setPlanFilter('');
                                         router.get('/admin/companies');
                                     }}
                                 >
-                                    Clear
+                                    {t('common.clear')}
                                 </Button>
                             )}
                         </form>
@@ -244,31 +334,35 @@ export default function CompaniesIndex({ companies, filters }: Props) {
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2">
                             <Building2 className="h-5 w-5" />
-                            Companies ({companies.total})
+                            {t('admin.companies.title')} ({companies.total})
                         </CardTitle>
                         <CardDescription>
-                            All registered companies in the system
+                            {t('admin.companies.description')}
                         </CardDescription>
                     </CardHeader>
                     <CardContent>
                         <Table>
                             <TableHeader>
                                 <TableRow>
-                                    <TableHead>Name</TableHead>
-                                    <TableHead>Email</TableHead>
-                                    <TableHead>Phone</TableHead>
-                                    <TableHead>Address</TableHead>
+                                    <TableHead>
+                                        {t('admin.companies.name')}
+                                    </TableHead>
+                                    <TableHead>
+                                        {t('admin.companies.plan')}
+                                    </TableHead>
                                     <TableHead className="text-center">
                                         <Users className="mr-1 inline h-4 w-4" />
-                                        Users
+                                        {t('admin.companies.users')}
                                     </TableHead>
                                     <TableHead className="text-center">
                                         <Boxes className="mr-1 inline h-4 w-4" />
-                                        Machines
+                                        {t('admin.companies.machines')}
                                     </TableHead>
-                                    <TableHead>Created</TableHead>
+                                    <TableHead>
+                                        {t('admin.companies.created')}
+                                    </TableHead>
                                     <TableHead className="text-right">
-                                        Actions
+                                        {t('common.actions')}
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
@@ -276,26 +370,42 @@ export default function CompaniesIndex({ companies, filters }: Props) {
                                 {companies.data.length === 0 ? (
                                     <TableRow>
                                         <TableCell
-                                            colSpan={8}
+                                            colSpan={6}
                                             className="text-center text-muted-foreground"
                                         >
-                                            No companies found
+                                            {t('admin.companies.no_companies')}
                                         </TableCell>
                                     </TableRow>
                                 ) : (
                                     companies.data.map((company) => (
                                         <TableRow key={company.id}>
                                             <TableCell className="font-medium">
-                                                {company.name}
+                                                <Link
+                                                    href={`/admin/companies/${company.id}`}
+                                                    className="hover:underline"
+                                                >
+                                                    {company.name}
+                                                </Link>
+                                                {company.email && (
+                                                    <div className="text-sm text-muted-foreground">
+                                                        {company.email}
+                                                    </div>
+                                                )}
                                             </TableCell>
                                             <TableCell>
-                                                {company.email || '-'}
-                                            </TableCell>
-                                            <TableCell>
-                                                {company.phone || '-'}
-                                            </TableCell>
-                                            <TableCell className="max-w-[200px] truncate">
-                                                {company.address || '-'}
+                                                <Badge
+                                                    variant={getPlanBadgeVariant(
+                                                        company.plan || 'basic',
+                                                    )}
+                                                >
+                                                    {(company.plan || 'basic')
+                                                        .charAt(0)
+                                                        .toUpperCase() +
+                                                        (
+                                                            company.plan ||
+                                                            'basic'
+                                                        ).slice(1)}
+                                                </Badge>
                                             </TableCell>
                                             <TableCell className="text-center">
                                                 {company.users_count || 0}
@@ -309,7 +419,32 @@ export default function CompaniesIndex({ companies, filters }: Props) {
                                                 ).toLocaleDateString()}
                                             </TableCell>
                                             <TableCell className="text-right">
-                                                <div className="flex justify-end gap-2">
+                                                <div className="flex justify-end gap-1">
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        asChild
+                                                    >
+                                                        <Link
+                                                            href={`/admin/companies/${company.id}`}
+                                                        >
+                                                            <Eye className="h-4 w-4" />
+                                                        </Link>
+                                                    </Button>
+                                                    <Button
+                                                        variant="ghost"
+                                                        size="sm"
+                                                        onClick={() =>
+                                                            handleImpersonate(
+                                                                company,
+                                                            )
+                                                        }
+                                                        title={t(
+                                                            'admin.impersonation.impersonate',
+                                                        )}
+                                                    >
+                                                        <UserCog className="h-4 w-4" />
+                                                    </Button>
                                                     <Button
                                                         variant="ghost"
                                                         size="sm"

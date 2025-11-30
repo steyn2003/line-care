@@ -11,7 +11,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 import { dashboard } from '@/routes';
-import { type NavItem } from '@/types';
+import { type Features, type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import {
     Activity,
@@ -50,7 +50,10 @@ import AppLogo from './app-logo';
 
 export function AppSidebar() {
     const { t } = useTranslation('nav');
-    const { auth } = usePage().props;
+    const { auth, features } = usePage<{
+        auth: { user: { role: string } };
+        features: Features;
+    }>().props;
     const isSuperAdmin = auth.user.role === 'super_admin';
 
     // Overview - always visible
@@ -301,37 +304,50 @@ export function AppSidebar() {
     };
 
     // Settings section with sub-items (consolidated)
+    // Filter items based on features
+    const settingsItems: NavItem[] = [
+        {
+            title: t('settings.locations'),
+            href: '/locations',
+            icon: MapPin,
+        },
+        {
+            title: t('settings.cause_categories'),
+            href: '/cause-categories',
+            icon: AlertTriangle,
+        },
+        {
+            title: t('settings.users'),
+            href: '/users',
+            icon: Users,
+        },
+        // Integrations - only if feature enabled
+        ...(features.integrations
+            ? [
+                  {
+                      title: t('settings.integrations'),
+                      href: '/settings/integrations',
+                      icon: Settings,
+                  },
+              ]
+            : []),
+        // Vendor API Keys - only if vendor_portal feature enabled
+        ...(features.vendor_portal
+            ? [
+                  {
+                      title: t('settings.vendor_api_keys'),
+                      href: '/settings/vendor-api-keys',
+                      icon: Key,
+                  },
+              ]
+            : []),
+    ];
+
     const settingsNavItem: NavItem = {
         title: t('settings.title'),
         href: '#',
         icon: Settings,
-        items: [
-            {
-                title: t('settings.locations'),
-                href: '/locations',
-                icon: MapPin,
-            },
-            {
-                title: t('settings.cause_categories'),
-                href: '/cause-categories',
-                icon: AlertTriangle,
-            },
-            {
-                title: t('settings.users'),
-                href: '/users',
-                icon: Users,
-            },
-            {
-                title: t('settings.integrations'),
-                href: '/settings/integrations',
-                icon: Settings,
-            },
-            {
-                title: t('settings.vendor_api_keys'),
-                href: '/settings/vendor-api-keys',
-                icon: Key,
-            },
-        ],
+        items: settingsItems,
     };
 
     // Admin section with sub-items
@@ -358,19 +374,24 @@ export function AppSidebar() {
         ],
     };
 
-    // Grouped sections
+    // Grouped sections - conditionally include items based on features
     const operationsNavItems: NavItem[] = [
-        maintenanceNavItem,
-        planningNavItem,
-        productionNavItem,
-        inventoryNavItem,
+        maintenanceNavItem, // Always available
+        ...(features.planning ? [planningNavItem] : []),
+        ...(features.oee ? [productionNavItem] : []),
+        ...(features.inventory ? [inventoryNavItem] : []),
     ];
 
-    const financeNavItems: NavItem[] = [costNavItem];
+    const financeNavItems: NavItem[] = features.costs ? [costNavItem] : [];
 
-    const insightsNavItems: NavItem[] = [reportsNavItem];
+    const insightsNavItems: NavItem[] = features.analytics
+        ? [reportsNavItem]
+        : [];
 
-    const systemNavItems: NavItem[] = [iotNavItem, settingsNavItem];
+    const systemNavItems: NavItem[] = [
+        ...(features.iot ? [iotNavItem] : []),
+        settingsNavItem, // Settings always visible (but items inside are filtered)
+    ];
 
     const footerNavItems: NavItem[] = [];
 
@@ -406,17 +427,21 @@ export function AppSidebar() {
                     items={operationsNavItems}
                 />
 
-                {/* Finance section */}
-                <NavMain
-                    label={t('sections.finance')}
-                    items={financeNavItems}
-                />
+                {/* Finance section - only if costs feature is enabled */}
+                {financeNavItems.length > 0 && (
+                    <NavMain
+                        label={t('sections.finance')}
+                        items={financeNavItems}
+                    />
+                )}
 
-                {/* Insights section */}
-                <NavMain
-                    label={t('sections.insights')}
-                    items={insightsNavItems}
-                />
+                {/* Insights section - only if analytics feature is enabled */}
+                {insightsNavItems.length > 0 && (
+                    <NavMain
+                        label={t('sections.insights')}
+                        items={insightsNavItems}
+                    />
+                )}
 
                 {/* System section */}
                 <NavMain label={t('sections.system')} items={systemNavItems} />

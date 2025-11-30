@@ -34,10 +34,49 @@ export interface NavItem {
     groups?: NavSubGroup[];
 }
 
+/**
+ * Feature flags available to the current user based on their company's plan.
+ */
+export interface Features {
+    inventory: boolean;
+    oee: boolean;
+    costs: boolean;
+    planning: boolean;
+    analytics: boolean;
+    api: boolean;
+    webhooks: boolean;
+    vendor_portal: boolean;
+    iot: boolean;
+    integrations: boolean;
+}
+
+/**
+ * Impersonation state when a superadmin is impersonating another user.
+ */
+export interface ImpersonationData {
+    is_impersonating: boolean;
+    impersonator: {
+        id: number;
+        name: string;
+        email: string;
+    };
+    impersonated_user: {
+        id: number;
+        name: string;
+        email: string;
+        company: {
+            id: number;
+            name: string;
+        } | null;
+    };
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };
     auth: Auth;
+    features: Features;
+    impersonation: ImpersonationData | null;
     sidebarOpen: boolean;
     [key: string]: unknown;
 }
