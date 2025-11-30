@@ -18,7 +18,7 @@ import {
 import { useFeatureGuard } from '@/hooks/use-feature-guard';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
-import { AlertTriangle, Package, Plus, Search } from 'lucide-react';
+import { AlertTriangle, Download, Package, Plus, Search } from 'lucide-react';
 import { useState } from 'react';
 
 interface PartCategory {

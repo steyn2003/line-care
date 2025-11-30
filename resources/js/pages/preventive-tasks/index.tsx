@@ -18,6 +18,7 @@ import {
     ChevronRight,
     Clock,
     Cpu,
+    Download,
     Inbox,
     Plus,
     Search,

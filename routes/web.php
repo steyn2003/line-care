@@ -62,6 +62,10 @@ Route::get('/oee', function () {
     ]);
 })->name('marketing.oee');
 
+// ========== QR Code Scan Route (Public) ==========
+Route::get('/m/{qrToken}', [\App\Http\Controllers\QrScanController::class, 'scan'])
+    ->name('qr.scan');
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
@@ -80,6 +84,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('machines/{machine}/edit', [\App\Http\Controllers\MachineController::class, 'edit'])->name('machines.edit');
     Route::put('machines/{machine}', [\App\Http\Controllers\MachineController::class, 'update'])->name('machines.update');
     Route::delete('machines/{machine}', [\App\Http\Controllers\MachineController::class, 'destroy'])->name('machines.destroy');
+
+    // Machine QR Code routes
+    Route::get('machines/{machine}/qr-image', [\App\Http\Controllers\MachineQrController::class, 'image'])->name('machines.qr-image');
+    Route::get('machines/{machine}/qr-print', [\App\Http\Controllers\MachineQrController::class, 'print'])->name('machines.qr-print');
+    Route::get('machines/{machine}/qr-download', [\App\Http\Controllers\MachineQrController::class, 'download'])->name('machines.qr-download');
 
     // Work Order routes
     Route::get('work-orders', [\App\Http\Controllers\WorkOrderController::class, 'index'])->name('work-orders.index');

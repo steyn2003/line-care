@@ -17,7 +17,7 @@ import {
 } from '@/components/ui/select';
 import AppLayout from '@/layouts/app-layout';
 import { Head, Link, router } from '@inertiajs/react';
-import { FileUp, Inbox, MapPin, Plus } from 'lucide-react';
+import { Download, FileUp, Inbox, MapPin, Plus } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

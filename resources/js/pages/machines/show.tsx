@@ -13,9 +13,12 @@ import {
     AlertTriangle,
     ArrowLeft,
     ChevronRight,
+    Download,
     Inbox,
     MapPin,
     Pencil,
+    Printer,
+    QrCode,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
@@ -31,6 +34,7 @@ interface Machine {
     location: Location | null;
     criticality: 'low' | 'medium' | 'high';
     status: 'active' | 'archived';
+    qr_token: string | null;
     created_at: string;
 }
 
@@ -199,6 +203,68 @@ export default function MachineShow({
                         </div>
                     </CardContent>
                 </Card>
+
+                {/* QR Code Section */}
+                {machine.qr_token && (
+                    <Card className="border-border">
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <QrCode className="h-5 w-5" />
+                                {t('show.qr_code', 'QR Code')}
+                            </CardTitle>
+                            <CardDescription>
+                                {t(
+                                    'show.qr_description',
+                                    'Scan this QR code to quickly report a breakdown for this machine',
+                                )}
+                            </CardDescription>
+                        </CardHeader>
+                        <CardContent className="flex flex-col items-center gap-4 sm:flex-row sm:items-start">
+                            <div className="rounded-lg border bg-white p-2">
+                                <img
+                                    src={`/machines/${machine.id}/qr-image`}
+                                    alt={t(
+                                        'show.qr_alt',
+                                        'QR code for {{name}}',
+                                        { name: machine.name },
+                                    )}
+                                    className="h-40 w-40"
+                                />
+                            </div>
+                            <div className="flex flex-col gap-2">
+                                <p className="text-sm text-muted-foreground">
+                                    {t(
+                                        'show.qr_instructions',
+                                        'Print this QR code and attach it to the machine. Operators can scan it to instantly report breakdowns.',
+                                    )}
+                                </p>
+                                <div className="flex flex-wrap gap-2">
+                                    <Button variant="outline" size="sm" asChild>
+                                        <a
+                                            href={`/machines/${machine.id}/qr-download`}
+                                            download
+                                        >
+                                            <Download className="mr-2 h-4 w-4" />
+                                            {t('show.download_qr', 'Download')}
+                                        </a>
+                                    </Button>
+                                    <Button variant="outline" size="sm" asChild>
+                                        <Link
+                                            href={`/machines/${machine.id}/qr-print`}
+                                            target="_blank"
+                                        >
+                                            <Printer className="mr-2 h-4 w-4" />
+                                            {t(
+                                                'show.print_label',
+                                                'Print Label',
+                                            )}
+                                        </Link>
+                                    </Button>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
 
                 {/* Analytics */}
                 <div className="grid gap-4 md:grid-cols-4">

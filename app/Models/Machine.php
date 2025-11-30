@@ -7,10 +7,23 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 class Machine extends Model
 {
     use HasFactory, Auditable;
+
+    /**
+     * Boot the model.
+     */
+    protected static function boot(): void
+    {
+        parent::boot();
+
+        static::creating(function (Machine $machine) {
+            $machine->qr_token = $machine->qr_token ?? Str::uuid()->toString();
+        });
+    }
 
     /**
      * The events to audit.
@@ -35,6 +48,7 @@ class Machine extends Model
         'criticality',
         'status',
         'hourly_production_value',
+        'qr_token',
     ];
 
     /**
