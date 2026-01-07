@@ -9,6 +9,7 @@ export default defineConfig({
         alias: {
             '@': resolve(__dirname, 'resources/js'),
         },
+        extensions: ['.mjs', '.js', '.mts', '.ts', '.jsx', '.tsx', '.json'],
     },
     plugins: [
         laravel({
