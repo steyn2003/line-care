@@ -5,6 +5,18 @@ npm run lint
 
 IN THE UI FULLY UTILIZE INERTIA
 
+## Development Notes
+
+### Wayfinder Routes
+The `resources/js/routes/` directory contains auto-generated TypeScript route files created by Laravel Wayfinder (`php artisan wayfinder:generate`). These files are committed to git for deployment.
+
+**Important:** When you add or modify Laravel routes, you must regenerate and commit the Wayfinder routes:
+```bash
+php artisan wayfinder:generate
+git add resources/js/routes/
+git commit -m "chore: regenerate wayfinder routes"
+```
+
 
 ## 1. V2 Vision & Scope
 
