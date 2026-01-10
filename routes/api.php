@@ -149,6 +149,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'store' => 'api.purchase-orders.store',
         'show' => 'api.purchase-orders.show',
         'update' => 'api.purchase-orders.update',
+        'destroy' => 'api.purchase-orders.destroy',
     ]);
     Route::post('purchase-orders/{purchaseOrder}/send', [PurchaseOrderController::class, 'send'])->name('api.purchase-orders.send');
     Route::post('purchase-orders/{purchaseOrder}/receive', [PurchaseOrderController::class, 'receive'])->name('api.purchase-orders.receive');
