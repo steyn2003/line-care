@@ -53,6 +53,12 @@ export default function Welcome({
             title="LineCare - Eenvoudige onderhoudssoftware voor kleine fabrieken"
             canRegister={canRegister}
             currentPath="/"
+            seo={{
+                description:
+                    'LineCare is het complete CMMS voor kleine fabrieken. Storingen melden, periodiek onderhoud plannen, reserveonderdelen beheren en OEE meten. Start gratis trial.',
+                keywords:
+                    'CMMS, onderhoudssoftware, kleine fabriek, storingen melden, preventief onderhoud, werkorders, OEE tracking, reserveonderdelen, onderhoudsbeheer Nederland',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden">

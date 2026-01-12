@@ -23,9 +23,15 @@ import {
 export default function OEE({ canRegister = true }: { canRegister?: boolean }) {
     return (
         <MarketingLayout
-            title="OEE Tracking - LineCare"
+            title="OEE Tracking Software - LineCare"
             canRegister={canRegister}
             currentPath="/oee"
+            seo={{
+                description:
+                    'Meet OEE (Overall Equipment Effectiveness) met LineCare. Track beschikbaarheid, prestatie en kwaliteit. Begrijp waar productieverlies zit en verbeter gericht.',
+                keywords:
+                    'OEE software, OEE tracking, Overall Equipment Effectiveness, beschikbaarheid meten, productie effectiviteit, stilstand registratie, machine prestatie',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden py-24">

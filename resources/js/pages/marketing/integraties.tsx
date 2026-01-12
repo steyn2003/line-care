@@ -173,9 +173,15 @@ export default function Integraties({
 
     return (
         <MarketingLayout
-            title="Integraties - LineCare"
+            title="Integraties - LineCare CMMS"
             canRegister={canRegister}
             currentPath="/integraties"
+            seo={{
+                description:
+                    'Verbind LineCare met SAP, Oracle, Microsoft Dynamics en IoT-sensoren. ERP koppelingen, automatische alerts en leveranciersportaal voor naadloze samenwerking.',
+                keywords:
+                    'CMMS integraties, ERP koppeling, SAP integratie, IoT sensoren onderhoud, onderhoud automatisering, API koppeling, webhooks',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden py-24">

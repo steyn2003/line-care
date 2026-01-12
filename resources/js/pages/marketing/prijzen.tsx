@@ -224,9 +224,15 @@ export default function Prijzen({
 
     return (
         <MarketingLayout
-            title="Prijzen - LineCare"
+            title="Prijzen - LineCare CMMS"
             canRegister={canRegister}
             currentPath="/prijzen"
+            seo={{
+                description:
+                    'LineCare prijzen vanaf EUR 49/maand. Transparante prijzen voor Starter, Professional en Enterprise. 14 dagen gratis trial, geen creditcard nodig.',
+                keywords:
+                    'CMMS prijzen, onderhoudssoftware kosten, LineCare abonnement, werkorder software prijs, OEE software kosten',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden py-24">

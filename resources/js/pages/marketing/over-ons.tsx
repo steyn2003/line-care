@@ -83,6 +83,12 @@ export default function OverOns({
             title="Over ons - LineCare"
             canRegister={canRegister}
             currentPath="/over-ons"
+            seo={{
+                description:
+                    'LineCare is gebouwd door mensen die kleine fabrieken begrijpen. Onze missie: professioneel onderhoudsbeheer toegankelijk maken voor elk maakbedrijf.',
+                keywords:
+                    'LineCare team, onderhoudssoftware Nederland, CMMS startup, maakbedrijf software, over LineCare',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden py-24">

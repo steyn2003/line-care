@@ -499,9 +499,15 @@ export default function Functionaliteiten({
 
     return (
         <MarketingLayout
-            title="Functionaliteiten - LineCare"
+            title="Functionaliteiten - LineCare CMMS"
             canRegister={canRegister}
             currentPath="/functionaliteiten"
+            seo={{
+                description:
+                    'Ontdek alle LineCare functionaliteiten: werkorders, preventief onderhoud, reserveonderdelen, OEE tracking, kostenbeheer, integraties en dashboards voor kleine fabrieken.',
+                keywords:
+                    'CMMS functionaliteiten, werkorderbeheer, preventief onderhoud software, reserveonderdelen beheer, OEE software, onderhoud dashboard, kostenbeheer onderhoud',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden py-24">

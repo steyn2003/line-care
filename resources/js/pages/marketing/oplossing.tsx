@@ -244,9 +244,15 @@ export default function Oplossing({
 
     return (
         <MarketingLayout
-            title="De oplossing - LineCare"
+            title="De oplossing voor onderhoudsbeheer - LineCare"
             canRegister={canRegister}
             currentPath="/oplossing"
+            seo={{
+                description:
+                    'Van WhatsApp chaos naar gestructureerd onderhoud. LineCare lost de dagelijkse frustraties van technische diensten in kleine fabrieken op.',
+                keywords:
+                    'onderhoud oplossing, CMMS kleine fabriek, storingen beheren, werkorder systeem, technische dienst software, onderhoud digitaliseren',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden py-24">

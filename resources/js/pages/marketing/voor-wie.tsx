@@ -144,9 +144,15 @@ export default function VoorWie({
 
     return (
         <MarketingLayout
-            title="Voor wie - LineCare"
+            title="Voor wie is LineCare? - CMMS voor kleine fabrieken"
             canRegister={canRegister}
             currentPath="/voor-wie"
+            seo={{
+                description:
+                    'LineCare is voor maakbedrijven met 10-150 medewerkers. Metaalbewerking, kunststof, voedsel, hout - elke fabriek met machines die onderhoud nodig hebben.',
+                keywords:
+                    'CMMS kleine fabriek, onderhoud maakbedrijf, technische dienst software, hoofd TD, productie manager, metaalbewerking onderhoud',
+            }}
         >
             {/* Hero Section */}
             <section className="relative overflow-hidden py-24">
