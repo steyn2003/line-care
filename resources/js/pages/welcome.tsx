@@ -92,8 +92,8 @@ export default function Welcome({
                         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                             <a href="/trial">
                                 <Button
-                                    size="lg"
-                                    className="h-12 px-8 text-base font-semibold"
+                                    size="xl"
+                                    className="bg-[oklch(62.7%_0.265_303.9)] font-semibold text-white hover:bg-[oklch(57%_0.265_303.9)]"
                                 >
                                     Start gratis trial
                                     <ArrowRight className="ml-2 h-4 w-4" />
