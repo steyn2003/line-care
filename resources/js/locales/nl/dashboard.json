@@ -90,7 +90,8 @@
         "title": "Probleemmachines",
         "description": "Meeste storingen in periode",
         "details": "Details",
-        "breakdowns": "storingen"
+        "breakdowns": "storingen",
+        "other": "Overig"
     },
     "low_stock_alerts": {
         "title": "Lage Voorraad Waarschuwingen",

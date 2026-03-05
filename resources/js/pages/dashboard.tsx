@@ -131,6 +131,8 @@ interface DashboardMetrics {
     breakdowns_last_30_days: number;
     completed_in_range: number;
     top_machines: TopMachine[];
+    other_machines_breakdown_count: number;
+    top_machine_ids: number[];
     recent_work_orders: RecentWorkOrder[];
     upcoming_tasks: UpcomingTask[];
     costs: CostMetrics;
@@ -988,7 +990,20 @@ export default function Dashboard({
                                                         className="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent"
                                                         onClick={() =>
                                                             router.visit(
-                                                                `/machines/${machine.machine_id}`,
+                                                                '/work-orders?' +
+                                                                    new URLSearchParams(
+                                                                        {
+                                                                            type: 'breakdown',
+                                                                            machine_id:
+                                                                                String(
+                                                                                    machine.machine_id,
+                                                                                ),
+                                                                            date_from:
+                                                                                filters.date_from,
+                                                                            date_to:
+                                                                                filters.date_to,
+                                                                        },
+                                                                    ).toString(),
                                                             )
                                                         }
                                                     >
@@ -1019,6 +1034,50 @@ export default function Dashboard({
                                                         </Badge>
                                                     </div>
                                                 ),
+                                            )}
+                                            {metrics.other_machines_breakdown_count >
+                                                0 && (
+                                                <div
+                                                    className="flex cursor-pointer items-center gap-3 rounded-lg border border-dashed bg-muted/40 p-3 transition-colors hover:bg-muted"
+                                                    onClick={() =>
+                                                        router.visit(
+                                                            '/work-orders?' +
+                                                                new URLSearchParams(
+                                                                    {
+                                                                        type: 'breakdown',
+                                                                        exclude_machine_ids:
+                                                                            metrics.top_machine_ids.join(
+                                                                                ',',
+                                                                            ),
+                                                                        date_from:
+                                                                            filters.date_from,
+                                                                        date_to:
+                                                                            filters.date_to,
+                                                                    },
+                                                                ).toString(),
+                                                        )
+                                                    }
+                                                >
+                                                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted text-sm font-bold text-muted-foreground">
+                                                        &hellip;
+                                                    </div>
+                                                    <div className="min-w-0 flex-1">
+                                                        <p className="truncate font-medium text-muted-foreground">
+                                                            {t(
+                                                                'problem_machines.other',
+                                                                'Overig',
+                                                            )}
+                                                        </p>
+                                                    </div>
+                                                    <Badge variant="secondary">
+                                                        {
+                                                            metrics.other_machines_breakdown_count
+                                                        }{' '}
+                                                        {t(
+                                                            'problem_machines.breakdowns',
+                                                        )}
+                                                    </Badge>
+                                                </div>
                                             )}
                                         </div>
                                     </CardContent>

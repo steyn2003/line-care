@@ -90,7 +90,8 @@
         "title": "Problem Machines",
         "description": "Most breakdowns in period",
         "details": "Details",
-        "breakdowns": "breakdowns"
+        "breakdowns": "breakdowns",
+        "other": "Other"
     },
     "low_stock_alerts": {
         "title": "Low Stock Alerts",
