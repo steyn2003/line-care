@@ -10,6 +10,12 @@
 
 ---
 
+## 🚀 Status: it is workinggg
+
+> *"If it ain't broke, you're not maintaining it hard enough."*
+
+---
+
 ## 🎯 What is This?
 
 A **maintenance management system** that helps factories:
