@@ -62,6 +62,7 @@ interface Props {
         machine_id?: number;
         date_from?: string;
         date_to?: string;
+        exclude_machine_ids?: string;
     };
     user: {
         role: 'operator' | 'technician' | 'manager' | 'super_admin';
@@ -126,6 +127,7 @@ export default function WorkOrdersIndex({
                         : undefined,
                 date_from: params?.date_from ?? (dateFrom || undefined),
                 date_to: params?.date_to ?? (dateTo || undefined),
+                exclude_machine_ids: filters.exclude_machine_ids || undefined,
             },
             {
                 preserveState: true,

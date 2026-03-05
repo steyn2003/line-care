@@ -45,6 +45,14 @@ class WorkOrderController extends Controller
             $query->where('created_at', '<=', \Carbon\Carbon::parse($request->date_to)->endOfDay());
         }
 
+        // Exclude specific machine IDs (used by dashboard "Other" category filter)
+        if ($request->exclude_machine_ids) {
+            $excludeIds = array_filter(explode(',', $request->exclude_machine_ids));
+            if (!empty($excludeIds)) {
+                $query->whereNotIn('machine_id', $excludeIds);
+            }
+        }
+
         $workOrders = $query->latest()->paginate(20);
 
         $machines = Machine::where('company_id', $user->company_id)
@@ -61,6 +69,7 @@ class WorkOrderController extends Controller
                 'machine_id' => $request->machine_id,
                 'date_from' => $request->date_from,
                 'date_to' => $request->date_to,
+                'exclude_machine_ids' => $request->exclude_machine_ids,
             ],
             'user' => [
                 'role' => $user->role ? $user->role->value : 'operator',

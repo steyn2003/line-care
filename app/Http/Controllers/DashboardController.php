@@ -103,6 +103,22 @@ class DashboardController extends Controller
             ->limit(5)
             ->get();
 
+        // Total breakdowns across ALL machines (for "Other" calculation)
+        $totalBreakdownsQuery = DB::table('work_orders')
+            ->join('machines', 'work_orders.machine_id', '=', 'machines.id')
+            ->where('work_orders.company_id', $companyId)
+            ->where('work_orders.type', WorkOrderType::BREAKDOWN->value)
+            ->whereBetween('work_orders.created_at', [$dateFrom, $dateTo]);
+
+        if ($locationId) {
+            $totalBreakdownsQuery->where('machines.location_id', $locationId);
+        }
+
+        $totalBreakdownsCount = $totalBreakdownsQuery->count();
+        $topMachineIds = $topMachines->pluck('machine_id')->toArray();
+        $topMachinesBreakdownSum = $topMachines->sum('breakdown_count');
+        $otherCount = max(0, $totalBreakdownsCount - $topMachinesBreakdownSum);
+
         // Recent work orders
         $recentWorkOrders = WorkOrder::where('company_id', $companyId)
             ->with(['machine:id,name,code', 'assignee:id,name'])
@@ -147,6 +163,8 @@ class DashboardController extends Controller
             'breakdowns_last_30_days' => $breakdownsLast30Days,
             'completed_in_range' => $completedInRange,
             'top_machines' => $topMachines,
+            'other_machines_breakdown_count' => $otherCount,
+            'top_machine_ids' => $topMachineIds,
             'recent_work_orders' => $recentWorkOrders,
             'upcoming_tasks' => $upcomingTasks,
             // Costs
