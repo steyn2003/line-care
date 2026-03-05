@@ -63,6 +63,8 @@ interface TopMachineCost {
 interface Props {
     costSummary: CostSummary;
     topMachines: TopMachineCost[];
+    topMachineIds: number[];
+    otherMachinesCost: number;
     budgetComparison: BudgetComparison | null;
     dateRange: string;
 }
@@ -70,6 +72,8 @@ interface Props {
 export default function CostDashboard({
     costSummary,
     topMachines,
+    topMachineIds,
+    otherMachinesCost,
     budgetComparison,
     dateRange,
 }: Props) {
@@ -329,7 +333,17 @@ export default function CostDashboard({
                                 {topMachines.map((machine, index) => (
                                     <div
                                         key={machine.id}
-                                        className="flex items-center justify-between border-b pb-4 last:border-0"
+                                        className="flex cursor-pointer items-center justify-between border-b pb-4 last:border-0 transition-colors hover:bg-accent rounded-lg px-2"
+                                        onClick={() =>
+                                            router.visit(
+                                                '/work-orders?' +
+                                                    new URLSearchParams({
+                                                        machine_id: String(
+                                                            machine.id,
+                                                        ),
+                                                    }).toString(),
+                                            )
+                                        }
                                     >
                                         <div className="flex items-center gap-4">
                                             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 font-bold text-gray-600">
@@ -359,6 +373,40 @@ export default function CostDashboard({
                                         </div>
                                     </div>
                                 ))}
+                                {otherMachinesCost > 0 && (
+                                    <div
+                                        className="flex cursor-pointer items-center justify-between rounded-lg border border-dashed bg-muted/40 px-2 py-4 transition-colors hover:bg-muted"
+                                        onClick={() =>
+                                            router.visit(
+                                                '/work-orders?' +
+                                                    new URLSearchParams({
+                                                        exclude_machine_ids:
+                                                            topMachineIds.join(
+                                                                ',',
+                                                            ),
+                                                    }).toString(),
+                                            )
+                                        }
+                                    >
+                                        <div className="flex items-center gap-4">
+                                            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-muted font-bold text-muted-foreground">
+                                                &hellip;
+                                            </div>
+                                            <div>
+                                                <p className="font-medium text-muted-foreground">
+                                                    Overig
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-lg font-bold text-muted-foreground">
+                                                {formatCurrency(
+                                                    otherMachinesCost,
+                                                )}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </CardContent>
                     </Card>

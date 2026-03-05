@@ -990,7 +990,20 @@ export default function Dashboard({
                                                         className="flex cursor-pointer items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-accent"
                                                         onClick={() =>
                                                             router.visit(
-                                                                `/machines/${machine.machine_id}`,
+                                                                '/work-orders?' +
+                                                                    new URLSearchParams(
+                                                                        {
+                                                                            type: 'breakdown',
+                                                                            machine_id:
+                                                                                String(
+                                                                                    machine.machine_id,
+                                                                                ),
+                                                                            date_from:
+                                                                                filters.date_from,
+                                                                            date_to:
+                                                                                filters.date_to,
+                                                                        },
+                                                                    ).toString(),
                                                             )
                                                         }
                                                     >
@@ -1050,7 +1063,10 @@ export default function Dashboard({
                                                     </div>
                                                     <div className="min-w-0 flex-1">
                                                         <p className="truncate font-medium text-muted-foreground">
-                                                            Overig
+                                                            {t(
+                                                                'problem_machines.other',
+                                                                'Overig',
+                                                            )}
                                                         </p>
                                                     </div>
                                                     <Badge variant="secondary">

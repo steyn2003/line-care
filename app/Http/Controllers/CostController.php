@@ -63,6 +63,12 @@ class CostController extends Controller
             ->limit(5)
             ->get();
 
+        // Calculate "Other" machines cost
+        $topMachineIds = $topMachines->pluck('id')->toArray();
+        $topMachinesCostSum = $topMachines->sum('total_cost');
+        $totalCost = $costSummary->grand_total ?? 0;
+        $otherMachinesCost = max(0, $totalCost - $topMachinesCostSum);
+
         // Get current month budget comparison
         $now = Carbon::now();
         $budgetComparison = null;
@@ -106,6 +112,8 @@ class CostController extends Controller
         return Inertia::render('costs/dashboard', [
             'costSummary' => $costSummary,
             'topMachines' => $topMachines,
+            'topMachineIds' => $topMachineIds,
+            'otherMachinesCost' => $otherMachinesCost,
             'budgetComparison' => $budgetComparison,
             'dateRange' => $dateRange,
         ]);
